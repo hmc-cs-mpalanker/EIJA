@@ -30,6 +30,7 @@
         e.preventDefault();
         var b = document.getElementById('searchinput').value;
         document.getElementById("searchquery").innerHTML = b;
+        b = (b.replace(' ','_')).toLowerCase();
         window.location.href = '/plays/' + b;
     });
     </script>
