@@ -8,12 +8,32 @@
 </head>
 
 <body>
-	<h1>Script Editor Home</h1>
+	<h1>Shakespeare Script Editor</h1>
 
 	<ul id="navigation-bar">
 		<li><a href="#">Home</a></li>
 		<li><a href="#">My Plays</a></li>
 	</ul>
+
+	<div id="search-enclose">
+    <form id="searchbar" method="get" action="#">
+        <input type="text" id="searchinput">
+        <input type="submit" id="search" value="Search">
+    </form>
+	</div>
+
+	<p id="searchquery"></p>
+
+	<script>
+	var a = document.getElementById('searchbar');
+    a.addEventListener('submit',function(e) {
+        e.preventDefault();
+        var b = document.getElementById('searchinput').value;
+        document.getElementById("searchquery").innerHTML = b;
+        window.location.href = '/plays/' + b;
+    });
+    </script>
+
 	<ul id="plays-navigation-bar">
 		<br>
 		<li><a href='#'>All's Well That Ends Well</a> </li><br>
