@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   get "/plays/:play" => "plays#show"
 
-  devise_for :users
   get 'home/homepage'
 
   root 'home#homepage'
