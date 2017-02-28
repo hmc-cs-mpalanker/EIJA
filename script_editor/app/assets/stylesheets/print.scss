@@ -1,0 +1,10 @@
+ @media print {
+   .contents {
+      display: none;
+// add in here formats we want or don't want displayed
+// EX: body{ background-color:#FFFFFF; background-image:none; color:#000000 }
+//     #ad{ display:none;}
+//     #leftbar{ display:none;}
+//      #contentarea{ width:100%;}
+    }
+ }
