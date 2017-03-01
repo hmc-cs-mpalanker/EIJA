@@ -5,6 +5,8 @@
 	<!-- Home#homepage html -->
 	<!-- Find me in app/views/home/homepage.html.erb -->
 	<link rel="stylesheet" type"text/css" href="home.scss"/>
+	
+	
 </head>
 
 <body>
@@ -18,11 +20,17 @@
 	<div id="search-enclose">
     <form id="searchbar" method="get" action="#">
         <input type="text" id="searchinput">
-        <input type="submit" id="search" value="Search">
+        <input type="submit" id="search" value="View Play">
     </form>
 	</div>
 
 	<p id="searchquery"></p>
+
+	<!-- <select id="selectplay">
+		<option value="">Select Play</option>
+		<option value="hamlet">Hamlet</option>
+		<option value="macbeth">Macbeth</option>
+	</select> -->
 
 	<script>
 	var a = document.getElementById('searchbar');
@@ -30,7 +38,7 @@
         e.preventDefault();
         var b = document.getElementById('searchinput').value;
         document.getElementById("searchquery").innerHTML = b;
-        b = (b.replace(' ','_')).toLowerCase();
+        b = (b.replace(/ /g,'_')).toLowerCase();
         window.location.href = '/plays/' + b;
     });
     </script>

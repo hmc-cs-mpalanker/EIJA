@@ -6,8 +6,83 @@
 body { font-family: 'Times New Roman'; font-size:13pt; margin:10px 0px; padding:0px;}
 br { clear:both; }
 
+// Use CSS style options for XML tags in the same way as HTML tags
+//
+// TAGS ...
+// pb : beginning of page in print edition
+// milestone : something about page attributes
+// fw : act/scene header for each page in print edition
+// lb : line break in print edition
+// div1 : marks acts
+// div2 : marks scenes
+// head : Act/Scene header
+// stage : stage directions
+// sound : sound cues
+// sp : speech
+// speaker : sppech prefix
+// ab : within sp tags, contains text of speech
+// w : word
+// c : space
+// pc : punctuation
+// gap : editorial placeholders for missing/unclear words
+// ptr : pointer for w, c, pc, anchor elements
+// seg : song/poem/letter segment
+// label : header to song or dumbshow
+// q : quoted sections
+// foreign : non-english words
+// name : a proper name
+// title : a title
+// hi : highlighted
+// anchor : areas where content in a prior source text is not present
+// app : critical apparatus containing variant readings from prior publications.
+//
+// ATTRIBUTES ...
+// n : line/act/scene/page/etc. number
+// type : type of division/stage direction/sound etc.
+// who : identifies character associate with tag
+
+
+// Used background colors to try to differentiate sections/elements of text
+
+listPerson { font-style: italic; }
+language { display: none; }
+
+div { background-color: yellow; padding-bottom: 100px;}
+
+div1 { background-color: blue; }
+
+div2 { background-color: red; }
+
+body { padding-left: 40px; padding-right: 40px;}
+
+speaker { font-weight: bold; background-color: orange; }
+
+sp { background-color: cyan; display: block; }
+
+// I don't know why this doesn't work for Act and Scene headers... 
+head {
+	display: block;
+	font-size: 28px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	font-weight: bold;
+}
+
+stage { font-style: italic;}
+
+// Hid act/scene page tags for print-edition, revision notes, and all the descriptive text at the beginning of the xml file
+fw, front, encodingDesc, fileDesc, change { display: none; }
+
+
+
+
+
+
+
+
+
 .hidden {display:none;}
-.pageBlock { width:500px; padding:10px; margin-left:60px; border:1px solid black;}
+pageBlock { width:500px; padding:10px; margin-left:60px; border:1px solid black;}
 .textBlock { position:relative; width:480px; padding:10px;}
 .pageBorder { width:480px; height:1px; margin-top:50px; }
 .pageHeading { width:420px; padding:10px; padding-top:30px; margin: 20px 0px; border-bottom:3px solid black; font-style:normal; font-weight: normal; color:black; page-break-before:always; }
