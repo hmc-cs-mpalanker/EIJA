@@ -63153,5 +63153,16 @@ The <att>ana</att> attribute may provide information such as the specific type o
 </text>
 </TEI>
 
-
-
+<script>
+	var xmlhttp, xmlDoc;
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", "1H4.xml", false);
+	xmlhttp.send();
+	xmlDoc = xmlhttp.responseXML;
+	document.getElementById("to").innerHTML=
+	xmlDoc.getElementsByTagName("to")[0].childNodes[0].nodeValue;
+	document.getElementById("from").innerHTML=
+	xmlDoc.getElementsByTagName("from")[0].childNodes[0].nodeValue;
+	document.getElementById("message").innerHTML=
+	xmlDoc.getElementsByTagName("body")[0].childNodes[0].nodeValue;
+</script>
