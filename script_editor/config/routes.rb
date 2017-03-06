@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :edit_plays
   get "/plays/:play" => "plays#show"
 
   get 'home/homepage'

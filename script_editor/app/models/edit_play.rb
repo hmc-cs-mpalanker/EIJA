@@ -1,0 +1,2 @@
+class EditPlay < ApplicationRecord
+end
