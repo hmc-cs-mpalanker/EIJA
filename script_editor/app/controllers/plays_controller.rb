@@ -1,10 +1,17 @@
-require "rexml/document"
-include REXML # so that we don't have to prefix everything with REXML::...
+require 'nokogiri'
 
 class PlaysController < ApplicationController
   def show
-  	#render template: "plays/#{params[:play]}"
-  	file = File.new( "FolgerDigitalTexts_XML_Complete/MND.xml" )
-	doc = Document.new file
+
+  	#page = Nokogiri::HTML(open("app/views/plays/show.html.erb"))
+	#h5 = page.at_css "h5"
+	#p = page.at_css "p"
+	
+	# @doc is the text in the Midsummer Nights Dream XML file
+	@doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
+
+	# This prints what is in the XML file to Terminal
+	puts @doc
+	
   end
 end
