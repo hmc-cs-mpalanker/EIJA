@@ -10,7 +10,7 @@ h1 {
 	text-transform: uppercase;
 }
 
-#navigation-bar, #plays-navigation-bar {
+#navigation-bar {
 	list-style: none;
 	margin: 10px;
 	padding: 12px;
@@ -30,18 +30,53 @@ h1 {
 	color: #7f7f7f;
 }
 
-#navigation-bar, #plays-navigation-bar li a:hover {
+#navigation-bar, #plays-comedy-nav-bar, #plays-tragedy-nav-bar, #plays-historical-nav-bar, li a:hover {
 	color: white;
 }
 
-#plays-navigation-bar {
-	float: left;
-	display: inline;
+#plays-historical-nav-bar {
+	float: right;
 	width: 20%;
+	list-style: none;
+	margin: 10px;
+	padding: 10px;
+	background-color: #d4d4d4;
+	text-transform: uppercase;
 }
 
-#plays-navigation-bar li a{
-	
+#plays-comedy-nav-bar {
+	float: center;
+	width: 20%;
+	list-style: none;
+	margin: 10px;
+	padding: 10px;
+	background-color: #d4d4d4;
+	text-transform: uppercase;
+}
+
+#plays-tragedy-nav-bar {
+	float: left;
+	width: 20%;
+	list-style: none;
+	margin: 10px;
+	padding: 10px;
+	background-color: #d4d4d4;
+	text-transform: uppercase;
+}
+
+#plays-historical-nav-bar li a{
+	text-decoration: none;
+	color: #7f7f7f;
+	float: center;
+}
+
+#plays-comedy-nav-bar li a{
+	text-decoration: none;
+	color: #7f7f7f;
+	float: center;
+}
+
+#plays-tragedy-nav-bar li a{
 	text-decoration: none;
 	color: #7f7f7f;
 	float: center;
