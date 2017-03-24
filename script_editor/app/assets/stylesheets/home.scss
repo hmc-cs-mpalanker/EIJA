@@ -20,7 +20,6 @@ h1 {
 
 #navigation-bar li {
 	display: inline;
-	float: center;
 }
 
 #navigation-bar li a {
@@ -35,7 +34,7 @@ h1 {
 }
 
 #plays-historical-nav-bar {
-	float: right;
+	float: center;
 	width: 20%;
 	list-style: none;
 	margin: 10px;
@@ -55,7 +54,7 @@ h1 {
 }
 
 #plays-tragedy-nav-bar {
-	float: left;
+	float: center;
 	width: 20%;
 	list-style: none;
 	margin: 10px;
