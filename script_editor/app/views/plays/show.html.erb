@@ -1,8 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<p id="test_title"><strong>Title:</strong></p>
+<p id="title"><strong>Title:</strong></p>
 
-<p id="print_script">
+<div id="editbar">
+<form id="editbutton" method="get" action="#">
+    <input type="button" id="editPlay" value="Edit Play">
+</form>
+</div>
+
+<p id="editClick"></p>
+
+<script>
+var a = document.getElementById('editbutton');
+a.addEventListener('button',function(e) {
+    window.location.href = '/edit_plays/1';
+});
+</script>
+
+<form action="/edit_plays/1">
+    <input type="submit" value="Go to Google" />
+</form>
+
+<p id="print_script"></p>
+
   
   
 </p>
