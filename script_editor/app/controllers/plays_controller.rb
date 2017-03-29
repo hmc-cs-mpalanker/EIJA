@@ -99,6 +99,8 @@ class PlaysController < ApplicationController
     currentLine = "default"
     currentAct = "default"
     currentScene = "default"
+    isDouble = false
+    wordIsSpeaker = false
 
     #Plays.create(
       # Name of the play the word belongs to
@@ -116,13 +118,25 @@ class PlaysController < ApplicationController
   		children = node.children
 
       # This loop updates the current speaker whenever it changes
-      # TODO: This currently breaks down when names are 2 or more words long
   		if (children.inner_text == children.inner_text.upcase)
   			if (children.inner_text.length > 2 and not(children.inner_text == "ACT") and not(children.inner_text == "EPILOGUE"))
-  				currentSpeaker = children.inner_text 
+  				if (isDouble)
+            currentSpeaker += " " + children.inner_text 
+            isDouble = false
+          elsif (children.inner_text == "FIRST" or children.inner_text == "SECOND" or children.inner_text == "THIRD")
+            currentSpeaker = children.inner_text
+            isDouble = true
+          else 
+            currentSpeaker = children.inner_text
+          end
   				#puts currentSpeaker
+          wordIsSpeaker = true
+        else
+          wordIsSpeaker = false
   			end
-  		end
+      else
+        wordIsSpeaker = false
+      end
 
       
 
@@ -157,40 +171,43 @@ class PlaysController < ApplicationController
         #:lastWord => 0,
       #)
 
-  		#Words.create(
-        # Unique id of the word
-        #:wordId => node['xml:id'],
+  		
+      if (wordIsSpeaker)
+    		#Speaker.create(
+    			# Speaker of this word
+      		#:speakerId => currentSpeaker,
 
-        # Name of the play the word belongs to
-        #:playId => doc.css('//titleStmt/title').inner_text,
+          # Name of the play the speaker belongs to
+          #:playId => doc.css('//titleStmt/title').inner_text, 
 
-        # Speaker of this word
-        #:speakerId => currentSpeaker
+          # Number of words this speaker speaks in original play
+          #:numOriginalWords => 0,
 
-  			# Line number the word belongs to
-  			# Examples: "5.1.416" and "SD 1.1.0"
-    		#:lineId => node['n'],
+      		# Number of words this speaker speaks after cutting lines
+      		#:numCurrentWords => 0, 		
+    		#)
+      else
+        #Words.create(
+          # Unique id of the word
+          #:wordId => node['xml:id'],
 
-    		# The actual word
-    		#:wordText => children.inner_text,
+          # Name of the play the word belongs to
+          #:playId => doc.css('//titleStmt/title').inner_text,
 
-    		# Boolean representing whether or not word has been cut
-    		#:isCut => "false",
-  		#)
+          # Speaker of this word
+          #:speakerId => currentSpeaker
 
-  		#Speaker.create(
-  			# Speaker of this word
-    		#:speakerId => currentSpeaker,
+          # Line number the word belongs to
+          # Examples: "5.1.416" and "SD 1.1.0"
+          #:lineId => node['n'],
 
-        # Name of the play the speaker belongs to
-        #:playId => doc.css('//titleStmt/title').inner_text, 
+          # The actual word
+          #:wordText => children.inner_text,
 
-        # Number of words this speaker speaks in original play
-        #:numOriginalWords => 0,
-
-    		# Number of words this speaker speaks after cutting lines
-    		#:numCurrentWords => 0, 		
-  		#)
+          # Boolean representing whether or not word has been cut
+          #:isCut => "false",
+        #)
+      end
   	end	
   end
 end
