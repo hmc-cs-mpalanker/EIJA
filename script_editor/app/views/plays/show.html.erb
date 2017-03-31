@@ -6,6 +6,46 @@
     <input type="submit" value="Edit Play" />
 </form>
 
+
+<div id="Play">
+    <button id="word1" data-cut="false">wordthing</button>
+    <button id="word2" data-cut="false">morewords</button>
+</div>
+
+<script>
+
+
+document.querySelector("#Play").addEventListener("click", doCut, false);
+
+// all words will need to be printed with the div class "Play"
+// change "p" to the tag for words (not including names) and we will be able to cut only words
+function doCut(e) {
+    alert(e.target.id);
+    if (e.target.id !== "Play") {
+        alert("within if");
+        var clickedItem = e.target;
+        var word = e.target.id;
+        if (clickedItem.tagName.toLowerCase() == "button") {
+            alert("secondary if");
+            if (clickedItem.dataset.cut.toLowerCase() == "false") {
+                document.getElementById(word).style.color = "#D3D3D3";
+                clickedItem.dataset.cut = "true";
+                alert(clickedItem.dataset.cut);
+            }
+            else {
+                document.getElementById(word).style.color = "#000000";
+                clickedItem.dataset.cut = "false";
+                alert(clickedItem.dataset.cut);
+            }
+        }
+        
+    }
+//    e.stopPropagation();
+};
+
+</script>
+
+
 <p id="print_script"></p>
 
   
@@ -13,4 +53,3 @@
 </p>
 <div></div>
 <h5></h5>
-
