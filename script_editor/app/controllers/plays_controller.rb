@@ -4,42 +4,18 @@ class PlaysController < ApplicationController
   def show
 
     doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
+    htmldoc = Nokogiri::HTML(File.open("app/views/plays/show2.html.erb"))
 
-    @doc2 = Nokogiri::HTML::DocumentFragment.parse <<-EOHTML
-    <body>
-      <h1>Three's Company</h1>
-      <div>A love triangle.</div>
-    </body>
-    EOHTML
-    h1 = @doc2.at_css "h1"
-    h1.content = "Snap, Crackle & Pop"
-    h1.name = 'h2'
-    h1['class'] = 'show-title'
-
-    @doc2.to_html
-
-    #puts @doc2
-    #<body>    
-      #<h2 class="show-title">Snap, Crackle &amp; Pop</h2>
-      #<div>A love triangle.</div>
-    #</body>
-
-
-    #htmldoc = Nokogiri::HTML::DocumentFragment.parse <<-EOHTML
-    #<div class="act-scene-bundle">
-      #<div class="act">ACT 1</div>
-      #<div class="scene-container">
-        #<div class="scene">SCENE 1</div>
-        #<div class="scene">SCENE 2</div>
-        #<div class="scene">SCENE 3</div>
-      #</div>
-    #</div>
+    @doc2 = htmldoc
+    #@doc2 = Nokogiri::HTML::DocumentFragment.parse <<-EOHTML
+    #<div class="play-navigation"></div>
     #EOHTML
 
-    #act = htmldoc.at_css "div class='act'"
-    #act.content = "WOWOMG"
+    h6 = @doc2.at_css "h6"
 
-    #htmldoc.to_html
+    div = Nokogiri::XML::Node.new "div", @doc2
+    div['class'] = 'play-navigation'
+    h6.add_next_sibling(div)
 
     # I'm so sorry, but this was the only way because the files were named differently
     if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
@@ -131,125 +107,86 @@ class PlaysController < ApplicationController
 
     # These variables will change as we parse through the play
     currentPlay = doc.css('//titleStmt/title').inner_text
-    currentAct = "default"
-    currentScene = "default"
     currentLine = "default"
     currentWord = "default"
+    wordId = "default"
     currentSpeaker = "default"
     speakerNameHasTwoWords = false
     wordIsSpeaker = false
+    oneMoreAct = false
+    oneMoreScene = false
+
+
+    # Add a tab for synopsis
+    synopsis = Nokogiri::XML::Node.new "div", @doc2
+    synopsis['class'] = 'synopsis'
+    synopsis.content = "SYNOPSIS"
+    synopsis.parent = div
+    currentDiv = synopsis
 
 
     # Loop through all of the words in the play
   	doc.css('w').each do |node|
   		children = node.children
 
+      currentLine = node['n']
+      wordId = node['xml:id']
+      currentWord = children.inner_text
+
       # This loops checks if the word is a speaker and updates currentSpeaker
-  		if (children.inner_text == children.inner_text.upcase)
-  			if (children.inner_text.length > 2 and not(children.inner_text == "ACT") and not(children.inner_text == "EPILOGUE"))
+  		if (currentWord == currentWord.upcase)
+  			if (currentWord.length > 2 and not(currentWord == "ACT") and not(currentWord == "EPILOGUE"))
   				if (speakerNameHasTwoWords)
-            currentSpeaker += " " + children.inner_text 
+            currentSpeaker += " " + currentWord
             speakerNameHasTwoWords = false
-          elsif (children.inner_text == "FIRST" or children.inner_text == "SECOND" or children.inner_text == "THIRD")
-            currentSpeaker = children.inner_text
+          elsif (currentWord == "FIRST" or currentWord == "SECOND" or currentWord == "THIRD")
+            currentSpeaker = currentWord
             speakerNameHasTwoWords = true
           else 
-            currentSpeaker = children.inner_text
+            currentSpeaker = currentWord
           end
           wordIsSpeaker = true
-
         else
           wordIsSpeaker = false
   			end
-
       else
         wordIsSpeaker = false
       end
 
 
 
+      # Update acts and scenes
+      if (oneMoreAct)
+        oneMoreAct = false
 
-
-
-      #Plays.create(
-        # Name of the play the word belongs to
-        #:playId => doc.css('//titleStmt/title').inner_text,
-
-        # Original number of words in the play
-        #:numOriginalWords => 0,
-
-        # Current number of lines in the play after cutting
-        #:numCurrentWords => 0,
-      #)
-
-      #Scenes.create(
-        # The scene number
-        #:sceneId => ,
-
-        # The act number
-        #:actId => ,
-
-        # Name of the play the scene belongs to
-        #:playId => doc.css('//titleStmt/title').inner_text,
-
-        # Original number of lines in the scene
-        #:numOriginalLines => 0,
-      #)
-
-      #Lines.create(
-        # Line number including act and scene number
-        #:lineId => node['n'],
-
-        # Name of the play the line belongs to
-        #:playId => doc.css('//titleStmt/title').inner_text,
-
-        # Speaker of this line
-        #:speakerId => currentSpeaker
-
-        # wordId of the first word in the line
-        #:firstWord => 0,
-
-        # wordId of the last word in the line
-        #:lastWord => 0,
-      #)
-
-  		
-      if (wordIsSpeaker)
-    		#Speaker.create(
-    			# Speaker of this word
-      		#:speakerId => currentSpeaker,
-
-          # Name of the play the speaker belongs to
-          #:playId => doc.css('//titleStmt/title').inner_text, 
-
-          # Number of words this speaker speaks in original play
-          #:numOriginalWords => 0,
-
-      		# Number of words this speaker speaks after cutting lines
-      		#:numCurrentWords => 0, 		
-    		#)
-      else
-        #Words.create(
-          # Unique id of the word
-          #:wordId => node['xml:id'],
-
-          # Name of the play the word belongs to
-          #:playId => doc.css('//titleStmt/title').inner_text,
-
-          # Speaker of this word
-          #:speakerId => currentSpeaker
-
-          # Line number the word belongs to
-          # Examples: "5.1.416" and "SD 1.1.0"
-          #:lineId => node['n'],
-
-          # The actual word
-          #:wordText => children.inner_text,
-
-          # Boolean representing whether or not word has been cut
-          #:isCut => "false",
-        #)
+        # Add a tab for synopsis
+        actDiv = Nokogiri::XML::Node.new "div", @doc2
+        actDiv['class'] = 'act'
+        actDiv.content = "ACT " + currentWord
+        currentDiv.add_next_sibling(actDiv)
+        currentDiv = actDiv
       end
+      if (children.inner_text == "ACT")
+        oneMoreAct = true
+      end
+      if (oneMoreScene)
+        oneMoreScene = false
+
+        # Add a tab for synopsis
+        sceneDiv = Nokogiri::XML::Node.new "div", @doc2
+        sceneDiv['class'] = 'scene'
+        sceneDiv.content = "SCENE " + currentWord
+        currentDiv.add_next_sibling(sceneDiv)
+        currentDiv = sceneDiv
+      end
+      if (children.inner_text == "Scene")
+        oneMoreScene = true
+      end
+
+
+
   	end	
+    puts @doc2
+    #File.write("app/views/plays/show.html.erb", @doc2)
   end
 end
