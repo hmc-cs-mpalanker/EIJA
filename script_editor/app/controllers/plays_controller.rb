@@ -5,6 +5,42 @@ class PlaysController < ApplicationController
 
     doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
 
+    @doc2 = Nokogiri::HTML::DocumentFragment.parse <<-EOHTML
+    <body>
+      <h1>Three's Company</h1>
+      <div>A love triangle.</div>
+    </body>
+    EOHTML
+    h1 = @doc2.at_css "h1"
+    h1.content = "Snap, Crackle & Pop"
+    h1.name = 'h2'
+    h1['class'] = 'show-title'
+
+    @doc2.to_html
+
+    #puts @doc2
+    #<body>    
+      #<h2 class="show-title">Snap, Crackle &amp; Pop</h2>
+      #<div>A love triangle.</div>
+    #</body>
+
+
+    #htmldoc = Nokogiri::HTML::DocumentFragment.parse <<-EOHTML
+    #<div class="act-scene-bundle">
+      #<div class="act">ACT 1</div>
+      #<div class="scene-container">
+        #<div class="scene">SCENE 1</div>
+        #<div class="scene">SCENE 2</div>
+        #<div class="scene">SCENE 3</div>
+      #</div>
+    #</div>
+    #EOHTML
+
+    #act = htmldoc.at_css "div class='act'"
+    #act.content = "WOWOMG"
+
+    #htmldoc.to_html
+
     # I'm so sorry, but this was the only way because the files were named differently
     if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
       doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
@@ -93,52 +129,58 @@ class PlaysController < ApplicationController
     end
     
 
-    # Variable that keeps track of who is speaking
-  	currentSpeaker = "default"
+    # These variables will change as we parse through the play
     currentPlay = doc.css('//titleStmt/title').inner_text
-    currentLine = "default"
     currentAct = "default"
     currentScene = "default"
-    isDouble = false
+    currentLine = "default"
+    currentWord = "default"
+    currentSpeaker = "default"
+    speakerNameHasTwoWords = false
     wordIsSpeaker = false
 
-    #Plays.create(
-      # Name of the play the word belongs to
-      #:playId => doc.css('//titleStmt/title').inner_text,
 
-      # Original number of words in the play
-      #:numOriginalWords => 0,
-
-      # Current number of lines in the play after cutting
-      #:numCurrentWords => 0,
-    #)
-
-
+    # Loop through all of the words in the play
   	doc.css('w').each do |node|
   		children = node.children
 
-      # This loop updates the current speaker whenever it changes
+      # This loops checks if the word is a speaker and updates currentSpeaker
   		if (children.inner_text == children.inner_text.upcase)
   			if (children.inner_text.length > 2 and not(children.inner_text == "ACT") and not(children.inner_text == "EPILOGUE"))
-  				if (isDouble)
+  				if (speakerNameHasTwoWords)
             currentSpeaker += " " + children.inner_text 
-            isDouble = false
+            speakerNameHasTwoWords = false
           elsif (children.inner_text == "FIRST" or children.inner_text == "SECOND" or children.inner_text == "THIRD")
             currentSpeaker = children.inner_text
-            isDouble = true
+            speakerNameHasTwoWords = true
           else 
             currentSpeaker = children.inner_text
           end
-  				#puts currentSpeaker
           wordIsSpeaker = true
+
         else
           wordIsSpeaker = false
   			end
+
       else
         wordIsSpeaker = false
       end
 
-      
+
+
+
+
+
+      #Plays.create(
+        # Name of the play the word belongs to
+        #:playId => doc.css('//titleStmt/title').inner_text,
+
+        # Original number of words in the play
+        #:numOriginalWords => 0,
+
+        # Current number of lines in the play after cutting
+        #:numCurrentWords => 0,
+      #)
 
       #Scenes.create(
         # The scene number
