@@ -7,14 +7,32 @@ body { font-family: 'Times New Roman'; font-size:13pt; margin:10px 0px; padding:
 br { clear:both; }
 
 // For editable word buttons
-#Play > * {
+.word {
      background:none!important;
      color:#000000;
      border:none; 
      padding:0!important;
-     /*border is optional*/
-     border-bottom:1px solid #444; 
-     cursor: pointer;
+}
+
+.act {
+     background:none!important;
+     color:#000000;
+     border:none; 
+     padding:0!important;
+}
+
+.scene {
+     background:none!important;
+     color:#000000;
+     border:none; 
+     padding:0!important;
+}
+
+.character {
+     background:none!important;
+     color:#000000;
+     border:none; 
+     padding:0!important;
 }
 
 div.synopsis {
