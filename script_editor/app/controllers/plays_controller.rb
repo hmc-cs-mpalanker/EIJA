@@ -7,10 +7,6 @@ class PlaysController < ApplicationController
     htmldoc = Nokogiri::HTML(File.open("app/views/plays/show2.html.erb"))
 
     @doc2 = htmldoc
-    #@doc2 = Nokogiri::HTML::DocumentFragment.parse <<-EOHTML
-    #<div class="play-navigation"></div>
-    #EOHTML
-
     h6 = @doc2.at_css "h6"
 
     div = Nokogiri::XML::Node.new "div", @doc2
@@ -118,12 +114,11 @@ class PlaysController < ApplicationController
 
 
     # Add a tab for synopsis
-    synopsis = Nokogiri::XML::Node.new "div", @doc2
-    synopsis['class'] = 'synopsis'
+    synopsis = Nokogiri::XML::Node.new "button", @doc2
+    synopsis['class'] = 'nav-synopsis'
     synopsis.content = "SYNOPSIS"
     synopsis.parent = div
     currentDiv = synopsis
-
 
     # Loop through all of the words in the play
   	doc.css('w').each do |node|
@@ -160,8 +155,8 @@ class PlaysController < ApplicationController
         oneMoreAct = false
 
         # Add a tab for synopsis
-        actDiv = Nokogiri::XML::Node.new "div", @doc2
-        actDiv['class'] = 'act'
+        actDiv = Nokogiri::XML::Node.new "button", @doc2
+        actDiv['class'] = 'nav-act'
         actDiv.content = "ACT " + currentWord
         currentDiv.add_next_sibling(actDiv)
         currentDiv = actDiv
@@ -173,8 +168,8 @@ class PlaysController < ApplicationController
         oneMoreScene = false
 
         # Add a tab for synopsis
-        sceneDiv = Nokogiri::XML::Node.new "div", @doc2
-        sceneDiv['class'] = 'scene'
+        sceneDiv = Nokogiri::XML::Node.new "button", @doc2
+        sceneDiv['class'] = 'nav-scene'
         sceneDiv.content = "SCENE " + currentWord
         currentDiv.add_next_sibling(sceneDiv)
         currentDiv = sceneDiv

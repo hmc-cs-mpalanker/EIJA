@@ -2,11 +2,27 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@media print { .noprint { display:none; }}
-body { font-family: 'Times New Roman'; font-size:13pt; margin:10px 0px; padding:0px;}
-br { clear:both; }
+@media print { 
+    .noprint { 
+        display:none; 
+    }
+}
 
+body { 
+    font-family: 'Times New Roman'; 
+    font-size:13pt; 
+    margin:10px 0px; 
+    padding:0px;
+}
+
+br { 
+    clear:both; 
+}
+
+/////////////////////////////////
 // For editable word buttons
+/////////////////////////////////
+
 .word {
      background:none!important;
      color:#000000;
@@ -35,17 +51,10 @@ br { clear:both; }
      padding:0!important;
 }
 
-div.synopsis {
-    float: left;  
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    background-color: #eeeeee;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #aaaaaa;
-    width: 188px;
-}
+/////////////////////////////////
+// For the navigation bar
+/////////////////////////////////
+
 div.play-navigation {
     float: left; 
     width: 190px; 
@@ -53,39 +62,36 @@ div.play-navigation {
     border-style: solid;
     border-width: 1px;
     border-color: #aaaaaa;
-
-
 } 
-div.act-scene-bundle {
-    float: left; 
-    width: 190px;
-    padding: 0px;
-} 
-div.act {
-    float: left;  
+
+button.nav-synopsis {
     height: 40px;
     text-align: center;
-    line-height: 40px;
     background-color: #eeeeee;
     border-style: solid;
     border-width: 1px;
     border-color: #aaaaaa;
-    width: 188px;
-} 
-div.scene-container {
-    float: right; 
+    width: 190px;
+}
+
+button.nav-act { 
+    height: 40px;
+    text-align: center;
+    background-color: #eeeeee;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #aaaaaa;
     width: 190px;
 } 
-div.scene {
-    float: right; 
+
+button.nav-scene {
     height: 20px;
     text-align: center;
-    line-height: 20px;
     background-color: #cccccc;
     border-style: solid;
     border-width: 1px;
     border-color: #aaaaaa;
-    width: 188px;
+    width: 190px;
 } 
 
 // Use CSS style options for XML tags in the same way as HTML tags
