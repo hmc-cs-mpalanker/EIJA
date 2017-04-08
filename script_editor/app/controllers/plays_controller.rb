@@ -113,7 +113,7 @@ class PlaysController < ApplicationController
     oneMoreScene = false
 
 
-    # Add a tab for synopsis
+    # Add a tab for synopsis in navigation bar
     synopsis = Nokogiri::XML::Node.new "button", @doc2
     synopsis['class'] = 'nav-synopsis'
     synopsis.content = "SYNOPSIS"
@@ -148,9 +148,7 @@ class PlaysController < ApplicationController
         wordIsSpeaker = false
       end
 
-
-
-      # Update acts and scenes
+      # Update acts and scenes in navigation bar
       if (oneMoreAct)
         oneMoreAct = false
 
