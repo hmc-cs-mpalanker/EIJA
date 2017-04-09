@@ -101,6 +101,12 @@ class PlaysController < ApplicationController
     end
     
 
+    #hidden = Nokogiri::XML::Node.new "div", @doc2
+    #hidden['class'] = 'hidden-synopsis'
+    #hidden.content = "1977 - 1984"
+    #h6.add_next_sibling(hidden)
+
+
     # These variables will change as we parse through the play
     currentPlay = doc.css('//titleStmt/title').inner_text
     currentLine = "default"

@@ -57,10 +57,44 @@ function doCut(e) {
 //    e.stopPropagation();
 };
 
+var sceneButtons = document.getElementsByClassName("nav-scene");
+var sceneLength = sceneButtons.length;
+for (var i = 0; i < sceneLength; i++) {
+    sceneButton = sceneButtons[i];
+    sceneButton.addEventListener("click", showScene);
+}
+
+var actButtons = document.getElementsByClassName("nav-act");
+var actLength = actButtons.length;
+for (var i = 0; i < actLength; i++) {
+    actButton = actButtons[i];
+    actButton.addEventListener("click", showAct);
+}
+
+var synopsisButtons = document.getElementsByClassName("nav-synopsis");
+var synopsisLength = synopsisButtons.length;
+for (var i = 0; i < synopsisLength; i++) {
+    synopsisButton = synopsisButtons[i];
+    synopsisButton.addEventListener("click", showSynopsis);
+}
+
+function showScene() {
+    alert("Clicked on scene!");
+}
+
+function showAct() {
+    alert("Clicked on act!");
+}
+
+function showSynopsis() {
+    alert("Clicked on synopsis!");
+}
+
 </script>
 
 
 <p id="print_script"></p>
+<p id="synopsis-text"></p>
 
 <h6></h6>
 <div class="play-navigation">
