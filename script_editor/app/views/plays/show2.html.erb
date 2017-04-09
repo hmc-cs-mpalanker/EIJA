@@ -29,7 +29,7 @@
             <button id="Character ID4" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid4" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
         </div>
     </div>
-</div>
+
 
 <script>
 
@@ -57,12 +57,56 @@ function doCut(e) {
 //    e.stopPropagation();
 };
 
+var sceneButtons = document.getElementsByClassName("nav-scene");
+var sceneLength = sceneButtons.length;
+for (var i = 0; i < sceneLength; i++) {
+    sceneButton = sceneButtons[i];
+    sceneButton.addEventListener("click", showScene);
+}
+
+var actButtons = document.getElementsByClassName("nav-act");
+var actLength = actButtons.length;
+for (var i = 0; i < actLength; i++) {
+    actButton = actButtons[i];
+    actButton.addEventListener("click", showAct);
+}
+
+var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
+hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
+
+var synopsisButtons = document.getElementsByClassName("nav-synopsis");
+var synopsisLength = synopsisButtons.length;
+for (var i = 0; i < synopsisLength; i++) {
+    synopsisButton = synopsisButtons[i];
+    synopsisButton.addEventListener("click", showSynopsis);
+}
+
+function showScene() {
+    alert("Clicked on scene!");
+}
+
+function showAct() {
+    alert("Clicked on act!");
+}
+
+function showSynopsis() {
+    var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
+    if (hiddenSynopsis[0].id == "shown-synopsis") {
+        hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
+    } else {
+        hiddenSynopsis[0].setAttribute("id", "shown-synopsis");  
+    } 
+    alert("Clicked on synopsis!");
+}
+
 </script>
 
 
 <p id="print_script"></p>
+<p id="synopsis-text"></p>
 
 <h6></h6>
+
 
 
 </body></html>

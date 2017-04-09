@@ -94,6 +94,13 @@ button.nav-scene {
     width: 190px;
 } 
 
+#shown-synopsis {
+    display: block;
+}
+#hidden-synopsis {
+    display: none;
+}
+
 // Use CSS style options for XML tags in the same way as HTML tags
 //
 // TAGS ...

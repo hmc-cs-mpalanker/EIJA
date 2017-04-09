@@ -71,6 +71,9 @@ for (var i = 0; i < actLength; i++) {
     actButton.addEventListener("click", showAct);
 }
 
+var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
+hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
+
 var synopsisButtons = document.getElementsByClassName("nav-synopsis");
 var synopsisLength = synopsisButtons.length;
 for (var i = 0; i < synopsisLength; i++) {
@@ -87,6 +90,13 @@ function showAct() {
 }
 
 function showSynopsis() {
+    var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
+    if (hiddenSynopsis[0].id == "shown-synopsis") {
+        hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
+    } else {
+        hiddenSynopsis[0].setAttribute("id", "shown-synopsis");  
+    } 
+
     alert("Clicked on synopsis!");
 }
 
@@ -97,9 +107,15 @@ function showSynopsis() {
 <p id="synopsis-text"></p>
 
 <h6></h6>
-<div class="play-navigation">
-<button class="nav-synopsis">SYNOPSIS</button><button class="nav-act">ACT 1</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-act">ACT 2</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-act">ACT 3</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-scene">SCENE 5</button><button class="nav-scene">SCENE 6</button><button class="nav-scene">SCENE 7</button><button class="nav-act">ACT 4</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-scene">SCENE 5</button><button class="nav-act">ACT 5</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-scene">SCENE 5</button>
+<div class="hidden-synopsis">
+In A Midsummer Night&rsquo;s Dream, residents of Athens mix with fairies from a local forest, with comic results. In the city, Theseus, Duke of Athens, is to marry Hippolyta, queen of the Amazons. Bottom the weaver and his friends rehearse in the woods a play they hope to stage for the wedding celebrations.
+Four young Athenians are in a romantic tangle. Lysander and Demetrius love Hermia; she loves Lysander and her friend Helena loves Demetrius. Hermia&rsquo;s father, Egeus, commands Hermia to marry Demetrius, and Theseus supports the father&rsquo;s right. All four young Athenians end up in the woods, where Robin Goodfellow, who serves the fairy king Oberon, puts flower juice on the eyes of Lysander, and then Demetrius, unintentionally causing both to love Helena. Oberon, who is quarreling with his wife, Titania, uses the flower juice on her eyes. She falls in love with Bottom, who now, thanks to  Robin Goodfellow, wears  an ass&rsquo;s head.
+As the lovers sleep, Robin Goodfellow restores Lysander&rsquo;s love for Hermia, so that now each young woman is matched with the man she loves. Oberon disenchants Titania and removes Bottom&rsquo;s ass&rsquo;s head. The two young couples join the royal couple in getting married, and Bottom rejoins his friends to perform the play.
 </div>
+<div class="play-navigation">
+<button class="nav-synopsis">SYNOPSIS</button><button class="nav-act">ACT 1</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-act">ACT 2</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-act">ACT 3</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-act">ACT 4</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-act">ACT 5</button><button class="nav-scene">SCENE 1</button>
+</div>
+
 
 
 </body></html>

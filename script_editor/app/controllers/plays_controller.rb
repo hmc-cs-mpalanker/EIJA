@@ -100,14 +100,8 @@ class PlaysController < ApplicationController
       doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ven.xml"))
     end
     
-
-    #hidden = Nokogiri::XML::Node.new "div", @doc2
-    #hidden['class'] = 'hidden-synopsis'
-    #hidden.content = "1977 - 1984"
-    #h6.add_next_sibling(hidden)
-
-
     # These variables will change as we parse through the play
+    theSynopsis = doc.css('//div[type="synopsis"]').text
     currentPlay = doc.css('//titleStmt/title').inner_text
     currentLine = "default"
     currentWord = "default"
@@ -117,6 +111,11 @@ class PlaysController < ApplicationController
     wordIsSpeaker = false
     oneMoreAct = false
     oneMoreScene = false
+
+    hidden = Nokogiri::XML::Node.new "div", @doc2
+    hidden['class'] = 'hidden-synopsis'
+    hidden.content = theSynopsis
+    h6.add_next_sibling(hidden)
 
 
     # Add a tab for synopsis in navigation bar
@@ -185,7 +184,7 @@ class PlaysController < ApplicationController
 
 
   	end	
-    puts @doc2
+    #puts @doc2
     #File.write("app/views/plays/show.html.erb", @doc2)
   end
 end
