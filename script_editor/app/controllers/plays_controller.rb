@@ -8,6 +8,7 @@ class PlaysController < ApplicationController
 
     @doc2 = htmldoc
     h6 = @doc2.at_css "h6"
+    h5 = @doc2.at_css "h5"
 
     div = Nokogiri::XML::Node.new "div", @doc2
     div['class'] = 'play-navigation'
@@ -112,11 +113,17 @@ class PlaysController < ApplicationController
     oneMoreAct = false
     oneMoreScene = false
 
+    # Add the title to the top of the page
+    title = Nokogiri::XML::Node.new "p", @doc2
+    title['id'] = 'title'
+    title.content = currentPlay
+    h5.add_next_sibling(title)
+
+    # Add the synopsis text but hide it
     hidden = Nokogiri::XML::Node.new "div", @doc2
     hidden['class'] = 'hidden-synopsis'
     hidden.content = theSynopsis
     h6.add_next_sibling(hidden)
-
 
     # Add a tab for synopsis in navigation bar
     synopsis = Nokogiri::XML::Node.new "button", @doc2

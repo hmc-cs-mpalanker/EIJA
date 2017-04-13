@@ -2,20 +2,40 @@
 <html><body>
 <p id="notice"></p>
 
-<p id="title"><strong>Title:</strong></p>
+<div class="script-title">
+    <!-- Note: The h5 tag below is just a placeholder for Nokogiri to parse the title into. Please do not get rid of it. -->
+    <h5></h5>
+<p id="title">Henry VI, Part 2</p>
+</div>
 
-<div id="Play">
-    <p><span id="Play ID_Title" class="play" data-display="true">Play Title</span></p>
-    <div id="ACT ID">
-        <p><button id="ACT ID1_Title" class="act" data-cut="false" data-display="true">ACT 1</button></p>
-        <div id="SCENE ID">
-            <p><button id="SCENE ID1_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
-            <button id="Character ID1" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid1" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
-        </div>
-        <div id="SCENE ID">
-            <p><button id="SCENE ID2_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
-            <button id="Character ID2" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid2" class="word" data-cut="false" data-display="false" data-speaker="CHARACTER">theactualword</button>
-        </div>
+<div class="script-side-bar">
+
+<!-- Note: The h6 tag below is just a placeholder for Nokogiri to parse into (so it shouldn't actually hold any text). Everything inside the script-side-bar div is the navigation bar. The hidden-synopsis (which will be invisible on the page unless called) as well as the act and scene numbers will be parsed into here and will be changed within show2.html.erb and copied into here rather than written and changed directly in show.html.erb. -->
+<h6></h6>
+<div class="hidden-synopsis">
+With a weak, unworldly king on the throne, the English nobility heightens its struggle for power in Henry VI, Part 2, leading to the brink of civil war.
+At the start of the play, Henry meets his new bride, Margaret, to whom he has been married by proxy through Suffolk, her lover. Henry&rsquo;s popular and powerful uncle Gloucester, the Lord Protector, soon comes under attack by Margaret, Suffolk, Cardinal Beaufort, and others.
+Gloucester&rsquo;s wife is shamed and exiled and Gloucester himself removed from office, then murdered on Suffolk&rsquo;s orders. Suffolk is banished, captured by pirates, and killed. Meanwhile, the cardinal dies, raving in madness because of his part in Gloucester&rsquo;s death.
+A Kentish rebel, Jack Cade, leads a short-lived revolt, seizing London before his supporters desert him. He dies fighting in a garden. Soon another revolt emerges: Richard, Duke of York, leads an army against King Henry, who flees back to London. As the play ends, Richard&rsquo;s forces also move toward London.
+</div>
+<div class="play-navigation">
+<button class="nav-synopsis">SYNOPSIS</button><button class="nav-act">ACT 1</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-act">ACT 2</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-act">ACT 3</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-act">ACT 4</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-scene">SCENE 5</button><button class="nav-scene">SCENE 6</button><button class="nav-scene">SCENE 7</button><button class="nav-scene">SCENE 8</button><button class="nav-scene">SCENE 9</button><button class="nav-scene">SCENE 10</button><button class="nav-act">ACT 5</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button>
+</div>
+</div>
+
+<div class="script-main">
+    <div id="Play">
+        <p><span id="Play ID_Title" class="play" data-display="true">Play Title</span></p>
+        <div id="ACT ID">
+            <p><button id="ACT ID1_Title" class="act" data-cut="false" data-display="true">ACT 1</button></p>
+            <div id="SCENE ID">
+                <p><button id="SCENE ID1_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
+                <button id="Character ID1" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid1" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
+            </div>
+            <div id="SCENE ID">
+                <p><button id="SCENE ID2_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
+                <button id="Character ID2" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid2" class="word" data-cut="false" data-display="false" data-speaker="CHARACTER">theactualword</button>
+            </div>
         </div>
     </div>
     <div id="ACT ID">
@@ -29,7 +49,7 @@
             <button id="Character ID4" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid4" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
         </div>
     </div>
-
+</div>
 
 <script>
 
@@ -96,8 +116,6 @@ function showSynopsis() {
     } else {
         hiddenSynopsis[0].setAttribute("id", "shown-synopsis");  
     } 
-
-    alert("Clicked on synopsis!");
 }
 
 </script>
@@ -105,16 +123,6 @@ function showSynopsis() {
 
 <p id="print_script"></p>
 <p id="synopsis-text"></p>
-
-<h6></h6>
-<div class="hidden-synopsis">
-In A Midsummer Night&rsquo;s Dream, residents of Athens mix with fairies from a local forest, with comic results. In the city, Theseus, Duke of Athens, is to marry Hippolyta, queen of the Amazons. Bottom the weaver and his friends rehearse in the woods a play they hope to stage for the wedding celebrations.
-Four young Athenians are in a romantic tangle. Lysander and Demetrius love Hermia; she loves Lysander and her friend Helena loves Demetrius. Hermia&rsquo;s father, Egeus, commands Hermia to marry Demetrius, and Theseus supports the father&rsquo;s right. All four young Athenians end up in the woods, where Robin Goodfellow, who serves the fairy king Oberon, puts flower juice on the eyes of Lysander, and then Demetrius, unintentionally causing both to love Helena. Oberon, who is quarreling with his wife, Titania, uses the flower juice on her eyes. She falls in love with Bottom, who now, thanks to  Robin Goodfellow, wears  an ass&rsquo;s head.
-As the lovers sleep, Robin Goodfellow restores Lysander&rsquo;s love for Hermia, so that now each young woman is matched with the man she loves. Oberon disenchants Titania and removes Bottom&rsquo;s ass&rsquo;s head. The two young couples join the royal couple in getting married, and Bottom rejoins his friends to perform the play.
-</div>
-<div class="play-navigation">
-<button class="nav-synopsis">SYNOPSIS</button><button class="nav-act">ACT 1</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-act">ACT 2</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-act">ACT 3</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-act">ACT 4</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-act">ACT 5</button><button class="nav-scene">SCENE 1</button>
-</div>
 
 
 
