@@ -3,9 +3,34 @@
 <p id="notice"></p>
 
 <div class="script-title">
-    <div id="title-placeholder"></div>
+     
 <p id="title">The Taming of the Shrew</p>
 </div>
+
+<% doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml")) %>
+
+<% title = doc.css('title').first %>
+<script>
+document.getElementById('title-placeholder').innerHTML = '<%= escape_javascript title.inner_text %>';
+</script>
+
+<% currAct = 1 %>
+<% currScene = 1 %>
+
+<% acts= doc.css('//div1') %>
+<% acts.each do |act| %>
+    <div class="acthead"> <%= "ACT " + currAct.to_s %> <br> </div></b>
+    <% currAct = currAct + 1 %>
+    <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
+    <% scenes.each do |scene| %>
+        <div class="scenehead"><%= "Scene " + currScene.to_s %></div><br>
+        <% currScene = currScene + 1 %>
+        <% lines = Nokogiri::XML(scene.to_s).css('//sp')%>
+        <% lines.each do |line| %>
+            <div class="line"> <%= line.inner_text %> </div> <br>
+        <% end %>
+    <% end%>
+<%end%>
 
 <div class="script-side-bar">
     <br><br>
