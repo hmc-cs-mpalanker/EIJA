@@ -4,15 +4,6 @@ class PlaysController < ApplicationController
   def show
 
     doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
-    htmldoc = Nokogiri::HTML(File.open("app/views/plays/show2.html.erb"))
-
-    navP = htmldoc.at_css "div#nav-placeholder"
-    titleP = htmldoc.at_css "div#title-placeholder"
-    scriptP = htmldoc.at_css "div#script-placeholder"
-
-    div = Nokogiri::XML::Node.new "div", htmldoc
-    div['class'] = 'play-navigation'
-    navP.add_next_sibling(div)
 
     # I'm so sorry, but this was the only way because the files were named differently
     if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
@@ -114,84 +105,58 @@ class PlaysController < ApplicationController
     oneMoreScene = false
 
     # Add the title to the top of the page
-    title = Nokogiri::XML::Node.new "p", htmldoc
-    title['id'] = 'title'
-    title.content = currentPlay
-    titleP.add_next_sibling(title)
+    #title = Nokogiri::XML::Node.new "p", htmldoc
+    #title['id'] = 'title'
+    #title.content = currentPlay
+    #titleP.add_next_sibling(title)
 
     # Add the synopsis text but hide it
-    hidden = Nokogiri::XML::Node.new "div", htmldoc
-    hidden['class'] = 'hidden-synopsis'
-    hidden.content = theSynopsis
-    navP.add_next_sibling(hidden)
+    #hidden = Nokogiri::XML::Node.new "div", htmldoc
+    #hidden['class'] = 'hidden-synopsis'
+    #hidden.content = theSynopsis
+    #navP.add_next_sibling(hidden)
 
     # Add a tab for synopsis in navigation bar
-    synopsis = Nokogiri::XML::Node.new "button", htmldoc
-    synopsis['class'] = 'nav-synopsis'
-    synopsis.content = "SYNOPSIS"
-    synopsis.parent = div
-    currentDiv = synopsis
+    #synopsis = Nokogiri::XML::Node.new "button", htmldoc
+    #synopsis['class'] = 'nav-synopsis'
+    #synopsis.content = "SYNOPSIS"
+    #synopsis.parent = div
+    #currentDiv = synopsis
 
     # Loop through all of the words in the play
-  	doc.css('w').each do |node|
-  		children = node.children
+  	#doc.css('w').each do |node|
+  		#children = node.children
 
-      currentLine = node['n']
-      wordId = node['xml:id']
-      currentWord = children.inner_text
+      #currentLine = node['n']
+      #wordId = node['xml:id']
+      #currentWord = children.inner_text
 
       # This loops checks if the word is a speaker and updates currentSpeaker
-  		if (currentWord == currentWord.upcase)
-  			if (currentWord.length > 2 and not(currentWord == "ACT") and not(currentWord == "EPILOGUE"))
-  				if (speakerNameHasTwoWords)
-            currentSpeaker += " " + currentWord
-            speakerNameHasTwoWords = false
-          elsif (currentWord == "FIRST" or currentWord == "SECOND" or currentWord == "THIRD")
-            currentSpeaker = currentWord
-            speakerNameHasTwoWords = true
-          else 
-            currentSpeaker = currentWord
-          end
-          wordIsSpeaker = true
-        else
-          wordIsSpeaker = false
-  			end
-      else
-        wordIsSpeaker = false
-      end
+  		#if (currentWord == currentWord.upcase)
+  			#if (currentWord.length > 2 and not(currentWord == "ACT") and not(currentWord == "EPILOGUE"))
+  				#if (speakerNameHasTwoWords)
+            #currentSpeaker += " " + currentWord
+            #speakerNameHasTwoWords = false
+          #elsif (currentWord == "FIRST" or currentWord == "SECOND" or currentWord == "THIRD")
+            #currentSpeaker = currentWord
+            #speakerNameHasTwoWords = true
+          #else 
+            #currentSpeaker = currentWord
+          #end
+          #wordIsSpeaker = true
+        #else
+          #wordIsSpeaker = false
+  			#end
+      #else
+        #wordIsSpeaker = false
+      #end
 
-      # Update acts and scenes in navigation bar
-      if (oneMoreAct)
-        oneMoreAct = false
-
-        # Add a tab for synopsis
-        actDiv = Nokogiri::XML::Node.new "button", htmldoc
-        actDiv['class'] = 'nav-act'
-        actDiv.content = "ACT " + currentWord
-        currentDiv.add_next_sibling(actDiv)
-        currentDiv = actDiv
-      end
-      if (children.inner_text == "ACT")
-        oneMoreAct = true
-      end
-      if (oneMoreScene)
-        oneMoreScene = false
-
-        # Add a tab for synopsis
-        sceneDiv = Nokogiri::XML::Node.new "button", htmldoc
-        sceneDiv['class'] = 'nav-scene'
-        sceneDiv.content = "SCENE " + currentWord
-        currentDiv.add_next_sibling(sceneDiv)
-        currentDiv = sceneDiv
-      end
-      if (children.inner_text == "Scene")
-        oneMoreScene = true
-      end
+    
 
 
 
-  	end	
+  	#end	
     #puts htmldoc
-    File.write("app/views/plays/show.html.erb", htmldoc)
+    #File.write("app/views/plays/show.html.erb", htmldoc)
   end
 end

@@ -2,27 +2,155 @@
 <html><body>
 <p id="notice"></p>
 
+<% doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
+
+# I'm so sorry, but this was the only way because the files were named differently
+if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
+elsif "#{request.fullpath}" == "/plays/alls_well_that_ends_well"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/AWW.xml"))
+elsif "#{request.fullpath}" == "/plays/antony_and_cleopatra"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ant.xml"))
+elsif "#{request.fullpath}" == "/plays/as_you_like_it"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/AYL.xml"))
+elsif "#{request.fullpath}" == "/plays/coriolanus"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Cor.xml"))
+elsif "#{request.fullpath}" == "/plays/cymbeline"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Cym.xml"))
+elsif "#{request.fullpath}" == "/plays/hamlet"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ham.xml"))
+elsif "#{request.fullpath}" == "/plays/henry_iv_part_1"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/1H4.xml"))
+elsif "#{request.fullpath}" == "/plays/henry_iv_part_2"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/2H4.xml"))
+elsif "#{request.fullpath}" == "/plays/henry_v"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/H5.xml"))
+elsif "#{request.fullpath}" == "/plays/henry_vi_part_1"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/1H6.xml"))
+elsif "#{request.fullpath}" == "/plays/henry_vi_part_2"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/2H6.xml"))
+elsif "#{request.fullpath}" == "/plays/henry_vi_part_3"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/3H6.xml"))
+elsif "#{request.fullpath}" == "/plays/henry_viii"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/H8.xml"))
+elsif "#{request.fullpath}" == "/plays/julius_caesar"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/JC.xml"))
+elsif "#{request.fullpath}" == "/plays/king_john"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Jn.xml"))
+elsif "#{request.fullpath}" == "/plays/king_lear"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Lr.xml"))
+elsif "#{request.fullpath}" == "/plays/loves_labors_lost"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/LLL.xml"))
+elsif "#{request.fullpath}" == "/plays/lucrece"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Luc.xml"))
+elsif "#{request.fullpath}" == "/plays/macbeth"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Mac.xml"))
+elsif "#{request.fullpath}" == "/plays/measure_for_measure"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MM.xml"))
+elsif "#{request.fullpath}" == "/plays/much_ado_about_nothing"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ado.xml"))
+elsif "#{request.fullpath}" == "/plays/othello"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Oth.xml"))
+elsif "#{request.fullpath}" == "/plays/pericles"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Per.xml"))
+elsif "#{request.fullpath}" == "/plays/richard_ii"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/R2.xml"))
+elsif "#{request.fullpath}" == "/plays/richard_iii"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/R3.xml"))
+elsif "#{request.fullpath}" == "/plays/romeo_and_juliet"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Rom.xml"))
+elsif "#{request.fullpath}" == "/plays/shakespeares_sonnets"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Son.xml"))
+elsif "#{request.fullpath}" == "/plays/taming_of_the_shrew"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Shr.xml"))
+elsif "#{request.fullpath}" == "/plays/the_comedy_of_errors"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Err.xml"))
+elsif "#{request.fullpath}" == "/plays/the_merchant_of_venice"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MV.xml"))
+elsif "#{request.fullpath}" == "/plays/the_merry_wives_of_windsor"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Wiv.xml"))
+elsif "#{request.fullpath}" == "/plays/the_phoenix_and_turtle"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/PhT.xml"))
+elsif "#{request.fullpath}" == "/plays/the_tempest"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tmp.xml"))
+elsif "#{request.fullpath}" == "/plays/the_two_gentlemen_of_verona"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TGV.xml"))
+elsif "#{request.fullpath}" == "/plays/the_two_noble_kinsmen"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TNK.xml"))
+elsif "#{request.fullpath}" == "/plays/the_winters_tale"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/WT.xml"))
+elsif "#{request.fullpath}" == "/plays/timon_of_athens"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tim.xml"))
+elsif "#{request.fullpath}" == "/plays/titus_andronicus"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tit.xml"))
+elsif "#{request.fullpath}" == "/plays/troilus_and_cressida"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tro.xml"))
+elsif "#{request.fullpath}" == "/plays/twelfth_night"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TN.xml"))
+elsif "#{request.fullpath}" == "/plays/venus_and_adonis"
+  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ven.xml"))
+end %>
+
+<!-- Get the title of the play -->
 <div class="script-title">
-    <div id="title-placeholder"></div>
-<p id="title">Henry VI, Part 3</p>
+    <p id="title"></p>
+    <% title = doc.css('title').first %>
+    <script>
+        document.getElementById('title').innerHTML = '<%= escape_javascript title.inner_text %>';
+    </script>
 </div>
 
+<!-- Create the navigation bar -->
 <div class="script-side-bar">
-    <div id="nav-placeholder"></div>
-<div class="hidden-synopsis">
-The English crown changes hands often in Henry VI, Part 3. At first, Richard, Duke of York, is allied with Warwick. York invades the throne-room of Henry VI with Warwick&rsquo;s army, but allows Henry to remain king if he makes York his heir&mdash;thus disinheriting Henry&rsquo;s son, Prince Edward.
-Infuriated, Henry&rsquo;s queen, Margaret, raises an army. York breaks his oath to Henry and fights for the crown. After Margaret and her supporters kill York, Warwick proclaims that York&rsquo;s son Edward is king. Edward, now Edward IV, captures Henry.
-Warwick breaks with King Edward and joins with Margaret to raise a French army. King Edward&rsquo;s brother Clarence joins with Warwick to capture Edward and free King Henry.
-Richard, now Duke of Gloucester, rescues his brother, King Edward, who returns, captures King Henry, and leads an army against Warwick. When Clarence abandons Warwick, Warwick is defeated and killed. King Edward captures Margaret and helps to kill her son, Prince Edward. Richard murders King Henry and begins to plot his way to the crown.
-</div>
-<div class="play-navigation">
-<button class="nav-synopsis">SYNOPSIS</button><button class="nav-act">ACT 1</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-act">ACT 2</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-scene">SCENE 5</button><button class="nav-scene">SCENE 6</button><button class="nav-act">ACT 3</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-act">ACT 4</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-scene">SCENE 5</button><button class="nav-scene">SCENE 6</button><button class="nav-scene">SCENE 7</button><button class="nav-scene">SCENE 8</button><button class="nav-act">ACT 5</button><button class="nav-scene">SCENE 1</button><button class="nav-scene">SCENE 2</button><button class="nav-scene">SCENE 3</button><button class="nav-scene">SCENE 4</button><button class="nav-scene">SCENE 5</button><button class="nav-scene">SCENE 6</button><button class="nav-scene">SCENE 7</button>
-</div>
+    <% synopsistext = doc.css('//div[type="synopsis"]').text %>
+    <div class="hidden-synopsis"></div>
+
+    <!--
+    <script>
+        document.getElementById('hidden-synopsis').innerHTML = "<%synopsistext%>";
+    </script>
+-->
+
+    <div class="play-navigation">
+        <button class="nav-synopsis">SYNOPSIS</button>
+
+        <% currAct = 1 %>
+        <% acts= doc.css('//div1') %>
+        <% acts.each do |act| %>
+            <button class="nav-act"><%= "ACT " + currAct.to_s %></button>
+            <% currAct = currAct + 1 %>
+            <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
+            <% currScene = 1 %>
+            <% scenes.each do |scene| %>
+                <button class="nav-scene"><%= "SCENE " + currScene.to_s %></button>
+                <% currScene = currScene + 1 %>
+            <% end%>
+        <%end%>
+    </div>
 </div>
 
+<!-- Write the actual script -->
 <div class="script-main">
     <div id="script-placeholder"></div>
-    
+
+    <% currAct = 1 %>
+    <% currScene = 1 %>
+
+    <% acts= doc.css('//div1') %>
+    <% acts.each do |act| %>
+        <div class="acthead"> <%= "ACT " + currAct.to_s %> <br> </div></b>
+        <% currAct = currAct + 1 %>
+        <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
+        <% scenes.each do |scene| %>
+            <div class="scenehead"><%= "Scene " + currScene.to_s %></div><br>
+            <% currScene = currScene + 1 %>
+            <% lines = Nokogiri::XML(scene.to_s).css('//sp')%>
+            <% lines.each do |line| %>
+                <div class="line"> <%= line.inner_text %> </div> <br>
+            <% end %>
+        <% end%>
+    <%end%>
+
     <div id="Play">
         <p><span id="Play ID_Title" class="play" data-display="true">Play Title</span></p>
         <div id="ACT ID">
