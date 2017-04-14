@@ -48,8 +48,12 @@ Petruchio negotiates marriage terms with Baptista, then has a stormy meeting wit
 <div class="script-main">
     <div id="script-placeholder"></div>
 
-<script>
 
+</div>
+
+
+
+<script>
 
 document.querySelector("#Play").addEventListener("click", doCut, false);
 
@@ -62,10 +66,12 @@ function doCut(e) {
         if (clickedItem.tagName.toLowerCase() == "button") {
             if (clickedItem.dataset.cut.toLowerCase() == "false") {
                 document.getElementById(word).style.color = "#D3D3D3";
+                //document.getElementById(word).style.text-decoration = "line-through";
                 clickedItem.dataset.cut = "true";
             }
             else {
                 document.getElementById(word).style.color = "#000000";
+                //document.getElementById(word).style.text-decoration = "none"
                 clickedItem.dataset.cut = "false";
             }
         }
@@ -73,6 +79,7 @@ function doCut(e) {
     }
 //    e.stopPropagation();
 };
+</script>
 
 var sceneButtons = document.getElementsByClassName("nav-scene");
 var sceneLength = sceneButtons.length;

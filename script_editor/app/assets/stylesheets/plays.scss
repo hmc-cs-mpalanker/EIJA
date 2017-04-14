@@ -66,6 +66,7 @@ div.script-main {
 .word {
      background:none!important;
      color:#000000;
+     text-decoration: none;
      border:none; 
      padding:0!important;
 }
@@ -73,6 +74,7 @@ div.script-main {
 .act {
      background:none!important;
      color:#000000;
+     text-decoration: none;
      border:none; 
      padding:0!important;
 }
@@ -80,6 +82,7 @@ div.script-main {
 .scene {
      background:none!important;
      color:#000000;
+     text-decoration: none;
      border:none; 
      padding:0!important;
 }
@@ -87,6 +90,7 @@ div.script-main {
 .character {
      background:none!important;
      color:#000000;
+     text-decoration: none;
      border:none; 
      padding:0!important;
 }
@@ -120,17 +124,18 @@ button.nav-synopsis {
 
 button.nav-act { 
     height: 40px;
-    text-align: center;
+    text-align: left;
     background-color: #eeeeee;
     border-style: solid;
     border-width: 1px;
     border-color: #aaaaaa;
     width: 100%;
+    float: right;
 } 
 
 button.nav-scene {
-    height: 20px;
-    text-align: center;
+    height: 30px;
+    text-align: left;
     background-color: #cccccc;
     border-style: solid;
     border-width: 1px;
