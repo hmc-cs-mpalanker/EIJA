@@ -6,13 +6,13 @@ class PlaysController < ApplicationController
     doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
     htmldoc = Nokogiri::HTML(File.open("app/views/plays/show2.html.erb"))
 
-    @doc2 = htmldoc
-    h6 = @doc2.at_css "h6"
-    h5 = @doc2.at_css "h5"
+    navP = htmldoc.at_css "div#nav-placeholder"
+    titleP = htmldoc.at_css "div#title-placeholder"
+    scriptP = htmldoc.at_css "div#script-placeholder"
 
-    div = Nokogiri::XML::Node.new "div", @doc2
+    div = Nokogiri::XML::Node.new "div", htmldoc
     div['class'] = 'play-navigation'
-    h6.add_next_sibling(div)
+    navP.add_next_sibling(div)
 
     # I'm so sorry, but this was the only way because the files were named differently
     if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
@@ -114,19 +114,19 @@ class PlaysController < ApplicationController
     oneMoreScene = false
 
     # Add the title to the top of the page
-    title = Nokogiri::XML::Node.new "p", @doc2
+    title = Nokogiri::XML::Node.new "p", htmldoc
     title['id'] = 'title'
     title.content = currentPlay
-    h5.add_next_sibling(title)
+    titleP.add_next_sibling(title)
 
     # Add the synopsis text but hide it
-    hidden = Nokogiri::XML::Node.new "div", @doc2
+    hidden = Nokogiri::XML::Node.new "div", htmldoc
     hidden['class'] = 'hidden-synopsis'
     hidden.content = theSynopsis
-    h6.add_next_sibling(hidden)
+    navP.add_next_sibling(hidden)
 
     # Add a tab for synopsis in navigation bar
-    synopsis = Nokogiri::XML::Node.new "button", @doc2
+    synopsis = Nokogiri::XML::Node.new "button", htmldoc
     synopsis['class'] = 'nav-synopsis'
     synopsis.content = "SYNOPSIS"
     synopsis.parent = div
@@ -165,7 +165,7 @@ class PlaysController < ApplicationController
         oneMoreAct = false
 
         # Add a tab for synopsis
-        actDiv = Nokogiri::XML::Node.new "button", @doc2
+        actDiv = Nokogiri::XML::Node.new "button", htmldoc
         actDiv['class'] = 'nav-act'
         actDiv.content = "ACT " + currentWord
         currentDiv.add_next_sibling(actDiv)
@@ -178,7 +178,7 @@ class PlaysController < ApplicationController
         oneMoreScene = false
 
         # Add a tab for synopsis
-        sceneDiv = Nokogiri::XML::Node.new "button", @doc2
+        sceneDiv = Nokogiri::XML::Node.new "button", htmldoc
         sceneDiv['class'] = 'nav-scene'
         sceneDiv.content = "SCENE " + currentWord
         currentDiv.add_next_sibling(sceneDiv)
@@ -191,7 +191,7 @@ class PlaysController < ApplicationController
 
 
   	end	
-    #puts @doc2
-    #File.write("app/views/plays/show.html.erb", @doc2)
+    #puts htmldoc
+    #File.write("app/views/plays/show.html.erb", htmldoc)
   end
 end
