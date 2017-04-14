@@ -132,7 +132,6 @@ end %>
 <!-- Write the actual script -->
 <div class="script-main">
     <div id="script-placeholder"></div>
-
     <% currAct = 1 %>
     <% currScene = 1 %>
 
@@ -176,11 +175,11 @@ end %>
             <button id="Character ID4" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid4" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
         </div>
     </div>
-    
 </div>
 
-<script>
 
+
+<script>
 
 document.querySelector("#Play").addEventListener("click", doCut, false);
 
@@ -193,10 +192,12 @@ function doCut(e) {
         if (clickedItem.tagName.toLowerCase() == "button") {
             if (clickedItem.dataset.cut.toLowerCase() == "false") {
                 document.getElementById(word).style.color = "#D3D3D3";
+                //document.getElementById(word).style.text-decoration = "line-through";
                 clickedItem.dataset.cut = "true";
             }
             else {
                 document.getElementById(word).style.color = "#000000";
+                //document.getElementById(word).style.text-decoration = "none"
                 clickedItem.dataset.cut = "false";
             }
         }
@@ -204,7 +205,8 @@ function doCut(e) {
     }
 //    e.stopPropagation();
 };
-
+</script>
+<script>
 var sceneButtons = document.getElementsByClassName("nav-scene");
 var sceneLength = sceneButtons.length;
 for (var i = 0; i < sceneLength; i++) {
