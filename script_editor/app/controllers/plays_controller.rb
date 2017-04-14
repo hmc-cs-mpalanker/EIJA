@@ -192,6 +192,6 @@ class PlaysController < ApplicationController
 
   	end	
     #puts htmldoc
-    #File.write("app/views/plays/show.html.erb", htmldoc)
+    File.write("app/views/plays/show.html.erb", htmldoc)
   end
 end
