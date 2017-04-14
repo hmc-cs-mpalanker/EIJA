@@ -19,6 +19,25 @@ br {
     clear:both; 
 }
 
+#Home-button {
+    display: inline-block;
+    float: left;
+    height: 100%;
+    width: 20%;
+    padding-top: 20px;
+    font-size: 32px;
+    font-family: serif;
+    background-color: #aaaaaa;
+}
+
+#home {
+    text-decoration: none;
+}
+
+#play-title {
+    display: inline-block;
+}
+
 /////////////////////////////////
 // For script's page sections
 /////////////////////////////////
