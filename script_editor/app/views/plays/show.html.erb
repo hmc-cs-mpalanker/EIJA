@@ -4,7 +4,6 @@
 
 <% doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
 
-# I'm so sorry, but this was the only way because the files were named differently
 if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
   doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
 elsif "#{request.fullpath}" == "/plays/alls_well_that_ends_well"
@@ -94,10 +93,10 @@ end %>
 <!-- Get the title of the play -->
 <div class="script-title">
     <div id="Home-button">
-    <a id="home" href="/">Home</a>
+        <a id="home" href="/">Home</a>
     </div>
     <div id="play-title">
-    <p id="title"></p>
+        <p id="title"></p>
     </div>
     <% title = doc.css('title').first %>
     <script>
@@ -107,18 +106,8 @@ end %>
 
 <!-- Create the navigation bar -->
 <div class="script-side-bar">
-    <% synopsistext = doc.css('//div[type="synopsis"]').text %>
-    <div class="hidden-synopsis"></div>
-
-    <!--
-    <script>
-        document.getElementById('hidden-synopsis').innerHTML = "<%synopsistext%>";
-    </script>
--->
-
     <div class="play-navigation">
         <button class="nav-synopsis">SYNOPSIS</button>
-
         <% currAct = 1 %>
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
@@ -136,7 +125,16 @@ end %>
 
 <!-- Write the actual script -->
 <div class="script-main">
-    <div id="script-placeholder"></div>
+
+    <!-- Synopsis will show up here as a popup -->  
+    <% synopsistext = doc.css('//div[type="synopsis"]').text %>
+    <br><div class="hidden-synopsis" id="hidden-synopsis"></div><br>
+    <script>
+        document.getElementById('hidden-synopsis').innerHTML = '<%= escape_javascript synopsistext %>';
+    </script>
+    
+
+    <!-- Parse the XML file and write the script -->
     <% currAct = 1 %>
     <% currScene = 1 %>
 
@@ -154,111 +152,108 @@ end %>
             <% end %>
         <% end%>
     <%end%>
+</div>
 
-    <div id="Play">
-        <p><span id="Play ID_Title" class="play" data-display="true">Play Title</span></p>
-        <div id="ACT ID">
-            <p><button id="ACT ID1_Title" class="act" data-cut="false" data-display="true">ACT 1</button></p>
-            <div id="SCENE ID">
-                <p><button id="SCENE ID1_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
-                <button id="Character ID1" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid1" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
-            </div>
-            <div id="SCENE ID">
-                <p><button id="SCENE ID2_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
-                <button id="Character ID2" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid2" class="word" data-cut="false" data-display="false" data-speaker="CHARACTER">theactualword</button>
-            </div>
-        </div>
-    </div>
+<!--
+<div id="Play">
+    <p><span id="Play ID_Title" class="play" data-display="true">Play Title</span></p>
     <div id="ACT ID">
-        <p><button id="ACT ID2_Title" class="act" data-cut="false" data-display="true">ACT 2</button></p>
+        <p><button id="ACT ID1_Title" class="act" data-cut="false" data-display="true">ACT 1</button></p>
         <div id="SCENE ID">
-            <p><button id="SCENE ID3_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
-            <button id="Character ID3" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid3" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
+            <p><button id="SCENE ID1_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
+            <button id="Character ID1" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid1" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
         </div>
         <div id="SCENE ID">
-            <p><button id="SCENE ID4_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
-            <button id="Character ID4" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid4" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
+            <p><button id="SCENE ID2_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
+            <button id="Character ID2" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid2" class="word" data-cut="false" data-display="false" data-speaker="CHARACTER">theactualword</button>
         </div>
     </div>
 </div>
+<div id="ACT ID">
+    <p><button id="ACT ID2_Title" class="act" data-cut="false" data-display="true">ACT 2</button></p>
+    <div id="SCENE ID">
+        <p><button id="SCENE ID3_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
+        <button id="Character ID3" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid3" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
+    </div>
+    <div id="SCENE ID">
+        <p><button id="SCENE ID4_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
+        <button id="Character ID4" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid4" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
+    </div>
+</div> -->
+
 
 
 
 <script>
 
-document.querySelector("#Play").addEventListener("click", doCut, false);
+    document.querySelector("#Play").addEventListener("click", doCut, false);
 
-// all words will need to be printed with the div class "Play"
-// change "p" to the tag for words (not including names) and we will be able to cut only words
-function doCut(e) {
-    if (e.target.id !== "Play") {
-        var clickedItem = e.target;
-        var word = e.target.id;
-        if (clickedItem.tagName.toLowerCase() == "button") {
-            if (clickedItem.dataset.cut.toLowerCase() == "false") {
-                document.getElementById(word).style.color = "#D3D3D3";
-                //document.getElementById(word).style.text-decoration = "line-through";
-                clickedItem.dataset.cut = "true";
-            }
-            else {
-                document.getElementById(word).style.color = "#000000";
-                //document.getElementById(word).style.text-decoration = "none"
-                clickedItem.dataset.cut = "false";
-            }
+    // all words will need to be printed with the div class "Play"
+    // change "p" to the tag for words (not including names) and we will be able to cut only words
+    function doCut(e) {
+        if (e.target.id !== "Play") {
+            var clickedItem = e.target;
+            var word = e.target.id;
+            if (clickedItem.tagName.toLowerCase() == "button") {
+                if (clickedItem.dataset.cut.toLowerCase() == "false") {
+                    document.getElementById(word).style.color = "#D3D3D3";
+                    //document.getElementById(word).style.text-decoration = "line-through";
+                    clickedItem.dataset.cut = "true";
+                }
+                else {
+                    document.getElementById(word).style.color = "#000000";
+                    //document.getElementById(word).style.text-decoration = "none"
+                    clickedItem.dataset.cut = "false";
+                }
+            }        
         }
-        
-    }
-//    e.stopPropagation();
-};
+    };
 </script>
 <script>
-var sceneButtons = document.getElementsByClassName("nav-scene");
-var sceneLength = sceneButtons.length;
-for (var i = 0; i < sceneLength; i++) {
-    sceneButton = sceneButtons[i];
-    sceneButton.addEventListener("click", showScene);
-}
 
-var actButtons = document.getElementsByClassName("nav-act");
-var actLength = actButtons.length;
-for (var i = 0; i < actLength; i++) {
-    actButton = actButtons[i];
-    actButton.addEventListener("click", showAct);
-}
+    // This controls scene buttons in the navigation bar
+    var sceneButtons = document.getElementsByClassName("nav-scene");
+    var sceneLength = sceneButtons.length;
+    for (var i = 0; i < sceneLength; i++) {
+        sceneButton = sceneButtons[i];
+        sceneButton.addEventListener("click", showScene);
+    }
+    function showScene() {
+        alert("Clicked on scene!");
+    }
 
-var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
-hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
 
-var synopsisButtons = document.getElementsByClassName("nav-synopsis");
-var synopsisLength = synopsisButtons.length;
-for (var i = 0; i < synopsisLength; i++) {
-    synopsisButton = synopsisButtons[i];
-    synopsisButton.addEventListener("click", showSynopsis);
-}
+    // This controls act buttons in the navigation bar
+    var actButtons = document.getElementsByClassName("nav-act");
+    var actLength = actButtons.length;
+    for (var i = 0; i < actLength; i++) {
+        actButton = actButtons[i];
+        actButton.addEventListener("click", showAct);
+    }
+    function showAct() {
+        alert("Clicked on act!");
+    }
 
-function showScene() {
-    alert("Clicked on scene!");
-}
 
-function showAct() {
-    alert("Clicked on act!");
-}
-
-function showSynopsis() {
+    // This controls the synopsis button in the navigation bar
     var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
-    if (hiddenSynopsis[0].id == "shown-synopsis") {
-        hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
-    } else {
-        hiddenSynopsis[0].setAttribute("id", "shown-synopsis");  
-    } 
-}
+    hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
+    var synopsisButtons = document.getElementsByClassName("nav-synopsis");
+    var synopsisLength = synopsisButtons.length;
+    for (var i = 0; i < synopsisLength; i++) {
+        synopsisButton = synopsisButtons[i];
+        synopsisButton.addEventListener("click", showSynopsis);
+    }
+    function showSynopsis() {
+        var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
+        if (hiddenSynopsis[0].id == "shown-synopsis") {
+            hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
+        } else {
+            hiddenSynopsis[0].setAttribute("id", "shown-synopsis");  
+        } 
+    }
 
 </script>
-
-
-<p id="print_script"></p>
-<p id="synopsis-text"></p>
-
 
 
 </body></html>
