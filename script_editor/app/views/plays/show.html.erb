@@ -107,7 +107,7 @@ end %>
 <!-- Create the navigation bar -->
 <div class="script-side-bar">
     <div class="play-navigation">
-        <button class="nav-synopsis">SYNOPSIS</button>
+        <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
         <% currAct = 1 %>
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
@@ -123,16 +123,20 @@ end %>
     </div>
 </div>
 
-<!-- Write the actual script -->
-<div class="script-main">
+<!-- Synopsis will show up here as a popup -->  
+<div id="synopsis-modal" class="shown-modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="hidden-synopsis" id="hidden-synopsis"></div>
+        <% synopsistext = doc.css('//div[type="synopsis"]').text %>
+        <script>
+            document.getElementById('hidden-synopsis').innerHTML = '<%= escape_javascript synopsistext %>';
+        </script>
+    </div>
+</div>
 
-    <!-- Synopsis will show up here as a popup -->  
-    <% synopsistext = doc.css('//div[type="synopsis"]').text %>
-    <br><div class="hidden-synopsis" id="hidden-synopsis"></div><br>
-    <script>
-        document.getElementById('hidden-synopsis').innerHTML = '<%= escape_javascript synopsistext %>';
-    </script>
-    
+<!-- Write the actual script -->
+<div class="script-main">   
 
     <!-- Parse the XML file and write the script -->
     <% currAct = 1 %>
@@ -234,24 +238,21 @@ end %>
         alert("Clicked on act!");
     }
 
-
     // This controls the synopsis button in the navigation bar
-    var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
-    hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
-    var synopsisButtons = document.getElementsByClassName("nav-synopsis");
-    var synopsisLength = synopsisButtons.length;
-    for (var i = 0; i < synopsisLength; i++) {
-        synopsisButton = synopsisButtons[i];
-        synopsisButton.addEventListener("click", showSynopsis);
+    var modal = document.getElementById("synopsis-modal");
+    var btn = document.getElementById("synopsis-button");
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function() {
+        modal.style.display = "block";
     }
-    function showSynopsis() {
-        var hiddenSynopsis = document.getElementsByClassName("hidden-synopsis");
-        if (hiddenSynopsis[0].id == "shown-synopsis") {
-            hiddenSynopsis[0].setAttribute("id", "hidden-synopsis");
-        } else {
-            hiddenSynopsis[0].setAttribute("id", "shown-synopsis");  
-        } 
+    span.onclick = function() {
+        modal.style.display = "none";
     }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    } 
 
 </script>
 
