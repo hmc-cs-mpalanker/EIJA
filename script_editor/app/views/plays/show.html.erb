@@ -1,260 +1,264 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html><body>
-<p id="notice"></p>
+    <p id="notice"></p>
 
-<% doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
+    <% doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
 
-if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
-elsif "#{request.fullpath}" == "/plays/alls_well_that_ends_well"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/AWW.xml"))
-elsif "#{request.fullpath}" == "/plays/antony_and_cleopatra"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ant.xml"))
-elsif "#{request.fullpath}" == "/plays/as_you_like_it"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/AYL.xml"))
-elsif "#{request.fullpath}" == "/plays/coriolanus"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Cor.xml"))
-elsif "#{request.fullpath}" == "/plays/cymbeline"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Cym.xml"))
-elsif "#{request.fullpath}" == "/plays/hamlet"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ham.xml"))
-elsif "#{request.fullpath}" == "/plays/henry_iv_part_1"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/1H4.xml"))
-elsif "#{request.fullpath}" == "/plays/henry_iv_part_2"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/2H4.xml"))
-elsif "#{request.fullpath}" == "/plays/henry_v"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/H5.xml"))
-elsif "#{request.fullpath}" == "/plays/henry_vi_part_1"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/1H6.xml"))
-elsif "#{request.fullpath}" == "/plays/henry_vi_part_2"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/2H6.xml"))
-elsif "#{request.fullpath}" == "/plays/henry_vi_part_3"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/3H6.xml"))
-elsif "#{request.fullpath}" == "/plays/henry_viii"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/H8.xml"))
-elsif "#{request.fullpath}" == "/plays/julius_caesar"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/JC.xml"))
-elsif "#{request.fullpath}" == "/plays/king_john"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Jn.xml"))
-elsif "#{request.fullpath}" == "/plays/king_lear"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Lr.xml"))
-elsif "#{request.fullpath}" == "/plays/loves_labors_lost"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/LLL.xml"))
-elsif "#{request.fullpath}" == "/plays/lucrece"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Luc.xml"))
-elsif "#{request.fullpath}" == "/plays/macbeth"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Mac.xml"))
-elsif "#{request.fullpath}" == "/plays/measure_for_measure"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MM.xml"))
-elsif "#{request.fullpath}" == "/plays/much_ado_about_nothing"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ado.xml"))
-elsif "#{request.fullpath}" == "/plays/othello"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Oth.xml"))
-elsif "#{request.fullpath}" == "/plays/pericles"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Per.xml"))
-elsif "#{request.fullpath}" == "/plays/richard_ii"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/R2.xml"))
-elsif "#{request.fullpath}" == "/plays/richard_iii"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/R3.xml"))
-elsif "#{request.fullpath}" == "/plays/romeo_and_juliet"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Rom.xml"))
-elsif "#{request.fullpath}" == "/plays/shakespeares_sonnets"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Son.xml"))
-elsif "#{request.fullpath}" == "/plays/taming_of_the_shrew"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Shr.xml"))
-elsif "#{request.fullpath}" == "/plays/the_comedy_of_errors"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Err.xml"))
-elsif "#{request.fullpath}" == "/plays/the_merchant_of_venice"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MV.xml"))
-elsif "#{request.fullpath}" == "/plays/the_merry_wives_of_windsor"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Wiv.xml"))
-elsif "#{request.fullpath}" == "/plays/the_phoenix_and_turtle"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/PhT.xml"))
-elsif "#{request.fullpath}" == "/plays/the_tempest"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tmp.xml"))
-elsif "#{request.fullpath}" == "/plays/the_two_gentlemen_of_verona"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TGV.xml"))
-elsif "#{request.fullpath}" == "/plays/the_two_noble_kinsmen"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TNK.xml"))
-elsif "#{request.fullpath}" == "/plays/the_winters_tale"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/WT.xml"))
-elsif "#{request.fullpath}" == "/plays/timon_of_athens"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tim.xml"))
-elsif "#{request.fullpath}" == "/plays/titus_andronicus"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tit.xml"))
-elsif "#{request.fullpath}" == "/plays/troilus_and_cressida"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tro.xml"))
-elsif "#{request.fullpath}" == "/plays/twelfth_night"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TN.xml"))
-elsif "#{request.fullpath}" == "/plays/venus_and_adonis"
-  doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ven.xml"))
-end %>
+    if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
+    elsif "#{request.fullpath}" == "/plays/alls_well_that_ends_well"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/AWW.xml"))
+    elsif "#{request.fullpath}" == "/plays/antony_and_cleopatra"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ant.xml"))
+    elsif "#{request.fullpath}" == "/plays/as_you_like_it"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/AYL.xml"))
+    elsif "#{request.fullpath}" == "/plays/coriolanus"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Cor.xml"))
+    elsif "#{request.fullpath}" == "/plays/cymbeline"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Cym.xml"))
+    elsif "#{request.fullpath}" == "/plays/hamlet"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ham.xml"))
+    elsif "#{request.fullpath}" == "/plays/henry_iv_part_1"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/1H4.xml"))
+    elsif "#{request.fullpath}" == "/plays/henry_iv_part_2"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/2H4.xml"))
+    elsif "#{request.fullpath}" == "/plays/henry_v"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/H5.xml"))
+    elsif "#{request.fullpath}" == "/plays/henry_vi_part_1"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/1H6.xml"))
+    elsif "#{request.fullpath}" == "/plays/henry_vi_part_2"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/2H6.xml"))
+    elsif "#{request.fullpath}" == "/plays/henry_vi_part_3"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/3H6.xml"))
+    elsif "#{request.fullpath}" == "/plays/henry_viii"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/H8.xml"))
+    elsif "#{request.fullpath}" == "/plays/julius_caesar"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/JC.xml"))
+    elsif "#{request.fullpath}" == "/plays/king_john"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Jn.xml"))
+    elsif "#{request.fullpath}" == "/plays/king_lear"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Lr.xml"))
+    elsif "#{request.fullpath}" == "/plays/loves_labors_lost"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/LLL.xml"))
+    elsif "#{request.fullpath}" == "/plays/lucrece"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Luc.xml"))
+    elsif "#{request.fullpath}" == "/plays/macbeth"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Mac.xml"))
+    elsif "#{request.fullpath}" == "/plays/measure_for_measure"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MM.xml"))
+    elsif "#{request.fullpath}" == "/plays/much_ado_about_nothing"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ado.xml"))
+    elsif "#{request.fullpath}" == "/plays/othello"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Oth.xml"))
+    elsif "#{request.fullpath}" == "/plays/pericles"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Per.xml"))
+    elsif "#{request.fullpath}" == "/plays/richard_ii"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/R2.xml"))
+    elsif "#{request.fullpath}" == "/plays/richard_iii"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/R3.xml"))
+    elsif "#{request.fullpath}" == "/plays/romeo_and_juliet"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Rom.xml"))
+    elsif "#{request.fullpath}" == "/plays/shakespeares_sonnets"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Son.xml"))
+    elsif "#{request.fullpath}" == "/plays/taming_of_the_shrew"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Shr.xml"))
+    elsif "#{request.fullpath}" == "/plays/the_comedy_of_errors"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Err.xml"))
+    elsif "#{request.fullpath}" == "/plays/the_merchant_of_venice"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MV.xml"))
+    elsif "#{request.fullpath}" == "/plays/the_merry_wives_of_windsor"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Wiv.xml"))
+    elsif "#{request.fullpath}" == "/plays/the_phoenix_and_turtle"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/PhT.xml"))
+    elsif "#{request.fullpath}" == "/plays/the_tempest"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tmp.xml"))
+    elsif "#{request.fullpath}" == "/plays/the_two_gentlemen_of_verona"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TGV.xml"))
+    elsif "#{request.fullpath}" == "/plays/the_two_noble_kinsmen"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TNK.xml"))
+    elsif "#{request.fullpath}" == "/plays/the_winters_tale"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/WT.xml"))
+    elsif "#{request.fullpath}" == "/plays/timon_of_athens"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tim.xml"))
+    elsif "#{request.fullpath}" == "/plays/titus_andronicus"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tit.xml"))
+    elsif "#{request.fullpath}" == "/plays/troilus_and_cressida"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tro.xml"))
+    elsif "#{request.fullpath}" == "/plays/twelfth_night"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TN.xml"))
+    elsif "#{request.fullpath}" == "/plays/venus_and_adonis"
+        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ven.xml"))
+    end %>
 
-<!-- Get the title of the play -->
-<div class="script-title">
-    <div id="Home-button">
-        <a id="home" href="/">Home</a>
+    <!-- Get the title of the play -->
+    <div class="script-title">
+        <div id="Home-button">
+            <a id="home" href="/">Home</a>
+        </div>
+        <div id="play-title">
+            <p id="title"></p>
+        </div>
+        <% title = doc.css('title').first %>
+        <script>
+            document.getElementById('title').innerHTML = '<%= escape_javascript title.inner_text %>';
+        </script>
     </div>
-    <div id="play-title">
-        <p id="title"></p>
-    </div>
-    <% title = doc.css('title').first %>
-    <script>
-        document.getElementById('title').innerHTML = '<%= escape_javascript title.inner_text %>';
-    </script>
-</div>
 
-<!-- Create the navigation bar -->
-<div class="script-side-bar">
-    <div class="play-navigation">
-        <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
+    <!-- Create the navigation bar -->
+    <div class="script-side-bar">
+        <div class="play-navigation">
+            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
+            <% currAct = 1 %>
+            <% currScene = 1 %>
+            <% currIndex = 1 %>
+
+            <% acts= doc.css('//div1') %>
+            <% acts.each do |act| %>
+                <button class="nav-act"><%= "ACT " + currAct.to_s %></button>
+                <% currAct = currAct + 1 %>
+                <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
+                <% currScene = 1 %>
+                <% scenes.each do |scene| %>
+                    <button class="nav-scene"><%= "SCENE " + currScene.to_s %></button>
+                    <% currScene = currScene + 1 %>
+                    <% currIndex = currIndex + 1 %>
+                <% end%>
+            <%end%>
+        </div>
+    </div>
+
+    <!-- Synopsis will show up here as a popup -->  
+    <div id="synopsis-modal" class="shown-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="hidden-synopsis" id="hidden-synopsis"></div>
+            <% synopsistext = doc.css('//div[type="synopsis"]').text %>
+            <script>
+                document.getElementById('hidden-synopsis').innerHTML = '<%= escape_javascript synopsistext %>';
+            </script>
+        </div>
+    </div>
+
+    <!-- Write the actual script -->
+    <div class="script-main">   
         <% currAct = 1 %>
+        <% currScene = 1 %>
+        <% currIndex = 1 %>
+
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
-            <button class="nav-act"><%= "ACT " + currAct.to_s %></button>
+            <div class="acthead"> <%= "ACT " + currAct.to_s %> <br> </div></b>
             <% currAct = currAct + 1 %>
             <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
             <% currScene = 1 %>
             <% scenes.each do |scene| %>
-                <button class="nav-scene"><%= "SCENE " + currScene.to_s %></button>
+                <div class="scenehead"><%= "Scene " + currScene.to_s %></div><br>
                 <% currScene = currScene + 1 %>
+                <% currIndex = currIndex + 1 %>
+                <% lines = Nokogiri::XML(scene.to_s).css('//sp')%>
+                <% lines.each do |line| %>
+                    <div class="line"> <%= line.inner_text %> </div> <br>
+                <% end %>
             <% end%>
         <%end%>
     </div>
-</div>
 
-<!-- Synopsis will show up here as a popup -->  
-<div id="synopsis-modal" class="shown-modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="hidden-synopsis" id="hidden-synopsis"></div>
-        <% synopsistext = doc.css('//div[type="synopsis"]').text %>
-        <script>
-            document.getElementById('hidden-synopsis').innerHTML = '<%= escape_javascript synopsistext %>';
-        </script>
+    <!--
+    <div id="Play">
+        <p><span id="Play ID_Title" class="play" data-display="true">Play Title</span></p>
+        <div id="ACT ID">
+            <p><button id="ACT ID1_Title" class="act" data-cut="false" data-display="true">ACT 1</button></p>
+            <div id="SCENE ID">
+                <p><button id="SCENE ID1_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
+                <button id="Character ID1" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid1" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
+            </div>
+            <div id="SCENE ID">
+                <p><button id="SCENE ID2_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
+                <button id="Character ID2" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid2" class="word" data-cut="false" data-display="false" data-speaker="CHARACTER">theactualword</button>
+            </div>
+        </div>
     </div>
-</div>
-
-<!-- Write the actual script -->
-<div class="script-main">   
-
-    <!-- Parse the XML file and write the script -->
-    <% currAct = 1 %>
-    <% currScene = 1 %>
-
-    <% acts= doc.css('//div1') %>
-    <% acts.each do |act| %>
-        <div class="acthead"> <%= "ACT " + currAct.to_s %> <br> </div></b>
-        <% currAct = currAct + 1 %>
-        <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
-        <% scenes.each do |scene| %>
-            <div class="scenehead"><%= "Scene " + currScene.to_s %></div><br>
-            <% currScene = currScene + 1 %>
-            <% lines = Nokogiri::XML(scene.to_s).css('//sp')%>
-            <% lines.each do |line| %>
-                <div class="line"> <%= line.inner_text %> </div> <br>
-            <% end %>
-        <% end%>
-    <%end%>
-</div>
-
-<!--
-<div id="Play">
-    <p><span id="Play ID_Title" class="play" data-display="true">Play Title</span></p>
     <div id="ACT ID">
-        <p><button id="ACT ID1_Title" class="act" data-cut="false" data-display="true">ACT 1</button></p>
+        <p><button id="ACT ID2_Title" class="act" data-cut="false" data-display="true">ACT 2</button></p>
         <div id="SCENE ID">
-            <p><button id="SCENE ID1_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
-            <button id="Character ID1" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid1" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
+            <p><button id="SCENE ID3_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
+            <button id="Character ID3" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid3" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
         </div>
         <div id="SCENE ID">
-            <p><button id="SCENE ID2_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
-            <button id="Character ID2" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid2" class="word" data-cut="false" data-display="false" data-speaker="CHARACTER">theactualword</button>
+            <p><button id="SCENE ID4_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
+            <button id="Character ID4" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid4" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
         </div>
-    </div>
-</div>
-<div id="ACT ID">
-    <p><button id="ACT ID2_Title" class="act" data-cut="false" data-display="true">ACT 2</button></p>
-    <div id="SCENE ID">
-        <p><button id="SCENE ID3_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
-        <button id="Character ID3" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid3" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
-    </div>
-    <div id="SCENE ID">
-        <p><button id="SCENE ID4_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
-        <button id="Character ID4" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid4" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
-    </div>
-</div> -->
+    </div> -->
 
 
 
 
-<script>
+    <script>
 
-    document.querySelector("#Play").addEventListener("click", doCut, false);
+        document.querySelector("#Play").addEventListener("click", doCut, false);
 
-    // all words will need to be printed with the div class "Play"
-    // change "p" to the tag for words (not including names) and we will be able to cut only words
-    function doCut(e) {
-        if (e.target.id !== "Play") {
-            var clickedItem = e.target;
-            var word = e.target.id;
-            if (clickedItem.tagName.toLowerCase() == "button") {
-                if (clickedItem.dataset.cut.toLowerCase() == "false") {
-                    document.getElementById(word).style.color = "#D3D3D3";
-                    //document.getElementById(word).style.text-decoration = "line-through";
-                    clickedItem.dataset.cut = "true";
-                }
-                else {
-                    document.getElementById(word).style.color = "#000000";
-                    //document.getElementById(word).style.text-decoration = "none"
-                    clickedItem.dataset.cut = "false";
-                }
-            }        
+        // all words will need to be printed with the div class "Play"
+        // change "p" to the tag for words (not including names) and we will be able to cut only words
+        function doCut(e) {
+            if (e.target.id !== "Play") {
+                var clickedItem = e.target;
+                var word = e.target.id;
+                if (clickedItem.tagName.toLowerCase() == "button") {
+                    if (clickedItem.dataset.cut.toLowerCase() == "false") {
+                        document.getElementById(word).style.color = "#D3D3D3";
+                        //document.getElementById(word).style.text-decoration = "line-through";
+                        clickedItem.dataset.cut = "true";
+                    }
+                    else {
+                        document.getElementById(word).style.color = "#000000";
+                        //document.getElementById(word).style.text-decoration = "none"
+                        clickedItem.dataset.cut = "false";
+                    }
+                }        
+            }
+        };
+    </script>
+    <script>
+
+        // This controls scene buttons in the navigation bar
+        var sceneButtons = document.getElementsByClassName("nav-scene");
+        var sceneLength = sceneButtons.length;
+        for (var i = 0; i < sceneLength; i++) {
+            sceneButton = sceneButtons[i];
+            sceneButton.addEventListener("click", showScene);
         }
-    };
-</script>
-<script>
-
-    // This controls scene buttons in the navigation bar
-    var sceneButtons = document.getElementsByClassName("nav-scene");
-    var sceneLength = sceneButtons.length;
-    for (var i = 0; i < sceneLength; i++) {
-        sceneButton = sceneButtons[i];
-        sceneButton.addEventListener("click", showScene);
-    }
-    function showScene() {
-        alert("Clicked on scene!");
-    }
+        function showScene() {
+            alert("Clicked on scene!");
+        }
 
 
-    // This controls act buttons in the navigation bar
-    var actButtons = document.getElementsByClassName("nav-act");
-    var actLength = actButtons.length;
-    for (var i = 0; i < actLength; i++) {
-        actButton = actButtons[i];
-        actButton.addEventListener("click", showAct);
-    }
-    function showAct() {
-        alert("Clicked on act!");
-    }
+        // This controls act buttons in the navigation bar
+        var actButtons = document.getElementsByClassName("nav-act");
+        var actLength = actButtons.length;
+        for (var i = 0; i < actLength; i++) {
+            actButton = actButtons[i];
+            actButton.addEventListener("click", showAct);
+        }
+        function showAct() {
+            alert("Clicked on act!");
+        }
 
-    // This controls the synopsis button in the navigation bar
-    var modal = document.getElementById("synopsis-modal");
-    var btn = document.getElementById("synopsis-button");
-    var span = document.getElementsByClassName("close")[0];
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-    window.onclick = function(event) {
-        if (event.target == modal) {
+        // This controls the synopsis button in the navigation bar
+        var modal = document.getElementById("synopsis-modal");
+        var btn = document.getElementById("synopsis-button");
+        var span = document.getElementsByClassName("close")[0];
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+        span.onclick = function() {
             modal.style.display = "none";
         }
-    } 
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        } 
 
-</script>
-
+    </script>
 
 </body></html>
