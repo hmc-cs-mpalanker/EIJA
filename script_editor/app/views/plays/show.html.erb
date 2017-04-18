@@ -90,7 +90,7 @@
         doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ven.xml"))
     end %>
 
-    <!-- Get the title of the play -->
+    <!-- Get title of play and display at top of page -->
     <div class="script-title">
         <div id="Home-button">
             <a id="home" href="/">Home</a>
@@ -107,6 +107,8 @@
     <!-- Create the navigation bar -->
     <div class="script-side-bar">
         <div class="play-navigation">
+
+            <!-- This button shows the play's synopsis -->
             <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
             <% currAct = 1 %>
             <% currScene = 1 %>
@@ -114,12 +116,20 @@
 
             <% acts= doc.css('//div1') %>
             <% acts.each do |act| %>
-                <button class="nav-act"><%= "ACT " + currAct.to_s %></button>
+                <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
+                <script>
+                    document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
+                </script>
+
                 <% currAct = currAct + 1 %>
-                <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
                 <% currScene = 1 %>
+                <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
                 <% scenes.each do |scene| %>
-                    <button class="nav-scene"><%= "SCENE " + currScene.to_s %></button>
+                    <button class="nav-scene" id="current-scene"><%= "SCENE " + currScene.to_s %></button>
+                    <script>
+                        document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
+                    </script>
+                    
                     <% currScene = currScene + 1 %>
                     <% currIndex = currIndex + 1 %>
                 <% end%>
@@ -147,12 +157,18 @@
 
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
-            <div class="acthead"> <%= "ACT " + currAct.to_s %> <br> </div></b>
+            <div class="acthead" id="current-act"> <%= "ACT " + currAct.to_s %> <br> </div></b>
+            <script>
+                document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
+            </script>
             <% currAct = currAct + 1 %>
             <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
             <% currScene = 1 %>
             <% scenes.each do |scene| %>
-                <div class="scenehead"><%= "Scene " + currScene.to_s %></div><br>
+                <div class="scenehead" id="current-scene"><%= "Scene " + currScene.to_s %></div><br>
+                <script>
+                    document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
+                </script>
                 <% currScene = currScene + 1 %>
                 <% currIndex = currIndex + 1 %>
                 <% lines = Nokogiri::XML(scene.to_s).css('//sp')%>
@@ -225,10 +241,10 @@
         var sceneLength = sceneButtons.length;
         for (var i = 0; i < sceneLength; i++) {
             sceneButton = sceneButtons[i];
-            sceneButton.addEventListener("click", showScene);
+            sceneButton.addEventListener("click", function() {showScene(sceneButton.id)}, false);
         }
-        function showScene() {
-            alert("Clicked on scene!");
+        function showScene(sceneId) {
+            alert(sceneId);
         }
 
 
@@ -237,10 +253,10 @@
         var actLength = actButtons.length;
         for (var i = 0; i < actLength; i++) {
             actButton = actButtons[i];
-            actButton.addEventListener("click", showAct);
+            actButton.addEventListener("click", function() {showAct(actButton.id)}, false);
         }
-        function showAct() {
-            alert("Clicked on act!");
+        function showAct(actId) {
+            alert(actId);
         }
 
         // This controls the synopsis button in the navigation bar
