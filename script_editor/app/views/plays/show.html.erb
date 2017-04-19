@@ -2,6 +2,11 @@
 <html><body>
     <p id="notice"></p>
 
+    <!-- 
+        Decide what XML file to open depending on the URL.
+        We did them one-by-one because the URL's didn't match
+        Folger Digital Text's file-naming scheme. 
+    -->
     <% doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
     if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
         doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
@@ -89,7 +94,10 @@
         doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ven.xml"))
     end %>
 
-    <!-- Get title of play and display at top of page -->
+
+    <!-- 
+        Get title of play and display at top of page 
+    -->
     <div class="script-title">
         <div id="Home-button">
             <a id="home" href="/">Home</a>
@@ -103,25 +111,30 @@
         </script>
     </div>
 
-    <!-- Create the navigation bar -->
+
+    <!-- 
+        Parse the XML file for number of acts & scenes in order to 
+        create the navigation bar 
+    -->
     <div class="script-side-bar">
         <div class="play-navigation">
 
             <!-- This button shows the play's synopsis -->
             <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
-            <!-- Button to show play analytics -->
+
+            <!-- This button shows the play's analytics -->
             <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
+
+            <!-- Create a button for each act and scene in the play -->
             <% currAct = 1 %>
             <% currScene = 1 %>
             <% currIndex = 1 %>
-
             <% acts= doc.css('//div1') %>
             <% acts.each do |act| %>
                 <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
                 <script>
                     document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
                 </script>
-
                 <% currAct = currAct + 1 %>
                 <% currScene = 1 %>
                 <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
@@ -130,7 +143,6 @@
                     <script>
                         document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
                     </script>
-                    
                     <% currScene = currScene + 1 %>
                     <% currIndex = currIndex + 1 %>
                 <% end%>
@@ -138,7 +150,10 @@
         </div>
     </div>
 
-    <!-- Synopsis will show up here as a popup -->  
+
+    <!-- 
+        The synopsis will show up here as a popup 
+    -->  
     <div id="synopsis-modal" class="shown-modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -150,12 +165,14 @@
         </div>
     </div>
 
-    <!-- Analytics -->
+
+    <!-- 
+        The analytics will show up here as a popup 
+    -->
     <div id="analytics-modal" class="shown-modal">
         <div class="modal-content">
             <span class="close2">&times;</span>
             <div class="hidden-analytics" id="hidden-analytics"></div>
-
             <% analyticstext = "Total Lines: ????" %>
             <script>
                 document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
@@ -163,7 +180,10 @@
         </div>
     </div>
 
-    <!-- Write the actual script -->
+
+    <!-- 
+        Parse the XML file for the actual script, and display everything 
+    -->
     <div class="script-main">   
         <% currAct = 1 %>
         <% currScene = 1 %>
@@ -211,37 +231,6 @@
         <%end%>
     </div>
 
-
-    <!--
-    <div id="Play">
-        <p><span id="Play ID_Title" class="play" data-display="true">Play Title</span></p>
-        <div id="ACT ID">
-            <p><button id="ACT ID1_Title" class="act" data-cut="false" data-display="true">ACT 1</button></p>
-            <div id="SCENE ID">
-                <p><button id="SCENE ID1_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
-                <button id="Character ID1" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid1" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
-            </div>
-            <div id="SCENE ID">
-                <p><button id="SCENE ID2_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
-                <button id="Character ID2" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid2" class="word" data-cut="false" data-display="false" data-speaker="CHARACTER">theactualword</button>
-            </div>
-        </div>
-    </div>
-    <div id="ACT ID">
-        <p><button id="ACT ID2_Title" class="act" data-cut="false" data-display="true">ACT 2</button></p>
-        <div id="SCENE ID">
-            <p><button id="SCENE ID3_Title" class="scene" data-cut="false" data-display="true">SCENE 1</button></p>
-            <button id="Character ID3" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid3" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
-        </div>
-        <div id="SCENE ID">
-            <p><button id="SCENE ID4_Title" class="scene" data-cut="false" data-display="true">SCENE 2</button></p>
-            <button id="Character ID4" class="character" data-cut="false" data-display="true">CHARACTER: </button><button id="wordid4" class="word" data-cut="false" data-display="true" data-speaker="CHARACTER">theactualword</button>
-        </div>
-    </div> -->
-
-
-
-
     <script>
         document.querySelector("#Play").addEventListener("click", doCut, false);
         // all words will need to be printed with the div class "Play"
@@ -265,8 +254,12 @@
             }
         };
     </script>
+
     <script>
-        // This controls scene buttons in the navigation bar
+
+        /** 
+         * This controls scene buttons in the navigation bar
+         */
         var sceneButtons = document.getElementsByClassName("nav-scene");
         var sceneLength = sceneButtons.length;
         for (var i = 0; i < sceneLength; i++) {
@@ -282,7 +275,9 @@
             }
         }
 
-        // This controls act buttons in the navigation bar
+        /** 
+         * This controls act buttons in the navigation bar
+         */
         var actButtons = document.getElementsByClassName("nav-act");
         var actLength = actButtons.length;
         for (var i = 0; i < actLength; i++) {
@@ -298,7 +293,9 @@
             }
         }
 
-        // This controls the synopsis button in the navigation bar
+        /** 
+         * This controls the synopsis button in the navigation bar.
+         */
         var modal = document.getElementById("synopsis-modal");
         var btn = document.getElementById("synopsis-button");
         var span = document.getElementsByClassName("close")[0];
@@ -308,12 +305,10 @@
         span.onclick = function() {
             modal.style.display = "none";
         }
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        } 
-        // This controls the analytics button in the navigation bar
+
+        /** 
+         * This controls the analytics button in the navigation bar.
+         */
         var modal2 = document.getElementById("analytics-modal");
         var btn2 = document.getElementById("analytics-button");
         var span2 = document.getElementsByClassName("close2")[0];
@@ -323,9 +318,17 @@
         span2.onclick = function() {
             modal2.style.display = "none";
         }
-        window2.onclick = function(event) {
+
+        /**
+         * This closes the modals if the user clicks outside of either 
+         * the synopsis or analytics modal.
+         */
+        window.onclick = function(event) {
             if (event.target == modal2) {
                 modal2.style.display = "none";
+            }
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
         } 
     </script>
