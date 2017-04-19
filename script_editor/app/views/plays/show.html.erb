@@ -3,7 +3,6 @@
     <p id="notice"></p>
 
     <% doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
-
     if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
         doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
     elsif "#{request.fullpath}" == "/plays/alls_well_that_ends_well"
@@ -244,9 +243,7 @@
 
 
     <script>
-
         document.querySelector("#Play").addEventListener("click", doCut, false);
-
         // all words will need to be printed with the div class "Play"
         // change "p" to the tag for words (not including names) and we will be able to cut only words
         function doCut(e) {
@@ -269,28 +266,36 @@
         };
     </script>
     <script>
-
         // This controls scene buttons in the navigation bar
         var sceneButtons = document.getElementsByClassName("nav-scene");
         var sceneLength = sceneButtons.length;
         for (var i = 0; i < sceneLength; i++) {
             sceneButton = sceneButtons[i];
-            sceneButton.addEventListener("click", function() {showScene(sceneButton.id)}, false);
+            sceneButton.addEventListener("click", showScene, false);
         }
-        function showScene(sceneId) {
-            alert(sceneId);
+        function showScene(scene) {
+            var allScenes = document.getElementsByClassName("scenehead");
+            for (var i = 0; i < allScenes.length; i++) {
+                if (allScenes[i].id == scene.target.id) {
+                    allScenes[i].setAttribute("style", "background-color: yellow");
+                }
+            }
         }
-
 
         // This controls act buttons in the navigation bar
         var actButtons = document.getElementsByClassName("nav-act");
         var actLength = actButtons.length;
         for (var i = 0; i < actLength; i++) {
             actButton = actButtons[i];
-            actButton.addEventListener("click", function() {showAct(actButton.id)}, false);
+            actButton.addEventListener("click", showAct, false);
         }
-        function showAct(actId) {
-            alert(actId);
+        function showAct(act) {
+            var allActs = document.getElementsByClassName("acthead");
+            for (var i = 0; i < allActs.length; i++) {
+                if (allActs[i].id == act.target.id) {
+                    allActs[i].setAttribute("style", "background-color: pink");
+                }
+            }
         }
 
         // This controls the synopsis button in the navigation bar
@@ -308,7 +313,6 @@
                 modal.style.display = "none";
             }
         } 
-
         // This controls the analytics button in the navigation bar
         var modal2 = document.getElementById("analytics-modal");
         var btn2 = document.getElementById("analytics-button");
@@ -324,7 +328,6 @@
                 modal2.style.display = "none";
             }
         } 
-
     </script>
 
 </body></html>
