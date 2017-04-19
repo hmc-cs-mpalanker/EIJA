@@ -204,7 +204,7 @@
                             <div class="stage"> <%= stage.inner_text %> </div> <br>
                         <% end %>
                     <% end %>
-                    <div class="line"> <%= line.inner_text %> </div> <br>
+                    <div class="line"> <%= line.inner_text.to_s.gsub(/ACT [0-9]. SC. [0-9]/,'') %> </div> <br>
                 <% end %>
                 <br>
             <% end%>
