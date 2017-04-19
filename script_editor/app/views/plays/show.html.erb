@@ -157,7 +157,7 @@
 
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
-            <div class="acthead" id="current-act"> <%= "ACT " + currAct.to_s %> <br> </div></b>
+            <div class="acthead" id="current-act"> <%= Nokogiri::XML(act.to_s).css('head').first.inner_text %> <br> </div></b>
             <script>
                 document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
             </script>
@@ -165,17 +165,19 @@
             <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
             <% currScene = 1 %>
             <% scenes.each do |scene| %>
-                <div class="scenehead" id="current-scene"><%= "Scene " + currScene.to_s %></div><br>
+                <div class="scenehead" id="current-scene"><%= Nokogiri::XML(scene.to_s).css('head').first.inner_text %></div><br>
                 <script>
                     document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
                 </script>
                 <% currScene = currScene + 1 %>
                 <% currIndex = currIndex + 1 %>
-                <% lines = Nokogiri::XML(scene.to_s).css('//sp')%>
+                <% lines = Nokogiri::XML(scene.to_s).css('//sp',"//stage")%>
                 <% lines.each do |line| %>
                     <div class="line"> <%= line.inner_text %> </div> <br>
                 <% end %>
+                <br>
             <% end%>
+            <br>
         <%end%>
     </div>
 
