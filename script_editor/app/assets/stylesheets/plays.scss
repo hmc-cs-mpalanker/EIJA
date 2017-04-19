@@ -135,10 +135,20 @@ div.play-navigation {
     margin-top: 10%;
 } 
 
-button.nav-synopsis {
+button.nav-synopsis, button.nav-analytics {
     height: 40px;
     text-align: center;
     background-color: #eeeeee;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #aaaaaa;
+    width: 100%;
+}
+
+button.nav-analytics {
+    height: 40px;
+    text-align: center;
+    background-color: #cccccc;
     border-style: solid;
     border-width: 1px;
     border-color: #aaaaaa;
@@ -191,7 +201,7 @@ button.nav-scene {
 }
 
 /* The Close Button */
-.close {
+.close, .close2 {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -199,7 +209,9 @@ button.nav-scene {
 }
 
 .close:hover,
-.close:focus {
+.close:focus, 
+.close2:hover, 
+.close2:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;

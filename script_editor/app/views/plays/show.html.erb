@@ -110,6 +110,8 @@
 
             <!-- This button shows the play's synopsis -->
             <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
+            <!-- Button to show play analytics -->
+            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
             <% currAct = 1 %>
             <% currScene = 1 %>
             <% currIndex = 1 %>
@@ -145,6 +147,19 @@
             <% synopsistext = doc.css('//div[type="synopsis"]').text %>
             <script>
                 document.getElementById('hidden-synopsis').innerHTML = '<%= escape_javascript synopsistext %>';
+            </script>
+        </div>
+    </div>
+
+    <!-- Analytics -->
+    <div id="analytics-modal" class="shown-modal">
+        <div class="modal-content">
+            <span class="close2">&times;</span>
+            <div class="hidden-analytics" id="hidden-analytics"></div>
+
+            <% analyticstext = "Total Lines: ????" %>
+            <script>
+                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
             </script>
         </div>
     </div>
@@ -291,6 +306,22 @@
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+            }
+        } 
+
+        // This controls the analytics button in the navigation bar
+        var modal2 = document.getElementById("analytics-modal");
+        var btn2 = document.getElementById("analytics-button");
+        var span2 = document.getElementsByClassName("close2")[0];
+        btn2.onclick = function() {
+            modal2.style.display = "block";
+        }
+        span2.onclick = function() {
+            modal2.style.display = "none";
+        }
+        window2.onclick = function(event) {
+            if (event.target == modal2) {
+                modal2.style.display = "none";
             }
         } 
 
