@@ -154,6 +154,8 @@
         <% currAct = 1 %>
         <% currScene = 1 %>
         <% currIndex = 1 %>
+        <% currN = 0 %>
+        <% currID = currAct.to_s + "." + currScene.to_s + "." + currN.to_s %>
 
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
@@ -171,8 +173,22 @@
                 </script>
                 <% currScene = currScene + 1 %>
                 <% currIndex = currIndex + 1 %>
-                <% lines = Nokogiri::XML(scene.to_s).css('//sp',"//stage")%>
+
+                <% lines = Nokogiri::XML(act.to_s).css('//sp') %>
+                <% stages = Nokogiri::XML(act.to_s).css('//stage') %>
+
                 <% lines.each do |line| %>
+                    <!-- Get line id -->
+                    <% lineN = line.attr("xml:id").to_s.gsub("sp-","").to_f %>
+                    <% stages.each do |stage| %>
+                        <!-- Get stage direction id -->
+                        <% stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f %>
+                        <!-- If there is a stage dir that comes before the line -->
+                        <% if (stageN == lineN-1) or (stageN == lineN-0.5) %>
+                            <!-- display stage direction -->
+                            <div class="stage"> <%= stage.inner_text %> </div> <br>
+                        <% end %>
+                    <% end %>
                     <div class="line"> <%= line.inner_text %> </div> <br>
                 <% end %>
                 <br>
@@ -180,6 +196,7 @@
             <br>
         <%end%>
     </div>
+
 
     <!--
     <div id="Play">
