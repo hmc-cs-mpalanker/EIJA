@@ -119,7 +119,7 @@
             <% acts.each do |act| %>
                 <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
                 <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
+                    document.getElementById('current-act').id = '<%= escape_javascript "na" + currAct.to_s %>';
                 </script>
 
                 <% currAct = currAct + 1 %>
@@ -128,7 +128,7 @@
                 <% scenes.each do |scene| %>
                     <button class="nav-scene" id="current-scene"><%= "SCENE " + currScene.to_s %></button>
                     <script>
-                        document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
+                        document.getElementById('current-scene').id = '<%= escape_javascript "ns" + currIndex.to_s %>';
                     </script>
                     
                     <% currScene = currScene + 1 %>
@@ -276,8 +276,12 @@
         function showScene(scene) {
             var allScenes = document.getElementsByClassName("scenehead");
             for (var i = 0; i < allScenes.length; i++) {
-                if (allScenes[i].id == scene.target.id) {
+                if (("n" + allScenes[i].id) == scene.target.id) {
                     allScenes[i].setAttribute("style", "background-color: yellow");
+                    window.location.hash = allScenes[i].id;
+                }
+                else {
+                    allScenes[i].setAttribute("style", "background-color: none");
                 }
             }
         }
@@ -292,8 +296,12 @@
         function showAct(act) {
             var allActs = document.getElementsByClassName("acthead");
             for (var i = 0; i < allActs.length; i++) {
-                if (allActs[i].id == act.target.id) {
+                if (("n" + allActs[i].id) == act.target.id) {
                     allActs[i].setAttribute("style", "background-color: pink");
+                    window.location.hash = allActs[i].id;
+                }
+                else {
+                    allActs[i].setAttribute("style", "background-color: none");
                 }
             }
         }
