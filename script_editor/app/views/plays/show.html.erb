@@ -256,12 +256,12 @@
                 if (clickedItem.tagName.toLowerCase() == "button") {
                     if (clickedItem.dataset.cut.toLowerCase() == "false") {
                         document.getElementById(word).style.color = "#D3D3D3";
-                        //document.getElementById(word).style.text-decoration = "line-through";
+                        //document.getElementById(word).style.textDecoration = "line-through";
                         clickedItem.dataset.cut = "true";
                     }
                     else {
                         document.getElementById(word).style.color = "#000000";
-                        //document.getElementById(word).style.text-decoration = "none"
+                        //document.getElementById(word).style.textDecoration = "none"
                         clickedItem.dataset.cut = "false";
                     }
                 }        
