@@ -208,8 +208,8 @@
                 <% currScene = currScene + 1 %>
                 <% currIndex = currIndex + 1 %>
 
-                <% lines = Nokogiri::XML(act.to_s).css('//sp') %>
-                <% stages = Nokogiri::XML(act.to_s).css('//stage') %>
+                <% lines = Nokogiri::XML(scene.to_s).css('//sp') %>
+                <% stages = Nokogiri::XML(scene.to_s).css('//stage') %>
 
                 <% lines.each do |line| %>
                     <!-- Get line id -->
