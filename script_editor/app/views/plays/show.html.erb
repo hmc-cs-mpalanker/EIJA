@@ -240,7 +240,7 @@
                     <!-- DISPLAY LINES -->
                     <% milestones.each do |ms| %>
                         <!-- get line number -->
-                        <% lineNum = ms.attr("n").to_s[-1] %>
+                        <% lineNum = ms.attr("n").to_s.split(".")[2] %>
                         <!-- get corresps per milestone in array -->
                         <% wordIDs = ms.attr("corresp").to_s.split(" ") %>
                         <!-- remove #s -->
