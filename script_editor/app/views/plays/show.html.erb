@@ -249,7 +249,10 @@
                         <% wordIDs.each do |id| %>
                             <% spwords.each do |word| %>
                                 <% if word.attr('xml:id').to_s == id %>
-                                <%= word.inner_text %>
+                                <!-- DISPLAY EACH WORD -->
+                                <!-- BUTTON TAGS -->
+                                <!-- HOLLY PLS FIX FORMATTING THX -->
+                                <button class="line" data-cut="false" data-display="true"><%= word.inner_text %></button>
                             <% end %>
                         <% end %>
                     <% end %>
