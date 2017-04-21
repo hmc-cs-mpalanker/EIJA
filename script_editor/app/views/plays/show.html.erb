@@ -213,7 +213,10 @@
                 <% lines = Nokogiri::XML(scene.to_s).css('//sp') %>
                 <% stages = Nokogiri::XML(scene.to_s).css('//stage') %>
 
+
+
                 <% lines.each do |line| %>
+                <!-- DISPLAY STAGE DIRECTIONS -->
                     <!-- Get line id -->
                     <% lineN = line.attr("xml:id").to_s.gsub("sp-","").to_f %>
                     <% stages.each do |stage| %>
@@ -225,7 +228,36 @@
                             <button class="stage" data-cut="false" data-display="true"> <%= stage.inner_text %> </button> <br>
                         <% end %>
                     <% end %>
-                    <button class="line" data-cut="false" data-display="true"> <%= line.inner_text.to_s.gsub(/ACT [0-9]. SC. [0-9]/,'') %> </button> <br>
+
+                    <!-- Getting all the juicy info we need -->
+                    <% speaker = Nokogiri::XML(line.to_s).css('speaker') %>
+                    <% milestones = Nokogiri::XML(line.to_s).css('milestone') %>
+                    <% spwords = Nokogiri::XML(line.to_s).css('w','c','pc') %>
+
+                    <!-- DISPLAY SPEAKER -->
+                    <%=speaker.inner_text%>: 
+
+                    <!-- DISPLAY LINES -->
+                    <% milestones.each do |ms| %>
+                        <!-- get line number -->
+                        <% lineNum = ms.attr("n").to_s[-1] %>
+                        <!-- get corresps per milestone in array -->
+                        <% wordIDs = ms.attr("corresp").to_s.split(" ") %>
+                        <!-- remove #s -->
+                        <% wordIDs = wordIDs.map { |w| w.gsub("#","")} %>
+                        <!-- Search spwords for corresponding w/c/pc -->
+                        <% wordIDs.each do |id| %>
+                            <% spwords.each do |word| %>
+                                <% if word.attr('xml:id').to_s == id %>
+                                <%= word.inner_text %>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                    <!-- DISPLAY LINE NUMBER -->
+                    <%= lineNum %> <br>
+                <% end %>
+
+                    <!-- button code -->
                 <% end %>
                 </div>
                 <br>
