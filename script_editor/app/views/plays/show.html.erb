@@ -193,17 +193,19 @@
 
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
-            <div class="acthead" id="current-act"> <%= Nokogiri::XML(act.to_s).css('head').first.inner_text %> <br> </div></b>
+            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-cut="false" data-display="true"> <%= Nokogiri::XML(act.to_s).css('head').first.inner_text %></button><br></b>
             <script>
                 document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
+                document.getElementById('Diva').id = '<%= escape_javascript "Diva" + currAct.to_s%>';
             </script>
             <% currAct = currAct + 1 %>
             <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
             <% currScene = 1 %>
             <% scenes.each do |scene| %>
-                <div class="scenehead" id="current-scene"><%= Nokogiri::XML(scene.to_s).css('head').first.inner_text %></div><br>
+                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-cut="false" data-display="true"><%= Nokogiri::XML(scene.to_s).css('head').first.inner_text %></button><br>
                 <script>
                     document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
+                    document.getElementById('Divs').id = '<%= escape_javascript "Divs" + currIndex.to_s%>';
                 </script>
                 <% currScene = currScene + 1 %>
                 <% currIndex = currIndex + 1 %>
@@ -220,40 +222,125 @@
                         <!-- If there is a stage dir that comes before the line -->
                         <% if (stageN == lineN-1) or (stageN == lineN-0.5) %>
                             <!-- display stage direction -->
-                            <div class="stage"> <%= stage.inner_text %> </div> <br>
+                            <button class="stage" data-cut="false" data-display="true"> <%= stage.inner_text %> </button> <br>
                         <% end %>
                     <% end %>
-                    <div class="line"> <%= line.inner_text.to_s.gsub(/ACT [0-9]. SC. [0-9]/,'') %> </div> <br>
+                    <button class="line" data-cut="false" data-display="true"> <%= line.inner_text.to_s.gsub(/ACT [0-9]. SC. [0-9]/,'') %> </button> <br>
                 <% end %>
+                </div>
                 <br>
             <% end%>
+            </div>
             <br>
         <%end%>
     </div>
 
     <script>
-        document.querySelector("#Play").addEventListener("click", doCut, false);
-        // all words will need to be printed with the div class "Play"
-        // change "p" to the tag for words (not including names) and we will be able to cut only words
+        document.querySelector(".script-main").addEventListener("click", doCut, false);
+        // all words will need to be printed within the div class "script-main"
         function doCut(e) {
-            if (e.target.id !== "Play") {
-                var clickedItem = e.target;
-                var word = e.target.id;
+            var clickedItem = e.target;
+
+            // act
+            if (clickedItem.getAttribute("class") == "acthead") {
+            //    if (clickedItem.tagName.toLowerCase() == "button") {
+            //
+            //        // Don't cut Acts
+            //        var entireAct = document.getElementById("Div" + clickedItem.id);
+            //        var allChildren = entireAct.getElementsByTagName("button");
+            //        if (clickedItem.dataset.cut.toLowerCase() == "false") {
+            //            for (var i = 0; i < allChildren.length; i++) {
+            //                allChildren[i].style.color = "#D3D3D3";
+            //                allChildren[i].style.textDecoration = "line-through";
+            //                allChildren[i].dataset.cut = "true";
+            //            }
+            //            //clickedItem.style.color = "#D3D3D3";
+            //            //clickedItem.style.textDecoration = "line-through";
+            //            clickedItem.dataset.cut = "true";
+            //        }
+
+            //        // perform uncut
+            //        else {
+            //            for (var i = 0; i < allChildren.length; i++) {
+            //                allChildren[i].style.color = "#000000";
+            //                allChildren[i].style.textDecoration = "none";
+            //                allChildren[i].dataset.cut = "false";
+            //            }
+            //            // clickedItem.style.color = "#000000";
+            //            // clickedItem.style.textDecoration = "none";
+            //            clickedItem.dataset.cut = "false";
+            //        }
+            //    }    
+            }
+
+            // scene
+            else if (clickedItem.getAttribute("class") == "scenehead") {
+            //    if (clickedItem.tagName.toLowerCase() == "button") {
+
+            //        // perform cut
+            //        var entireScene = document.getElementById("Div" + clickedItem.id);
+            //        var allChildren = entireScene.getElementsByTagName("button");
+            //        if (clickedItem.dataset.cut.toLowerCase() == "false") {
+            //            for (var i = 0; i < allChildren.length; i++) {
+            //                allChildren[i].style.color = "#D3D3D3";
+            //                allChildren[i].style.textDecoration = "line-through";
+            //                allChildren[i].dataset.cut = "true";
+            //            }
+            //            //clickedItem.style.color = "#D3D3D3";
+            //            //clickedItem.style.textDecoration = "line-through";
+            //            clickedItem.dataset.cut = "true";
+            //        }
+
+            //        // perform uncut
+            //        else {
+            //            for (var i = 0; i < allChildren.length; i++) {
+            //                allChildren[i].style.color = "#000000";
+            //                allChildren[i].style.textDecoration = "none";
+            //                allChildren[i].dataset.cut = "false";
+            //            }
+            //            //clickedItem.style.color = "#000000";
+            //            //clickedItem.style.textDecoration = "none";
+            //            clickedItem.dataset.cut = "false";
+            //        }
+            //    }    
+            }
+
+            // stage
+            else if (clickedItem.getAttribute("class") == "stage") {
                 if (clickedItem.tagName.toLowerCase() == "button") {
                     if (clickedItem.dataset.cut.toLowerCase() == "false") {
-                        document.getElementById(word).style.color = "#D3D3D3";
-                        //document.getElementById(word).style.textDecoration = "line-through";
+                        clickedItem.style.color = "#D3D3D3";
+                        clickedItem.style.textDecoration = "line-through";
                         clickedItem.dataset.cut = "true";
                     }
                     else {
-                        document.getElementById(word).style.color = "#000000";
-                        //document.getElementById(word).style.textDecoration = "none"
+                        clickedItem.style.color = "#000000";
+                        clickedItem.style.textDecoration = "none";
                         clickedItem.dataset.cut = "false";
                     }
-                }        
+                }    
             }
+
+            // line
+            else if (clickedItem.getAttribute("class") == "line") {
+                if (clickedItem.tagName.toLowerCase() == "button") {
+                    if (clickedItem.dataset.cut.toLowerCase() == "false") {
+                        clickedItem.style.color = "#D3D3D3";
+                        clickedItem.style.textDecoration = "line-through";
+                        clickedItem.dataset.cut = "true";
+                    }
+                    else {
+                        clickedItem.style.color = "#000000";
+                        clickedItem.style.textDecoration = "none";
+                        clickedItem.dataset.cut = "false";
+                    }
+                }    
+            }
+
         };
     </script>
+
+
 
     <script>
 
@@ -270,16 +357,16 @@
             var allScenes = document.getElementsByClassName("scenehead");
             for (var i = 0; i < allScenes.length; i++) {
                 if (("n" + allScenes[i].id) == scene.target.id) {
-                    allScenes[i].setAttribute("style", "background-color: yellow");
+                    allScenes[i].style.backgroundColor = "yellow";
                     window.location.hash = allScenes[i].id;
                 }
                 else {
-                    allScenes[i].setAttribute("style", "background-color: none");
+                    allScenes[i].style.backgroundColor = "transparent";
                 }
             }
             var allActs = document.getElementsByClassName("acthead");
             for (var i = 0; i < allActs.length; i++) {
-                allActs[i].setAttribute("style", "background-color: none");
+                allActs[i].style.backgroundColor = "transparent";
             }
         }
 
@@ -296,16 +383,16 @@
             var allActs = document.getElementsByClassName("acthead");
             for (var i = 0; i < allActs.length; i++) {
                 if (("n" + allActs[i].id) == act.target.id) {
-                    allActs[i].setAttribute("style", "background-color: pink");
+                    allActs[i].style.backgroundColor = "yellow";
                     window.location.hash = allActs[i].id;
                 }
                 else {
-                    allActs[i].setAttribute("style", "background-color: none");
+                    allActs[i].style.backgroundColor = "transparent";
                 }
             }
             var allScenes = document.getElementsByClassName("scenehead");
             for (var i = 0; i < allScenes.length; i++) {
-                allScenes[i].setAttribute("style", "background-color: none");
+                allScenes[i].style.backgroundColor = "transparent";
             }
         }
 
