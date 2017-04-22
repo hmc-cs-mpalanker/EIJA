@@ -191,61 +191,80 @@
         <% currN = 0 %>
         <% currID = currAct.to_s + "." + currScene.to_s + "." + currN.to_s %>
 
-        <!-- Loop through the acts -->
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
-            <div class="actDiv" id="Diva">
-                <button class="acthead" id="current-act" data-cut="false" data-display="true"> 
-                    <%= Nokogiri::XML(act.to_s).css('head').first.inner_text %>
-                </button>
-                <br></b>
+            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-cut="false" data-display="true"> <%= Nokogiri::XML(act.to_s).css('head').first.inner_text %></button><br></b>
+            <script>
+                document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
+                document.getElementById('Diva').id = '<%= escape_javascript "Diva" + currAct.to_s%>';
+            </script>
+            <% currAct = currAct + 1 %>
+            <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
+            <% currScene = 1 %>
+            <% scenes.each do |scene| %>
+                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-cut="false" data-display="true"><%= Nokogiri::XML(scene.to_s).css('head').first.inner_text %></button><br>
                 <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
-                    document.getElementById('Diva').id = '<%= escape_javascript "Diva" + currAct.to_s%>';
+                    document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
+                    document.getElementById('Divs').id = '<%= escape_javascript "Divs" + currIndex.to_s%>';
                 </script>
-                <% currAct = currAct + 1 %>
-                <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
-                <% currScene = 1 %>
+                <% currScene = currScene + 1 %>
+                <% currIndex = currIndex + 1 %>
 
-                <!-- Loop through the scenes -->
-                <% scenes.each do |scene| %>
-                    <div class="sceneDiv" id="Divs">
-                        <button class="scenehead" id="current-scene" data-cut="false" data-display="true">
-                            <%= Nokogiri::XML(scene.to_s).css('head').first.inner_text %>
-                        </button>
-                        <br>
-                        <script>
-                            document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
-                            document.getElementById('Divs').id = '<%= escape_javascript "Divs" + currIndex.to_s%>';
-                        </script>
-                        <% currScene = currScene + 1 %>
-                        <% currIndex = currIndex + 1 %>
+                <% lines = Nokogiri::XML(scene.to_s).css('//sp') %>
+                <% stages = Nokogiri::XML(scene.to_s).css('//stage') %>
 
-                        <% lines = Nokogiri::XML(scene.to_s).css('//sp') %>
-                        <% stages = Nokogiri::XML(scene.to_s).css('//stage') %>
 
-                        <% lines.each do |line| %>
-                            <!-- Get line id -->
-                            <% lineN = line.attr("xml:id").to_s.gsub("sp-","").to_f %>
-                            <% stages.each do |stage| %>
-                                <!-- Get stage direction id -->
-                                <% stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f %>
-                                <!-- If there is a stage dir that comes before the line -->
-                                <% if (stageN == lineN-1) or (stageN == lineN-0.5) %>
-                                    <!-- display stage direction -->
-                                    <button class="stage" data-cut="false" data-display="true"> 
-                                        <%= stage.inner_text %> 
-                                    </button> <br>
-                                <% end %>
-                            <% end %>
-                            <button class="line" data-cut="false" data-display="true"> 
-                                <%= line.inner_text.to_s.gsub(/ACT [0-9]. SC. [0-9]/,'') %> 
-                            </button> 
-                            <br>
+
+                <% lines.each do |line| %>
+                <!-- DISPLAY STAGE DIRECTIONS -->
+                    <!-- Get line id -->
+                    <% lineN = line.attr("xml:id").to_s.gsub("sp-","").to_f %>
+                    <% stages.each do |stage| %>
+                        <!-- Get stage direction id -->
+                        <% stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f %>
+                        <!-- If there is a stage dir that comes before the line -->
+                        <% if (stageN == lineN-1) or (stageN == lineN-0.5) %>
+                            <!-- display stage direction -->
+                            <button class="stage" data-cut="false" data-display="true"> <%= stage.inner_text %> </button> <br>
                         <% end %>
-                    </div>
-                    <br>
-                <% end%>
+                    <% end %>
+
+                    <!-- Getting all the juicy info we need -->
+                    <% speaker = Nokogiri::XML(line.to_s).css('speaker') %>
+                    <% milestones = Nokogiri::XML(line.to_s).css('milestone') %>
+                    <% spwords = Nokogiri::XML(line.to_s).css('w','c','pc') %>
+
+                    <!-- DISPLAY SPEAKER -->
+                    <%=speaker.inner_text%>: 
+
+                    <!-- DISPLAY LINES -->
+                    <% milestones.each do |ms| %>
+                        <!-- get line number -->
+                        <% lineNum = ms.attr("n").to_s.split(".")[2] %>
+                        <!-- get corresps per milestone in array -->
+                        <% wordIDs = ms.attr("corresp").to_s.split(" ") %>
+                        <!-- remove #s -->
+                        <% wordIDs = wordIDs.map { |w| w.gsub("#","")} %>
+                        <!-- Search spwords for corresponding w/c/pc -->
+                        <% wordIDs.each do |id| %>
+                            <% spwords.each do |word| %>
+                                <% if word.attr('xml:id').to_s == id %>
+                                <!-- DISPLAY EACH WORD -->
+                                <!-- BUTTON TAGS -->
+                                <!-- HOLLY PLS FIX FORMATTING THX -->
+                                <button class="line" data-cut="false" data-display="true"><%= word.inner_text %></button>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                    <!-- DISPLAY LINE NUMBER -->
+                    <%= lineNum %> <br>
+                <% end %>
+
+                    <!-- button code -->
+                <% end %>
+                </div>
+                <br>
+            <% end%>
             </div>
             <br>
         <%end%>
@@ -256,7 +275,6 @@
         // all words will need to be printed within the div class "script-main"
         function doCut(e) {
             var clickedItem = e.target;
-
             // act
             if (clickedItem.getAttribute("class") == "acthead") {
             //    if (clickedItem.tagName.toLowerCase() == "button") {
@@ -274,7 +292,6 @@
             //            //clickedItem.style.textDecoration = "line-through";
             //            clickedItem.dataset.cut = "true";
             //        }
-
             //        // perform uncut
             //        else {
             //            for (var i = 0; i < allChildren.length; i++) {
@@ -288,11 +305,9 @@
             //        }
             //    }    
             }
-
             // scene
             else if (clickedItem.getAttribute("class") == "scenehead") {
             //    if (clickedItem.tagName.toLowerCase() == "button") {
-
             //        // perform cut
             //        var entireScene = document.getElementById("Div" + clickedItem.id);
             //        var allChildren = entireScene.getElementsByTagName("button");
@@ -306,7 +321,6 @@
             //            //clickedItem.style.textDecoration = "line-through";
             //            clickedItem.dataset.cut = "true";
             //        }
-
             //        // perform uncut
             //        else {
             //            for (var i = 0; i < allChildren.length; i++) {
@@ -320,7 +334,6 @@
             //        }
             //    }    
             }
-
             // stage
             else if (clickedItem.getAttribute("class") == "stage") {
                 if (clickedItem.tagName.toLowerCase() == "button") {
@@ -336,7 +349,6 @@
                     }
                 }    
             }
-
             // line
             else if (clickedItem.getAttribute("class") == "line") {
                 if (clickedItem.tagName.toLowerCase() == "button") {
@@ -352,14 +364,12 @@
                     }
                 }    
             }
-
         };
     </script>
 
 
 
     <script>
-
         /** 
          * This controls scene buttons in the navigation bar
          */
@@ -385,7 +395,6 @@
                 allActs[i].style.backgroundColor = "transparent";
             }
         }
-
         /** 
          * This controls act buttons in the navigation bar
          */
@@ -411,7 +420,6 @@
                 allScenes[i].style.backgroundColor = "transparent";
             }
         }
-
         /** 
          * This controls the synopsis button in the navigation bar.
          */
@@ -424,7 +432,6 @@
         span.onclick = function() {
             modal.style.display = "none";
         }
-
         /** 
          * This controls the analytics button in the navigation bar.
          */
@@ -437,7 +444,6 @@
         span2.onclick = function() {
             modal2.style.display = "none";
         }
-
         /**
          * This closes the modals if the user clicks outside of either 
          * the synopsis or analytics modal.
