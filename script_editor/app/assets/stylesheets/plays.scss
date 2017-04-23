@@ -19,6 +19,21 @@ div.stage {
     font-style: italic;
 }
 
+p.lineNum {
+    padding: 0px;
+    margin: 0px;
+    margin-left: 20px;
+    font-size: 14px;
+    display: inline;
+}
+
+p.speaker {
+    padding: 0px;
+    margin: 0px;
+    font-size: 14px;
+    display: inline;
+}
+
 br { 
     clear:both; 
 }
@@ -70,11 +85,11 @@ div.script-side-bar {
 
 div.script-main {
     position: fixed;
-    width: 80%;
+    width: 50%;
     overflow-y: scroll;
     top: 10%;
     bottom: 0;
-    right: 0;
+    right: 15%;
     z-index:0;
 }
 
@@ -86,15 +101,23 @@ div.script-main {
 // For editable word buttons
 /////////////////////////////////
 
-.line {
-     background:none;
-     background-color: none;
-     color:#000000;
-     text-decoration: none;
-     border:none; 
-     text-align: left;
-     margin-left: 25px;
-     padding:0!important;
+.punc {
+    background:none;
+    background-color: none;
+    padding: 0px;
+    margin: 0px;
+    margin-left: -5px;
+    border:none; 
+    font-size: 14px;
+}
+
+.word {
+    background:none;
+    background-color: none;
+    padding: 0px;
+    margin: 0px;
+    border:none;
+    font-size: 14px;
 }
 
 .stage {
@@ -104,6 +127,7 @@ div.script-main {
      text-decoration: none;
      border:none;
      padding:0!important;
+     font-size: 14px;
 }
 
 .acthead {
@@ -115,6 +139,7 @@ div.script-main {
      text-align: left;
      margin-left: 25px;
      padding:0!important;
+     font-size: 14px;
 }
 
 .scenehead {
@@ -126,6 +151,7 @@ div.script-main {
      text-align: left;
      margin-left: 25px;
      padding:0!important;
+     font-size: 14px;
 }
 
 .character {

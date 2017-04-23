@@ -184,7 +184,8 @@
     <!-- 
         Parse the XML file for the actual script, and display everything 
     -->
-    <div class="script-main">   
+    <div class="script-main"> 
+        <br><br>  
         <% currAct = 1 %>
         <% currScene = 1 %>
         <% currIndex = 1 %>
@@ -235,7 +236,7 @@
                     <% spwords = Nokogiri::XML(line.to_s).css('w','c','pc') %>
 
                     <!-- DISPLAY SPEAKER -->
-                    <%=speaker.inner_text%>: 
+                    <br><p class="speaker"><%=speaker.inner_text%> </p><br>
 
                     <!-- DISPLAY LINES -->
                     <% milestones.each do |ms| %>
@@ -252,12 +253,18 @@
                                 <!-- DISPLAY EACH WORD -->
                                 <!-- BUTTON TAGS -->
                                 <!-- HOLLY PLS FIX FORMATTING THX -->
-                                <button class="line" data-cut="false" data-display="true"><%= word.inner_text %></button>
+                                <% if (word.inner_text == ".") || (word.inner_text == ",") || (word.inner_text == "?") || (word.inner_text == "!") || (word.inner_text == ";") || (word.inner_text == ":") %>
+                                    <button class="punc" data-cut="false" data-display="true"><%= word.inner_text %></button>
+                                <% else %>
+                                    <% if word.inner_text != "" && word.inner_text != " " %>
+                                        <button class="word" data-cut="false" data-display="true"><%= word.inner_text %></button>
+                                        <% end %>
+                                <% end %>
                             <% end %>
                         <% end %>
                     <% end %>
                     <!-- DISPLAY LINE NUMBER -->
-                    <%= lineNum %> <br>
+                    <p class="lineNum"><%= lineNum %></p> <br>
                 <% end %>
 
                     <!-- button code -->
@@ -350,7 +357,7 @@
                 }    
             }
             // line
-            else if (clickedItem.getAttribute("class") == "line") {
+            else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc") {
                 if (clickedItem.tagName.toLowerCase() == "button") {
                     if (clickedItem.dataset.cut.toLowerCase() == "false") {
                         clickedItem.style.color = "#D3D3D3";
