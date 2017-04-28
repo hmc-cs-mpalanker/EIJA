@@ -185,7 +185,9 @@
         Parse the XML file for the actual script, and display everything 
     -->
     <div class="script-main"> 
-        <br><br>  
+        <% currAct = 1 %>
+        <% currScene = 1 %>
+        <% currIndex = 1 %>  
 
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
@@ -194,9 +196,9 @@
                 document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
                 document.getElementById('Diva').id = '<%= escape_javascript "Diva" + currAct.to_s%>';
             </script>
-
+            <% currAct = currAct + 1 %>
             <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
-
+            <% currScene = 1 %>
             <% scenes.each do |scene| %>
                 <% if Nokogiri::XML(scene.to_s).css('head').first != nil %>
                 <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-cut="false" data-display="true"><%= Nokogiri::XML(scene.to_s).css('head').first.inner_text %></button><br>
@@ -205,6 +207,8 @@
                     document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
                     document.getElementById('Divs').id = '<%= escape_javascript "Divs" + currIndex.to_s%>';
                 </script>
+                <% currScene = currScene + 1 %>
+                <% currIndex = currIndex + 1 %>
 
                 <% lines = Nokogiri::XML(scene.to_s).css('//sp') %>
                 <% stages = Nokogiri::XML(scene.to_s).css('stage').to_a %>
