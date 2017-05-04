@@ -247,6 +247,9 @@
                         <!-- remove #s -->
                         <% wordIDs = wordIDs.map { |w| w.gsub("#","")} %>
                         <!-- Search spwords for corresponding w/c/pc -->
+                        
+                        <!-- DISPLAY LINE NUMBER -->
+                        <p class="lineNum"><%= lineNum %></p>
                         <% wordIDs.each do |id| %>
                             <% spwords.each do |word| %>
                                 <% if word.attr('xml:id').to_s == id %>
@@ -263,8 +266,8 @@
                             <% end %>
                         <% end %>
                     <% end %>
-                    <!-- DISPLAY LINE NUMBER -->
-                    <p class="lineNum"><%= lineNum %></p> <br>
+                    <!-- BREAK FOR NEW LINE -->
+                    <br>
                 <% end %>
 
                     <!-- button code -->
