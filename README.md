@@ -14,7 +14,9 @@ Prerequisites: install Ruby/Rails and git on your machine
 To run the website on localhost:
 
 `cd MLCH`
+
 `cd ScriptEditor`
+
 `rails s`
 
 ## Contributing
@@ -32,7 +34,9 @@ TODO: Write history
 ## Credits
 
 Contributors: Mahlet Melaku, Holly Mitchell, Lee Norgaard, Crystal Xiang
+
 Client: Prof. Benjamin Wiedermann
+
 CS121 Professor: Yekaterina Kharitonova
 
 ## License
