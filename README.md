@@ -7,7 +7,7 @@ The Shakespeare Script Editor is a website made by team MLCH for CS121: Software
 Prerequisites: install Ruby/Rails and git on your machine
 
 1. Clone the repo: `git clone https://github.com/hmc-cs-lnorgaard/MLCH.git`
-2. Install gems: TODO
+2. Install gems: Nokogiri
 
 ## Usage
 
