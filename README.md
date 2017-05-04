@@ -15,7 +15,7 @@ To run the website on localhost:
 
 `cd MLCH`
 
-`cd ScriptEditor`
+`cd script_editor`
 
 `rails s`
 
