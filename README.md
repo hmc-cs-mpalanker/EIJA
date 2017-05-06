@@ -8,7 +8,7 @@ Prerequisites: install Ruby/Rails and git on your machine
 
 1. Clone the repo: `git clone https://github.com/hmc-cs-lnorgaard/MLCH.git`
 2. cd into the script_editor folder
-2. Install gems: Nokogiri, bootstrap
+2. Install gems: Nokogiri, bootstrap,
     use the command `bundle install` in terminal to install gems
 3. Run the app: use the command `rails s` in terminal, then navigate to
     localhost:3000 in your prefered browser
@@ -41,6 +41,7 @@ localhost:3000
 ## History
 
 5/4/2017: Version 1.0
+  
   Implemented Features:
     Homepage
     Search Bar
