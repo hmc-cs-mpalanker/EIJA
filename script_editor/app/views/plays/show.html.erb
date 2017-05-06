@@ -191,7 +191,9 @@
 
         <% acts= doc.css('//div1') %>
         <% acts.each do |act| %>
+            <% if Nokogiri::XML(act.to_s).css('head').first != nil %>
             <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-cut="false" data-display="true"> <%= Nokogiri::XML(act.to_s).css('head').first.inner_text %></button><br></b>
+            <% end %>
             <script>
                 document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
                 document.getElementById('Diva').id = '<%= escape_javascript "Diva" + currAct.to_s%>';
@@ -263,6 +265,7 @@
                         
                         <!-- DISPLAY LINE NUMBER -->
                         <p class="lineNum"><%= lineNum %></p>
+
                         <% wordIDs.each do |id| %>
                             <% spwords.each do |word| %>
                                 <% if word.attr('xml:id').to_s == id %>
@@ -277,15 +280,10 @@
                             <% end %>
                         <% end %>
                     <% end %>
-<<<<<<< HEAD
+
                     <!-- BREAK FOR NEW LINE -->
                     <br>
-                <% end %>
-=======
 
-                    <!-- DISPLAY LINE NUMBER -->
-                    <p class="lineNum"><%= lineNum %></p> <br>
->>>>>>> c9299d9dedf477234627f65da26de0e5d95829a1
 
                     <% stages.each do |stage| %>
                         <!-- Get stage direction id -->
@@ -300,7 +298,7 @@
 
                 <% end %>
                 <% end %>
-                </div>
+                
                 <br>
                 <% stages.each do |stage| %>
                     <button class="stage" data-cut="false" data-display="true"><%= stage.inner_text %></button> <br>
@@ -310,6 +308,7 @@
             </div>
             <br>
         <%end%>
+        </div>
     </div>
 
     <script>
