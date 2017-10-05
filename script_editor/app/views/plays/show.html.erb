@@ -312,7 +312,99 @@
     </div>
 
     <script>
-        document.querySelector(".script-main").addEventListener("click", doCut, false);
+        document.querySelector(".script-main").addEventListener("mousedown", drag, false);
+        document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
+        document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
+        document.querySelector(".script-main").addEventListener("mouseup", lift, false);
+        var mousedrag = false;
+        var currId = 0;
+
+        function drag(e)
+        {
+            mousedrag = true;
+        }
+
+        function lift(e)
+        {
+            mousedrag = false;
+            currId = 0;
+        }
+
+        function numDigits(i)
+        {
+            console.log("numDigits");
+            if(i >= 1000)
+            {
+                if(i >= 10000)
+                {
+                    if(i >= 100000)
+                    {
+                        if(i >= 1000000)
+                        {
+                            return 7;
+                        }
+                        return 6;
+                    }
+                    return 5;
+                }
+                return 4;
+            }
+            else if(i >= 1)
+            {
+                if(i >= 10)
+                {
+                    if(i >= 100)
+                    {
+                        return 3;
+                    }
+                    return 2;
+                }
+                return 1;
+            }
+            return 0;
+        }
+
+        function numeralize(s)
+        {
+            console.log("Numeralize id:")
+            console.log(s);
+            var intString = i.substring(1);
+            return parseInt(intString);
+        }
+
+        function wrap(i)
+        {
+            console.log("Wrapping");
+            for(;i != currId;i -= 10)
+            {
+                var digits = numDigits(i);
+                var checkId = "";
+                for(int j = 0;j < digits;++j)
+                {
+                    checkId.concat("0");
+                }
+                var stringId = toString(i);
+                checkId.concat(stringId);
+                var w = "w";
+                var c = "c";
+                if(document.getElementById(w.concat(checkId)) != null || document.getElementById(c.concat(checkId)) != null)
+                {
+                    var wrappedElement = document.getElementById(w.concat(checkId));
+                    if (clickedItem.dataset.cut.toLowerCase() == "false" && !e.shiftKey) {
+                        clickedItem.style.color = "#D3D3D3";
+                        clickedItem.style.textDecoration = "line-through";
+                        clickedItem.dataset.cut = "true";
+                    }
+                    else if(e.shiftKey){
+                        clickedItem.style.color = "#000000";
+                        clickedItem.style.textDecoration = "none";
+                        clickedItem.dataset.cut = "false";
+                    }
+                }
+            }
+            console.log("Wrapping ending");
+        }
+
         // all words will need to be printed within the div class "script-main"
         function doCut(e) {
             var clickedItem = e.target;
@@ -378,12 +470,12 @@
             // stage
             else if (clickedItem.getAttribute("class") == "stage") {
                 if (clickedItem.tagName.toLowerCase() == "button") {
-                    if (clickedItem.dataset.cut.toLowerCase() == "false") {
+                    if (clickedItem.dataset.cut.toLowerCase() == "false" && mousedrag && !e.shiftKey) {
                         clickedItem.style.color = "#D3D3D3";
                         clickedItem.style.textDecoration = "line-through";
                         clickedItem.dataset.cut = "true";
                     }
-                    else {
+                    else if(e.shiftKey && mousedrag) {
                         clickedItem.style.color = "#000000";
                         clickedItem.style.textDecoration = "none";
                         clickedItem.dataset.cut = "false";
@@ -393,16 +485,23 @@
             // line
             else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc") {
                 if (clickedItem.tagName.toLowerCase() == "button") {
-                    if (clickedItem.dataset.cut.toLowerCase() == "false") {
+                    if (clickedItem.dataset.cut.toLowerCase() == "false" && mousedrag && !e.shiftKey) {
                         clickedItem.style.color = "#D3D3D3";
                         clickedItem.style.textDecoration = "line-through";
                         clickedItem.dataset.cut = "true";
                     }
-                    else {
+                    else if(e.shiftKey && mousedrag){
                         clickedItem.style.color = "#000000";
                         clickedItem.style.textDecoration = "none";
                         clickedItem.dataset.cut = "false";
                     }
+                    /*if(currId != 0)
+                    {
+                        var intId = numeralize(clickedItem.id);
+                        console.log(intId);
+                        wrap(id);
+                        currId = intId;
+                    }*/
                 }    
             }
         };
