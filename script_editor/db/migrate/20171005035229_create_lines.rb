@@ -4,6 +4,7 @@ class CreateLines < ActiveRecord::Migration[5.0]
       t.integer :number
       t.string :words
       t.integer :scene_id
+      t.string :speaker
 
       t.timestamps
     end

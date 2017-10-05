@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20171005035229) do
     t.integer  "number"
     t.string   "words"
     t.integer  "scene_id"
+    t.string   "speaker"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
