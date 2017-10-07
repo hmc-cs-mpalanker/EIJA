@@ -96,19 +96,22 @@
 
 
     <!-- 
-        Get title of play and display at top of page 
+        Get title of play and display in the top left corner of the page. Clicking on the title will take
+        you to the home page.
     -->
     <div class="script-title">
         <div id="Home-button">
-            <a id="home" href="/">Home</a>
-        </div>
-        <div id="play-title">
-            <p id="title"></p>
+            <a id="home" href="/">
+                <p style = "margin: 8px" id="title"></p>
+            </a>
         </div>
         <% title = doc.css('title').first %>
         <script>
             document.getElementById('title').innerHTML = '<%= escape_javascript title.inner_text %>';
         </script>
+        <div id="About-button">
+                <p style = "margin: 12px" id="about">About</p>
+        </div>
     </div>
 
 

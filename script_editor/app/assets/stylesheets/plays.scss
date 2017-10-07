@@ -43,11 +43,20 @@ br {
     display: inline-block;
     float: left;
     height: 100%;
-    width: 20%;
-    padding-top: 20px;
-    font-size: 32px;
+    width: 22%;
+    font-size: 20px;
     font-family: serif;
-    background-color: #aaaaaa;
+    background-color: #841983;
+}
+
+#About-button {
+    display: inline-block;
+    float: right;
+    height: 100%;
+    width: 5%;
+    font-size: 20px;
+    font-family: serif;
+    background-color: #841983;
 }
 
 #home {
@@ -66,9 +75,9 @@ div.script-title {
     position: absolute; 
     top: 0; 
     left: 0; 
-    background-color: #dedede; 
+    background-color: #5F0F4E; 
     width: 100%; 
-    height: 10%;
+    height: 6%;
     z-index:0;
 }
 
@@ -76,12 +85,12 @@ div.script-side-bar {
     position: fixed;
     width: 20%;
     overflow-y: scroll;
-    top: 10%;
+    top: 6%;
     bottom: 0;
     left: 0;
-    background-color: #efefef;
-    z-index:1;
-    margin-right:1%;
+    background-color: #76323F;
+    z-index: 1;
+    margin-right: 1%;
 }
 
 div.script-main {
@@ -94,9 +103,22 @@ div.script-main {
     z-index:0;
 }
 
+div.sceneDiv {
+    text-align: left;
+}
+
 #title {
-    font-size: 36px;
+    text-align: center;
+    font-size: 24px;
     font-family: 'Times New Roman';
+    color: white;
+}
+
+#about {
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Times New Roman';
+    color: white;
 }
 
 /////////////////////////////////
@@ -141,7 +163,7 @@ div.script-main {
      text-align: left;
      margin-left: 25px;
      padding:0!important;
-     font-size: 14px;
+     font-size: 28px;
 }
 
 .scenehead {
@@ -153,7 +175,7 @@ div.script-main {
      text-align: left;
      margin-left: 25px;
      padding:0!important;
-     font-size: 14px;
+     font-size: 20px;
 }
 
 .character {
@@ -173,10 +195,10 @@ div.script-main {
 div.play-navigation {
     float: left; 
     width: 80%; 
-    background-color: #aaaaaa;
+    background-color: #696969;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: #696969;
     margin-left: 25px;
     margin-bottom: 30px;
     margin-right: 25px;
@@ -186,30 +208,30 @@ div.play-navigation {
 button.nav-synopsis, button.nav-analytics {
     height: 40px;
     text-align: center;
-    background-color: #eeeeee;
+    background-color: #CF6766;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: #696969;
     width: 100%;
 }
 
 button.nav-analytics {
     height: 40px;
     text-align: center;
-    background-color: #cccccc;
+    background-color: #945D60;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: #696969;
     width: 100%;
 }
 
 button.nav-act { 
     height: 40px;
     text-align: left;
-    background-color: #eeeeee;
+    background-color: #CF6766;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: #696969;
     width: 100%;
     float: right;
 } 
@@ -217,10 +239,10 @@ button.nav-act {
 button.nav-scene {
     height: 30px;
     text-align: left;
-    background-color: #cccccc;
+    background-color: #945D60;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: #696969;
     width: 85%;
     float: right;
 } 
