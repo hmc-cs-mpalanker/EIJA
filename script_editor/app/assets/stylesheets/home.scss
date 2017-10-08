@@ -6,6 +6,23 @@ body{
 	text-align: center;
 }
 
+li.play-title {
+	height: 30px;
+    text-align: center;
+    background-color: #b2b2ff;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000033;
+    width: 100%;
+    transition: 0.3s;
+    position: relative;
+}
+
+li.play-title:hover {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
 h1 {
 	text-transform: uppercase;
 	font-family: serif;
@@ -23,7 +40,7 @@ h2 {
 	text-transform: uppercase;
 	font-family: serif;
 	font: Georgia;
-	color: #000000;
+	color: #faebd7;
 }
 
 hr {
@@ -64,7 +81,7 @@ hr {
 	list-style: none;
 	margin: 5px;
 	padding: 10px;
-	background-color: #d4d4d4;
+	background-color: #7f7fbf;
 	text-transform: uppercase;
 }
 
@@ -75,7 +92,7 @@ hr {
 	list-style: none;
 	margin: 5px;
 	padding: 10px;
-	background-color: #d4d4d4;
+	background-color: #7f7fbf;
 	text-transform: uppercase;
 }
 
@@ -86,24 +103,21 @@ hr {
 	list-style: none;
 	margin: 5px;
 	padding: 10px;
-	background-color: #d4d4d4;
+	background-color: #7f7fbf;
 	text-transform: uppercase;
 }
 
 #plays-historical-nav-bar li a{
 	text-decoration: none;
-	color: #7f7f7f;
 	float: center;
 }
 
 #plays-comedy-nav-bar li a{
 	text-decoration: none;
-	color: #7f7f7f;
 	float: center;
 }
 
 #plays-tragedy-nav-bar li a{
 	text-decoration: none;
-	color: #7f7f7f;
 	float: center;
 }

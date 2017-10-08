@@ -58,6 +58,13 @@ Client: Prof. Benjamin Wiedermann
 
 CS121 Professor: Yekaterina Kharitonova
 
+## Research
+
+*  the HTML/CSS elements of this website were researched using https://w3schools.com.
+
+* The lack of browser highlighting when editing a script was created by code from
+    https://paulund.co.uk/disable-text-highlighting-with-css.
+
 ## License
 
 See LICENSE.txt
