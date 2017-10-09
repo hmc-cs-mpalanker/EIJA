@@ -3,17 +3,19 @@
     <p id="notice"></p>
 
 <h2><%= @play.title %></h2>
-<% @acts.each do |act| %>
-  <h3> Act <%= act.number %> </h3>
-  <% rscenes = Scene.where(:act_id => act.id).order(:number) %>
-  <% rscenes.each do |scene| %>
-    <h4> Scene <%= scene.number %> </h4>
-    <% rlines = Line.where(:scene_id => scene.id).order(:number) %>
-    <% rlines.each do |line| %>
-      <h5 class ="word"> <strong><%= line.speaker %></strong> <%= line.number %> <%= line.words %> </h5>
+<body class = "script-main">
+    <% @acts.each do |act| %>
+      <h3> Act <%= act.number %> </h3>
+      <% rscenes = Scene.where(:act_id => act.id).order(:number) %>
+      <% rscenes.each do |scene| %>
+        <h4> Scene <%= scene.number %> </h4>
+        <% rlines = Line.where(:scene_id => scene.id).order(:number) %>
+        <% rlines.each do |line| %>
+          <p><button class ="word"> <strong><%= line.speaker %></strong> <%= line.number %> <%= line.words %> </button></p>
+        <% end %>
+      <% end %>
     <% end %>
-  <% end %>
-<% end %>
+</body>
 
 <script>
     document.querySelector(".script-main").addEventListener("mousedown", drag, false);
@@ -97,7 +99,7 @@
         // stage
         else if (clickedItem.getAttribute("class") == "stage") {
             if (clickedItem.tagName.toLowerCase() == "button") {
-                if (clickedItem.dataset.cut.toLowerCase() == "false" && mousedrag && !e.shiftKey) {
+                if (mousedrag && !e.shiftKey) {
                     clickedItem.style.color = "#D3D3D3";
                     clickedItem.style.textDecoration = "line-through";
                     clickedItem.dataset.cut = "true";
@@ -112,7 +114,7 @@
         // line
         else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc") {
             if (clickedItem.tagName.toLowerCase() == "button") {
-                if (clickedItem.dataset.cut.toLowerCase() == "false" && mousedrag && !e.shiftKey) {
+                if (mousedrag && !e.shiftKey) {
                     console.log("What's up youtube");
                     clickedItem.style.color = "#D3D3D3";
                     clickedItem.style.textDecoration = "line-through";
