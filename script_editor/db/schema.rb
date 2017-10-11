@@ -10,17 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171005035229) do
+ActiveRecord::Schema.define(version: 20171011021556) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
     t.integer  "play_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "edit_plays", force: :cascade do |t|
-    t.string   "play"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -30,8 +24,9 @@ ActiveRecord::Schema.define(version: 20171005035229) do
     t.string   "words"
     t.integer  "scene_id"
     t.string   "speaker"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "cut",        default: false
   end
 
   create_table "plays", force: :cascade do |t|
