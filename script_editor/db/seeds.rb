@@ -25,6 +25,10 @@ files.each do |file|
       currScene = currScene + 1
       lines = Nokogiri::XML(scene.to_s).css('//sp')
       stages = Nokogiri::XML(scene.to_s).css('stage').to_a
+      stages.each do |stage|
+        stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f
+        newstage = newscene.lines.create(number: stageN, words: stage.inner_text, speaker: "STAGE", isStage: true)
+      end
       lines.each do |line|
         speaker = Nokogiri::XML(line.to_s).css('speaker')
         milestones = Nokogiri::XML(line.to_s).css('milestone')

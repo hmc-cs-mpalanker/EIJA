@@ -11,7 +11,11 @@
         <h4> Scene <%= scene.number %> </h4>
         <% rlines = Line.where(:scene_id => scene.id).order(:number) %>
         <% rlines.each do |line| %>
+          <% if line.isStage %>
+              <p><button class ="word"><i><%= line.words %></i> </button></p>
+          <% else %>
           <p><button class ="word"> <strong><%= line.speaker %></strong> <%= line.number %> <%= line.words %> </button></p>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
@@ -65,7 +69,7 @@
         //            // clickedItem.style.textDecoration = "none";
         //            clickedItem.dataset.cut = "false";
         //        }
-        //    }    
+        //    }
         }
         // scene
         else if (clickedItem.getAttribute("class") == "scenehead") {
@@ -94,7 +98,7 @@
         //            //clickedItem.style.textDecoration = "none";
         //            clickedItem.dataset.cut = "false";
         //        }
-        //    }    
+        //    }
         }
         // stage
         else if (clickedItem.getAttribute("class") == "stage") {
@@ -109,7 +113,7 @@
                     clickedItem.style.textDecoration = "none";
                     clickedItem.dataset.cut = "false";
                 }
-            }    
+            }
         }
         // line
         else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc") {
@@ -155,7 +159,7 @@
                         currId = intId;*/
                     }
                 }
-            }    
+            }
         }
     };
 </script>
