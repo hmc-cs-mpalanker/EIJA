@@ -6,10 +6,10 @@
 <body class = "script-main">
     <% @acts.each do |act| %>
       <h3> Act <%= act.number %> </h3>
-      <% rscenes = Scene.where(:act_id => act.id).order(:number) %>
+      <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
       <% rscenes.each do |scene| %>
         <h4> Scene <%= scene.number %> </h4>
-        <% rlines = Line.where(:scene_id => scene.id).order(:number) %>
+        <% rlines = Line.joins(:scene).where(:scene_id => scene.id).order(:number) %>
         <% rlines.each do |line| %>
           <% if line.isStage %>
               <p><button class ="word"><i><%= line.words %></i> </button></p>
