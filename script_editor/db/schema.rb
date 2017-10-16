@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171013020352) do
+ActiveRecord::Schema.define(version: 20171016012026) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 20171013020352) do
 
   create_table "lines", force: :cascade do |t|
     t.integer  "number"
-    t.string   "words"
     t.integer  "scene_id"
     t.string   "speaker"
     t.datetime "created_at",                 null: false
@@ -39,6 +38,14 @@ ActiveRecord::Schema.define(version: 20171013020352) do
   create_table "scenes", force: :cascade do |t|
     t.integer  "number"
     t.integer  "act_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "words", force: :cascade do |t|
+    t.string   "text"
+    t.integer  "line_id"
+    t.integer  "place"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
