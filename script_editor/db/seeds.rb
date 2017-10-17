@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-files = ["FolgerDigitalTexts_XML_Complete/MM.xml", "FolgerDigitalTexts_XML_Complete/MND.xml"]
+files = ["FolgerDigitalTexts_XML_Complete/MM.xml"]
 files.each do |file|
   doc = Nokogiri::XML(File.open(file))
   title = doc.css('title').first
@@ -27,7 +27,8 @@ files.each do |file|
       stages = Nokogiri::XML(scene.to_s).css('stage').to_a
       stages.each do |stage|
         stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f
-        newstage = newscene.lines.create(number: stageN, words: stage.inner_text, speaker: "STAGE", isStage: true)
+        newstage = newscene.lines.create(number: stageN, speaker: "STAGE", isStage: true)
+        newstage.words.create(text: stage.inner_text, place: 0)
       end
       lines.each do |line|
         speaker = Nokogiri::XML(line.to_s).css('speaker')
@@ -38,14 +39,17 @@ files.each do |file|
           wordIDs = ms.attr("corresp").to_s.split(" ")
           wordIDs = wordIDs.map { |w| w.gsub("#","")}
           allthewords = ""
+          wordPlace = 0
+          newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text)
           wordIDs.each do |id|
             spwords.each do |word|
               if word.attr('xml:id').to_s == id
-                allthewords = allthewords + word.inner_text
+                newline.words.create(text: word.inner_text, place: wordPlace)
+                #allthewords = allthewords + word.inner_text
+                wordPlace = wordPlace + 1
               end
             end
           end
-          newline = newscene.lines.create(number: lineNum, words: allthewords, speaker: speaker.inner_text)
         end
       end
     end

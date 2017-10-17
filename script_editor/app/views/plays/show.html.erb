@@ -12,9 +12,20 @@
         <% rlines = Line.joins(:scene).where(:scene_id => scene.id).order(:number) %>
         <% rlines.each do |line| %>
           <% if line.isStage %>
-              <p><button class ="word"><i><%= line.words %></i> </button></p>
+              <p><button class ="word"><i><%= line.words.first.text %></i> </button></p>
           <% else %>
-          <p><button class ="word"> <strong><%= line.speaker %></strong> <%= line.number %> <%= line.words %> </button></p>
+          <% words = Word.joins(:line).where(:line_id => line.id).order(:place) %>
+          <% string = "" %>
+          <% Line.preload(:words) %>
+          <p>
+            <strong> <%= line.speaker %> </strong>
+            <%= line.number %>
+            <% words.each do |word| %>
+              <button class ="word">
+              <%= word.text %>
+              </button>
+              <% end %>
+          </p>
           <% end %>
         <% end %>
       <% end %>

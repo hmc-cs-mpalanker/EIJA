@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20171016012026) do
     t.integer  "place"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["line_id"], name: "index_words_on_line_id"
   end
 
 end
