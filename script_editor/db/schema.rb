@@ -19,6 +19,12 @@ ActiveRecord::Schema.define(version: 20171013020352) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "edit_plays", force: :cascade do |t|
+    t.string   "play"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "lines", force: :cascade do |t|
     t.integer  "number"
     t.string   "words"

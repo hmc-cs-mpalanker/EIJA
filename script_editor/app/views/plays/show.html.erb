@@ -14,7 +14,7 @@
           <% if line.isStage %>
               <p><button class ="word"><i><%= line.words %></i> </button></p>
           <% else %>
-          <p><button class ="word"> <strong><%= line.speaker %></strong> <%= line.number %> <%= line.words %> </button></p>
+          <p><button id <%= line.id.to_s %> class ="word"> <strong><%= line.speaker %></strong> <%= line.number %> <%= line.words %> </button></p>
           <% end %>
         <% end %>
       <% end %>
@@ -38,80 +38,44 @@
         currId = 0;
     }
 
+    function literalCut(clickedItem,cut)
+    {
+        if(cut)
+        {
+            clickedItem.style.color = "#D3D3D3";
+            clickedItem.style.textDecoration = "line-through";
+            clickedItem.dataset.cut = "true";
+        }
+        else
+        {
+            clickedItem.style.color = "#000000";
+            clickedItem.style.textDecoration = "none";
+            clickedItem.dataset.cut = "false";   
+        }
+    }
+
+    function checkWrap(clickedItem,cut)
+    {
+        var intId = parseInt(clickedItem.id)
+        if(currId != 0)
+        {
+            //Wrap function goes here! Probably make it a helper and call it.
+        }
+        currId = intId;
+    }
+
     // all words will need to be printed within the div class "script-main"
     function doCut(e) {
         var clickedItem = e.target;
-        // act
-        if (clickedItem.getAttribute("class") == "acthead") {
-        //    if (clickedItem.tagName.toLowerCase() == "button") {
-        //
-        //        // Don't cut Acts
-        //        var entireAct = document.getElementById("Div" + clickedItem.id);
-        //        var allChildren = entireAct.getElementsByTagName("button");
-        //        if (clickedItem.dataset.cut.toLowerCase() == "false") {
-        //            for (var i = 0; i < allChildren.length; i++) {
-        //                allChildren[i].style.color = "#D3D3D3";
-        //                allChildren[i].style.textDecoration = "line-through";
-        //                allChildren[i].dataset.cut = "true";
-        //            }
-        //            //clickedItem.style.color = "#D3D3D3";
-        //            //clickedItem.style.textDecoration = "line-through";
-        //            clickedItem.dataset.cut = "true";
-        //        }
-        //        // perform uncut
-        //        else {
-        //            for (var i = 0; i < allChildren.length; i++) {
-        //                allChildren[i].style.color = "#000000";
-        //                allChildren[i].style.textDecoration = "none";
-        //                allChildren[i].dataset.cut = "false";
-        //            }
-        //            // clickedItem.style.color = "#000000";
-        //            // clickedItem.style.textDecoration = "none";
-        //            clickedItem.dataset.cut = "false";
-        //        }
-        //    }
-        }
-        // scene
-        else if (clickedItem.getAttribute("class") == "scenehead") {
-        //    if (clickedItem.tagName.toLowerCase() == "button") {
-        //        // perform cut
-        //        var entireScene = document.getElementById("Div" + clickedItem.id);
-        //        var allChildren = entireScene.getElementsByTagName("button");
-        //        if (clickedItem.dataset.cut.toLowerCase() == "false") {
-        //            for (var i = 0; i < allChildren.length; i++) {
-        //                allChildren[i].style.color = "#D3D3D3";
-        //                allChildren[i].style.textDecoration = "line-through";
-        //                allChildren[i].dataset.cut = "true";
-        //            }
-        //            //clickedItem.style.color = "#D3D3D3";
-        //            //clickedItem.style.textDecoration = "line-through";
-        //            clickedItem.dataset.cut = "true";
-        //        }
-        //        // perform uncut
-        //        else {
-        //            for (var i = 0; i < allChildren.length; i++) {
-        //                allChildren[i].style.color = "#000000";
-        //                allChildren[i].style.textDecoration = "none";
-        //                allChildren[i].dataset.cut = "false";
-        //            }
-        //            //clickedItem.style.color = "#000000";
-        //            //clickedItem.style.textDecoration = "none";
-        //            clickedItem.dataset.cut = "false";
-        //        }
-        //    }
-        }
         // stage
-        else if (clickedItem.getAttribute("class") == "stage") {
+        if (clickedItem.getAttribute("class") == "stage") {
             if (clickedItem.tagName.toLowerCase() == "button") {
                 if (mousedrag && !e.shiftKey) {
-                    clickedItem.style.color = "#D3D3D3";
-                    clickedItem.style.textDecoration = "line-through";
-                    clickedItem.dataset.cut = "true";
+                    literalCut(clickedItem,true);
+                    checkWrap(clickedItem,true);
                 }
                 else if(e.shiftKey && mousedrag) {
-                    clickedItem.style.color = "#000000";
-                    clickedItem.style.textDecoration = "none";
-                    clickedItem.dataset.cut = "false";
+                    literalCut(clickedItem,false);
                 }
             }
         }
@@ -120,44 +84,12 @@
             if (clickedItem.tagName.toLowerCase() == "button") {
                 if (mousedrag && !e.shiftKey) {
                     console.log("What's up youtube");
-                    clickedItem.style.color = "#D3D3D3";
-                    clickedItem.style.textDecoration = "line-through";
-                    clickedItem.dataset.cut = "true";
-                    if(currId != 0)
-                    {
-                        console.log(clickedItem.id.to_s);
-                        /*var intId = numeralize(clickedItem.id);
-                        console.log(intId);
-                        //wrap(id);
-                        currId = intId;*/
-                    }
-                    else
-                    {
-                        console.log(clickedItem.id.to_s);
-                        /*var intId = numeralize(clickedItem.id);
-                        console.log(intId);
-                        currId = intId;*/
-                    }
+                    literalCut(clickedItem,true);
+                    checkWrap(clickedItem,true);
                 }
                 else if(e.shiftKey && mousedrag){
-                    clickedItem.style.color = "#000000";
-                    clickedItem.style.textDecoration = "none";
-                    clickedItem.dataset.cut = "false";
-                    if(currId != 0)
-                    {
-                        console.log(clickedItem.id.to_s);
-                        /*var intId = numeralize(clickedItem.id);
-                        console.log(intId);
-                        //wrap(id);
-                        currId = intId;*/
-                    }
-                    else
-                    {
-                        console.log(clickedItem.id.to_s);
-                        /*var intId = numeralize(clickedItem.id);
-                        console.log(intId);
-                        currId = intId;*/
-                    }
+                    literalCut(clickedItem,false);
+                    checkWrap(clickedItem,false);
                 }
             }
         }
