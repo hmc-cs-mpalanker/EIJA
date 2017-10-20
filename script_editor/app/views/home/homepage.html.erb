@@ -12,40 +12,7 @@
 			<img id="titleimg" src="/Title.png" >
 		</div>
 
-		<ul id="navigation-bar">
-			<div id="search-enclose">
-	    		<form id="searchbar" method="get" action="#">
-	        		<input onclick="erase()" type="text" id="searchinput" value="Enter Play Name...">
-	        		<input type="submit" id="search" value="View Play">
-	    		</form>
-			</div>
-		</ul>
-
-		<p id="searchquery"></p>
-
-		<script>
-		function erase(){
-			document.getElementById('searchinput').value = "";
-		}
-		</script>
-
-		<script>
-		var playList = ["a_midsummer_nights_dream", "alls_well_that_ends_well", "antony_and_cleopatra", "as_you_like_it", "coriolanus", "cymbeline", "hamlet", "henry_iv_part_1", "henry_iv_part_2", "henry_v", "henry_vi_part_1", "henry_vi_part_2", "henry_vi_part_3", "henry_viii", "julius_caesar", "king_john", "king_lear", "loves_labors_lost", "lucrece", "macbeth", "measure_for_measure", "much_ado_about_nothing", "othello", "pericles", "richard_ii", "richard_iii", "romeo_and_juliet", "taming_of_the_shrew", "the_comedy_of_errors", "the_merchant_of_venice", "the_merry_wives_of_windsor", "the_tempest", "the_two_gentlemen_of_verona", "the_winters_tale", "timon_of_athens", "titus_andronicus", "troilus_and_cressida", "twelfth_night", "venus_and_adonis"];
-
-		var a = document.getElementById('searchbar');
-	    a.addEventListener('submit',function(e) {
-	        e.preventDefault();
-	        var b = document.getElementById('searchinput').value;
-	        b = (b.replace(/ /g,'_')).toLowerCase();
-	        if(playList.indexOf(b)!=-1){
-	        	window.location style = "color: #FDEDD9" href = '/plays/' + b;
-	    	}
-	    	else{
-	    		document.getElementById('searchquery').innerHTML = "Sorry please try again";
-	    	}
-	    });
-	    </script>
-
+		<br />
 
 		<ul id="plays-historical-nav-bar">
 			<h2>Historical</h2>

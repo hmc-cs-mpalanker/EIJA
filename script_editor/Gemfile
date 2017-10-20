@@ -22,6 +22,12 @@ gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# This gem adds the navigation bar.
+gem 'bootstrap-sass', '~> 3.3.6'
+
+# This gem adds the ability to have user accounts.
+gem 'devise'
+
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
 # Use jquery as the JavaScript library

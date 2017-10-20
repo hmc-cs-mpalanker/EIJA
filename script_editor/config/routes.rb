@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :edit_plays
   get "/plays/:play" => "plays#show"
 

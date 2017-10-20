@@ -94,27 +94,6 @@
         doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ven.xml"))
     end %>
 
-
-    <!-- 
-        Get title of play and display in the top left corner of the page. Clicking on the title will take
-        you to the home page.
-    -->
-    <div class="script-title">
-        <div id="Home-button">
-            <a id="home" href="/">
-                <p style = "margin: 12px" id="title"></p>
-            </a>
-        </div>
-        <% title = doc.css('title').first %>
-        <script>
-            document.getElementById('title').innerHTML = '<%= escape_javascript title.inner_text %>';
-        </script>
-        <div id="About-button">
-                <p style = "margin: 12px" id="about">About</p>
-        </div>
-    </div>
-
-
     <!-- 
         Parse the XML file for number of acts & scenes in order to 
         create the navigation bar 
