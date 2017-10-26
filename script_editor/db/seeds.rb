@@ -55,3 +55,12 @@ files.each do |file|
     end
   end
 end
+
+play = Play.all.first
+edit = play.edits.create()
+act = play.acts.first
+scene = act.scenes.first
+line = scene.lines.first
+word = line.words.first
+
+Cut.create(edit_id: edit.id, word_id: word.id)
