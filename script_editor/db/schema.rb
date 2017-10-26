@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016012026) do
+ActiveRecord::Schema.define(version: 20171026165705) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
+    t.integer  "play_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cuts", force: :cascade do |t|
+    t.integer  "edit_id"
+    t.integer  "word_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "edits", force: :cascade do |t|
+    t.integer  "user_id"
     t.integer  "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -25,7 +39,6 @@ ActiveRecord::Schema.define(version: 20171016012026) do
     t.string   "speaker"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.boolean  "cut",        default: false
     t.boolean  "isStage",    default: false
   end
 
