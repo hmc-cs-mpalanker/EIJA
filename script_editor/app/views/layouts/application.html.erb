@@ -23,10 +23,10 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class = "nav-text">
-                            <%= link_to "New Post"%>
-                        </li>
                         <%- if current_user %>
+                        <li class = "nav-text">
+                            <%= link_to "My Profile", current_user %>
+                        </li class = "nav-text">
                         <li class = "nav-text">
                             <%= link_to "Logout", destroy_user_session_path, method: :delete, data:{ confirm: "Are you sure?" } %>
                         </li class = "nav-text">

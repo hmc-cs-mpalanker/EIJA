@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
   resources :edit_plays
   get "/plays/:play" => "plays#show"
+  get '/users/:id' => 'users#show', :as => :user
 
   get 'home/homepage'
 
