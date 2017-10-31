@@ -6,26 +6,29 @@
 <body class = "script-main">
     <% @acts.each do |act| %>
       <h3> Act <%= act.number %> </h3>
-      <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
+      <% rscenes = Scene.includes(:act).where(:act_id => act.id).order(:number) %>
       <% rscenes.each do |scene| %>
         <h4> Scene <%= scene.number %> </h4>
-        <% rlines = Line.joins(:scene).where(:scene_id => scene.id).order(:number) %>
+        <% rlines = Line.includes(:scene).where(:scene_id => scene.id).order(:number) %>
         <% rlines.each do |line| %>
           <% if line.isStage %>
               <p><button class ="word"><i><%= line.words.first.text %></i> </button></p>
           <% else %>
-          <% words = Word.joins(:line).where(:line_id => line.id).order(:place) %>
-          <% string = "" %>
-          <% Line.preload(:words) %>
-          <p>
-            <strong> <%= line.speaker %> </strong>
-            <%= line.number %>
-            <% words.each do |word| %>
-              <button class ="word">
-              <%= word.text %>
-              </button>
+            <% words = Word.joins(:cuts).select("words.*, cuts.edit_id").where(:line_id => line.id).order(:place) %>
+
+            <p>
+              <strong> <%= line.speaker %> </strong>
+              <%= line.number %>
+              <% words.each do |word| %>
+                <% if word.edit_id == @edit.id %>
+                  <button class="word">CUT</button>
+                <% else %>
+                  <button class ="word">
+                  <%= word.text %>
+                  </button>
+                <% end %>
               <% end %>
-          </p>
+            </p>
           <% end %>
         <% end %>
       <% end %>
