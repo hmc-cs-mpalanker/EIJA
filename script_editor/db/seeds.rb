@@ -56,11 +56,14 @@ files.each do |file|
   end
 end
 
-play = Play.all.first
+play = Play.find(1)
 edit = play.edits.create()
-act = play.acts.first
-scene = act.scenes.first
-line = scene.lines.first
-word = line.words.first
-
-Cut.create(edit_id: edit.id, word_id: word.id)
+Act.joins(:play).where(:play_id => play.id).order(:number).each do |act|
+  Scene.joins(:act).where(:act_id => act.id).order(:number).each do |scene|
+    Line.joins(:scene).where(:scene_id => scene.id).order(:number).each do |line|
+      Word.joins(:line).where(:line_id => line.id).order(:place).each do |word|
+        Cut.create(edit_id: edit.id, word_id: word.id)
+      end
+    end
+  end
+end
