@@ -108,6 +108,7 @@ div.script-main {
     bottom: 0;
     right: 15%;
     z-index:0;
+    text-align: left;
 }
 
 div.sceneDiv {
@@ -126,13 +127,6 @@ div.sceneDiv {
 #title {
     text-align: center;
     font-size: 24px;
-    font-family: 'Courier New';
-    color: #faebd7;
-}
-
-#about {
-    text-align: center;
-    font-size: 20px;
     font-family: 'Courier New';
     color: #faebd7;
 }
