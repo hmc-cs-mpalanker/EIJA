@@ -1,62 +1,7 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html><body style = "background-color: #faebd7">
-    <p id="notice"></p>
-
-    <!-- 
-        Parse the XML file for number of acts & scenes in order to 
-        create the navigation bar 
-    -->
-    <div class="script-side-bar">
-        <div class="play-navigation">
-
-            <!-- This button shows the play's synopsis -->
-            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
-
-            <!-- This button shows the play's analytics -->
-            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
-
-            <!-- Create a button for each act and scene in the play -->
-            <% currAct = 1 %>
-            <% currScene = 1 %>
-            <% currIndex = 1 %>
-            <% @acts.each do |act| %>
-                <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
-                <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "na" + currAct.to_s %>';
-                </script>
-                <% currAct = currAct + 1 %>
-                <% currScene = 1 %>
-            <%end%>
-        </div>
-    </div>
-
-
-    <!-- 
-        The synopsis will show up here as a popup 
-    -->  
-    <div id="synopsis-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="hidden-synopsis" id="hidden-synopsis"></div>
-        </div>
-    </div>
-
-
-    <!-- 
-        The analytics will show up here as a popup 
-    -->
-    <div id="analytics-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class="hidden-analytics" id="hidden-analytics"></div>
-            <% analyticstext = "Total Lines: ????" %>
-            <script>
-                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
-            </script>
-        </div>
-    </div>
-        
+    <p id="notice"></p>        
 
     <!-- 
         Parse the XML file for number of acts & scenes in order to 
