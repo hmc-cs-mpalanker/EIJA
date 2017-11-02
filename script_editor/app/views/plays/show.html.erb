@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    <div class="script-main" id = <% @edit.id %>> 
+    <div class="script-main" id=<% @edit.id %> > 
         <% @acts.each do |act| %>
             <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
@@ -197,7 +197,7 @@
     function dataCut(clickedItem,cut)
     {
         var idNum = parseInt(clickedItem.id);
-        var script = $("script-main")[0];
+        var script = $(".script-main")[0];
         var cEditId = script.id;
         if(cut)
         {

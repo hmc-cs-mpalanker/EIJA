@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'cuts/new'
-  get 'cuts/delete'
+  post 'cuts/new'
+  post 'cuts/delete'
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :edit_plays
   resources :plays
