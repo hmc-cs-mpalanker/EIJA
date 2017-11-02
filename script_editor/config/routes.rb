@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'cuts/new'
+
+  get 'cuts/delete'
+
   resources :plays
   get "/plays/show"
 
