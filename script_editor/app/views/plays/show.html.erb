@@ -180,6 +180,8 @@
     document.querySelector(".script-main").addEventListener("mouseup", lift, false);
     var mousedrag = false;
     var currId = 0;
+    var cutlist = [];
+    var uncutlist = [];
 
     //Save that the mouse is down.
     function drag(e)
@@ -197,18 +199,28 @@
     function dataCut(clickedItem,cut)
     {
         var idNum = parseInt(clickedItem.id);
-        var script = $("script-main")[0];
-        var cEditId = script.id;
         if(cut)
         {
+
+        }
+    }
+
+    function saveCut()
+    {
+        var script = $("script-main")[0];
+        var cEditId = script.id;
+        for(int i=0;i=cutlist.length;++i)
+        {
+            idNum = cutlist[i];
             $.post("/cuts/new",
             {
                 editI: cEditId,
                 wordI: idNum
             });
         }
-        else
+        for(int i=0;i=uncutlist.length;++i)
         {
+            idNum = uncutlist[i];
             $.post("/cuts/delete",
             {
                 editI: cEditId,
