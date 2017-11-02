@@ -82,6 +82,14 @@
                 </script>
                 <% currAct = currAct + 1 %>
                 <% currScene = 1 %>
+                <% @scenes.each do |scene| %>
+                    <button class="nav-scene" id="current-scene"><%= "SCENE " + currScene.to_s %></button>
+                    <script>
+                        document.getElementById('current-scene').id = '<%= escape_javascript "ns" + currIndex.to_s %>';
+                    </script>
+                    <% currScene = currScene + 1 %>
+                    <% currIndex = currIndex + 1 %>
+                <%end%>
             <%end%>
         </div>
     </div>
