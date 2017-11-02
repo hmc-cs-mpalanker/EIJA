@@ -145,7 +145,7 @@
                         <% words.each do |word| %>
                             <% if word.edit_id == @edit.id %>
                                 <!-- If the word was cut on load -->
-                                <button class ="word" data-cut="false" data-display="true">
+                                <button class ="cword" data-cut="false" data-display="true">
                                     <%= word.text %>
                                 </button>
                             <% else %>
