@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171013020352) do
+ActiveRecord::Schema.define(version: 20171026165705) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
@@ -19,20 +19,26 @@ ActiveRecord::Schema.define(version: 20171013020352) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "edit_plays", force: :cascade do |t|
-    t.string   "play"
+  create_table "cuts", force: :cascade do |t|
+    t.integer  "edit_id"
+    t.integer  "word_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "edits", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "lines", force: :cascade do |t|
     t.integer  "number"
-    t.string   "words"
     t.integer  "scene_id"
     t.string   "speaker"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.boolean  "cut",        default: false
     t.boolean  "isStage",    default: false
   end
 
@@ -47,6 +53,36 @@ ActiveRecord::Schema.define(version: 20171013020352) do
     t.integer  "act_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "user_name"
+    t.string   "major"
+    t.integer  "grad_year"
+    t.boolean  "enrolled"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "words", force: :cascade do |t|
+    t.string   "text"
+    t.integer  "line_id"
+    t.integer  "place"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["line_id"], name: "index_words_on_line_id"
   end
 
 end
