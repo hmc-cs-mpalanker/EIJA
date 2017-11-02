@@ -125,20 +125,28 @@
                     <% if line.isStage %>
                         <button class="stage" data-cut="false" data-display="true"> <%= line.words.first.text %> </button> <br>
                     <% else %>
-                        <% words = Word.joins(:line).where(:line_id => line.id).order(:place) %>
                         <% string = "" %>
                         <% Line.preload(:words) %>
                     <p>
+                        <% words = Word.joins(:cuts).select("words.*, cuts.edit_id").where(:line_id => line.id).order(:place) %>
                         <% if (currentSpeaker != line.speaker) %>
                             <% currentSpeaker = line.speaker %>
                             <br> <p class="speaker"> <%= line.speaker %> </p> <br>
                         <% end %>
                         <p class="lineNum"><%= line.number %></p>
                         <% words.each do |word| %>
-                        <button class ="word" data-cut="false" data-display="true">
-                            <%= word.text %>
-                        </button>
-                    <% end %>
+                            <% if word.edit_id == @edit.id %>
+                                <!-- If the word was cut on load -->
+                                <button class ="word" data-cut="false" data-display="true">
+                                    <%= word.text %>
+                                </button>
+                            <% else %>
+                                <!-- If the word was not cut on load -->
+                                <button class ="word" data-cut="false" data-display="true">
+                                    <%= word.text %>
+                                </button>
+                            <% end %>
+                        <% end %>
                     </p>
                 <% end %>
             <% end %>
