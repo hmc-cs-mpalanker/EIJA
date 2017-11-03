@@ -39,6 +39,11 @@
   <div class = "title-card">
     <%= @user.user_name%>'s Saved Edits
   </div>
+  <% edits = Edit.where(:user_id => @user.id) %>
+  <% edits.each do |edit| %>
+    <div class = "card">
+    </div>
+  <% end %>
 </div>
 
 </body></html>
