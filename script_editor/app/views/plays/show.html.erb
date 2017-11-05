@@ -198,7 +198,7 @@
     {
         var idNum = parseInt(clickedItem.id);
         var script = $(".script-main")[0];
-        var cEditId = script.id;
+        var cEditId = parseInt(script.id);
         if(cut)
         {
             $.post("/cuts/new",
