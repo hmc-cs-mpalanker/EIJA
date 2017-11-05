@@ -131,7 +131,7 @@
                 <% currentSpeaker = "" %>
                 <% rlines.each do |line| %>
                     <% if line.isStage %>
-                        <button class="stage" data-cut="false" data-display="true"> <%= line.words.first.text %> </button> <br>
+                        <button class="stage" data-cut="false" data-display="true" id = <% line.id %>> <%= line.words.first.text %> </button> <br>
                     <% else %>
                         <% string = "" %>
                         <% Line.preload(:words) %>
@@ -145,12 +145,12 @@
                         <% words.each do |word| %>
                             <% if word.edit_id == @edit.id %>
                                 <!-- If the word was cut on load -->
-                                <button class ="cword" data-cut="false" data-display="true">
+                                <button class ="cword" data-cut="false" data-display="true" id = <% word.id %>>
                                     <%= word.text %>
                                 </button>
                             <% else %>
                                 <!-- If the word was not cut on load -->
-                                <button class ="word" data-cut="false" data-display="true">
+                                <button class ="word" data-cut="false" data-display="true" id = <% word.id %>>
                                     <%= word.text %>
                                 </button>
                             <% end %>
@@ -197,8 +197,10 @@
     function dataCut(clickedItem,cut)
     {
         var idNum = parseInt(clickedItem.id);
+        console.log(clickedItem.id);
         var script = $(".script-main")[0];
         var cEditId = parseInt(script.id);
+        console.log(script.id);
         if(cut)
         {
             $.post("/cuts/new",
