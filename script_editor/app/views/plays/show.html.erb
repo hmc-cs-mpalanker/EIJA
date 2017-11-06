@@ -136,7 +136,7 @@
                         <% string = "" %>
                         <% Line.preload(:words) %>
                     <p>
-                        <% words = Word.joins(:cuts).select("words.*, cuts.edit_id").where(:line_id => line.id).order(:place) %>
+                        <% words = Word.left_outer_joins(:cuts).select("words.*, cuts.edit_id").where(:line_id => line.id).order(:place) %>
                         <% if (currentSpeaker != line.speaker) %>
                             <% currentSpeaker = line.speaker %>
                             <br> <p class="speaker"> <%= line.speaker %> </p> <br>
