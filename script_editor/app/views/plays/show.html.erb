@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    <div class="script-main" id = <% @edit.id %>> 
+    <div class="script-main" id = <%= @edit.id.to_s %>> 
         <% @acts.each do |act| %>
             <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
@@ -133,12 +133,12 @@
                 <% currentSpeaker = "" %>
                 <% rlines.each do |line| %>
                     <% if line.isStage %>
-                        <button class="stage" data-cut="false" data-display="true"> <%= line.words.first.text %> </button> <br>
+                        <button class="stage" data-cut="false" data-display="true" id = <%= line.id.to_s %>> <%= line.words.first.text %> </button> <br>
                     <% else %>
                         <% string = "" %>
                         <% Line.preload(:words) %>
                     <p>
-                        <% words = Word.joins(:cuts).select("words.*, cuts.edit_id").where(:line_id => line.id).order(:place) %>
+                        <% words = Word.left_outer_joins(:cuts).select("words.*, cuts.edit_id").where(:line_id => line.id).order(:place) %>
                         <% if (currentSpeaker != line.speaker) %>
                             <% currentSpeaker = line.speaker %>
                             <br> <p class="speaker"> <%= line.speaker %> </p> <br>
@@ -147,12 +147,12 @@
                         <% words.each do |word| %>
                             <% if word.edit_id == @edit.id %>
                                 <!-- If the word was cut on load -->
-                                <button class ="word" data-cut="false" data-display="true">
+                                <button class ="cword" data-cut="false" data-display="true" id = <%= word.id %> >
                                     <%= word.text %>
                                 </button>
                             <% else %>
                                 <!-- If the word was not cut on load -->
-                                <button class ="word" data-cut="false" data-display="true">
+                                <button class ="word" data-cut="false" data-display="true" id = <%= word.id %>>
                                     <%= word.text %>
                                 </button>
                             <% end %>
@@ -180,6 +180,8 @@
 
     //If the mouse is lifted, tell the program that we're no long dragging the mouse.
     document.querySelector(".script-main").addEventListener("mouseup", lift, false);
+
+    document.querySelector(".save-button").addEventListener("click", saveCut, false);
     var mousedrag = false;
     var currId = 0;
     var cutlist = [];
@@ -213,24 +215,36 @@
 
     function saveCut()
     {
-        var script = $("script-main")[0];
+        var script = $(".script-main")[0];
         var cEditId = parseInt(script.id);
-        for(i=0;i<cutlist.length;++i)
+        var cLength = cutlist.length;
+        var ucLength = uncutlist.length;
+        for(i=0;i<cLength;++i)
         {
-            idNum = cutlist[i];
+            idNum = cutlist.pop();
+            console.log(idNum);
             $.post("/cuts/new",
             {
                 editI: cEditId,
                 wordI: idNum
+            }).fail(function()
+            {
+                cutlist.push(idNum);
+                saveCut();
             });
+            delete cutlist[i];
         }
-        for(i=0;i<uncutlist.length;++i)
+        for(i=0;i<ucLength;++i)
         {
-            idNum = uncutlist[i];
+            idNum = uncutlist.pop();
             $.post("/cuts/delete",
             {
                 editI: cEditId,
                 wordI: idNum
+            }).fail(function()
+            {
+                uncutlist.push(idNum);
+                saveCut();
             });
         }
     }
@@ -291,26 +305,26 @@
         // Strikesthrough stage directions if mouse is down, and unstrikes if shift is also held.
         if (clickedItem.getAttribute("class") == "stage") {
             if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey && clickedItem.style.textDecoration == "none") {
-                    dataCut(clickedItem,true);
+                if (mousedrag && !e.shiftKey) {
                     literalCut(clickedItem,true);
+                    dataCut(clickedItem,true);
                 }
-                else if(e.shiftKey && mousedrag && clickedItem.style.textDecoration != "none") {
-                    dataCut(clickedItem,false);
+                else if(e.shiftKey && mousedrag) {
                     literalCut(clickedItem,false);
+                    dataCut(clickedItem,false);
                 }
             }
         }
         // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
         else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword") {
             if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey && clickedItem.style.textDecoration == "none") {
-                    dataCut(clickedItem,true);
+                if (mousedrag && !e.shiftKey) {
                     literalCut(clickedItem,true);
+                    dataCut(clickedItem,true);
                 }
-                else if(e.shiftKey && mousedrag && clickedItem.style.textDecoration != "none") {
-                    dataCut(clickedItem,false);
+                else if(e.shiftKey && mousedrag) {
                     literalCut(clickedItem,false);
+                    dataCut(clickedItem,false);
                 }
             }
         }
