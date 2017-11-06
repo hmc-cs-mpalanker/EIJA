@@ -70,6 +70,8 @@
             <!-- This button shows the play's analytics -->
             <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
 
+            <button class="save-button"> SAVE </button>
+
             <!-- Create a button for each act and scene in the play -->
             <% currAct = 1 %>
             <% currScene = 1 %>
@@ -201,15 +203,19 @@
         var idNum = parseInt(clickedItem.id);
         if(cut)
         {
-
+            cutlist[cutlist.length] = idNum;
+        }
+        else
+        {
+            uncutlist[uncutlist.length] = idNum;
         }
     }
 
     function saveCut()
     {
         var script = $("script-main")[0];
-        var cEditId = script.id;
-        for(int i=0;i=cutlist.length;++i)
+        var cEditId = parseInt(script.id);
+        for(i=0;i<cutlist.length;++i)
         {
             idNum = cutlist[i];
             $.post("/cuts/new",
@@ -218,7 +224,7 @@
                 wordI: idNum
             });
         }
-        for(int i=0;i=uncutlist.length;++i)
+        for(i=0;i<uncutlist.length;++i)
         {
             idNum = uncutlist[i];
             $.post("/cuts/delete",
@@ -285,11 +291,11 @@
         // Strikesthrough stage directions if mouse is down, and unstrikes if shift is also held.
         if (clickedItem.getAttribute("class") == "stage") {
             if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey) {
+                if (mousedrag && !e.shiftKey && clickedItem.style.textDecoration == "none") {
                     dataCut(clickedItem,true);
                     literalCut(clickedItem,true);
                 }
-                else if(e.shiftKey && mousedrag) {
+                else if(e.shiftKey && mousedrag && clickedItem.style.textDecoration != "none") {
                     dataCut(clickedItem,false);
                     literalCut(clickedItem,false);
                 }
@@ -298,11 +304,11 @@
         // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
         else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword") {
             if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey) {
+                if (mousedrag && !e.shiftKey && clickedItem.style.textDecoration == "none") {
                     dataCut(clickedItem,true);
                     literalCut(clickedItem,true);
                 }
-                else if(e.shiftKey && mousedrag) {
+                else if(e.shiftKey && mousedrag && clickedItem.style.textDecoration != "none") {
                     dataCut(clickedItem,false);
                     literalCut(clickedItem,false);
                 }
