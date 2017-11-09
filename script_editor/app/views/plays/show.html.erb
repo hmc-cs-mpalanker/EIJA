@@ -137,12 +137,12 @@
                   </button>
                   <br>
                 <% else %>
-                  <% if (currentSpeaker != wordline.speaker) %>
-                    <% currentSpeaker = wordline.speaker %>
-                    <br> <p class="speaker"> <%= wordline.speaker %> </p> <br>
-                  <% end %>
                     <% if wordline.lineNum != last_number %>
                       <% last_number = wordline.lineNum %>
+                      <% if (currentSpeaker != wordline.speaker) %>
+                        <% currentSpeaker = wordline.speaker %>
+                        <br><br> <p class="speaker"> <%= wordline.speaker %> </p>
+                      <% end %>
                       <br>
                       <p class="lineNum"><%= wordline.lineNum %></p>
                     <% end %>
