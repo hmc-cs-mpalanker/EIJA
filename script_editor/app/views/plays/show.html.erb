@@ -3,34 +3,6 @@
 <html><body style = "background-color: #faebd7">
     <p id="notice"></p>
 
-    <!--
-        Parse the XML file for number of acts & scenes in order to
-        create the navigation bar
-    -->
-    <div class="script-side-bar">
-        <div class="play-navigation">
-
-            <!-- This button shows the play's synopsis -->
-            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
-
-            <!-- This button shows the play's analytics -->
-            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
-
-            <!-- Create a button for each act and scene in the play -->
-            <% currAct = 1 %>
-            <% currScene = 1 %>
-            <% currIndex = 1 %>
-            <% @acts.each do |act| %>
-                <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
-                <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "na" + currAct.to_s %>';
-                </script>
-                <% currAct = currAct + 1 %>
-                <% currScene = 1 %>
-            <%end%>
-        </div>
-    </div>
-
 
     <!--
         The synopsis will show up here as a popup
@@ -71,26 +43,24 @@
             <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
 
             <!-- Create a button for each act and scene in the play -->
-            <% currAct = 1 %>
-            <% currScene = 1 %>
-            <% currIndex = 1 %>
-            <% @acts.each do |act| %>
-                <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
+            <% lastact = 0 %>
+            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number").where(acts: {:play_id => @play.id}) %>
+            <% actScenes.each do |actScene| %>
+              <% if lastact != actScene.act_number %>
+                <% lastact = actScene.act_number %>
+                <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
                 <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "na" + currAct.to_s %>';
+                    document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
                 </script>
-                <% currAct = currAct + 1 %>
-                <% currScene = 1 %>
-                <% scenes = Scene.where(:act_id => act.id).order(:number) %>
-                <% scenes.each do |scene| %>
-                    <button class="nav-scene" id="current-scene"><%= "SCENE " + currScene.to_s %></button>
-                    <script>
-                        document.getElementById('current-scene').id = '<%= escape_javascript "ns" + currIndex.to_s %>';
-                    </script>
-                    <% currScene = currScene + 1 %>
-                    <% currIndex = currIndex + 1 %>
-                <%end%>
-            <%end%>
+              <% end %>
+              <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
+              <script>
+                  document.getElementById('current-scene').id = '<%= escape_javascript "ns" + actScene.scene_number.to_s %>';
+              </script>
+
+            <% end %>
+
+
         </div>
     </div>
 
