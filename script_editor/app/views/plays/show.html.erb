@@ -186,6 +186,7 @@
     var currId = 0;
     var cutlist = [];
     var uncutlist = [];
+    var checkId = "";
 
     //Save that the mouse is down.
     function drag(e)
@@ -200,15 +201,23 @@
         currId = 0;
     }
 
+    function remove(word)
+    {
+        return word != checkId;
+    }
+
     function dataCut(clickedItem,cut)
     {
         var idNum = parseInt(clickedItem.id);
+        checkId = idNum;
         if(cut)
         {
+            cutlist = cutlist.filter(remove);
             cutlist[cutlist.length] = idNum;
         }
         else
         {
+            uncutlist = uncutlist.filter(remove);
             uncutlist[uncutlist.length] = idNum;
         }
     }
