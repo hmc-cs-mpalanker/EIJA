@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171022214024) do
+ActiveRecord::Schema.define(version: 20171103040916) do
+
+  create_table "acts", force: :cascade do |t|
+    t.integer  "number"
+    t.integer  "play_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cuts", force: :cascade do |t|
+    t.integer  "edit_id"
+    t.integer  "word_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["edit_id"], name: "index_cuts_on_edit_id"
+    t.index ["word_id"], name: "index_cuts_on_word_id"
+  end
 
   create_table "edit_plays", force: :cascade do |t|
     t.string   "play"
@@ -18,8 +34,31 @@ ActiveRecord::Schema.define(version: 20171022214024) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "edits", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "play_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lines", force: :cascade do |t|
+    t.integer  "number"
+    t.integer  "scene_id"
+    t.string   "speaker"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "isStage",    default: false
+  end
+
   create_table "plays", force: :cascade do |t|
     t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scenes", force: :cascade do |t|
+    t.integer  "number"
+    t.integer  "act_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -41,8 +80,21 @@ ActiveRecord::Schema.define(version: 20171022214024) do
     t.string   "major"
     t.integer  "grad_year"
     t.boolean  "enrolled"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "words", force: :cascade do |t|
+    t.string   "text"
+    t.integer  "line_id"
+    t.integer  "place"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["line_id"], name: "index_words_on_line_id"
   end
 
 end
