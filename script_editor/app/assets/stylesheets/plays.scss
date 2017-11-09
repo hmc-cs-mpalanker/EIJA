@@ -2,6 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// These variables control the color scheme of the editing view.
+$nav-back-color: #3f3f5f;
+$nav-border-color: #000033;
+$nav-first-row-color: #7f7fbf;
+$nav-second-row-color: #b2b2ff;
+
 @media print { 
     .noprint { 
         display:none; 
@@ -43,11 +49,21 @@ br {
     display: inline-block;
     float: left;
     height: 100%;
-    width: 20%;
-    padding-top: 20px;
-    font-size: 32px;
+    width: 30%;
+    font-size: 20px;
     font-family: serif;
-    background-color: #aaaaaa;
+    background-color: #3f3f5f;
+}
+
+#About-button {
+    display: inline-block;
+    float: right;
+    height: 100%;
+    width: 8%;
+    font-size: 20px;
+    font-family: serif;
+    background-color: #3f3f5f;
+    margin-right: 5px;
 }
 
 #home {
@@ -66,9 +82,9 @@ div.script-title {
     position: absolute; 
     top: 0; 
     left: 0; 
-    background-color: #dedede; 
+    background-color: #3f3f5f; 
     width: 100%; 
-    height: 10%;
+    height: 6%;
     z-index:0;
 }
 
@@ -76,12 +92,12 @@ div.script-side-bar {
     position: fixed;
     width: 20%;
     overflow-y: scroll;
-    top: 10%;
+    top: 6%;
     bottom: 0;
     left: 0;
-    background-color: #efefef;
-    z-index:1;
-    margin-right:1%;
+    background-color: $nav-back-color;
+    z-index: 1;
+    margin-right: 1%;
 }
 
 div.script-main {
@@ -92,11 +108,27 @@ div.script-main {
     bottom: 0;
     right: 15%;
     z-index:0;
+    text-align: left;
+}
+
+div.sceneDiv {
+    text-align: left;
+    // The following code will prevent the user from using
+    // the browser's default highlighting function.
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -o-user-select: none;
+    user-select: none;
 }
 
 #title {
-    font-size: 36px;
-    font-family: 'Times New Roman';
+    text-align: center;
+    font-size: 24px;
+    font-family: 'Courier New';
+    color: #faebd7;
 }
 
 /////////////////////////////////
@@ -122,6 +154,17 @@ div.script-main {
     font-size: 14px;
 }
 
+.cword {
+    background:none;
+    background-color: none;
+    text-decoration: line-through;
+    color: #D3D3D3;
+    padding: 0px;
+    margin: 0px;
+    border:none;
+    font-size: 14px;
+}
+
 .stage {
      background:none;
      background-color: none;
@@ -141,7 +184,7 @@ div.script-main {
      text-align: left;
      margin-left: 25px;
      padding:0!important;
-     font-size: 14px;
+     font-size: 28px;
 }
 
 .scenehead {
@@ -153,7 +196,7 @@ div.script-main {
      text-align: left;
      margin-left: 25px;
      padding:0!important;
-     font-size: 14px;
+     font-size: 20px;
 }
 
 .character {
@@ -173,10 +216,10 @@ div.script-main {
 div.play-navigation {
     float: left; 
     width: 80%; 
-    background-color: #aaaaaa;
+    background-color: $nav-border-color;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: $nav-border-color;
     margin-left: 25px;
     margin-bottom: 30px;
     margin-right: 25px;
@@ -186,44 +229,70 @@ div.play-navigation {
 button.nav-synopsis, button.nav-analytics {
     height: 40px;
     text-align: center;
-    background-color: #eeeeee;
+    background-color: $nav-first-row-color;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: $nav-border-color;
     width: 100%;
+    transition: 0.3s;
+    position: relative;
+}
+
+button.nav-synopsis:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 2;
 }
 
 button.nav-analytics {
     height: 40px;
     text-align: center;
-    background-color: #cccccc;
+    background-color: $nav-second-row-color;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: $nav-border-color;
     width: 100%;
+    transition: 0.3s;
+}
+
+button.nav-analytics:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 2;
 }
 
 button.nav-act { 
     height: 40px;
     text-align: left;
-    background-color: #eeeeee;
+    background-color: $nav-first-row-color;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: $nav-border-color;
     width: 100%;
-    float: right;
+    transition: 0.3s;
+    position: relative;
 } 
+
+button.nav-act:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 2;
+}
 
 button.nav-scene {
     height: 30px;
     text-align: left;
-    background-color: #cccccc;
+    background-color: $nav-second-row-color;
     border-style: solid;
     border-width: 1px;
-    border-color: #aaaaaa;
+    border-color: $nav-border-color;
     width: 85%;
     float: right;
+    transition: 0.3s;
+    position: relative;
 } 
+
+button.nav-scene:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 2;
+}
 
 /* The Modal (background) */
 .shown-modal {

@@ -1,116 +1,7 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body>
-    <p id="notice"></p>
-
-    <!-- 
-        Decide what XML file to open depending on the URL.
-        We did them one-by-one because the URL's didn't match
-        Folger Digital Text's file-naming scheme. 
-    -->
-    <% doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
-    if "#{request.fullpath}" == "/plays/a_midsummer_nights_dream"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MND.xml"))
-    elsif "#{request.fullpath}" == "/plays/alls_well_that_ends_well"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/AWW.xml"))
-    elsif "#{request.fullpath}" == "/plays/antony_and_cleopatra"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ant.xml"))
-    elsif "#{request.fullpath}" == "/plays/as_you_like_it"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/AYL.xml"))
-    elsif "#{request.fullpath}" == "/plays/coriolanus"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Cor.xml"))
-    elsif "#{request.fullpath}" == "/plays/cymbeline"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Cym.xml"))
-    elsif "#{request.fullpath}" == "/plays/hamlet"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ham.xml"))
-    elsif "#{request.fullpath}" == "/plays/henry_iv_part_1"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/1H4.xml"))
-    elsif "#{request.fullpath}" == "/plays/henry_iv_part_2"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/2H4.xml"))
-    elsif "#{request.fullpath}" == "/plays/henry_v"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/H5.xml"))
-    elsif "#{request.fullpath}" == "/plays/henry_vi_part_1"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/1H6.xml"))
-    elsif "#{request.fullpath}" == "/plays/henry_vi_part_2"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/2H6.xml"))
-    elsif "#{request.fullpath}" == "/plays/henry_vi_part_3"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/3H6.xml"))
-    elsif "#{request.fullpath}" == "/plays/henry_viii"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/H8.xml"))
-    elsif "#{request.fullpath}" == "/plays/julius_caesar"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/JC.xml"))
-    elsif "#{request.fullpath}" == "/plays/king_john"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Jn.xml"))
-    elsif "#{request.fullpath}" == "/plays/king_lear"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Lr.xml"))
-    elsif "#{request.fullpath}" == "/plays/loves_labors_lost"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/LLL.xml"))
-    elsif "#{request.fullpath}" == "/plays/lucrece"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Luc.xml"))
-    elsif "#{request.fullpath}" == "/plays/macbeth"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Mac.xml"))
-    elsif "#{request.fullpath}" == "/plays/measure_for_measure"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MM.xml"))
-    elsif "#{request.fullpath}" == "/plays/much_ado_about_nothing"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ado.xml"))
-    elsif "#{request.fullpath}" == "/plays/othello"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Oth.xml"))
-    elsif "#{request.fullpath}" == "/plays/pericles"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Per.xml"))
-    elsif "#{request.fullpath}" == "/plays/richard_ii"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/R2.xml"))
-    elsif "#{request.fullpath}" == "/plays/richard_iii"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/R3.xml"))
-    elsif "#{request.fullpath}" == "/plays/romeo_and_juliet"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Rom.xml"))
-    elsif "#{request.fullpath}" == "/plays/shakespeares_sonnets"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Son.xml"))
-    elsif "#{request.fullpath}" == "/plays/taming_of_the_shrew"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Shr.xml"))
-    elsif "#{request.fullpath}" == "/plays/the_comedy_of_errors"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Err.xml"))
-    elsif "#{request.fullpath}" == "/plays/the_merchant_of_venice"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/MV.xml"))
-    elsif "#{request.fullpath}" == "/plays/the_merry_wives_of_windsor"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Wiv.xml"))
-    elsif "#{request.fullpath}" == "/plays/the_phoenix_and_turtle"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/PhT.xml"))
-    elsif "#{request.fullpath}" == "/plays/the_tempest"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tmp.xml"))
-    elsif "#{request.fullpath}" == "/plays/the_two_gentlemen_of_verona"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TGV.xml"))
-    elsif "#{request.fullpath}" == "/plays/the_two_noble_kinsmen"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TNK.xml"))
-    elsif "#{request.fullpath}" == "/plays/the_winters_tale"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/WT.xml"))
-    elsif "#{request.fullpath}" == "/plays/timon_of_athens"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tim.xml"))
-    elsif "#{request.fullpath}" == "/plays/titus_andronicus"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tit.xml"))
-    elsif "#{request.fullpath}" == "/plays/troilus_and_cressida"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Tro.xml"))
-    elsif "#{request.fullpath}" == "/plays/twelfth_night"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/TN.xml"))
-    elsif "#{request.fullpath}" == "/plays/venus_and_adonis"
-        doc = Nokogiri::XML(File.open("FolgerDigitalTexts_XML_Complete/Ven.xml"))
-    end %>
-
-
-    <!-- 
-        Get title of play and display at top of page 
-    -->
-    <div class="script-title">
-        <div id="Home-button">
-            <a id="home" href="/">Home</a>
-        </div>
-        <div id="play-title">
-            <p id="title"></p>
-        </div>
-        <% title = doc.css('title').first %>
-        <script>
-            document.getElementById('title').innerHTML = '<%= escape_javascript title.inner_text %>';
-        </script>
-    </div>
-
+<html><body style = "background-color: #faebd7">
+    <p id="notice"></p>        
 
     <!-- 
         Parse the XML file for number of acts & scenes in order to 
@@ -129,23 +20,13 @@
             <% currAct = 1 %>
             <% currScene = 1 %>
             <% currIndex = 1 %>
-            <% acts= doc.css('//div1') %>
-            <% acts.each do |act| %>
+            <% @acts.each do |act| %>
                 <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
                 <script>
                     document.getElementById('current-act').id = '<%= escape_javascript "na" + currAct.to_s %>';
                 </script>
                 <% currAct = currAct + 1 %>
                 <% currScene = 1 %>
-                <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
-                <% scenes.each do |scene| %>
-                    <button class="nav-scene" id="current-scene"><%= "SCENE " + currScene.to_s %></button>
-                    <script>
-                        document.getElementById('current-scene').id = '<%= escape_javascript "ns" + currIndex.to_s %>';
-                    </script>
-                    <% currScene = currScene + 1 %>
-                    <% currIndex = currIndex + 1 %>
-                <% end%>
             <%end%>
         </div>
     </div>
@@ -158,10 +39,6 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <div class="hidden-synopsis" id="hidden-synopsis"></div>
-            <% synopsistext = doc.css('//div[type="synopsis"]').text %>
-            <script>
-                document.getElementById('hidden-synopsis').innerHTML = '<%= escape_javascript synopsistext %>';
-            </script>
         </div>
     </div>
 
@@ -180,233 +57,249 @@
         </div>
     </div>
 
-
     <!-- 
-        Parse the XML file for the actual script, and display everything 
+        Parse the XML file for number of acts & scenes in order to 
+        create the navigation bar 
     -->
-    <div class="script-main"> 
-        <% currAct = 1 %>
-        <% currScene = 1 %>
-        <% currIndex = 1 %>  
+    <div class="script-side-bar">
+        <div class="play-navigation">
 
-        <% acts= doc.css('//div1') %>
-        <% acts.each do |act| %>
-            <% if Nokogiri::XML(act.to_s).css('head').first != nil %>
-            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-cut="false" data-display="true"> <%= Nokogiri::XML(act.to_s).css('head').first.inner_text %></button><br></b>
-            <% end %>
-            <script>
-                document.getElementById('current-act').id = '<%= escape_javascript "a" + currAct.to_s %>';
-                document.getElementById('Diva').id = '<%= escape_javascript "Diva" + currAct.to_s%>';
-            </script>
-            <% currAct = currAct + 1 %>
-            <% scenes = Nokogiri::XML(act.to_s).css('//div2') %>
+            <!-- This button shows the play's synopsis -->
+            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
+
+            <!-- This button shows the play's analytics -->
+            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
+
+            <!-- Create a button for each act and scene in the play -->
+            <% currAct = 1 %>
             <% currScene = 1 %>
-            <% scenes.each do |scene| %>
-                <% if Nokogiri::XML(scene.to_s).css('head').first != nil %>
-                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-cut="false" data-display="true"><%= Nokogiri::XML(scene.to_s).css('head').first.inner_text %></button><br>
-                <% end %>
+            <% currIndex = 1 %>
+            <% @acts.each do |act| %>
+                <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
                 <script>
-                    document.getElementById('current-scene').id = '<%= escape_javascript "s" + currIndex.to_s %>';
-                    document.getElementById('Divs').id = '<%= escape_javascript "Divs" + currIndex.to_s%>';
+                    document.getElementById('current-act').id = '<%= escape_javascript "na" + currAct.to_s %>';
                 </script>
-                <% currScene = currScene + 1 %>
-                <% currIndex = currIndex + 1 %>
-
-                <% lines = Nokogiri::XML(scene.to_s).css('//sp') %>
-                <% stages = Nokogiri::XML(scene.to_s).css('stage').to_a %>
-
-                <% lines.each do |line| %>
-                <!-- DISPLAY STAGE DIRECTIONS -->
-                    <!-- Get line id -->
-                    <% lineN = line.attr("xml:id").to_s.gsub("sp-","").to_f %>
-
-                    <% stages.each do |stage| %>
-                        <!-- Get stage direction id -->
-                        <% stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f %>
-                        <!-- If there is a stage dir that comes before the line -->
-                        <% if (stageN < lineN) and (stageN >= lineN-1.0)%>
-                            <!-- display stage direction -->
-                            <br>
-                            <button class="stage" data-cut="false" data-display="true"> <%= stage.inner_text %> </button> <br>
-                            <% stages.delete(stage) %>
-                        <% end %>
-                    <% end %>
-
-                    <!-- Getting all the info needed for each line -->
-                    <% speaker = Nokogiri::XML(line.to_s).css('speaker') %>
-                    <% milestones = Nokogiri::XML(line.to_s).css('milestone') %>
-                    <% spwords = Nokogiri::XML(line.to_s).css('w','c','pc') %>
-
-                    <!-- DISPLAY SPEAKER -->
-                    <br><p class="speaker"><%=speaker.inner_text%> </p><br>
-
-                    <!-- DISPLAY LINES -->
-                    <% milestones.each do |ms| %>
-
-                        <% msN = ms.attr("xml:id").to_s.gsub("ftln-","").to_f %>
-                        <% stages.each do |stage| %>
-                            <!-- Get stage direction id -->
-                            <% stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f %>
-                            <!-- If there is a stage dir inside speech -->
-                            <% if (stageN <= msN) and (stageN >= msN-1.0) %>
-                            <!-- display stage direction -->
-                                <button class="stage" data-cut="false" data-display="true"> <%= stage.inner_text %> </button> <br>
-                                <% stages.delete(stage) %>
-                            <% end %>
-                        <% end %>
-
-                        <!-- get line number -->
-                        <% lineNum = ms.attr("n").to_s.split(".")[2] %>
-                        <!-- get corresps per milestone in array -->
-                        <% wordIDs = ms.attr("corresp").to_s.split(" ") %>
-                        <!-- remove #s -->
-                        <% wordIDs = wordIDs.map { |w| w.gsub("#","")} %>
-                        <!-- Search spwords for corresponding w/c/pc -->
-                        
-                        <!-- DISPLAY LINE NUMBER -->
-                        <p class="lineNum"><%= lineNum %></p>
-
-                        <% wordIDs.each do |id| %>
-                            <% spwords.each do |word| %>
-                                <% if word.attr('xml:id').to_s == id %>
-                                <!-- DISPLAY EACH WORD -->
-                                <% if (word.inner_text == ".") || (word.inner_text == ",") || (word.inner_text == "?") || (word.inner_text == "!") || (word.inner_text == ";") || (word.inner_text == ":") %>
-                                    <button class="punc" data-cut="false" data-display="true"><%= word.inner_text %></button>
-                                <% else %>
-                                    <% if word.inner_text != "" && word.inner_text != " " %>
-                                        <button class="word" data-cut="false" data-display="true"><%= word.inner_text %></button>
-                                    <% end %>
-                                <% end %>
-                            <% end %>
-                        <% end %>
-                    <% end %>
-
-                    <!-- BREAK FOR NEW LINE -->
-                    <br>
-
-
-                    <% stages.each do |stage| %>
-                        <!-- Get stage direction id -->
-                        <% stageN = stage.attr('xml:id').to_s.gsub("stg-","").to_f %>
-                        <!-- If there is a stage dir inside speech -->
-                        <% if (stageN >= msN) and (stageN < msN+1.0) %>
-                            <!-- display stage direction -->
-                            <button class="stage" data-cut="false" data-display="true"> <%= stage.inner_text %> </button> <br>
-                            <% stages.delete(stage) %>
-                        <% end %>
-                    <% end %>
-
-                <% end %>
-                <% end %>
-                
-                <br>
-                <% stages.each do |stage| %>
-                    <button class="stage" data-cut="false" data-display="true"><%= stage.inner_text %></button> <br>
-                    <% stages.delete(stage) %>
-                <% end %>
-            <% end%>
-            </div>
-            <br>
-        <%end%>
+                <% currAct = currAct + 1 %>
+                <% currScene = 1 %>
+                <% scenes = Scene.where(:act_id => act.id).order(:number) %>
+                <% scenes.each do |scene| %>
+                    <button class="nav-scene" id="current-scene"><%= "SCENE " + currScene.to_s %></button>
+                    <script>
+                        document.getElementById('current-scene').id = '<%= escape_javascript "ns" + currIndex.to_s %>';
+                    </script>
+                    <% currScene = currScene + 1 %>
+                    <% currIndex = currIndex + 1 %>
+                <%end%>
+            <%end%>
         </div>
     </div>
 
-    <script>
-        document.querySelector(".script-main").addEventListener("click", doCut, false);
-        // all words will need to be printed within the div class "script-main"
-        function doCut(e) {
-            var clickedItem = e.target;
-            // act
-            if (clickedItem.getAttribute("class") == "acthead") {
-            //    if (clickedItem.tagName.toLowerCase() == "button") {
-            //
-            //        // Don't cut Acts
-            //        var entireAct = document.getElementById("Div" + clickedItem.id);
-            //        var allChildren = entireAct.getElementsByTagName("button");
-            //        if (clickedItem.dataset.cut.toLowerCase() == "false") {
-            //            for (var i = 0; i < allChildren.length; i++) {
-            //                allChildren[i].style.color = "#D3D3D3";
-            //                allChildren[i].style.textDecoration = "line-through";
-            //                allChildren[i].dataset.cut = "true";
-            //            }
-            //            //clickedItem.style.color = "#D3D3D3";
-            //            //clickedItem.style.textDecoration = "line-through";
-            //            clickedItem.dataset.cut = "true";
-            //        }
-            //        // perform uncut
-            //        else {
-            //            for (var i = 0; i < allChildren.length; i++) {
-            //                allChildren[i].style.color = "#000000";
-            //                allChildren[i].style.textDecoration = "none";
-            //                allChildren[i].dataset.cut = "false";
-            //            }
-            //            // clickedItem.style.color = "#000000";
-            //            // clickedItem.style.textDecoration = "none";
-            //            clickedItem.dataset.cut = "false";
-            //        }
-            //    }    
+
+    <!-- 
+        The synopsis will show up here as a popup 
+    -->  
+    <div id="synopsis-modal" class="shown-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="hidden-synopsis" id="hidden-synopsis"></div>
+        </div>
+    </div>
+
+
+    <!-- 
+        The analytics will show up here as a popup 
+    -->
+    <div id="analytics-modal" class="shown-modal">
+        <div class="modal-content">
+            <span class="close2">&times;</span>
+            <div class="hidden-analytics" id="hidden-analytics"></div>
+            <% analyticstext = "Total Lines: ????" %>
+            <script>
+                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
+            </script>
+        </div>
+    </div>
+
+    <div class="script-main" id=<%= @edit.id.to_s %> > 
+        <% @acts.each do |act| %>
+            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
+             <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
+             <% rscenes.each do |scene| %>
+                <br>
+                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button><br>
+                <% rlines = Line.joins(:scene).where(:scene_id => scene.id).order(:number) %>
+                <% currentSpeaker = "" %>
+                <% rlines.each do |line| %>
+                    <% if line.isStage %>
+                        <button class="stage" data-cut="false" data-display="true" id = <%= line.id.to_s %>> <%= line.words.first.text %> </button> <br>
+                    <% else %>
+                        <% string = "" %>
+                        <% Line.preload(:words) %>
+                    <p>
+                        <% words = Word.left_outer_joins(:cuts).select("words.*, cuts.edit_id").where(:line_id => line.id).order(:place) %>
+                        <% if (currentSpeaker != line.speaker) %>
+                            <% currentSpeaker = line.speaker %>
+                            <br> <p class="speaker"> <%= line.speaker %> </p> <br>
+                        <% end %>
+                        <p class="lineNum"><%= line.number %></p>
+                        <% words.each do |word| %>
+                            <% if word.edit_id == @edit.id %>
+                                <!-- If the word was cut on load -->
+                                <button class ="cword" data-cut="false" data-display="true" id = <%= word.id.to_s %>>
+                                    <%= word.text %>
+                                </button>
+                            <% else %>
+                                <!-- If the word was not cut on load -->
+                                <button class ="word" data-cut="false" data-display="true" id = <%= word.id.to_s %>>
+                                    <%= word.text %>
+                                </button>
+                            <% end %>
+                        <% end %>
+                    </p>
+                <% end %>
+            <% end %>
+            <% end %>
+            </div>
+        <% end %>
+        </div>
+    </div>
+
+<script>
+    //Create events for the various functions associated with strikethrough.
+
+    //If we click the mouse down, tell the program we're dragging the mouse.
+    document.querySelector(".script-main").addEventListener("mousedown", drag, false);
+
+    //If we move the mouse over an element, let it know. If the mouse is down, this will strikethrough the element.
+    document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
+
+    //If the mouse is clicked down over an element, cut the element.
+    document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
+
+    //If the mouse is lifted, tell the program that we're no long dragging the mouse.
+    document.querySelector(".script-main").addEventListener("mouseup", lift, false);
+    var mousedrag = false;
+    var currId = 0;
+
+    //Save that the mouse is down.
+    function drag(e)
+    {
+        mousedrag = true;
+    }
+
+    //Save that the mouse is up.
+    function lift(e)
+    {
+        mousedrag = false;
+        currId = 0;
+    }
+
+    function dataCut(clickedItem,cut)
+    {
+        var idNum = parseInt(clickedItem.id);
+        console.log(clickedItem.id);
+        var script = $(".script-main")[0];
+        var cEditId = parseInt(script.id);
+        console.log(script.id);
+        if(cut)
+        {
+            $.post("/cuts/new",
+            {
+                editI: cEditId,
+                wordI: idNum
+            });
+        }
+        else
+        {
+            $.post("/cuts/delete",
+            {
+                editI: cEditId,
+                wordI: idNum
+            });
+        }
+    }
+
+    function modifyStyle(clickedItem,color,style,cut)
+    {
+        clickedItem.style.color = color;
+        clickedItem.style.textDecoration = style;
+        clickedItem.dataset.cut = cut;      
+    }
+
+    //Actually executes the XML cut on a word
+    function literalCut(clickedItem,cut)
+    {
+        var color;
+        var style;
+        if(cut)
+        {
+            style = "line-through";
+            if(clickedItem.getAttribute("class") == "cword")
+            {
+                color = "#D3D3D3";
             }
-            // scene
-            else if (clickedItem.getAttribute("class") == "scenehead") {
-            //    if (clickedItem.tagName.toLowerCase() == "button") {
-            //        // perform cut
-            //        var entireScene = document.getElementById("Div" + clickedItem.id);
-            //        var allChildren = entireScene.getElementsByTagName("button");
-            //        if (clickedItem.dataset.cut.toLowerCase() == "false") {
-            //            for (var i = 0; i < allChildren.length; i++) {
-            //                allChildren[i].style.color = "#D3D3D3";
-            //                allChildren[i].style.textDecoration = "line-through";
-            //                allChildren[i].dataset.cut = "true";
-            //            }
-            //            //clickedItem.style.color = "#D3D3D3";
-            //            //clickedItem.style.textDecoration = "line-through";
-            //            clickedItem.dataset.cut = "true";
-            //        }
-            //        // perform uncut
-            //        else {
-            //            for (var i = 0; i < allChildren.length; i++) {
-            //                allChildren[i].style.color = "#000000";
-            //                allChildren[i].style.textDecoration = "none";
-            //                allChildren[i].dataset.cut = "false";
-            //            }
-            //            //clickedItem.style.color = "#000000";
-            //            //clickedItem.style.textDecoration = "none";
-            //            clickedItem.dataset.cut = "false";
-            //        }
-            //    }    
+            else
+            {
+                color = "#888888";
             }
-            // stage
-            else if (clickedItem.getAttribute("class") == "stage") {
-                if (clickedItem.tagName.toLowerCase() == "button") {
-                    if (clickedItem.dataset.cut.toLowerCase() == "false") {
-                        clickedItem.style.color = "#D3D3D3";
-                        clickedItem.style.textDecoration = "line-through";
-                        clickedItem.dataset.cut = "true";
-                    }
-                    else {
-                        clickedItem.style.color = "#000000";
-                        clickedItem.style.textDecoration = "none";
-                        clickedItem.dataset.cut = "false";
-                    }
-                }    
+        }
+        else
+        {
+            style = "none";
+            if(clickedItem.getAttribute("class") == "cword")
+            {
+                color = "#006BFF";
             }
-            // line
-            else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc") {
-                if (clickedItem.tagName.toLowerCase() == "button") {
-                    if (clickedItem.dataset.cut.toLowerCase() == "false") {
-                        clickedItem.style.color = "#D3D3D3";
-                        clickedItem.style.textDecoration = "line-through";
-                        clickedItem.dataset.cut = "true";
-                    }
-                    else {
-                        clickedItem.style.color = "#000000";
-                        clickedItem.style.textDecoration = "none";
-                        clickedItem.dataset.cut = "false";
-                    }
-                }    
+            else
+            {
+                color = "#000000";
+            } 
+        }
+        modifyStyle(clickedItem,color,style,cut);
+        checkWrap(clickedItem,cut);
+    }
+
+    function checkWrap(clickedItem,cut)
+    {
+        var intId = parseInt(clickedItem.id)
+        if(currId != 0)
+        {
+            //Wrap function goes here! Probably make it a helper and call it.
+        }
+        currId = intId;
+    }
+
+    // all words will need to be printed within the div class "script-main"
+    function doCut(e) {
+        var clickedItem = e.target;
+        // Strikesthrough stage directions if mouse is down, and unstrikes if shift is also held.
+        if (clickedItem.getAttribute("class") == "stage") {
+            if (clickedItem.tagName.toLowerCase() == "button") {
+                if (mousedrag && !e.shiftKey) {
+                    dataCut(clickedItem,true);
+                    literalCut(clickedItem,true);
+                }
+                else if(e.shiftKey && mousedrag) {
+                    dataCut(clickedItem,false);
+                    literalCut(clickedItem,false);
+                }
             }
-        };
-    </script>
+        }
+        // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
+        else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword") {
+            if (clickedItem.tagName.toLowerCase() == "button") {
+                if (mousedrag && !e.shiftKey) {
+                    dataCut(clickedItem,true);
+                    literalCut(clickedItem,true);
+                }
+                else if(e.shiftKey && mousedrag) {
+                    dataCut(clickedItem,false);
+                    literalCut(clickedItem,false);
+                }
+            }
+        }
+    };
+</script>
 
 
 
@@ -498,5 +391,7 @@
             }
         } 
     </script>
+
+    </div>
 
 </body></html>
