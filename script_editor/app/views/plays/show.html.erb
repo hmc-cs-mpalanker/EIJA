@@ -131,22 +131,29 @@
                 <% last_number = 0 %>
                 <% currentSpeaker = "" %>
                 <% wordLines.each do |wordline| %>
-                <% if (currentSpeaker != wordline.speaker) %>
-                  <% currentSpeaker = wordline.speaker %>
-                  <br> <p class="speaker"> <%= wordline.speaker %> </p> <br>
-                <% end %>
-                  <% if wordline.lineNum != last_number %>
-                    <% last_number = wordline.lineNum %>
-                    <br>
-                    <p class="lineNum"><%= wordline.lineNum %></p>
-                  <% end %>
-                  <% if wordline.edit_id == @edit.id %>
-                    <button class ="cword" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                  <% else %>
-                    <button class ="word" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                  <% end %>
-                  <%= wordline.text %>
+                <% if wordline.isStage %>
+                  <button class="stage" data-cut="false" data-display="true" id = <%= wordline.lineNum.to_s %>>
+                    <%= wordline.text %>
                   </button>
+                  <br>
+                <% else %>
+                  <% if (currentSpeaker != wordline.speaker) %>
+                    <% currentSpeaker = wordline.speaker %>
+                    <br> <p class="speaker"> <%= wordline.speaker %> </p> <br>
+                  <% end %>
+                    <% if wordline.lineNum != last_number %>
+                      <% last_number = wordline.lineNum %>
+                      <br>
+                      <p class="lineNum"><%= wordline.lineNum %></p>
+                    <% end %>
+                    <% if wordline.edit_id == @edit.id %>
+                      <button class ="cword" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
+                    <% else %>
+                      <button class ="word" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
+                    <% end %>
+                    <%= wordline.text %>
+                    </button>
+                  <% end %>
                 <% end %>
 
             <% end %>
