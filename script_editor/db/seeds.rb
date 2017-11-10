@@ -48,14 +48,14 @@ files.each do |file|
               if word.attr('xml:id').to_s == id
                 if (word.inner_text == " ")
                   passvvar = ""
-                elsif (word.inner_text =~ /[[:punct:]]/)
-                  toTextAdd = toTextAdd + word.inner_text
-                else
+                elsif (word.inner_text =~ /[[:alpha:]]/)
                   newline.words.create(text: toTextAdd, place: toPlaceAdd)
                   toTextAdd = word.inner_text
                   toPlaceAdd = wordPlace + 1
                   #allthewords = allthewords + word.inner_text
                   wordPlace = wordPlace + 1
+                else
+                  toTextAdd = toTextAdd + word.inner_text
                 end
               end
             end
