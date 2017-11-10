@@ -41,15 +41,26 @@ files.each do |file|
           allthewords = ""
           wordPlace = 0
           newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text)
+          toTextAdd = ""
+          toPlaceAdd = 0
           wordIDs.each do |id|
             spwords.each do |word|
               if word.attr('xml:id').to_s == id
-                newline.words.create(text: word.inner_text, place: wordPlace)
-                #allthewords = allthewords + word.inner_text
-                wordPlace = wordPlace + 1
+                if (word.inner_text == " ")
+                  passvvar = ""
+                elsif (word.inner_text == "," || word.inner_text == ".")
+                  toTextAdd = toTextAdd + word.inner_text
+                else
+                  newline.words.create(text: toTextAdd, place: toPlaceAdd)
+                  toTextAdd = word.inner_text
+                  toPlaceAdd = wordPlace + 1
+                  #allthewords = allthewords + word.inner_text
+                  wordPlace = wordPlace + 1
+                end
               end
             end
           end
+          newline.words.create(text: toTextAdd, place: wordPlace)
         end
       end
     end
