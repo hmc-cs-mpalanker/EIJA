@@ -44,16 +44,20 @@
 
             <!-- Create a button for each act and scene in the play -->
             <% lastact = 0 %>
-            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number").where(acts: {:play_id => @play.id}) %>
+            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
             <% actScenes.each do |actScene| %>
               <% if lastact != actScene.act_number %>
                 <% lastact = actScene.act_number %>
-                <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
+                <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
+                <% cutActWords = Word.joins(:line => :scene).joins(:cuts).where(scenes: {:act_id => actScene.act_id}).where(cuts: {:edit_id => @edit.id}).count %>
+                <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s  + " Word Count: " + actWords.to_s+" "+cutActWords.to_s %></button>
                 <script>
                     document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
                 </script>
               <% end %>
-              <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
+              <% sceneWords = Word.joins(:line).where(lines: {:scene_id => actScene.scene_id}).count %>
+              <% cutSceneWords = Word.joins(:line).joins(:cuts).where(lines: {:scene_id => actScene.scene_id}).where(cuts: {:edit_id => @edit.id}).count %>
+              <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s + " Word Count: " + sceneWords.to_s+" "+cutSceneWords.to_s %></button>
               <script>
                   document.getElementById('current-scene').id = '<%= escape_javascript "ns" + actScene.scene_number.to_s %>';
               </script>
