@@ -22,7 +22,13 @@
         <div class="modal-content">
             <span class="close2">&times;</span>
             <div class="hidden-analytics" id="hidden-analytics"></div>
-            <% analyticstext = "Total Lines: ????" %>
+            <h3> Total raw words </h3>
+            <%= raw = Word.joins(:line => {:scene => :act}).where(acts: {:play_id => @play.id}).count %>
+            <h4> Number Cut </h4>
+            <%= cut = Word.joins(:line => {:scene => :act}).joins(:cuts).where(acts: {:play_id => @play.id}).where(cuts: {:edit_id => @edit.id}).count %>
+            <h4> Number left </h4>
+            <%= raw-cut %>
+            <% analyticstext = "" %>
             <script>
                 document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
             </script>
@@ -69,30 +75,6 @@
     </div>
 
 
-    <!--
-        The synopsis will show up here as a popup
-    -->
-    <div id="synopsis-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="hidden-synopsis" id="hidden-synopsis"></div>
-        </div>
-    </div>
-
-
-    <!--
-        The analytics will show up here as a popup
-    -->
-    <div id="analytics-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class="hidden-analytics" id="hidden-analytics"></div>
-            <% analyticstext = "Total Lines: ????" %>
-            <script>
-                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
-            </script>
-        </div>
-    </div>
 
     <div class="script-main" id=<%= @edit.id.to_s %> >
         <% @acts.each do |act| %>
