@@ -49,7 +49,9 @@ files.each do |file|
                 if (word.inner_text == " ")
                   passvvar = ""
                 elsif (word.inner_text =~ /[[:alpha:]]/)
-                  newline.words.create(text: toTextAdd, place: toPlaceAdd)
+                  if (toTextAdd != "")
+                    newline.words.create(text: toTextAdd, place: wordPlace)
+                  end
                   toTextAdd = word.inner_text
                   toPlaceAdd = wordPlace + 1
                   #allthewords = allthewords + word.inner_text
@@ -60,7 +62,9 @@ files.each do |file|
               end
             end
           end
-          newline.words.create(text: toTextAdd, place: wordPlace)
+          if (toTextAdd != "")
+            newline.words.create(text: toTextAdd, place: wordPlace)
+          end
         end
       end
     end
