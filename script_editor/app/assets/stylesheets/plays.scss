@@ -106,9 +106,19 @@ div.script-main {
     overflow-y: scroll;
     top: 10%;
     bottom: 0;
-    right: 15%;
+    right: 20%;
     z-index:0;
     text-align: left;
+}
+
+div.script-editor {
+    position: fixed;
+    width: 20%;
+    top: 6%;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    margin-left: 1%;
 }
 
 div.sceneDiv {
@@ -210,6 +220,31 @@ div.sceneDiv {
 }
 
 /////////////////////////////////
+// For the script editor
+/////////////////////////////////
+
+button.save-button {
+    height: 40px;
+    text-align: center;
+    background-color: $nav-second-row-color;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $nav-border-color;
+    width: 50%;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+div.edit-explanation {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    margin-top: 20px;
+    margin-right: 10px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+/////////////////////////////////
 // For the navigation bar
 /////////////////////////////////
 
@@ -226,7 +261,7 @@ div.play-navigation {
     margin-top: 10%;
 } 
 
-button.nav-synopsis, button.nav-analytics, button.save-button {
+button.nav-synopsis, button.nav-analytics {
     height: 40px;
     text-align: center;
     background-color: $nav-first-row-color;
