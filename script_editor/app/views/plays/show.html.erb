@@ -64,6 +64,15 @@
         </div>
     </div>
 
+    <div class="script-editor">
+        <div class="edit-explanation">
+            Click and drag in order to strikethrough words.
+            Hold down shift, click, and drag in order to unstrikethrough words.
+        </div>
+        
+        <button class="save-button"> SAVE </button>
+    </div>
+
 
     <!--
         The synopsis will show up here as a popup
@@ -90,7 +99,7 @@
         </div>
     </div>
 
-    <div class="script-main" id=<%= @edit.id.to_s %> >
+    <div class="script-main" id = <%= @edit.id.to_s %>> 
         <% @acts.each do |act| %>
             <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
@@ -146,8 +155,18 @@
 
     //If the mouse is lifted, tell the program that we're no long dragging the mouse.
     document.querySelector(".script-main").addEventListener("mouseup", lift, false);
+
+    document.querySelector(".save-button").addEventListener("click", saveCut, false);
     var mousedrag = false;
     var currId = 0;
+    var cutlist = [];
+    var uncutlist = [];
+    var checkId = "";
+
+    //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
+    $( document ).ajaxError( function( event, jqxhr, settings) {
+        $.ajax(settings);
+    });
 
     //Save that the mouse is down.
     function drag(e)
@@ -162,23 +181,47 @@
         currId = 0;
     }
 
+    function remove(word)
+    {
+        return word != checkId;
+    }
+
     function dataCut(clickedItem,cut)
     {
         var idNum = parseInt(clickedItem.id);
-        console.log(clickedItem.id);
-        var script = $(".script-main")[0];
-        var cEditId = parseInt(script.id);
-        console.log(script.id);
+        checkId = idNum;
         if(cut)
         {
+            cutlist = cutlist.filter(remove);
+            cutlist.push(idNum);
+        }
+        else
+        {
+            uncutlist = uncutlist.filter(remove);
+            uncutlist.push(idNum);
+        }
+    }
+
+    function saveCut()
+    {
+        var script = $(".script-main")[0];
+        var cEditId = parseInt(script.id);
+        while(cutlist.length != 0)
+        {
+            idNum = cutlist.pop();
+            var cutmessage = "Cut: " + idNum.toString();
+            console.log(cutmessage);
             $.post("/cuts/new",
             {
                 editI: cEditId,
                 wordI: idNum
             });
         }
-        else
+        while(uncutlist.length != 0)
         {
+            idNum = uncutlist.pop();
+            var cutmessage = "Uncut: " + idNum.toString();
+            console.log(cutmessage);
             $.post("/cuts/delete",
             {
                 editI: cEditId,
@@ -244,12 +287,12 @@
         if (clickedItem.getAttribute("class") == "stage") {
             if (clickedItem.tagName.toLowerCase() == "button") {
                 if (mousedrag && !e.shiftKey) {
-                    dataCut(clickedItem,true);
                     literalCut(clickedItem,true);
+                    dataCut(clickedItem,true);
                 }
                 else if(e.shiftKey && mousedrag) {
-                    dataCut(clickedItem,false);
                     literalCut(clickedItem,false);
+                    dataCut(clickedItem,false);
                 }
             }
         }
@@ -257,12 +300,12 @@
         else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword") {
             if (clickedItem.tagName.toLowerCase() == "button") {
                 if (mousedrag && !e.shiftKey) {
-                    dataCut(clickedItem,true);
                     literalCut(clickedItem,true);
+                    dataCut(clickedItem,true);
                 }
                 else if(e.shiftKey && mousedrag) {
-                    dataCut(clickedItem,false);
                     literalCut(clickedItem,false);
+                    dataCut(clickedItem,false);
                 }
             }
         }
