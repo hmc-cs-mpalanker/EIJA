@@ -22,7 +22,48 @@
         <div class="modal-content">
             <span class="close2">&times;</span>
             <div class="hidden-analytics" id="hidden-analytics"></div>
-            <% analyticstext = "Total Lines: ????" %>
+
+            <br>
+
+            <!-- Create a button for each act and scene in the play -->
+            <% lastact = 0 %>
+            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
+            <% actScenes.each do |actScene| %>
+              <% if lastact != actScene.act_number %>
+                <% lastact = actScene.act_number %>
+                <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
+                <% cutActWords = Word.joins(:line => :scene).joins(:cuts).where(scenes: {:act_id => actScene.act_id}).where(cuts: {:edit_id => @edit.id}).count %>
+                <div class="analytics-actRow">
+                    <div class="analytics-column analytics-left">
+                        <%= "ACT " + actScene.act_number.to_s %>
+                    </div>
+                    <div class="analytics-column analytics-middle">
+                        <%= "Original Word Count: " + actWords.to_s %>
+                    </div>
+                    <div class="analytics-column analytics-right">
+                        <%= "New Word Count: " + (actWords-cutActWords).to_s %>
+                    </div>
+                    <br>
+                </div>
+              <% end %>
+              <% sceneWords = Word.joins(:line).where(lines: {:scene_id => actScene.scene_id}).count %>
+              <% cutSceneWords = Word.joins(:line).joins(:cuts).where(lines: {:scene_id => actScene.scene_id}).where(cuts: {:edit_id => @edit.id}).count %>
+              <div class="analytics-sceneRow">
+                <div class="analytics-column analytics-left">
+                        <%= "SCENE " + actScene.scene_number.to_s %>
+                    </div>
+                    <div class="analytics-column analytics-middle">
+                        <%= "Original Word Count: " + sceneWords.to_s %>
+                    </div>
+                    <div class="analytics-column analytics-right">
+                        <%= "New Word Count: "+(sceneWords-cutSceneWords).to_s %>
+                    </div>
+                    <br>
+              </div>
+
+            <% end %>
+
+            <% analyticstext = "" %>
             <script>
                 document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
             </script>
@@ -44,7 +85,7 @@
 
             <!-- Create a button for each act and scene in the play -->
             <% lastact = 0 %>
-            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number").where(acts: {:play_id => @play.id}) %>
+            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
             <% actScenes.each do |actScene| %>
               <% if lastact != actScene.act_number %>
                 <% lastact = actScene.act_number %>
@@ -74,30 +115,6 @@
     </div>
 
 
-    <!--
-        The synopsis will show up here as a popup
-    -->
-    <div id="synopsis-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="hidden-synopsis" id="hidden-synopsis"></div>
-        </div>
-    </div>
-
-
-    <!--
-        The analytics will show up here as a popup
-    -->
-    <div id="analytics-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class="hidden-analytics" id="hidden-analytics"></div>
-            <% analyticstext = "Total Lines: ????" %>
-            <script>
-                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
-            </script>
-        </div>
-    </div>
 
     <div class="script-main" id = <%= @edit.id.to_s %>> 
         <% @acts.each do |act| %>

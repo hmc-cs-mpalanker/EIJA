@@ -142,6 +142,49 @@ div.sceneDiv {
 }
 
 /////////////////////////////////
+// For the analytics display
+/////////////////////////////////
+
+.analytics-column {
+    float: left;
+    padding: 10px;
+}
+
+.analytics-left {
+    width: 20%;
+    text-align: left;
+    max-width: 90px;
+}
+
+.analytics-middle {
+    width: 40%;
+    text-align: left;
+    max-width: 220px;
+}
+
+.analytics-right {
+    width: 40%;
+    text-align: left;
+    max-width: 230px;
+}
+
+.analytics-actRow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.analytics-sceneRow {
+    margin-left: 15px;
+}
+
+.analytics-sceneRow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/////////////////////////////////
 // For editable word buttons
 /////////////////////////////////
 
@@ -349,7 +392,7 @@ button.nav-scene:hover {
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 38%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
