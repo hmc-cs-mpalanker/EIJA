@@ -130,13 +130,13 @@
                 <% if wordline.isStage %>
                     <% if wordline.edit_id == @edit.id %>
                         <br/>
-                        <button class="cstage" data-cut="false" data-display="true" id = <%= wordline.lineNum.to_s %>>
+                        <button class="cstage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
                             <%= wordline.text %>
                         </button>
                         <br>
                     <% else %>
                         <br/>
-                        <button class="stage" data-cut="false" data-display="true" id = <%= wordline.lineNum.to_s %>>
+                        <button class="stage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
                             <%= wordline.text %>
                         </button>
                         <br>                    
@@ -190,7 +190,7 @@
     var checkId = "";
 
     //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
-    $( document ).ajaxError( function( event, jqxhr, settings) {
+    $( document ).ajaxError( function( event, jqxhr, settings, thrownError) {
         $.ajax(settings);
     });
 
