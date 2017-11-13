@@ -1,6 +1,6 @@
-# Shakespeare Script Editor (MLCH)
+# Shakespeare Script Editor (EIJA)
 
-The Shakespeare Script Editor is a website made by team MLCH for CS121: Software Development in the Spring 2017 semester. The website allows users to choose a Shakespeare from a list or find one using a search bar, read the play, and cut words from the play. The script editor also analyzes each play, providing line numbers, a synopsis, and a navigation bar with the number of acts and scenes in the play.
+The Shakespeare Script Editor is a website initially made by team MLCH for CS121: Software Development in the Spring 2017 semester, and the team EIJA continued their work in the Fall 2017 semester. The website allows users to choose a Shakespeare from a list or find one using a search bar, read the play, and cut words from the play. The script editor also analyzes each play, providing line numbers, a synopsis, and a navigation bar with the number of acts and scenes in the play.
 
 ## Installation
 
@@ -19,7 +19,7 @@ To run the website on localhost:
 
 in terminal:
 
-`cd MLCH`
+`cd EIJA`
 
 `cd script_editor`
 
@@ -52,9 +52,11 @@ localhost:3000
     
 ## Credits
 
-Contributors: Mahlet Melaku, Holly Mitchell, Lee Norgaard, Crystal Xiang
+Contributors (MLCH): Mahlet Melaku, Holly Mitchell, Lee Norgaard, Crystal Xiang
 
-Client: Prof. Benjamin Wiedermann
+Contributors (EIJA): Evan Amason, Israel Jones, Jake Palanker, and Ashley Schmit
+
+Clients: Prof. Benjamin Wiedermann and Prof. Ambereen Dadabhoy
 
 CS121 Professor: Yekaterina Kharitonova
 

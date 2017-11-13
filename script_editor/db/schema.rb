@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171103040916) do
+ActiveRecord::Schema.define(version: 20171109072602) do
+>>>>>>> b21e44c78f6b6005e1a09f080e7eef693c6219c8
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
     t.integer  "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["play_id"], name: "index_acts_on_play_id"
   end
 
   create_table "cuts", force: :cascade do |t|
@@ -28,10 +30,21 @@ ActiveRecord::Schema.define(version: 20171103040916) do
     t.index ["word_id"], name: "index_cuts_on_word_id"
   end
 
-  create_table "edit_plays", force: :cascade do |t|
-    t.string   "play"
+  create_table "edits", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "lines", force: :cascade do |t|
+    t.integer  "number"
+    t.integer  "scene_id"
+    t.string   "speaker"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "isStage",    default: false
+    t.index ["scene_id"], name: "index_lines_on_scene_id"
   end
 
   create_table "edits", force: :cascade do |t|
@@ -61,6 +74,8 @@ ActiveRecord::Schema.define(version: 20171103040916) do
     t.integer  "act_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["act_id"], name: "index_scenes_on_act_id"
+>>>>>>> b21e44c78f6b6005e1a09f080e7eef693c6219c8
   end
 
   create_table "users", force: :cascade do |t|

@@ -106,8 +106,19 @@ div.script-main {
     overflow-y: scroll;
     top: 10%;
     bottom: 0;
-    right: 15%;
+    right: 20%;
     z-index:0;
+    text-align: left;
+}
+
+div.script-editor {
+    position: fixed;
+    width: 20%;
+    top: 6%;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    margin-left: 1%;
 }
 
 div.sceneDiv {
@@ -130,11 +141,47 @@ div.sceneDiv {
     color: #faebd7;
 }
 
-#about {
-    text-align: center;
-    font-size: 20px;
-    font-family: 'Courier New';
-    color: #faebd7;
+/////////////////////////////////
+// For the analytics display
+/////////////////////////////////
+
+.analytics-column {
+    float: left;
+    padding: 10px;
+}
+
+.analytics-left {
+    width: 20%;
+    text-align: left;
+    max-width: 90px;
+}
+
+.analytics-middle {
+    width: 40%;
+    text-align: left;
+    max-width: 220px;
+}
+
+.analytics-right {
+    width: 40%;
+    text-align: left;
+    max-width: 230px;
+}
+
+.analytics-actRow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.analytics-sceneRow {
+    margin-left: 15px;
+}
+
+.analytics-sceneRow:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 /////////////////////////////////
@@ -160,6 +207,17 @@ div.sceneDiv {
     font-size: 14px;
 }
 
+.cword {
+    background:none;
+    background-color: none;
+    text-decoration: line-through;
+    color: #D3D3D3;
+    padding: 0px;
+    margin: 0px;
+    border:none;
+    font-size: 14px;
+}
+
 .stage {
      background:none;
      background-color: none;
@@ -168,6 +226,16 @@ div.sceneDiv {
      border:none;
      padding:0!important;
      font-size: 14px;
+}
+
+.cstage {
+    background:none;
+    background-color: none;
+    text-decoration: line-through;
+    color: #D3D3D3;
+    border:none;
+    padding:0!important;
+    font-size: 14px;
 }
 
 .acthead {
@@ -202,6 +270,31 @@ div.sceneDiv {
      text-align: left;
      margin-left: 25px;
      padding:0!important;
+}
+
+/////////////////////////////////
+// For the script editor
+/////////////////////////////////
+
+button.save-button {
+    height: 40px;
+    text-align: center;
+    background-color: $nav-second-row-color;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $nav-border-color;
+    width: 50%;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+div.edit-explanation {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    margin-top: 20px;
+    margin-right: 10px;
+    font-family: "Times New Roman", Times, serif;
 }
 
 /////////////////////////////////
@@ -309,7 +402,7 @@ button.nav-scene:hover {
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 38%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
