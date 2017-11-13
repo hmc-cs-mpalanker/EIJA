@@ -130,13 +130,13 @@
                 <% if wordline.isStage %>
                     <% if wordline.edit_id == @edit.id %>
                         <br/>
-                        <button class="cstage" data-cut="false" data-display="true" id = <%= wordline.lineNum.to_s %>>
+                        <button class="cstage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
                             <%= wordline.text %>
                         </button>
                         <br>
                     <% else %>
                         <br/>
-                        <button class="stage" data-cut="false" data-display="true" id = <%= wordline.lineNum.to_s %>>
+                        <button class="stage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
                             <%= wordline.text %>
                         </button>
                         <br>                    
@@ -182,6 +182,12 @@
     //If the mouse is lifted, tell the program that we're no long dragging the mouse.
     document.querySelector(".script-main").addEventListener("mouseup", lift, false);
 
+    //Stop cutting or uncutting if the mouse leaves the document or window.
+    $(document).mouseleave(function()
+    {
+        lift();    
+    });
+
     document.querySelector(".save-button").addEventListener("click", saveCut, false);
     var mousedrag = false;
     var currId = 0;
@@ -189,29 +195,39 @@
     var uncutlist = [];
     var checkId = "";
 
+    $(window).on("beforeunload", function() {
+        if(cutlist.length != 0 || uncutlist != 0)
+        {
+            return "Are you sure you want to leave? You have unsaved work which will be lost.";
+        }
+    });
+
     //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
-    $( document ).ajaxError( function( event, jqxhr, settings) {
+    //If a server call fails, try again.
+    $( document ).ajaxError( function( event, jqxhr, settings, thrownError) {
         $.ajax(settings);
     });
 
     //Save that the mouse is down.
-    function drag(e)
+    function drag()
     {
         mousedrag = true;
     }
 
     //Save that the mouse is up.
-    function lift(e)
+    function lift()
     {
         mousedrag = false;
         currId = 0;
     }
 
+    //A filter which removes the word given.
     function remove(word)
     {
         return word != checkId;
     }
 
+    //Manage the data necessary to cut or uncut a word.
     function dataCut(clickedItem,cut)
     {
         var idNum = parseInt(clickedItem.id);
@@ -228,6 +244,7 @@
         }
     }
 
+    //If the save button is hit, send cached data to the database.
     function saveCut()
     {
         var script = $(".script-main")[0];
@@ -256,6 +273,7 @@
         }
     }
 
+    //Changes visuals of a word.
     function modifyStyle(clickedItem,color,style,cut)
     {
         clickedItem.style.color = color;
@@ -263,7 +281,7 @@
         clickedItem.dataset.cut = cut;
     }
 
-    //Actually executes the XML cut on a word
+    //Actually executes the XML cut on a word based on whether it was cut before or not.
     function literalCut(clickedItem,cut)
     {
         var color;
@@ -293,17 +311,6 @@
             }
         }
         modifyStyle(clickedItem,color,style,cut);
-        checkWrap(clickedItem,cut);
-    }
-
-    function checkWrap(clickedItem,cut)
-    {
-        var intId = parseInt(clickedItem.id)
-        if(currId != 0)
-        {
-            //Wrap function goes here! Probably make it a helper and call it.
-        }
-        currId = intId;
     }
 
     // all words will need to be printed within the div class "script-main"
