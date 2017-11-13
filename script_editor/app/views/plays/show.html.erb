@@ -123,15 +123,24 @@
              <% rscenes.each do |scene| %>
                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button><br>
                 <br>
-                <% wordLines = Line.joins(:scene).left_outer_joins(:words => :cuts).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *") %>
+                <% wordLines = Line.joins(:scene).left_outer_joins(:words => :cuts).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
                 <% last_number = 0 %>
                 <% currentSpeaker = "" %>
                 <% wordLines.each do |wordline| %>
                 <% if wordline.isStage %>
-                  <button class="stage" data-cut="false" data-display="true" id = <%= wordline.lineNum.to_s %>>
-                    <%= wordline.text %>
-                  </button>
-                  <br>
+                    <% if wordline.edit_id == @edit.id %>
+                        <br/>
+                        <button class="cstage" data-cut="false" data-display="true" id = <%= wordline.lineNum.to_s %>>
+                            <%= wordline.text %>
+                        </button>
+                        <br>
+                    <% else %>
+                        <br/>
+                        <button class="stage" data-cut="false" data-display="true" id = <%= wordline.lineNum.to_s %>>
+                            <%= wordline.text %>
+                        </button>
+                        <br>                    
+                    <% end %>
                 <% else %>
                     <% if wordline.lineNum != last_number %>
                       <% last_number = wordline.lineNum %>
@@ -262,7 +271,7 @@
         if(cut)
         {
             style = "line-through";
-            if(clickedItem.getAttribute("class") == "cword")
+            if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
             {
                 color = "#D3D3D3";
             }
@@ -274,7 +283,7 @@
         else
         {
             style = "none";
-            if(clickedItem.getAttribute("class") == "cword")
+            if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
             {
                 color = "#006BFF";
             }
@@ -300,21 +309,9 @@
     // all words will need to be printed within the div class "script-main"
     function doCut(e) {
         var clickedItem = e.target;
-        // Strikesthrough stage directions if mouse is down, and unstrikes if shift is also held.
-        if (clickedItem.getAttribute("class") == "stage") {
-            if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey) {
-                    literalCut(clickedItem,true);
-                    dataCut(clickedItem,true);
-                }
-                else if(e.shiftKey && mousedrag) {
-                    literalCut(clickedItem,false);
-                    dataCut(clickedItem,false);
-                }
-            }
-        }
         // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
-        else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword") {
+        if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "stage" || clickedItem.getAttribute("class") == "cstage")
+        {
             if (clickedItem.tagName.toLowerCase() == "button") {
                 if (mousedrag && !e.shiftKey) {
                     literalCut(clickedItem,true);
@@ -326,7 +323,7 @@
                 }
             }
         }
-    };
+    }
 </script>
 
 
