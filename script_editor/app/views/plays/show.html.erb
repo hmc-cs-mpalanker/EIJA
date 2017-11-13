@@ -195,6 +195,11 @@
     var uncutlist = [];
     var checkId = "";
 
+    //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
+    $( document ).ajaxError( function( event, jqxhr, settings) {
+        $.ajax(settings);
+    });
+
     //Save that the mouse is down.
     function drag(e)
     {
@@ -220,12 +225,12 @@
         if(cut)
         {
             cutlist = cutlist.filter(remove);
-            cutlist[cutlist.length] = idNum;
+            cutlist.push(idNum);
         }
         else
         {
             uncutlist = uncutlist.filter(remove);
-            uncutlist[uncutlist.length] = idNum;
+            uncutlist.push(idNum);
         }
     }
 
@@ -233,34 +238,26 @@
     {
         var script = $(".script-main")[0];
         var cEditId = parseInt(script.id);
-        var cLength = cutlist.length;
-        var ucLength = uncutlist.length;
-        for(i=0;i<cLength;++i)
+        while(cutlist.length != 0)
         {
             idNum = cutlist.pop();
-            console.log(idNum);
+            var cutmessage = "Cut: " + idNum.toString();
+            console.log(cutmessage);
             $.post("/cuts/new",
             {
                 editI: cEditId,
                 wordI: idNum
-            }).fail(function()
-            {
-                cutlist.push(idNum);
-                saveCut();
             });
-            delete cutlist[i];
         }
-        for(i=0;i<ucLength;++i)
+        while(uncutlist.length != 0)
         {
             idNum = uncutlist.pop();
+            var cutmessage = "Uncut: " + idNum.toString();
+            console.log(cutmessage);
             $.post("/cuts/delete",
             {
                 editI: cEditId,
                 wordI: idNum
-            }).fail(function()
-            {
-                uncutlist.push(idNum);
-                saveCut();
             });
         }
     }
