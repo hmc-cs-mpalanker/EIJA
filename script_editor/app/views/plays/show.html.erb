@@ -123,7 +123,8 @@
              <% rscenes.each do |scene| %>
                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button><br>
                 <br>
-                <% wordLines = Line.joins(:scene).left_outer_joins(:words => :cuts).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
+                <!--credit to kombajn zbozowy for "not in" implementation https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
+                <% wordLines = Line.joins(:scene).left_outer_joins(:words => :cuts).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").where('cuts.edit_id IS NULL').order(:number) %>
                 <% last_number = 0 %>
                 <% currentSpeaker = "" %>
                 <% wordLines.each do |wordline| %>
@@ -249,7 +250,7 @@
     {
         var script = $(".script-main")[0];
         var cEditId = parseInt(script.id);
-        while(cutlist.length != 0)
+        if(cutlist.length != 0)
         {
             idNum = cutlist.pop();
             var cutmessage = "Cut: " + idNum.toString();
@@ -258,9 +259,13 @@
             {
                 editI: cEditId,
                 wordI: idNum
+            },function()
+            {
+                saveCut();
             });
+            return;
         }
-        while(uncutlist.length != 0)
+        if(uncutlist.length != 0)
         {
             idNum = uncutlist.pop();
             var cutmessage = "Uncut: " + idNum.toString();
@@ -269,7 +274,11 @@
             {
                 editI: cEditId,
                 wordI: idNum
+            },function()
+            {
+                saveCut();
             });
+            return;
         }
     }
 
