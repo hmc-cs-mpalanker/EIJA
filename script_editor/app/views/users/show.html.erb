@@ -22,14 +22,13 @@
    <td><strong>Class of:</strong></td>
    <td><%= @user.grad_year %></td>
  </tr>
- <tr class = "user_field">
-   <%- if @user.enrolled %>
-    <td><strong>Currently Enrolled in Shakespeare</strong></td>
-   <%- else %>
-    <td><strong>Not Currently Enrolled in Shakespeare</strong></td>
-   <% end %>
- </tr>
 </table>
+<br>
+<%- if @user.enrolled %>
+    <strong>Currently Enrolled in Shakespeare</strong>
+   <%- else %>
+    <strong>Not Currently Enrolled in Shakespeare</strong>
+   <% end %>
 </div>
 </p>
 

@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20171109072602) do
+>>>>>>> b21e44c78f6b6005e1a09f080e7eef693c6219c8
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
@@ -46,6 +47,22 @@ ActiveRecord::Schema.define(version: 20171109072602) do
     t.index ["scene_id"], name: "index_lines_on_scene_id"
   end
 
+  create_table "edits", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "play_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lines", force: :cascade do |t|
+    t.integer  "number"
+    t.integer  "scene_id"
+    t.string   "speaker"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "isStage",    default: false
+  end
+
   create_table "plays", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at", null: false
@@ -58,6 +75,7 @@ ActiveRecord::Schema.define(version: 20171109072602) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["act_id"], name: "index_scenes_on_act_id"
+>>>>>>> b21e44c78f6b6005e1a09f080e7eef693c6219c8
   end
 
   create_table "users", force: :cascade do |t|
@@ -77,6 +95,10 @@ ActiveRecord::Schema.define(version: 20171109072602) do
     t.string   "major"
     t.integer  "grad_year"
     t.boolean  "enrolled"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
