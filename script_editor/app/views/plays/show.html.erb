@@ -32,7 +32,6 @@
               <% if lastact != actScene.act_number %>
                 <% lastact = actScene.act_number %>
                 <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
-                <% cutActWords = Word.joins(:line => :scene).joins(:cuts).where(scenes: {:act_id => actScene.act_id}).where(cuts: {:edit_id => @edit.id}).count %>
                 <div class="analytics-actRow">
                     <div class="analytics-column analytics-left">
                         <%= "ACT " + actScene.act_number.to_s %>
@@ -40,23 +39,16 @@
                     <div class="analytics-column analytics-middle">
                         <%= "Original Word Count: " + actWords.to_s %>
                     </div>
-                    <div class="analytics-column analytics-right">
-                        <%= "New Word Count: " + (actWords-cutActWords).to_s %>
-                    </div>
                     <br>
                 </div>
               <% end %>
               <% sceneWords = Word.joins(:line).where(lines: {:scene_id => actScene.scene_id}).count %>
-              <% cutSceneWords = Word.joins(:line).joins(:cuts).where(lines: {:scene_id => actScene.scene_id}).where(cuts: {:edit_id => @edit.id}).count %>
               <div class="analytics-sceneRow">
                 <div class="analytics-column analytics-left">
                         <%= "SCENE " + actScene.scene_number.to_s %>
                     </div>
                     <div class="analytics-column analytics-middle">
                         <%= "Original Word Count: " + sceneWords.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-right">
-                        <%= "New Word Count: "+(sceneWords-cutSceneWords).to_s %>
                     </div>
                     <br>
               </div>
@@ -107,14 +99,21 @@
 
     <div class="script-editor">
         <div class="edit-explanation">
-            Click and drag in order to strikethrough words.
-            Hold down shift, click, and drag in order to unstrikethrough words.
+            HEY YOU!<br>
+            MAKE AN EDIT IF YOU WANT TO MAKE CHANGES!<br>
+            MAKE SURE YOU'RE LOGGED IN FIRST
         </div>
-        
-        <button class="save-button"> SAVE </button>
+        <% if current_user %>
+          <% link = "/makenewedit/" + @play.id.to_s %>
+        <% else %>
+          <% link = "/users/sign_in" %>
+        <% end %>
+        <a href=<%=link%>>
+          <button class="save-button"> EDIT</button>
+        </a/>
     </div>
 
-    <div class="script-main" id = <%= @edit.id.to_s %>> 
+    <div class="script-main">
         <% @acts.each do |act| %>
             <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
@@ -122,24 +121,16 @@
                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button><br>
                 <br>
                 <!--credit to kombajn zbozowy for "not in" implementation https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
-                <% wordLines = Line.joins(:scene).left_outer_joins(:words => :cuts).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
+                <% wordLines = Line.joins(:scene).joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
                 <% last_number = 0 %>
                 <% currentSpeaker = "" %>
                 <% wordLines.each do |wordline| %>
                 <% if wordline.isStage %>
-                    <% if wordline.edit_id == @edit.id %>
-                        <br/>
-                        <button class="cstage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                            <%= wordline.text %>
-                        </button>
-                        <br>
-                    <% else %>
-                        <br/>
-                        <button class="stage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                            <%= wordline.text %>
-                        </button>
-                        <br>                    
-                    <% end %>
+                  <br/>
+                  <button class="stage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
+                      <%= wordline.text %>
+                  </button>
+                  <br>
                 <% else %>
                     <% if wordline.lineNum != last_number %>
                       <% last_number = wordline.lineNum %>
@@ -150,11 +141,7 @@
                       <br>
                       <p class="lineNum"><%= wordline.lineNum %></p>
                     <% end %>
-                    <% if wordline.edit_id == @edit.id %>
-                      <button class ="cword" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                    <% else %>
-                      <button class ="word" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
-                    <% end %>
+                    <button class ="word" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
                     <%= wordline.text %>
                     </button>
                   <% end %>
@@ -168,24 +155,6 @@
 
 <script>
     //Create events for the various functions associated with strikethrough.
-
-    //If we click the mouse down, tell the program we're dragging the mouse.
-    document.querySelector(".script-main").addEventListener("mousedown", drag, false);
-
-    //If we move the mouse over an element, let it know. If the mouse is down, this will strikethrough the element.
-    document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
-
-    //If the mouse is clicked down over an element, cut the element.
-    document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
-
-    //If the mouse is lifted, tell the program that we're no long dragging the mouse.
-    document.querySelector(".script-main").addEventListener("mouseup", lift, false);
-
-    //Stop cutting or uncutting if the mouse leaves the document or window.
-    $(document).mouseleave(function()
-    {
-        lift();    
-    });
 
     document.querySelector(".save-button").addEventListener("click", saveCut, false);
     var mousedrag = false;
