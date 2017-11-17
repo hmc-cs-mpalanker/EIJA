@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :plays
   resources :edits
   get '/users/:id' => 'users#show', :as => :user
+  get '/makenewedit/:id' => 'edits#new'
   get '/plays/show'
   get '/edits/show'
   get 'home/homepage'
