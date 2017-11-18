@@ -3,6 +3,9 @@
 #
 # Examples:
 #
+histories = ["henry_iv_part_1", "henry_iv_part_2", "henry_vi_part_1", "henry_vi_part_2", "henry_vi_part_3", "henry_v", "henry_viii", "king_john", "pericles", "richard_ii", "richard_iii"]
+comedies = ["a_midsummer_nights_dream", "alls_well_that_ends_well", "as_you_like_it", "loves_labors_lost", "measure_for_measure", "much_ado_about_nothing", "taming_of_the_shrew", "the_comedy_of_errors", "the_merchant_of_venice", "the_merry_wives_of_windsor", "the_tempest", "the_two_gentlemen_of_verona", "the_winters_tale", "timon_of_athens", "titus_andronicus", "troilus_and_cressida"];
+tragedies = ["antony_and_cleopatra", "coriolanus", "cymbeline", "hamlet", "julius_caesar", "king_lear", "macbeth", "othello", "romeo_and_juliet", "twelfth_night"];
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 files = ["FolgerDigitalTexts_XML_Complete/MM.xml"]
@@ -10,7 +13,13 @@ files.each do |file|
   doc = Nokogiri::XML(File.open(file))
   title = doc.css('title').first
   play = Play.create(title: title.inner_text)
-
+  if histories.include?(play.title.downcase.tr(" ", "_"))
+    play.category = 0 # histories
+  elsif histories.include?(play.title.downcase.tr(" ", "_"))
+    play.category = 1 # comedies
+  elsif histories.include?(play.title.downcase.tr(" ", "_"))
+    play.category = 2 # tragedies
+  end
   currAct = 1
   currScene = 1
   currIndex = 1
