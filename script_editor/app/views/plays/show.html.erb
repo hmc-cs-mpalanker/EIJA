@@ -23,8 +23,6 @@
             <span class="close2">&times;</span>
             <div class="hidden-analytics" id="hidden-analytics"></div>
 
-            <br>
-
             <!-- Create a button for each act and scene in the play -->
             <% lastact = 0 %>
             <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
@@ -34,6 +32,7 @@
                 <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
                 <% cutActWords = Word.joins(:line => :scene).joins(:cuts).where(scenes: {:act_id => actScene.act_id}).where(cuts: {:edit_id => @edit.id}).count %>
                 <div class="analytics-actRow">
+                    <br>
                     <div class="analytics-column analytics-left">
                         <%= "ACT " + actScene.act_number.to_s %>
                     </div>
@@ -89,12 +88,18 @@
             <% actScenes.each do |actScene| %>
               <% if lastact != actScene.act_number %>
                 <% lastact = actScene.act_number %>
+                <% actLink = "#act" + actScene.act_number.to_s %>
+                <a style = color:black; href=<%=actLink%> >
                 <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
+                </a>
                 <script>
                     document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
                 </script>
               <% end %>
+              <% sceneLink = "#" + actScene.act_number.to_s + "scene" + actScene.scene_number.to_s %>
+              <a style = color:black; href=<%=sceneLink%> >
               <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
+              </a>
               <script>
                   document.getElementById('current-scene').id = '<%= escape_javascript "ns" + actScene.scene_number.to_s %>';
               </script>
@@ -118,10 +123,18 @@
 
     <div class="script-main" id = <%= @edit.id.to_s %>> 
         <% @acts.each do |act| %>
-            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
+            <% actId = "act" + (act.number).to_s%>
+            <a id=<%= actId %> >
+            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button>
+            </a>
+            <br></br>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
              <% rscenes.each do |scene| %>
-               <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button><br>
+               <% sceneId = (act.number).to_s + "scene" + (scene.number).to_s%>
+               <a id=<%= sceneId %> >
+               <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button>
+                </a>
+                <br>
                 <br>
                 <% wordLines = Line.joins(:scene).left_outer_joins(:words => :cuts).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
                 <% last_number = 0 %>
@@ -160,7 +173,6 @@
                     </button>
                   <% end %>
                 <% end %>
-
             <% end %>
             </div>
         <% end %>
