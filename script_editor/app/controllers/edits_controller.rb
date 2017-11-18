@@ -5,6 +5,7 @@ class EditsController < ApplicationController
     @edit = Edit.find(params[:id])
     @play = @edit.play
     @acts = Act.joins(:play).where(:play_id => @play.id).order(:number)
+    @relCuts = Cut.where(:edit_id => @edit.id).pluck(:word_id).to_a.to_set
   end
   def new
     @play = Play.find(params[:id])
