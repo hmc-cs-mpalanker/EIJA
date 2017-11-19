@@ -1,0 +1,2 @@
+#!/bin/bash
+cat xaa xab xac xad xae > full_development.dump
