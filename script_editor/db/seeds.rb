@@ -65,7 +65,7 @@ files.each do |file|
   elsif tragedies.include?(title.inner_text.downcase.tr(" ", "_"))
     play = Play.create(title: title.inner_text, category: 2) # tragedies
   else
-    play = Play.create(title: title.inner_text, category: 0)
+    play = Play.create(title: title.inner_text)
   end
   currAct = 1
   currScene = 1
