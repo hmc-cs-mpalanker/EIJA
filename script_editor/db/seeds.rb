@@ -8,7 +8,53 @@ comedies = ["a_midsummer_nights_dream", "alls_well_that_ends_well", "as_you_like
 tragedies = ["antony_and_cleopatra", "coriolanus", "cymbeline", "hamlet", "julius_caesar", "king_lear", "macbeth", "othello", "romeo_and_juliet", "twelfth_night"];
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-files = ["FolgerDigitalTexts_XML_Complete/MM.xml"]
+fullPlays = false
+if fullPlays
+  files =["FolgerDigitalTexts_XML_Complete/MM.xml",
+          "FolgerDigitalTexts_XML_Complete/Err.xml",
+          "FolgerDigitalTexts_XML_Complete/MV.xml",
+          "FolgerDigitalTexts_XML_Complete/Wiv.xml",
+          "FolgerDigitalTexts_XML_Complete/PhT.xml",
+          "FolgerDigitalTexts_XML_Complete/Tmp.xml",
+          "FolgerDigitalTexts_XML_Complete/TGV.xml",
+          "FolgerDigitalTexts_XML_Complete/TNK.xml",
+          "FolgerDigitalTexts_XML_Complete/WT.xml",
+          "FolgerDigitalTexts_XML_Complete/Tim.xml",
+          "FolgerDigitalTexts_XML_Complete/Tit.xml",
+          "FolgerDigitalTexts_XML_Complete/Tro.xml",
+          "FolgerDigitalTexts_XML_Complete/TN.xml",
+          "FolgerDigitalTexts_XML_Complete/Ven.xml",
+          "FolgerDigitalTexts_XML_Complete/H5.xml",
+          "FolgerDigitalTexts_XML_Complete/1H6.xml",
+          "FolgerDigitalTexts_XML_Complete/2H6.xml",
+          "FolgerDigitalTexts_XML_Complete/3H6.xml",
+          "FolgerDigitalTexts_XML_Complete/H8.xml",
+          "FolgerDigitalTexts_XML_Complete/JC.xml",
+          "FolgerDigitalTexts_XML_Complete/Jn.xml",
+          "FolgerDigitalTexts_XML_Complete/Lr.xml",
+          "FolgerDigitalTexts_XML_Complete/LLL.xml",
+          "FolgerDigitalTexts_XML_Complete/Luc.xml",
+          "FolgerDigitalTexts_XML_Complete/Mac.xml",
+          "FolgerDigitalTexts_XML_Complete/Ado.xml",
+          "FolgerDigitalTexts_XML_Complete/Oth.xml",
+          "FolgerDigitalTexts_XML_Complete/Per.xml",
+          "FolgerDigitalTexts_XML_Complete/R2.xml",
+          "FolgerDigitalTexts_XML_Complete/R3.xml",
+          "FolgerDigitalTexts_XML_Complete/Rom.xml",
+          "FolgerDigitalTexts_XML_Complete/Son.xml",
+          "FolgerDigitalTexts_XML_Complete/Shr.xml",
+          "FolgerDigitalTexts_XML_Complete/MND.xml",
+          "FolgerDigitalTexts_XML_Complete/AWW.xml",
+          "FolgerDigitalTexts_XML_Complete/Ant.xml",
+          "FolgerDigitalTexts_XML_Complete/AYL.xml",
+          "FolgerDigitalTexts_XML_Complete/Cor.xml",
+          "FolgerDigitalTexts_XML_Complete/Cym.xml",
+          "FolgerDigitalTexts_XML_Complete/Ham.xml",
+          "FolgerDigitalTexts_XML_Complete/1H4.xml",
+          "FolgerDigitalTexts_XML_Complete/2H4.xml"]
+else
+  files = ["FolgerDigitalTexts_XML_Complete/MM.xml"]
+end
 files.each do |file|
   doc = Nokogiri::XML(File.open(file))
   title = doc.css('title').first
