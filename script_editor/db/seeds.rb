@@ -12,13 +12,14 @@ files = ["FolgerDigitalTexts_XML_Complete/MM.xml"]
 files.each do |file|
   doc = Nokogiri::XML(File.open(file))
   title = doc.css('title').first
-  play = Play.create(title: title.inner_text)
-  if histories.include?(play.title.downcase.tr(" ", "_"))
-    play.category = 0 # histories
-  elsif histories.include?(play.title.downcase.tr(" ", "_"))
-    play.category = 1 # comedies
-  elsif histories.include?(play.title.downcase.tr(" ", "_"))
-    play.category = 2 # tragedies
+  if histories.include?(title.inner_text.downcase.tr(" ", "_"))
+    play = Play.create(title: title.inner_text, category: 0) # histories
+  elsif comedies.include?(title.inner_text.downcase.tr(" ", "_"))
+    play = Play.create(title: title.inner_text, category: 1) # comedies
+  elsif tragedies.include?(title.inner_text.downcase.tr(" ", "_"))
+    play = Play.create(title: title.inner_text, category: 2) # tragedies
+  else
+    play = Play.create(title: title.inner_text, category: 0)
   end
   currAct = 1
   currScene = 1
