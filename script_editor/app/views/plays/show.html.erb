@@ -88,16 +88,16 @@
             <% actScenes.each do |actScene| %>
               <% if lastact != actScene.act_number %>
                 <% lastact = actScene.act_number %>
-                <% actLink = "#act" + actScene.act_number.to_s %>
-                <a style = color:black; href=<%=actLink%> >
+                <% actLink = "/plays/" + @play.id.to_s + "/#act" + actScene.act_number.to_s %>
+                <a style = color:black href=<%=actLink%> >
                 <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
                 </a>
                 <script>
                     document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
                 </script>
               <% end %>
-              <% sceneLink = "#" + actScene.act_number.to_s + "scene" + actScene.scene_number.to_s %>
-              <a style = color:black; href=<%=sceneLink%> >
+              <% sceneLink = "/plays/" + @play.id.to_s + "/#act" + actScene.act_number.to_s + "scene" + actScene.scene_number.to_s %>
+              <a style = color:black href=<%=sceneLink%> >
               <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
               </a>
               <script>
@@ -128,7 +128,7 @@
             <br></br>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
              <% rscenes.each do |scene| %>
-               <% sceneId = (act.number).to_s + "scene" + (scene.number).to_s%>
+               <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
                <a id=<%= sceneId %> >
                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button>
                 </a>
@@ -352,8 +352,7 @@
     }
 </script>
 
-
-
+<!--
     <script>
         /**
          * This controls scene buttons in the navigation bar
@@ -442,6 +441,7 @@
             }
         }
     </script>
+-->
 
     </div>
 
