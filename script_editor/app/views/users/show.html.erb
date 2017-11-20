@@ -43,7 +43,9 @@
     <% editLink = "/edits/" + edit.id.to_s %>
     <a href = <%= editLink %> >
     <div class = "card">
-      <%= edit.play.title %>
+      <%= edit.play.title%>
+      <br/>
+      <%= " edit created at " + edit.created_at.to_s%>
     </div>
     </a>
   <% end %>
