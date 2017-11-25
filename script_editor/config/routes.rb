@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/makenewedit/:id' => 'edits#new'
   get '/plays/show'
   get '/edits/show'
+  get '/edits/compress'
   get 'home/homepage'
   root 'home#homepage'
   get 'pages/about'

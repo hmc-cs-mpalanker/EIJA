@@ -25,6 +25,8 @@ gem 'coffee-rails', '~> 4.2'
 # This gem adds the navigation bar.
 gem 'bootstrap-sass', '~> 3.3.6'
 
+gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'bcrypt'
+
 # This gem adds the ability to have user accounts.
 gem 'devise'
 
