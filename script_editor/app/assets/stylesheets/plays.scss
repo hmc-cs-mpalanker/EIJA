@@ -284,6 +284,18 @@ div.sceneDiv {
 button.save-button {
     height: 40px;
     text-align: center;
+    background-color: $nav-first-row-color;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $nav-border-color;
+    width: 50%;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+button.toggle-button {
+    height: 40px;
+    text-align: center;
     background-color: $nav-second-row-color;
     border-style: solid;
     border-width: 1px;

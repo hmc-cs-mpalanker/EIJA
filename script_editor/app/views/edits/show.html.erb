@@ -89,12 +89,18 @@
             <% actScenes.each do |actScene| %>
               <% if lastact != actScene.act_number %>
                 <% lastact = actScene.act_number %>
+                <% actLink = "/edits/" + @edit.id.to_s + "/#act" + actScene.act_number.to_s %>
+                <a style = color:black href=<%=actLink%> >
                 <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
+                </a>
                 <script>
                     document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
                 </script>
               <% end %>
+              <% sceneLink = "/edits/" + @edit.id.to_s + "/#act" + actScene.act_number.to_s + "scene" + actScene.scene_number.to_s %>
+              <a style = color:black href=<%=sceneLink%> >
               <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
+              </a>
               <script>
                   document.getElementById('current-scene').id = '<%= escape_javascript "ns" + actScene.scene_number.to_s %>';
               </script>
@@ -112,14 +118,25 @@
         </div>
 
         <button class="save-button"> SAVE </button>
+
+        <button class="toggle-button"> TOGGLE VIEW </button>
     </div>
 
     <div class="script-main" id = <%= @edit.id.to_s %>>
         <% @acts.each do |act| %>
-            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
+            <% actId = "act" + (act.number).to_s%>
+            <a id=<%= actId %> >
+            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button>
+            </a>
+            <br>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
              <% rscenes.each do |scene| %>
-               <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button><br>
+               <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
+               <a id=<%= sceneId %> >
+               <div class="sceneDiv" id="Divs">
+                <br> <br>
+                <button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button>
+                </a>
                 <br>
                 <!--credit to kombajn zbozowy for "not in" implementation https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
                 <% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
@@ -160,7 +177,6 @@
                     </button>
                   <% end %>
                 <% end %>
-
             <% end %>
             </div>
         <% end %>
