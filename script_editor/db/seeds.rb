@@ -53,7 +53,7 @@ if fullPlays
           "FolgerDigitalTexts_XML_Complete/1H4.xml",
           "FolgerDigitalTexts_XML_Complete/2H4.xml"]
 else
-  files = ["FolgerDigitalTexts_XML_Complete/MM.xml"]
+  files = ["FolgerDigitalTexts_XML_Complete/Err.xml"]
 end
 files.each do |file|
   doc = Nokogiri::XML(File.open(file))
@@ -62,6 +62,7 @@ files.each do |file|
     play = Play.create(title: title.inner_text, category: 0) # histories
   elsif comedies.include?(title.inner_text.downcase.tr(" ", "_"))
     play = Play.create(title: title.inner_text, category: 1) # comedies
+    puts "play id: " + play.id.to_s
   elsif tragedies.include?(title.inner_text.downcase.tr(" ", "_"))
     play = Play.create(title: title.inner_text, category: 2) # tragedies
   else
@@ -73,6 +74,7 @@ files.each do |file|
   acts= doc.css('//div1')
   acts.each do |act|
     newact = play.acts.create(number: currAct)
+    puts "act" + currAct.to_s
     currAct = currAct + 1
     currScene = 1
     scenes = Nokogiri::XML(act.to_s).css('//div2')
