@@ -126,7 +126,7 @@
                 <% last_number = 0 %>
                 <% currentSpeaker = "" %>
                 <% wordLines.each do |wordline| %>
-                
+
                 <% if wordline.isStage %>
                     <% if @relCuts.include? wordline.wordid %>
                         <br/>
@@ -174,10 +174,10 @@
     document.querySelector(".script-main").addEventListener("mousedown", drag, false);
 
     //If we move the mouse over an element, let it know. If the mouse is down, this will strikethrough the element.
-    document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
+    //document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
 
     //If the mouse is clicked down over an element, cut the element.
-    document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
+    //document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
 
     //If the mouse is lifted, tell the program that we're no long dragging the mouse.
     document.querySelector(".script-main").addEventListener("mouseup", lift, false);
@@ -190,7 +190,7 @@
 
     document.querySelector(".save-button").addEventListener("click", saveCut, false);
     var mousedrag = false;
-    var currId = 0;
+    var origId = 0;
     var cutlist = [];
     var uncutlist = [];
     var checkId = "";
@@ -209,16 +209,17 @@
     });
 
     //Save that the mouse is down.
-    function drag()
+    function drag(e)
     {
         mousedrag = true;
+        origId = parseInt(e.target.id);
     }
 
     //Save that the mouse is up.
-    function lift()
+    function lift(e)
     {
+        doCut(e);
         mousedrag = false;
-        currId = 0;
     }
 
     //A filter which removes the word given.
@@ -294,17 +295,20 @@
     {
         var color;
         var style;
+        var currId = parseInt(clickedItem.id);
+        console.log("ORIG ID: " + origId);
+        console.log("CURR ID: " + currId);
         if(cut)
         {
-            style = "line-through";
-            if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
-            {
-                color = "#D3D3D3";
-            }
-            else
-            {
-                color = "#888888";
-            }
+              style = "line-through";
+              if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
+              {
+                  color = "#D3D3D3";
+              }
+              else
+              {
+                  color = "#888888";
+              }
         }
         else
         {
@@ -318,7 +322,13 @@
                 color = "#000000";
             }
         }
-        modifyStyle(clickedItem,color,style,cut);
+        while(origId <= currId){
+          currObj = document.getElementById(origId.toString());
+          modifyStyle(currObj,color,style,cut);
+          dataCut(currObj,cut);
+          console.log("cutting word with id " + origId);
+          origId++;
+        }
     }
 
     // all words will need to be printed within the div class "script-main"
@@ -330,11 +340,9 @@
             if (clickedItem.tagName.toLowerCase() == "button") {
                 if (mousedrag && !e.shiftKey) {
                     literalCut(clickedItem,true);
-                    dataCut(clickedItem,true);
                 }
                 else if(e.shiftKey && mousedrag) {
                     literalCut(clickedItem,false);
-                    dataCut(clickedItem,false);
                 }
             }
         }
