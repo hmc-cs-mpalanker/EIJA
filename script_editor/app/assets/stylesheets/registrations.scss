@@ -1,3 +1,14 @@
 // Place all the styles related to the Registrations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.registration-box {
+    width: 20%;
+    top: 15%;
+    bottom: 0;
+    margin-left: 43%;
+    margin-right: 37%;
+    z-index: 1;
+    display: inline-block;
+    float: left;
+}
