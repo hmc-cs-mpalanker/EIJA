@@ -204,12 +204,16 @@
         lift();
     });
 
+    document.querySelector(".toggle-button").addEventListener("click",toggleScript, false);
+
     document.querySelector(".save-button").addEventListener("click", saveCut, false);
     var mousedrag = false;
     var currId = 0;
     var cutlist = [];
     var uncutlist = [];
     var checkId = "";
+    var compressed = false;
+
 
     $(window).on("beforeunload", function() {
         if(cutlist.length != 0 || uncutlist != 0)
@@ -354,6 +358,20 @@
                 }
             }
         }
+    }
+
+    function toggleScript(e)
+    {
+        if(compressed)
+        {
+            $( ".script-main" ).load(window.location.pathname.substring(0,-5));
+        }
+        else
+        {
+            var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length));
+            $( ".script-main" ).load(location);
+        }
+        compressed = !compressed;
     }
 </script>
 
