@@ -3,126 +3,24 @@
 <html><body style = "background-color: #faebd7">
     <p id="notice"></p>
 
-
-    <!--
-        The synopsis will show up here as a popup
-    -->
-    <div id="synopsis-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="hidden-synopsis" id="hidden-synopsis"></div>
-        </div>
-    </div>
-
-
-    <!--
-        The analytics will show up here as a popup
-    -->
-    <div id="analytics-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class="hidden-analytics" id="hidden-analytics"></div>
-
-            <br>
-
-            <!-- Create a button for each act and scene in the play -->
-            <% lastact = 0 %>
-            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
-            <% actScenes.each do |actScene| %>
-              <% if lastact != actScene.act_number %>
-                <% lastact = actScene.act_number %>
-                <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
-                <% cutActWords = Word.joins(:line => :scene).joins(:cuts).where(scenes: {:act_id => actScene.act_id}).where(cuts: {:edit_id => @edit.id}).count %>
-                <div class="analytics-actRow">
-                    <div class="analytics-column analytics-left">
-                        <%= "ACT " + actScene.act_number.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-middle">
-                        <%= "Original Word Count: " + actWords.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-right">
-                        <%= "New Word Count: " + (actWords-cutActWords).to_s %>
-                    </div>
-                    <br>
-                </div>
-              <% end %>
-              <% sceneWords = Word.joins(:line).where(lines: {:scene_id => actScene.scene_id}).count %>
-              <% cutSceneWords = Word.joins(:line).joins(:cuts).where(lines: {:scene_id => actScene.scene_id}).where(cuts: {:edit_id => @edit.id}).count %>
-              <div class="analytics-sceneRow">
-                <div class="analytics-column analytics-left">
-                        <%= "SCENE " + actScene.scene_number.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-middle">
-                        <%= "Original Word Count: " + sceneWords.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-right">
-                        <%= "New Word Count: "+(sceneWords-cutSceneWords).to_s %>
-                    </div>
-                    <br>
-              </div>
-
-            <% end %>
-
-            <% analyticstext = "" %>
-            <script>
-                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
-            </script>
-        </div>
-    </div>
-
-    <!--
-        Parse the XML file for number of acts & scenes in order to
-        create the navigation bar
-    -->
-    <div class="script-side-bar">
-        <div class="play-navigation">
-
-            <!-- This button shows the play's synopsis -->
-            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
-
-            <!-- This button shows the play's analytics -->
-            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
-
-            <!-- Create a button for each act and scene in the play -->
-            <% lastact = 0 %>
-            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
-            <% actScenes.each do |actScene| %>
-              <% if lastact != actScene.act_number %>
-                <% lastact = actScene.act_number %>
-                <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
-                <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
-                </script>
-              <% end %>
-              <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
-              <script>
-                  document.getElementById('current-scene').id = '<%= escape_javascript "ns" + actScene.scene_number.to_s %>';
-              </script>
-
-            <% end %>
-
-
-        </div>
-    </div>
-
-    <div class="script-editor">
-        <div class="edit-explanation">
-            Click and drag in order to strikethrough words.
-            Hold down shift, click, and drag in order to unstrikethrough words.
-        </div>
-
-        <button class="save-button"> SAVE </button>
-    </div>
-
     <div class="script-main" id = <%= @edit.id.to_s %>>
         <% @acts.each do |act| %>
-            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
+            <% actId = "act" + (act.number).to_s%>
+            <a id=<%= actId %> >
+            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button>
+            </a>
+            <br>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
              <% rscenes.each do |scene| %>
-               <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button><br>
+               <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
+               <a id=<%= sceneId %> >
+               <div class="sceneDiv" id="Divs">
+                <br> <br>
+                <button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button>
+                </a>
                 <br>
                 <!--credit to kombajn zbozowy for "not in" implementation https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
-                <% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
+                <% wordLines = Line.joins(:scene).left_outer_joins(:words => :cuts).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").where('cuts.edit_id IS NULL').order(:number) %>
                 <% last_number = 0 %>
                 <% currentSpeaker = "" %>
                 <% wordLines.each do |wordline| %>
@@ -160,7 +58,6 @@
                     </button>
                   <% end %>
                 <% end %>
-
             <% end %>
             </div>
         <% end %>
@@ -188,7 +85,6 @@
         lift();
     });
 
-    document.querySelector(".save-button").addEventListener("click", saveCut, false);
     var mousedrag = false;
     var currId = 0;
     var cutlist = [];
