@@ -20,11 +20,11 @@
                 </a>
                 <br>
                 <!--credit to kombajn zbozowy for "not in" implementation https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
-                <% wordLines = Line.joins(:scene).left_outer_joins(:words => :cuts).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").where('cuts.edit_id IS NULL').order(:number) %>
+                <% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").where('wordid NOT IN (?)',@relCuts).order(:number) %>
                 <% last_number = 0 %>
                 <% currentSpeaker = "" %>
                 <% wordLines.each do |wordline| %>
-                
+
                 <% if wordline.isStage %>
                     <% if @relCuts.include? wordline.wordid %>
                         <br/>
