@@ -357,13 +357,11 @@
         // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
         if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "stage" || clickedItem.getAttribute("class") == "cstage")
         {
-            if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey) {
-                    literalCut(clickedItem,true);
-                }
-                else if(e.shiftKey && mousedrag) {
-                    literalCut(clickedItem,false);
-                }
+            if (mousedrag && !e.shiftKey) {
+                literalCut(clickedItem,true);
+            }
+            else if(e.shiftKey && mousedrag) {
+                literalCut(clickedItem,false);
             }
         }
     }
