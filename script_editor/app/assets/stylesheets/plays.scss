@@ -109,7 +109,18 @@ div.script-main {
     position: fixed;
     width: 50%;
     overflow-y: scroll;
-    top: 10%;
+    top: 7%;
+    bottom: 0;
+    right: 20%;
+    z-index:0;
+    text-align: left;
+}
+
+div.script-second {
+    position: fixed;
+    width: 50%;
+    overflow-y: scroll;
+    top: 7%;
     bottom: 0;
     right: 20%;
     z-index:0;
@@ -251,6 +262,7 @@ div.sceneDiv {
      border:none;
      text-align: left;
      margin-left: 25px;
+     margin-top: 20px;
      padding:0!important;
      font-size: 28px;
 }

@@ -136,13 +136,16 @@
         <button class="toggle-button" id="toggle-text"> HIDE</button>
     </div>
 
+    <div class = "script-second">
+    </div>
+
     <div class="script-main" id = <%= @edit.id.to_s %>>
+        <br/>
         <% @acts.each do |act| %>
             <% actId = "act" + (act.number).to_s%>
             <a id=<%= actId %> >
             <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button>
             </a>
-            <br>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
              <% rscenes.each do |scene| %>
                <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
@@ -151,7 +154,6 @@
                 <br> <br>
                 <button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button>
                 </a>
-                <br>
                 <!--credit to kombajn zbozowy for "not in" implementation https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
                 <% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
                 <% last_number = 0 %>
@@ -195,6 +197,7 @@
             </div>
         <% end %>
         </div>
+        <br/>
     </div>
 
 <script>
@@ -404,14 +407,20 @@
     {
         if(compressed)
         {
+            $(".script-second").hide();
             document.getElementById("toggle-text").textContent="HIDE";
-            $( ".script-main" ).load(window.location.pathname.substring(0,-5));
+            $(".script-main").show();
         }
         else
         {
+            //Got hide syntax from https://stackoverflow.com/questions/9456289/how-to-make-a-div-visible-and-invisible-with-javascript
             document.getElementById("toggle-text").textContent="SHOW";
-            var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length));
-            $( ".script-main" ).load(location);
+            var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length)).concat(" .script-second");
+            $(".script-second").load(location, function()
+                {
+                    $(".script-main").hide();
+                    $(".script-second").show();
+                });
         }
         compressed = !compressed;
     }

@@ -3,13 +3,12 @@
 <html><body style = "background-color: #faebd7">
     <p id="notice"></p>
 
-    <div class="script-main" id = <%= @edit.id.to_s %>>
+    <div class="script-second" id = <%= @edit.id.to_s %>>
         <% @acts.each do |act| %>
             <% actId = "act" + (act.number).to_s%>
             <a id=<%= actId %> >
             <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button>
             </a>
-            <br>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
              <% rscenes.each do |scene| %>
                <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
@@ -18,7 +17,6 @@
                 <br> <br>
                 <button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button>
                 </a>
-                <br>
                 <!--credit to kombajn zbozowy for "not in" implementation https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
                 <% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").where('wordid NOT IN (?)',@relCuts).order(:number) %>
                 <% last_number = 0 %>
@@ -62,6 +60,7 @@
             </div>
         <% end %>
         </div>
+        <br/>
     </div>
 
 <script>
