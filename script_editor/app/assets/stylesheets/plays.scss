@@ -16,7 +16,7 @@ $nav-second-row-color: #b2b2ff;
 
 body { 
     font-family: 'Times New Roman'; 
-    font-size:13pt; 
+    font-size:6pt; 
     margin:10px 0px; 
     padding:0px;
 }
@@ -276,6 +276,8 @@ div.sceneDiv {
      margin-left: 25px;
      padding:0!important;
 }
+
+button:focus {outline:0;}
 
 /////////////////////////////////
 // For the script editor
