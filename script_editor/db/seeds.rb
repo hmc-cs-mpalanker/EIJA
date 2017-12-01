@@ -3,20 +3,78 @@
 #
 # Examples:
 #
+histories = ["henry_iv_part_1", "henry_iv_part_2", "henry_vi_part_1", "henry_vi_part_2", "henry_vi_part_3", "henry_v", "henry_viii", "king_john", "pericles", "richard_ii", "richard_iii"]
+comedies = ["a_midsummer_nights_dream", "alls_well_that_ends_well", "as_you_like_it", "loves_labors_lost", "measure_for_measure", "much_ado_about_nothing", "taming_of_the_shrew", "the_comedy_of_errors", "the_merchant_of_venice", "the_merry_wives_of_windsor", "the_tempest", "the_two_gentlemen_of_verona", "the_winters_tale", "timon_of_athens", "titus_andronicus", "troilus_and_cressida"];
+tragedies = ["antony_and_cleopatra", "coriolanus", "cymbeline", "hamlet", "julius_caesar", "king_lear", "macbeth", "othello", "romeo_and_juliet", "twelfth_night"];
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-files = ["FolgerDigitalTexts_XML_Complete/MM.xml"]
+fullPlays = false
+if fullPlays
+  files =["FolgerDigitalTexts_XML_Complete/MM.xml",
+          "FolgerDigitalTexts_XML_Complete/Err.xml",
+          "FolgerDigitalTexts_XML_Complete/MV.xml",
+          "FolgerDigitalTexts_XML_Complete/Wiv.xml",
+          "FolgerDigitalTexts_XML_Complete/PhT.xml",
+          "FolgerDigitalTexts_XML_Complete/Tmp.xml",
+          "FolgerDigitalTexts_XML_Complete/TGV.xml",
+          "FolgerDigitalTexts_XML_Complete/TNK.xml",
+          "FolgerDigitalTexts_XML_Complete/WT.xml",
+          "FolgerDigitalTexts_XML_Complete/Tim.xml",
+          "FolgerDigitalTexts_XML_Complete/Tit.xml",
+          "FolgerDigitalTexts_XML_Complete/Tro.xml",
+          "FolgerDigitalTexts_XML_Complete/TN.xml",
+          "FolgerDigitalTexts_XML_Complete/Ven.xml",
+          "FolgerDigitalTexts_XML_Complete/H5.xml",
+          "FolgerDigitalTexts_XML_Complete/1H6.xml",
+          "FolgerDigitalTexts_XML_Complete/2H6.xml",
+          "FolgerDigitalTexts_XML_Complete/3H6.xml",
+          "FolgerDigitalTexts_XML_Complete/H8.xml",
+          "FolgerDigitalTexts_XML_Complete/JC.xml",
+          "FolgerDigitalTexts_XML_Complete/Jn.xml",
+          "FolgerDigitalTexts_XML_Complete/Lr.xml",
+          "FolgerDigitalTexts_XML_Complete/LLL.xml",
+          "FolgerDigitalTexts_XML_Complete/Luc.xml",
+          "FolgerDigitalTexts_XML_Complete/Mac.xml",
+          "FolgerDigitalTexts_XML_Complete/Ado.xml",
+          "FolgerDigitalTexts_XML_Complete/Oth.xml",
+          "FolgerDigitalTexts_XML_Complete/Per.xml",
+          "FolgerDigitalTexts_XML_Complete/R2.xml",
+          "FolgerDigitalTexts_XML_Complete/R3.xml",
+          "FolgerDigitalTexts_XML_Complete/Rom.xml",
+          "FolgerDigitalTexts_XML_Complete/Son.xml",
+          "FolgerDigitalTexts_XML_Complete/Shr.xml",
+          "FolgerDigitalTexts_XML_Complete/MND.xml",
+          "FolgerDigitalTexts_XML_Complete/AWW.xml",
+          "FolgerDigitalTexts_XML_Complete/Ant.xml",
+          "FolgerDigitalTexts_XML_Complete/AYL.xml",
+          "FolgerDigitalTexts_XML_Complete/Cor.xml",
+          "FolgerDigitalTexts_XML_Complete/Cym.xml",
+          "FolgerDigitalTexts_XML_Complete/Ham.xml",
+          "FolgerDigitalTexts_XML_Complete/1H4.xml",
+          "FolgerDigitalTexts_XML_Complete/2H4.xml"]
+else
+  files = ["FolgerDigitalTexts_XML_Complete/Err.xml"]
+end
 files.each do |file|
   doc = Nokogiri::XML(File.open(file))
   title = doc.css('title').first
-  play = Play.create(title: title.inner_text)
-
+  if histories.include?(title.inner_text.downcase.tr(" ", "_"))
+    play = Play.create(title: title.inner_text, category: 0) # histories
+  elsif comedies.include?(title.inner_text.downcase.tr(" ", "_"))
+    play = Play.create(title: title.inner_text, category: 1) # comedies
+    puts "play id: " + play.id.to_s
+  elsif tragedies.include?(title.inner_text.downcase.tr(" ", "_"))
+    play = Play.create(title: title.inner_text, category: 2) # tragedies
+  else
+    play = Play.create(title: title.inner_text)
+  end
   currAct = 1
   currScene = 1
   currIndex = 1
   acts= doc.css('//div1')
   acts.each do |act|
     newact = play.acts.create(number: currAct)
+    puts "act" + currAct.to_s
     currAct = currAct + 1
     currScene = 1
     scenes = Nokogiri::XML(act.to_s).css('//div2')
@@ -70,15 +128,3 @@ files.each do |file|
     end
   end
 end
-
-play = Play.find(1)
-edit = play.edits.create()
-# Act.joins(:play).where(:play_id => play.id).order(:number).each do |act|
-#   Scene.joins(:act).where(:act_id => act.id).order(:number).each do |scene|
-#     Line.joins(:scene).where(:scene_id => scene.id).order(:number).each do |line|
-#       Word.joins(:line).where(:line_id => line.id).order(:place).each do |word|
-#         Cut.create(edit_id: edit.id, word_id: word.id)
-#       end
-#     end
-#   end
-# end

@@ -40,8 +40,15 @@
   </div>
   <% edits = Edit.where(:user_id => @user.id) %>
   <% edits.each do |edit| %>
-    <div class = "card">
+    <br>
+    <% editLink = "/edits/" + edit.id.to_s %>
+    <a style = color:black href = <%= editLink %> >
+    <div class = "edit-card">
+      <%= edit.play.title %>
+      <br>
+      <%= " edit created at " + edit.created_at.to_s%>
     </div>
+    </a>
   <% end %>
 </div>
 

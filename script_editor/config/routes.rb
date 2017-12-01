@@ -4,8 +4,13 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :edit_plays
   resources :plays
+  resources :edits
   get '/users/:id' => 'users#show', :as => :user
+  get '/makenewedit/:id' => 'edits#new'
   get '/plays/show'
+  get '/edits/show'
+  get '/edits/compress'
+  get '/edits/compress/:id' => 'edits#compress'
   get 'home/homepage'
   root 'home#homepage'
   get 'pages/about'
