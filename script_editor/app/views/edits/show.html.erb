@@ -14,6 +14,20 @@
         </div>
     </div>
 
+    <!--
+        The save indicator show up here as a popup
+    -->
+    <div id="save-modal" class="shown-modal">
+        <div class="modal-content">
+            <div class="hidden-save" id="hidden-save">
+              <h3>Saving Please Wait</h3>
+            </div>
+        </div>
+    </div>
+
+
+
+
 
     <!--
         The analytics will show up here as a popup
@@ -206,7 +220,7 @@
 
     document.querySelector(".toggle-button").addEventListener("click",toggleScript, false);
 
-    document.querySelector(".save-button").addEventListener("click", saveCut, false);
+    document.querySelector(".save-button").addEventListener("click", saveWrapper, false);
     var mousedrag = false;
     var origId = 0;
     var cutlist = [];
@@ -265,11 +279,31 @@
         }
     }
 
+
+    function saveWrapper()
+    {
+
+      if(cutlist.length > 0 || uncutlist.length > 0){
+        var modal3 = document.getElementById("save-modal");
+        modal3.style.display = "block";
+        saveCut();
+        }
+    }
+
+
     //If the save button is hit, send cached data to the database.
     function saveCut()
     {
         var script = $(".script-main")[0];
         var cEditId = parseInt(script.id);
+
+        if(cutlist.length == 0 && uncutlist.length == 0){
+          var modal3 = document.getElementById("save-modal");
+          modal3.style.display = "none";
+          window.alert("Saved!");
+          return;
+        }
+
         if(cutlist.length != 0)
         {
             idNum = cutlist.pop();
@@ -460,6 +494,7 @@
         span2.onclick = function() {
             modal2.style.display = "none";
         }
+
         /**
          * This closes the modals if the user clicks outside of either
          * the synopsis or analytics modal.
