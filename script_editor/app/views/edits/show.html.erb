@@ -133,7 +133,7 @@
 
         <button class="save-button"> SAVE </button>
 
-        <button class="toggle-button"> TOGGLE VIEW </button>
+        <button class="toggle-button" id="toggle-text"> HIDE</button>
     </div>
 
     <div class="script-main" id = <%= @edit.id.to_s %>>
@@ -406,10 +406,12 @@
     {
         if(compressed)
         {
+            document.getElementById("toggle-text").textContent="HIDE";
             $( ".script-main" ).load(window.location.pathname.substring(0,-5));
         }
         else
         {
+            document.getElementById("toggle-text").textContent="SHOW";
             var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length));
             $( ".script-main" ).load(location);
         }
