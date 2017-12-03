@@ -22,6 +22,7 @@ tr.user_field > td {
     font-size: 15px;
 }
 
+// This heads the section where the user's edits will be displayed.
 .title-card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
@@ -39,6 +40,7 @@ tr.user_field > td {
     font-family: serif;
 }
 
+// These are the cards that will display the user's edits.
 .edit-card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;

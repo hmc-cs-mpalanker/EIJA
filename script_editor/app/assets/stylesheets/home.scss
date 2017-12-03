@@ -2,6 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// This variable controls the color of the category elements.
+$category-color: #70708B;
+
 body{
 	text-align: center;
 }
@@ -45,25 +48,7 @@ hr {
     padding: 0;
 }
 
-#navigation-bar {
-	list-style: none;
-	margin: 10px;
-	padding: 12px;
-	background-color: #70708B;
-	text-transform: uppercase;
-}
-
-#navigation-bar li {
-	display: inline;
-}
-
-#navigation-bar li a {
-	width: 15em;
-	padding: 0.5em 1em;
-	text-decoration: none;
-}
-
-#navigation-bar, #plays-comedy-nav-bar, #plays-tragedy-nav-bar, #plays-historical-nav-bar, li a:hover {
+#plays-comedy-nav-bar, #plays-tragedy-nav-bar, #plays-history-nav-bar, li a:hover {
 	color: white;
 }
 
@@ -73,18 +58,18 @@ hr {
 	list-style: none;
 	margin: 5px;
 	padding: 10px;
-	background-color: #70708B;
+	background-color: $category-color;
 	text-transform: uppercase;
 }
 
-#plays-historical-nav-bar {
+#plays-history-nav-bar {
 	position: relative;
 	float: left;
 	width: 20%;
 	list-style: none;
 	margin: 5px;
 	padding: 10px;
-	background-color: #70708B;
+	background-color: $category-color;
 	text-transform: uppercase;
 }
 
@@ -95,11 +80,11 @@ hr {
 	list-style: none;
 	margin: 5px;
 	padding: 10px;
-	background-color: #70708B;
+	background-color: $category-color;
 	text-transform: uppercase;
 }
 
-#plays-historical-nav-bar li a{
+#plays-history-nav-bar li a{
 	text-decoration: none;
 	float: center;
 }

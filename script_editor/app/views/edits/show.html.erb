@@ -1,3 +1,12 @@
+<!-- This file controls the view for the non-editable version of the plays.
+It can be found at app/views/edits/show.html.erb -->
+
+<!-- This file uses the app/assets/stylesheets/plays.scss file for controlling its css. -->
+
+<!-- NOTE: The code in this file and the show.html.erb for the non-editable versions
+of the plays is almost identical except for the parts pertaining to making edits.
+This means that changes to non-editing parts of the view need to be made in both show files.
+However, they both utilize the same .scss file. -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html><body style = "background-color: #faebd7">
@@ -5,7 +14,8 @@
 
 
     <!--
-        The synopsis will show up here as a popup
+        The synopsis will show up here as a popup.
+        TODO: Currently the synopsis button does not work.
     -->
     <div id="synopsis-modal" class="shown-modal">
         <div class="modal-content">
@@ -16,7 +26,7 @@
 
 
     <!--
-        The analytics will show up here as a popup
+        The analytics will show up here as a popup.
     -->
     <div id="analytics-modal" class="shown-modal">
         <div class="modal-content">
@@ -25,7 +35,7 @@
 
             <br>
 
-            <!-- Create a button for each act and scene in the play -->
+            <!-- Create a button for each act and scene in the play. -->
             <% lastact = 0 %>
             <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
             <% actScenes.each do |actScene| %>
@@ -70,20 +80,20 @@
         </div>
     </div>
 
-    <!--
-        Parse the XML file for number of acts & scenes in order to
-        create the navigation bar
+    <!-- 
+    This is the code for the navigation bar on the left side of the view. 
     -->
     <div class="script-side-bar">
         <div class="play-navigation">
 
-            <!-- This button shows the play's synopsis -->
+            <!-- This button shows the play's synopsis. -->
             <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
 
-            <!-- This button shows the play's analytics -->
+            <!-- This button shows the play's analytics. -->
             <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
 
-            <!-- Create a button for each act and scene in the play -->
+            <!-- Create a button for each act and scene in the play.
+            The ability to navigate through the play is handled via href tags. -->
             <% lastact = 0 %>
             <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
             <% actScenes.each do |actScene| %>
@@ -111,39 +121,55 @@
         </div>
     </div>
 
+    <!-- 
+    This is the code for the bar on the right side of the screen that explains
+    how to strikethrough text and contains the buttons for saving and toggling
+    between views.
+    -->
     <div class="script-editor">
         <div class="edit-explanation">
             Click and drag in order to strikethrough words.
             Hold down shift, click, and drag in order to unstrikethrough words.
         </div>
 
+        <!-- This button allows users to save the strikethroughs made since thier last save. -->
         <button class="save-button"> SAVE </button>
 
+        <!-- This button allows users to toggle between two views.
+        The first view shows all of the cut words as greyed out with a line through them.
+        The second view removes the cut words altogether. -->
         <button class="toggle-button"> TOGGLE VIEW </button>
     </div>
 
+    <!--
+    This is the code for the actual script part of the view.
+    -->
     <div class="script-main" id = <%= @edit.id.to_s %>>
+        <!-- We loop through each act in order to create the script. -->
         <% @acts.each do |act| %>
             <% actId = "act" + (act.number).to_s%>
             <a id=<%= actId %> >
-            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button>
+            <div class="actDiv" id="Diva"><div class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </div>
             </a>
             <br>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
+             <!-- We then loop through each scene in each act. -->
              <% rscenes.each do |scene| %>
                <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
                <a id=<%= sceneId %> >
                <div class="sceneDiv" id="Divs">
                 <br> <br>
-                <button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button>
+                <div class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </div>
                 </a>
                 <br>
-                <!--credit to kombajn zbozowy for "not in" implementation https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
+                <!-- We heavily utilize the join function and our database to display the words quickly and efficiently. -->
+                <!--credit to kombajn zbozowy for their "not in" implementation: 
+                https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
                 <% wordLines = Line.joins(:scene).left_outer_joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
                 <% last_number = 0 %>
                 <% currentSpeaker = "" %>
                 <% wordLines.each do |wordline| %>
-
+                <!-- Lines that are stage directions are tagged as such and handled differently from regular lines. -->
                 <% if wordline.isStage %>
                     <% if @relCuts.include? wordline.wordid %>
                         <br/>
@@ -382,97 +408,6 @@
         compressed = !compressed;
     }
 </script>
-
-
-
-    <script>
-        /**
-         * This controls scene buttons in the navigation bar
-         */
-        var sceneButtons = document.getElementsByClassName("nav-scene");
-        var sceneLength = sceneButtons.length;
-        for (var i = 0; i < sceneLength; i++) {
-            sceneButton = sceneButtons[i];
-            sceneButton.addEventListener("click", showScene, false);
-        }
-        function showScene(scene) {
-            var allScenes = document.getElementsByClassName("scenehead");
-            for (var i = 0; i < allScenes.length; i++) {
-                if (("n" + allScenes[i].id) == scene.target.id) {
-                    allScenes[i].style.backgroundColor = "yellow";
-                    window.location.hash = allScenes[i].id;
-                }
-                else {
-                    allScenes[i].style.backgroundColor = "transparent";
-                }
-            }
-            var allActs = document.getElementsByClassName("acthead");
-            for (var i = 0; i < allActs.length; i++) {
-                allActs[i].style.backgroundColor = "transparent";
-            }
-        }
-        /**
-         * This controls act buttons in the navigation bar
-         */
-        var actButtons = document.getElementsByClassName("nav-act");
-        var actLength = actButtons.length;
-        for (var i = 0; i < actLength; i++) {
-            actButton = actButtons[i];
-            actButton.addEventListener("click", showAct, false);
-        }
-        function showAct(act) {
-            var allActs = document.getElementsByClassName("acthead");
-            for (var i = 0; i < allActs.length; i++) {
-                if (("n" + allActs[i].id) == act.target.id) {
-                    allActs[i].style.backgroundColor = "yellow";
-                    window.location.hash = allActs[i].id;
-                }
-                else {
-                    allActs[i].style.backgroundColor = "transparent";
-                }
-            }
-            var allScenes = document.getElementsByClassName("scenehead");
-            for (var i = 0; i < allScenes.length; i++) {
-                allScenes[i].style.backgroundColor = "transparent";
-            }
-        }
-        /**
-         * This controls the synopsis button in the navigation bar.
-         */
-        var modal = document.getElementById("synopsis-modal");
-        var btn = document.getElementById("synopsis-button");
-        var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        /**
-         * This controls the analytics button in the navigation bar.
-         */
-        var modal2 = document.getElementById("analytics-modal");
-        var btn2 = document.getElementById("analytics-button");
-        var span2 = document.getElementsByClassName("close2")[0];
-        btn2.onclick = function() {
-            modal2.style.display = "block";
-        }
-        span2.onclick = function() {
-            modal2.style.display = "none";
-        }
-        /**
-         * This closes the modals if the user clicks outside of either
-         * the synopsis or analytics modal.
-         */
-        window.onclick = function(event) {
-            if (event.target == modal2) {
-                modal2.style.display = "none";
-            }
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
 
     </div>
 

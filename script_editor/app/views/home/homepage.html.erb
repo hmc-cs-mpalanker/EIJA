@@ -1,20 +1,27 @@
+<!-- This file controls the view for the website's front page.
+It can be found at app/views/home/homepage.html.erb -->
+
+<!-- This file uses the app/assets/stylesheets/home.scss file for controlling its css. -->
+
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Script Editor</title>
-		<!-- Home#homepage html -->
-		<!-- Find me in app/views/home/homepage.html.erb -->
+		<title>HMC Script Editor</title>
 		<link rel="stylesheet" type"text/css" style = "color: #FDEDD9" href="home.scss"/>		
 	</head>
 
+	<!-- Here is where we set the tan color that is the background color for the page.
+	It needs to be set here to work. It does not work when set in the .scss file. -->
 	<body style = "background-color: #faebd7">
 		<div id="heading">
+			<!-- The picture of Shakespeare and the words "Shakespeare Script Editor"
+			are part of this image. -->
 			<img id="titleimg" src="/Title.png" >
 		</div>
 
 		<br />
 
-		<ul id="plays-historical-nav-bar">
+		<ul id="plays-history-nav-bar">
 			<h2>Histories</h2>
 			<hr style = "background-color: #faebd7"></hr>
 			<% @plays = Play.where(:category => 0) %>

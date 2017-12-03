@@ -1,5 +1,11 @@
+<!-- This file controls the view for user's profile pages.
+It can be found at app/views/users/show.html.erb -->
+
+<!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss -->
+
 <html><body style = "background-color: #faebd7; padding-top: 0px;">
 
+<!-- This will display the name of the current user. -->
 <h1><%= @user.user_name%>'s Profile</h1>
 
 <br> <br>
@@ -32,13 +38,14 @@
 </div>
 </p>
 
-<br> <br> <br> <br> <br>
+<br> <br> <br> <br>
 
 <div class = "saved-edits">
   <div class = "title-card">
     <%= @user.user_name%>'s Saved Edits
   </div>
   <% edits = Edit.where(:user_id => @user.id) %>
+  <!-- This loops through the current user's edits and displays all of them. -->
   <% edits.each do |edit| %>
     <br>
     <% editLink = "/edits/" + edit.id.to_s %>
