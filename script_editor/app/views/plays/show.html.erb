@@ -38,19 +38,26 @@ However, they both utilize the same .scss file. -->
             <!-- Create a button for each act and scene in the play. -->
             <% lastact = 0 %>
             <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
+            <div class="analytics-actRow">
+                    <div class="analytics-column analytics-left"></div>
+
+                    <div class="analytics-column analytics-middle">
+                        Original Word Count
+                    </div>
+                    <div class="analytics-column analytics-right"></div>
+            </div>
             <% actScenes.each do |actScene| %>
               <% if lastact != actScene.act_number %>
                 <% lastact = actScene.act_number %>
                 <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
                 <div class="analytics-actRow">
-                    <br>
-                    <div class="analytics-column analytics-left">
-                        <%= "ACT " + actScene.act_number.to_s %>
-                    </div>
-                    <div class="analytics-column analytics-middle">
-                        <%= "Original Word Count: " + actWords.to_s %>
-                    </div>
-                    <br>
+                  <div class="analytics-column analytics-left">
+                      <%= "ACT " + actScene.act_number.to_s %>
+                  </div>
+                  <div class="analytics-column analytics-middle">
+                      <%= actWords.to_s %>
+                  </div>
+                  <br>
                 </div>
               <% end %>
               <% sceneWords = Word.joins(:line).where(lines: {:scene_id => actScene.scene_id}).count %>
@@ -59,7 +66,7 @@ However, they both utilize the same .scss file. -->
                         <%= "SCENE " + actScene.scene_number.to_s %>
                     </div>
                     <div class="analytics-column analytics-middle">
-                        <%= "Original Word Count: " + sceneWords.to_s %>
+                        <%= sceneWords.to_s %>
                     </div>
                     <br>
               </div>
@@ -195,5 +202,20 @@ However, they both utilize the same .scss file. -->
             </div>
         <% end %>
     </div>
+
+    <script>
+      /**
+         * This controls the analytics button in the navigation bar.
+         */
+        var modal2 = document.getElementById("analytics-modal");
+        var btn2 = document.getElementById("analytics-button");
+        var span2 = document.getElementsByClassName("close2")[0];
+        btn2.onclick = function() {
+            modal2.style.display = "block";
+        }
+        span2.onclick = function() {
+            modal2.style.display = "none";
+        }
+    </script>
 
 </body></html>

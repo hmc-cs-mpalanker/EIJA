@@ -51,9 +51,9 @@ It can be found at app/views/users/show.html.erb -->
     <% editLink = "/edits/" + edit.id.to_s %>
     <a style = color:black href = <%= editLink %> >
     <div class = "edit-card">
-      <%= edit.play.title %>
+      <b> <%= edit.play.title %> </b>
       <br>
-      <%= " edit created at " + edit.created_at.to_s%>
+      <i> <%= " edit created at " + edit.created_at.to_s%> </i>
     </div>
     </a>
   <% end %>

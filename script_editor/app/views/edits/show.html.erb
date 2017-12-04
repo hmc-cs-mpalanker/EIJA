@@ -24,6 +24,16 @@ However, they both utilize the same .scss file. -->
         </div>
     </div>
 
+    <!--
+        The save indicator show up here as a popup
+    -->
+    <div id="save-modal" class="shown-modal">
+        <div class="modal-content">
+            <div class="hidden-save" id="hidden-save">
+              <h3>Saving Please Wait</h3>
+            </div>
+        </div>
+    </div>
 
     <!--
         The analytics will show up here as a popup.
@@ -33,11 +43,20 @@ However, they both utilize the same .scss file. -->
             <span class="close2">&times;</span>
             <div class="hidden-analytics" id="hidden-analytics"></div>
 
-            <br>
-
             <!-- Create a button for each act and scene in the play. -->
             <% lastact = 0 %>
             <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
+            <div class="analytics-actRow">
+                <br>
+                <div class="analytics-column analytics-left"></div>
+                <div class="analytics-column analytics-middle">
+                    Original Word Count
+                </div>
+                <div class="analytics-column analytics-right">
+                    New Word Count
+                </div>
+                <br>
+            </div>
             <% actScenes.each do |actScene| %>
               <% if lastact != actScene.act_number %>
                 <% lastact = actScene.act_number %>
@@ -48,10 +67,10 @@ However, they both utilize the same .scss file. -->
                         <%= "ACT " + actScene.act_number.to_s %>
                     </div>
                     <div class="analytics-column analytics-middle">
-                        <%= "Original Word Count: " + actWords.to_s %>
+                        <%= actWords.to_s %>
                     </div>
                     <div class="analytics-column analytics-right">
-                        <%= "New Word Count: " + (actWords-cutActWords).to_s %>
+                        <%= (actWords-cutActWords).to_s %>
                     </div>
                     <br>
                 </div>
@@ -63,10 +82,10 @@ However, they both utilize the same .scss file. -->
                         <%= "SCENE " + actScene.scene_number.to_s %>
                     </div>
                     <div class="analytics-column analytics-middle">
-                        <%= "Original Word Count: " + sceneWords.to_s %>
+                        <%= sceneWords.to_s %>
                     </div>
                     <div class="analytics-column analytics-right">
-                        <%= "New Word Count: "+(sceneWords-cutSceneWords).to_s %>
+                        <%= (sceneWords-cutSceneWords).to_s %>
                     </div>
                     <br>
               </div>
@@ -128,8 +147,19 @@ However, they both utilize the same .scss file. -->
     -->
     <div class="script-editor">
         <div class="edit-explanation">
+
+            <span class="edit-explanation-text">
             Click and drag in order to strikethrough words.
-            Hold down shift, click, and drag in order to unstrikethrough words.
+            </span>
+
+            <span class="edit-explanation-text">
+            Hold down shift, click, and drag in order to 
+            </span>
+
+            <span class="edit-explanation-text">
+            unstrikethrough words.
+            </span>
+
         </div>
 
         <!-- This button allows users to save the strikethroughs made since thier last save. -->
@@ -138,7 +168,7 @@ However, they both utilize the same .scss file. -->
         <!-- This button allows users to toggle between two views.
         The first view shows all of the cut words as greyed out with a line through them.
         The second view removes the cut words altogether. -->
-        <button class="toggle-button"> TOGGLE VIEW </button>
+        <button class="toggle-button" id="toggle-text"> HIDE CUTS </button>
     </div>
 
     <!--
@@ -151,7 +181,6 @@ However, they both utilize the same .scss file. -->
             <a id=<%= actId %> >
             <div class="actDiv" id="Diva"><div class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </div>
             </a>
-            <br>
              <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
              <!-- We then loop through each scene in each act. -->
              <% rscenes.each do |scene| %>
@@ -207,6 +236,7 @@ However, they both utilize the same .scss file. -->
             </div>
         <% end %>
         </div>
+        <br/>
     </div>
 
 <script>
@@ -232,7 +262,7 @@ However, they both utilize the same .scss file. -->
 
     document.querySelector(".toggle-button").addEventListener("click",toggleScript, false);
 
-    document.querySelector(".save-button").addEventListener("click", saveCut, false);
+    document.querySelector(".save-button").addEventListener("click", saveWrapper, false);
     var mousedrag = false;
     var origId = 0;
     var cutlist = [];
@@ -291,11 +321,31 @@ However, they both utilize the same .scss file. -->
         }
     }
 
+
+    function saveWrapper()
+    {
+
+      if(cutlist.length > 0 || uncutlist.length > 0){
+        var modal3 = document.getElementById("save-modal");
+        modal3.style.display = "block";
+        saveCut();
+        }
+    }
+
+
     //If the save button is hit, send cached data to the database.
     function saveCut()
     {
         var script = $(".script-main")[0];
         var cEditId = parseInt(script.id);
+
+        if(cutlist.length == 0 && uncutlist.length == 0){
+          var modal3 = document.getElementById("save-modal");
+          modal3.style.display = "none";
+          window.alert("Saved!");
+          return;
+        }
+
         if(cutlist.length != 0)
         {
             idNum = cutlist.pop();
@@ -383,13 +433,11 @@ However, they both utilize the same .scss file. -->
         // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
         if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "stage" || clickedItem.getAttribute("class") == "cstage")
         {
-            if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey) {
-                    literalCut(clickedItem,true);
-                }
-                else if(e.shiftKey && mousedrag) {
-                    literalCut(clickedItem,false);
-                }
+            if (mousedrag && !e.shiftKey) {
+                literalCut(clickedItem,true);
+            }
+            else if(e.shiftKey && mousedrag) {
+                literalCut(clickedItem,false);
             }
         }
     }
@@ -398,16 +446,114 @@ However, they both utilize the same .scss file. -->
     {
         if(compressed)
         {
-            $( ".script-main" ).load(window.location.pathname.substring(0,-5));
+            $(".script-second").hide();
+            document.getElementById("toggle-text").textContent="HIDE";
+            $(".script-main").show();
         }
         else
         {
-            var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length));
-            $( ".script-main" ).load(location);
+            //Got hide syntax from https://stackoverflow.com/questions/9456289/how-to-make-a-div-visible-and-invisible-with-javascript
+            document.getElementById("toggle-text").textContent="SHOW";
+            var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length)).concat(" .script-second");
+            $(".script-second").load(location, function()
+                {
+                    $(".script-main").hide();
+                    $(".script-second").show();
+                });
         }
         compressed = !compressed;
     }
 </script>
+
+    <script>
+        /**
+         * This controls scene buttons in the navigation bar
+         */
+        var sceneButtons = document.getElementsByClassName("nav-scene");
+        var sceneLength = sceneButtons.length;
+        for (var i = 0; i < sceneLength; i++) {
+            sceneButton = sceneButtons[i];
+            sceneButton.addEventListener("click", showScene, false);
+        }
+        function showScene(scene) {
+            var allScenes = document.getElementsByClassName("scenehead");
+            for (var i = 0; i < allScenes.length; i++) {
+                if (("n" + allScenes[i].id) == scene.target.id) {
+                    allScenes[i].style.backgroundColor = "yellow";
+                    window.location.hash = allScenes[i].id;
+                }
+                else {
+                    allScenes[i].style.backgroundColor = "transparent";
+                }
+            }
+            var allActs = document.getElementsByClassName("acthead");
+            for (var i = 0; i < allActs.length; i++) {
+                allActs[i].style.backgroundColor = "transparent";
+            }
+        }
+        /**
+         * This controls act buttons in the navigation bar
+         */
+        var actButtons = document.getElementsByClassName("nav-act");
+        var actLength = actButtons.length;
+        for (var i = 0; i < actLength; i++) {
+            actButton = actButtons[i];
+            actButton.addEventListener("click", showAct, false);
+        }
+        function showAct(act) {
+            var allActs = document.getElementsByClassName("acthead");
+            for (var i = 0; i < allActs.length; i++) {
+                if (("n" + allActs[i].id) == act.target.id) {
+                    allActs[i].style.backgroundColor = "yellow";
+                    window.location.hash = allActs[i].id;
+                }
+                else {
+                    allActs[i].style.backgroundColor = "transparent";
+                }
+            }
+            var allScenes = document.getElementsByClassName("scenehead");
+            for (var i = 0; i < allScenes.length; i++) {
+                allScenes[i].style.backgroundColor = "transparent";
+            }
+        }
+        /**
+         * This controls the synopsis button in the navigation bar.
+         */
+        var modal = document.getElementById("synopsis-modal");
+        var btn = document.getElementById("synopsis-button");
+        var span = document.getElementsByClassName("close")[0];
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        /**
+         * This controls the analytics button in the navigation bar.
+         */
+        var modal2 = document.getElementById("analytics-modal");
+        var btn2 = document.getElementById("analytics-button");
+        var span2 = document.getElementsByClassName("close2")[0];
+        btn2.onclick = function() {
+            modal2.style.display = "block";
+        }
+        span2.onclick = function() {
+            modal2.style.display = "none";
+        }
+
+        /**
+         * This closes the modals if the user clicks outside of either
+         * the synopsis or analytics modal.
+         */
+        window.onclick = function(event) {
+            if (event.target == modal2) {
+                modal2.style.display = "none";
+            }
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
     </div>
 

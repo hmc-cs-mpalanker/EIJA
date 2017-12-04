@@ -17,7 +17,7 @@ $nav-second-row-color: #b2b2ff;
 // The background color for the view is controlled within the view itself.
 body { 
     font-family: 'Times New Roman'; 
-    font-size:13pt; 
+    font-size: 14px; 
     margin:10px 0px; 
     padding:0px;
 }
@@ -225,6 +225,7 @@ div.sceneDiv {
      border:none;
      text-align: left;
      margin-left: 25px;
+     margin-top: 20px;
      padding:0!important;
      font-size: 28px;
 }
@@ -244,6 +245,18 @@ div.sceneDiv {
 ///////////////////////////////////////////
 // For the script's editing functionality
 ///////////////////////////////////////////
+
+.character {
+     background:none!important;
+     color:#000000;
+     text-decoration: none;
+     border:none; 
+     text-align: left;
+     margin-left: 25px;
+     padding:0!important;
+}
+
+button:focus {outline:0;}
 
 button.save-button {
     height: 40px;
