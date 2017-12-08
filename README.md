@@ -30,10 +30,21 @@ Informing the database of cuts to the script is done with JQuery’s AJAX, an as
 ### Prerequisites
 
 TODO: List what a user needs to have installed before running the installation instructions below (e.g., git, which versions of Ruby/Rails)
+Install Git
+Install Ruby 2.4.1
+Install Bundle Gem
 
 ### Gems
 
-TODO: List which gems your project is using, and the purpose each gem serves in your app.
+jQuery-Rails: Used to provide the functionality of the jQuery library in the Javascript chunks on each view.
+
+Nokogiri: An XML parser that is used to parse the Folger's Shakespeare texts and put the words, scenes, and Ac
+
+Devise: Devise is a gem used to setup user accounts and encrypted logins on the website.
+
+Boostrap-Sass: Bootstrap is a gem that helps set up basic UI elements, primarily the site navigation bar.
+
+sqlite3: Gem that simplifies connection between Ruby on Rails and sqlite3.
 
 ## Installation
 
@@ -58,7 +69,8 @@ Analytics: Within the navigation bar is an analytics button that users can click
 
 ## Known Problems
 
-TODO: Describe any known issues, bugs, odd behaviors or code smells. Provide steps to reproduce the problem / name a file or a function where the problem lives.
+- Occasionally, when the play is loaded, there will be a word/series of words that, when you attempt to cut them, will gray our the entirety of the script, and strikethrough everything in the script BUT the cuttable words (headings, spaces, everything). We are unsure how to recreate this error, the pattern is inconsistent.
+-Stage directions in the play are all off by at least a line. We thought we'd fixed this problem earlier in the project, and by the time we realized we had not we didn't have the time to fix it. This is simply true everywhere, nothing needs to be done to recreate it.
 
 ## Contributing
 
