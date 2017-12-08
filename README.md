@@ -1,6 +1,6 @@
 # Shakespeare Script Editor
 
-This project was initially created by 
+This project was initially created by Mahlet Melaku, Holly Mitchell, Lee Norgaard, Crystal Xiang for Prof. Benjamin Wiedermann, and it was continued by Evan Amason, Israel Jones, Jake Palanker, and Ashley Schmit for Prof. Ambereen Dadabhoy.
 
 The HMC Shakespeare Script editor makes the editing process easier by providing all of Shakespeare’s plays in a single location. It also provides the means for cutting the plays with click and drag strikethrough. The format for editing in the HMC Shakespeare Script Editor also maintains the original formatting of the plays, and it provides a navigation bar for ease of access. Users can create an account which is used to store of their edits in a convenient central location.
 
@@ -29,7 +29,6 @@ Informing the database of cuts to the script is done with JQuery’s AJAX, an as
 
 ### Prerequisites
 
-TODO: List what a user needs to have installed before running the installation instructions below (e.g., git, which versions of Ruby/Rails)
 Install Git
 Install Ruby 2.4.1
 Install Bundle Gem
