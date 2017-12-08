@@ -1,3 +1,8 @@
+<!-- This file controls the view for the registration page for creating new users.
+It can be found at app/views/devise/registrations/new.html.erb -->
+
+<!-- This file uses the app/assets/stylesheets/registrations.scss file for controlling its css. -->
+
 <html><body style = "background-color: #faebd7; padding-top: 0px;">
 
 <h2 style = "color: black;">Sign Up</h2>
@@ -5,50 +10,64 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.label :email %> 
-    <span style="width:50px; display:inline-block"></span>
+<div class="registration-box">
+
+  <div class="field" style="float:left">
+    <%= f.label :email, "Email" %> 
+    <br>
     <%= f.email_field :email, autofocus: true %>
   </div>
 
-  <div class="field">
-    <%= f.label :user_name %>
-    <span style="width:50px; display:inline-block"></span>
+  <br>
+
+  <div class="field" style="float:left">
+    <%= f.label :user_name, "Your Name" %>
+    <br>
     <%= f.text_field :user_name, autocomplete: "off" %>
   </div>
 
-  <div class="field">
-    <%= f.label :major %>
-    <span style="width:50px; display:inline-block"></span>
+  <br>
+
+  <div class="field" style="float:left">
+    <%= f.label :major, "Major" %>
+    <br>
     <%= f.text_field :major, autocomplete: "off" %>
   </div>
 
-  <div class="field">
-    <%= f.label :grad_year %>
-    <span style="width:50px; display:inline-block"></span>
+  <br>
+
+  <div class="field" style="float:left">
+    <%= f.label :grad_year, "Graduation Year" %>
+    <br>
     <%= f.number_field :grad_year, autocomplete: "off" %>
   </div>
 
-  <div class="field">
-    <%= f.label :enrolled %>
-    <span style="width:50px; display:inline-block"></span>
+  <br>
+
+  <div class="field" style="float:left">
+    <%= f.label :enrolled, "Currently Enrolled?" %>
+     <span style="width:5px; display:inline-block"></span>
     <%= f.check_box :enrolled, autocomplete: "off" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %> 
-    <span style="width:50px; display:inline-block"></span>
+  <br>
+
+  <div class="field" style="float:left">
+    <!-- NOTE: Passwords require a minimum of six characters. -->
+    <%= f.label :password, "Password" %> 
+    <br>
     <%= f.password_field :password, autocomplete: "off" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <span style="width:50px;display:inline-block"></span>
+  <br>
+
+  <div class="field" style="float:left">
+    <%= f.label :password_confirmation, "Confirm Password" %>
+    <br>
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
+
+</div>
 
   <div class="actions">
     <%= f.submit "Sign up" %>

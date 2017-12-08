@@ -1,40 +1,24 @@
+<!-- This file controls the view for the non-editable version of the plays.
+It can be found at app/views/plays/show.html.erb -->
+
+<!-- This file uses the app/assets/stylesheets/plays.scss file for controlling its css. -->
+
+<!-- NOTE: The code in this file and the show.html.erb for the edits of the plays is almost 
+identical except for the parts pertaining to making edits. This means that changes to non-editing 
+parts of the view need to be made in both show files.
+However, they both utilize the same .scss file. -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<!-- The background color for this view had to go here. It would not work within the .scss file. -->
 <html><body style = "background-color: #faebd7">
-    <p id="notice"></p>        
+    <p id="notice"></p>
 
-    <!-- 
-        Parse the XML file for number of acts & scenes in order to 
-        create the navigation bar 
+
+    <!--
+        The synopsis will show up here as a popup.
+        TODO: Currently the synopsis button does not work.
     -->
-    <div class="script-side-bar">
-        <div class="play-navigation">
-
-            <!-- This button shows the play's synopsis -->
-            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
-
-            <!-- This button shows the play's analytics -->
-            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
-
-            <!-- Create a button for each act and scene in the play -->
-            <% currAct = 1 %>
-            <% currScene = 1 %>
-            <% currIndex = 1 %>
-            <% @acts.each do |act| %>
-                <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
-                <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "na" + currAct.to_s %>';
-                </script>
-                <% currAct = currAct + 1 %>
-                <% currScene = 1 %>
-            <%end%>
-        </div>
-    </div>
-
-
-    <!-- 
-        The synopsis will show up here as a popup 
-    -->  
     <div id="synopsis-modal" class="shown-modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -43,330 +27,184 @@
     </div>
 
 
-    <!-- 
-        The analytics will show up here as a popup 
+    <!--
+        The analytics will show up here as a popup.
     -->
     <div id="analytics-modal" class="shown-modal">
         <div class="modal-content">
             <span class="close2">&times;</span>
             <div class="hidden-analytics" id="hidden-analytics"></div>
-            <% analyticstext = "Total Lines: ????" %>
-            <script>
-                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
-            </script>
-        </div>
-    </div>
 
-    <!-- 
-        Parse the XML file for number of acts & scenes in order to 
-        create the navigation bar 
-    -->
-    <div class="script-side-bar">
-        <div class="play-navigation">
+            <!-- Create a button for each act and scene in the play. -->
+            <% lastact = 0 %>
+            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
+            <div class="analytics-actRow">
+                    <div class="analytics-column analytics-left"></div>
 
-            <!-- This button shows the play's synopsis -->
-            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
+                    <div class="analytics-column analytics-middle">
+                        Original Word Count
+                    </div>
+                    <div class="analytics-column analytics-right"></div>
+            </div>
+            <% actScenes.each do |actScene| %>
+              <% if lastact != actScene.act_number %>
+                <% lastact = actScene.act_number %>
+                <% actWords = Word.joins(:line => :scene).where(scenes: {:act_id => actScene.act_id}).count %>
+                <div class="analytics-actRow">
+                  <div class="analytics-column analytics-left">
+                      <%= "ACT " + actScene.act_number.to_s %>
+                  </div>
+                  <div class="analytics-column analytics-middle">
+                      <%= actWords.to_s %>
+                  </div>
+                  <br>
+                </div>
+              <% end %>
+              <% sceneWords = Word.joins(:line).where(lines: {:scene_id => actScene.scene_id}).count %>
+              <div class="analytics-sceneRow">
+                <div class="analytics-column analytics-left">
+                        <%= "SCENE " + actScene.scene_number.to_s %>
+                    </div>
+                    <div class="analytics-column analytics-middle">
+                        <%= sceneWords.to_s %>
+                    </div>
+                    <br>
+              </div>
 
-            <!-- This button shows the play's analytics -->
-            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
-
-            <!-- Create a button for each act and scene in the play -->
-            <% currAct = 1 %>
-            <% currScene = 1 %>
-            <% currIndex = 1 %>
-            <% @acts.each do |act| %>
-                <button class="nav-act" id="current-act"><%= "ACT " + currAct.to_s %></button>
-                <script>
-                    document.getElementById('current-act').id = '<%= escape_javascript "na" + currAct.to_s %>';
-                </script>
-                <% currAct = currAct + 1 %>
-                <% currScene = 1 %>
-                <% scenes = Scene.where(:act_id => act.id).order(:number) %>
-                <% scenes.each do |scene| %>
-                    <button class="nav-scene" id="current-scene"><%= "SCENE " + currScene.to_s %></button>
-                    <script>
-                        document.getElementById('current-scene').id = '<%= escape_javascript "ns" + currIndex.to_s %>';
-                    </script>
-                    <% currScene = currScene + 1 %>
-                    <% currIndex = currIndex + 1 %>
-                <%end%>
-            <%end%>
-        </div>
-    </div>
-
-
-    <!-- 
-        The synopsis will show up here as a popup 
-    -->  
-    <div id="synopsis-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="hidden-synopsis" id="hidden-synopsis"></div>
-        </div>
-    </div>
-
-
-    <!-- 
-        The analytics will show up here as a popup 
-    -->
-    <div id="analytics-modal" class="shown-modal">
-        <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class="hidden-analytics" id="hidden-analytics"></div>
-            <% analyticstext = "Total Lines: ????" %>
-            <script>
-                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
-            </script>
-        </div>
-    </div>
-
-    <div class="script-main" id=<%= @edit.id.to_s %> > 
-        <% @acts.each do |act| %>
-            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button><br></b>
-             <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
-             <% rscenes.each do |scene| %>
-                <br>
-                <div class="sceneDiv" id="Divs"><button class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </button><br>
-                <% rlines = Line.joins(:scene).where(:scene_id => scene.id).order(:number) %>
-                <% currentSpeaker = "" %>
-                <% rlines.each do |line| %>
-                    <% if line.isStage %>
-                        <button class="stage" data-cut="false" data-display="true" id = <%= line.id.to_s %>> <%= line.words.first.text %> </button> <br>
-                    <% else %>
-                        <% string = "" %>
-                        <% Line.preload(:words) %>
-                    <p>
-                        <% words = Word.left_outer_joins(:cuts).select("words.*, cuts.edit_id").where(:line_id => line.id).order(:place) %>
-                        <% if (currentSpeaker != line.speaker) %>
-                            <% currentSpeaker = line.speaker %>
-                            <br> <p class="speaker"> <%= line.speaker %> </p> <br>
-                        <% end %>
-                        <p class="lineNum"><%= line.number %></p>
-                        <% words.each do |word| %>
-                            <% if word.edit_id == @edit.id %>
-                                <!-- If the word was cut on load -->
-                                <button class ="cword" data-cut="false" data-display="true" id = <%= word.id.to_s %>>
-                                    <%= word.text %>
-                                </button>
-                            <% else %>
-                                <!-- If the word was not cut on load -->
-                                <button class ="word" data-cut="false" data-display="true" id = <%= word.id.to_s %>>
-                                    <%= word.text %>
-                                </button>
-                            <% end %>
-                        <% end %>
-                    </p>
-                <% end %>
             <% end %>
+
+            <% analyticstext = "" %>
+            <script>
+                document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
+            </script>
+        </div>
+    </div>
+
+    <!-- 
+    This is the code for the navigation bar on the left side of the view. 
+    -->
+    <div class="script-side-bar">
+        <div class="play-navigation">
+
+            <!-- This button shows the play's synopsis. -->
+            <button class="nav-synopsis" id="synopsis-button">SYNOPSIS</button>
+
+            <!-- This button shows the play's analytics. -->
+            <button class="nav-analytics" id="analytics-button">ANALYTICS</button>
+
+            <!-- Create a button for each act and scene in the play.
+            The ability to navigate through the play is handled via href tags. -->
+            <% lastact = 0 %>
+            <% actScenes = Scene.joins(:act).select(" acts.number as act_number, scenes.number as scene_number, scenes.id as scene_id, acts.id as act_id").where(acts: {:play_id => @play.id}) %>
+            <% actScenes.each do |actScene| %>
+              <% if lastact != actScene.act_number %>
+                <% lastact = actScene.act_number %>
+                <% actLink = "/plays/" + @play.id.to_s + "/#act" + actScene.act_number.to_s %>
+                <a style = color:black href=<%=actLink%> >
+                <button class="nav-act" id="current-act"><%= "ACT " + actScene.act_number.to_s %></button>
+                </a>
+                <script>
+                    document.getElementById('current-act').id = '<%= escape_javascript "na" + actScene.scene_number.to_s %>';
+                </script>
+              <% end %>
+              <% sceneLink = "/plays/" + @play.id.to_s + "/#act" + actScene.act_number.to_s + "scene" + actScene.scene_number.to_s %>
+              <a style = color:black href=<%=sceneLink%> >
+              <button class="nav-scene" id="current-scene"><%= "SCENE " + actScene.scene_number.to_s %></button>
+              </a>
+              <script>
+                  document.getElementById('current-scene').id = '<%= escape_javascript "ns" + actScene.scene_number.to_s %>';
+              </script>
+
+            <% end %>
+
+        </div>
+    </div>
+
+    <!-- 
+    This is the code for the bar on the right side of the screen that explains
+    how to create an edit and holds the button for creating an edit. 
+    -->
+    <div class="script-editor">
+        <div class="edit-explanation">
+            <span class="edit-explanation-text">
+                You will need to make an edit if you want to
+            </span>
+
+            <span class="edit-explanation-text">
+                make changes to the play. You need to be 
+            </span>
+
+            <span class="edit-explanation-text">
+                logged in first.
+            </span>
+        </div>
+        <% if current_user %>
+          <% link = "/makenewedit/" + @play.id.to_s %>
+        <% else %>
+          <% link = "/users/sign_in" %>
+        <% end %>
+        <a style = color:black href=<%=link%>>
+          <button class="save-button"> EDIT</button>
+        </a/>
+    </div>
+
+    <!--
+    This is the code for the actual script part of the view.
+    -->
+    <div class="script-main">
+        <!-- We loop through each act in order to create the script. -->
+        <% @acts.each do |act| %>
+            <% actId = "act" + (act.number).to_s%>
+            <a id=<%= actId %> >
+            <div class="actDiv" id="Diva"><button class="acthead" id="current-act" data-display="true"> Act <%= act.number %> </button>
+            </a>
+            <br> <br>
+             <% rscenes = Scene.joins(:act).where(:act_id => act.id).order(:number) %>
+             <!-- We then loop through each scene in each act. -->
+             <% rscenes.each do |scene| %>
+               <% sceneId = "act" + (act.number).to_s + "scene" + (scene.number).to_s%>
+               <a id=<%= sceneId %> >
+               <div class="sceneDiv" id="Divs"><span class="scenehead" id="current-scene" data-display="true"> Scene <%= scene.number %> </span>
+                </a>
+                <br>
+                <!-- We heavily utilize the join function and our database to display the words quickly and efficiently. -->
+                <!--credit to kombajn zbozowy for their "not in" implementation:
+                https://stackoverflow.com/questions/25519513/rails-activerecord-query-where-relationship-does-not-exist-based-on-third-attrib-->
+                <% wordLines = Line.joins(:scene).joins(:words).where(:scene_id => scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number) %>
+                <% last_number = 0 %>
+                <% currentSpeaker = "" %>
+                <% wordLines.each do |wordline| %>
+                <!-- Lines that are stage directions are tagged as such and handled differently from regular lines. -->
+                <% if wordline.isStage %>
+                  <br/>
+                  <span class="stage" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
+                      <%= wordline.text %>
+                  </span>
+                  <br>
+                <% else %>
+                    <% if wordline.lineNum != last_number %>
+                      <% last_number = wordline.lineNum %>
+                      <!-- This is how we handle displaying the name of a character 
+                      whenever a new character starts speaking. -->
+                      <% if (currentSpeaker != wordline.speaker) %>
+                        <% currentSpeaker = wordline.speaker %>
+                        <br><br> <p class="speaker"> <%= wordline.speaker %> </p>
+                      <% end %>
+                      <br>
+                      <p class="lineNum"><%= wordline.lineNum %></p>
+                    <% end %>
+                    <button class ="word" data-cut="false" data-display="true" id = <%= wordline.wordid.to_s %>>
+                    <%= wordline.text %>
+                    </button>
+                  <% end %>
+                <% end %>
             <% end %>
             </div>
         <% end %>
-        </div>
     </div>
 
-<script>
-    //Create events for the various functions associated with strikethrough.
-
-    //If we click the mouse down, tell the program we're dragging the mouse.
-    document.querySelector(".script-main").addEventListener("mousedown", drag, false);
-
-    //If we move the mouse over an element, let it know. If the mouse is down, this will strikethrough the element.
-    document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
-
-    //If the mouse is clicked down over an element, cut the element.
-    document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
-
-    //If the mouse is lifted, tell the program that we're no long dragging the mouse.
-    document.querySelector(".script-main").addEventListener("mouseup", lift, false);
-    var mousedrag = false;
-    var currId = 0;
-
-    //Save that the mouse is down.
-    function drag(e)
-    {
-        mousedrag = true;
-    }
-
-    //Save that the mouse is up.
-    function lift(e)
-    {
-        mousedrag = false;
-        currId = 0;
-    }
-
-    function dataCut(clickedItem,cut)
-    {
-        var idNum = parseInt(clickedItem.id);
-        console.log(clickedItem.id);
-        var script = $(".script-main")[0];
-        var cEditId = parseInt(script.id);
-        console.log(script.id);
-        if(cut)
-        {
-            $.post("/cuts/new",
-            {
-                editI: cEditId,
-                wordI: idNum
-            });
-        }
-        else
-        {
-            $.post("/cuts/delete",
-            {
-                editI: cEditId,
-                wordI: idNum
-            });
-        }
-    }
-
-    function modifyStyle(clickedItem,color,style,cut)
-    {
-        clickedItem.style.color = color;
-        clickedItem.style.textDecoration = style;
-        clickedItem.dataset.cut = cut;      
-    }
-
-    //Actually executes the XML cut on a word
-    function literalCut(clickedItem,cut)
-    {
-        var color;
-        var style;
-        if(cut)
-        {
-            style = "line-through";
-            if(clickedItem.getAttribute("class") == "cword")
-            {
-                color = "#D3D3D3";
-            }
-            else
-            {
-                color = "#888888";
-            }
-        }
-        else
-        {
-            style = "none";
-            if(clickedItem.getAttribute("class") == "cword")
-            {
-                color = "#006BFF";
-            }
-            else
-            {
-                color = "#000000";
-            } 
-        }
-        modifyStyle(clickedItem,color,style,cut);
-        checkWrap(clickedItem,cut);
-    }
-
-    function checkWrap(clickedItem,cut)
-    {
-        var intId = parseInt(clickedItem.id)
-        if(currId != 0)
-        {
-            //Wrap function goes here! Probably make it a helper and call it.
-        }
-        currId = intId;
-    }
-
-    // all words will need to be printed within the div class "script-main"
-    function doCut(e) {
-        var clickedItem = e.target;
-        // Strikesthrough stage directions if mouse is down, and unstrikes if shift is also held.
-        if (clickedItem.getAttribute("class") == "stage") {
-            if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey) {
-                    dataCut(clickedItem,true);
-                    literalCut(clickedItem,true);
-                }
-                else if(e.shiftKey && mousedrag) {
-                    dataCut(clickedItem,false);
-                    literalCut(clickedItem,false);
-                }
-            }
-        }
-        // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
-        else if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc" || clickedItem.getAttribute("class") == "cword") {
-            if (clickedItem.tagName.toLowerCase() == "button") {
-                if (mousedrag && !e.shiftKey) {
-                    dataCut(clickedItem,true);
-                    literalCut(clickedItem,true);
-                }
-                else if(e.shiftKey && mousedrag) {
-                    dataCut(clickedItem,false);
-                    literalCut(clickedItem,false);
-                }
-            }
-        }
-    };
-</script>
-
-
-
     <script>
-        /** 
-         * This controls scene buttons in the navigation bar
-         */
-        var sceneButtons = document.getElementsByClassName("nav-scene");
-        var sceneLength = sceneButtons.length;
-        for (var i = 0; i < sceneLength; i++) {
-            sceneButton = sceneButtons[i];
-            sceneButton.addEventListener("click", showScene, false);
-        }
-        function showScene(scene) {
-            var allScenes = document.getElementsByClassName("scenehead");
-            for (var i = 0; i < allScenes.length; i++) {
-                if (("n" + allScenes[i].id) == scene.target.id) {
-                    allScenes[i].style.backgroundColor = "yellow";
-                    window.location.hash = allScenes[i].id;
-                }
-                else {
-                    allScenes[i].style.backgroundColor = "transparent";
-                }
-            }
-            var allActs = document.getElementsByClassName("acthead");
-            for (var i = 0; i < allActs.length; i++) {
-                allActs[i].style.backgroundColor = "transparent";
-            }
-        }
-        /** 
-         * This controls act buttons in the navigation bar
-         */
-        var actButtons = document.getElementsByClassName("nav-act");
-        var actLength = actButtons.length;
-        for (var i = 0; i < actLength; i++) {
-            actButton = actButtons[i];
-            actButton.addEventListener("click", showAct, false);
-        }
-        function showAct(act) {
-            var allActs = document.getElementsByClassName("acthead");
-            for (var i = 0; i < allActs.length; i++) {
-                if (("n" + allActs[i].id) == act.target.id) {
-                    allActs[i].style.backgroundColor = "yellow";
-                    window.location.hash = allActs[i].id;
-                }
-                else {
-                    allActs[i].style.backgroundColor = "transparent";
-                }
-            }
-            var allScenes = document.getElementsByClassName("scenehead");
-            for (var i = 0; i < allScenes.length; i++) {
-                allScenes[i].style.backgroundColor = "transparent";
-            }
-        }
-        /** 
-         * This controls the synopsis button in the navigation bar.
-         */
-        var modal = document.getElementById("synopsis-modal");
-        var btn = document.getElementById("synopsis-button");
-        var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        /** 
+      /**
          * This controls the analytics button in the navigation bar.
          */
         var modal2 = document.getElementById("analytics-modal");
@@ -378,20 +216,6 @@
         span2.onclick = function() {
             modal2.style.display = "none";
         }
-        /**
-         * This closes the modals if the user clicks outside of either 
-         * the synopsis or analytics modal.
-         */
-        window.onclick = function(event) {
-            if (event.target == modal2) {
-                modal2.style.display = "none";
-            }
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        } 
     </script>
-
-    </div>
 
 </body></html>

@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171026181823) do
+ActiveRecord::Schema.define(version: 20171118013759) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
     t.integer  "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["play_id"], name: "index_acts_on_play_id"
   end
 
   create_table "cuts", force: :cascade do |t|
@@ -42,12 +43,14 @@ ActiveRecord::Schema.define(version: 20171026181823) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "isStage",    default: false
+    t.index ["scene_id"], name: "index_lines_on_scene_id"
   end
 
   create_table "plays", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "category"
   end
 
   create_table "scenes", force: :cascade do |t|
@@ -55,6 +58,7 @@ ActiveRecord::Schema.define(version: 20171026181823) do
     t.integer  "act_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["act_id"], name: "index_scenes_on_act_id"
   end
 
   create_table "users", force: :cascade do |t|

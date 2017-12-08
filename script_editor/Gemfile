@@ -21,9 +21,11 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+gem 'coffee-script-source', '1.8.0'
 # This gem adds the navigation bar.
 gem 'bootstrap-sass', '~> 3.3.6'
+
+gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'bcrypt'
 
 # This gem adds the ability to have user accounts.
 gem 'devise'

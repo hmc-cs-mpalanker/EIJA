@@ -1,4 +1,4 @@
-// Place all the styles related to the plays controller here.
+// Place all the styles related to the plays and edits controllers here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
@@ -14,17 +14,33 @@ $nav-second-row-color: #b2b2ff;
     }
 }
 
+// The background color for the view is controlled within the view itself.
 body { 
     font-family: 'Times New Roman'; 
-    font-size:13pt; 
+    font-size: 14px; 
     margin:10px 0px; 
     padding:0px;
 }
 
+// This keeps href links from changing their appearence when hovered over.
+a:hover {
+    background-color: transparent !important;
+    text-decoration: none !important;
+}
+
+////////////////////////////////
+// For the script display 
+// (non-editable script items)
+////////////////////////////////
+
+// This places the stage directions in italics.
+// The editable part of the stage directions is
+// in the editable section.
 div.stage {
     font-style: italic;
 }
 
+// This handles the line numbers for the play.
 p.lineNum {
     padding: 0px;
     margin-right: 10px;
@@ -34,6 +50,7 @@ p.lineNum {
     font-family: serif;
 }
 
+// This is for the speaker of lines in the play.
 p.speaker {
     padding: 0px;
     margin: 0px;
@@ -45,49 +62,12 @@ br {
     clear:both; 
 }
 
-#Home-button {
-    display: inline-block;
-    float: left;
-    height: 100%;
-    width: 30%;
-    font-size: 20px;
-    font-family: serif;
-    background-color: #3f3f5f;
-}
-
-#About-button {
-    display: inline-block;
-    float: right;
-    height: 100%;
-    width: 8%;
-    font-size: 20px;
-    font-family: serif;
-    background-color: #3f3f5f;
-    margin-right: 5px;
-}
-
-#home {
-    text-decoration: none;
-}
-
-#play-title {
-    display: inline-block;
-}
-
 /////////////////////////////////
 // For script's page sections
 /////////////////////////////////
 
-div.script-title {
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    background-color: #3f3f5f; 
-    width: 100%; 
-    height: 6%;
-    z-index:0;
-}
-
+// This creates the navigation bar on the 
+// left side of the view.
 div.script-side-bar {
     position: fixed;
     width: 20%;
@@ -102,13 +82,26 @@ div.script-side-bar {
 
 div.script-main {
     position: fixed;
-    width: 50%;
+    width: 59%;
     overflow-y: scroll;
-    top: 10%;
+    top: 7%;
     bottom: 0;
-    right: 15%;
+    right: 20%;
     z-index:0;
     text-align: left;
+}
+
+// This handles the section on the right side of the
+// view that controls the editing buttons and explanations.
+div.script-editor {
+    position: fixed;
+    width: 20%;
+    top: 6%;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    margin-left: 1%;
+    background-color: $nav-back-color;
 }
 
 div.sceneDiv {
@@ -124,15 +117,51 @@ div.sceneDiv {
     user-select: none;
 }
 
-#title {
-    text-align: center;
-    font-size: 24px;
-    font-family: 'Courier New';
-    color: #faebd7;
+/////////////////////////////////
+// For the analytics display
+/////////////////////////////////
+
+.analytics-column {
+    float: left;
+    padding: 10px;
+}
+
+.analytics-left {
+    width: 20%;
+    text-align: left;
+    max-width: 90px;
+}
+
+.analytics-middle {
+    width: 40%;
+    text-align: left;
+    max-width: 220px;
+}
+
+.analytics-right {
+    width: 40%;
+    text-align: left;
+    max-width: 230px;
+}
+
+.analytics-actRow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.analytics-sceneRow {
+    margin-left: 15px;
+}
+
+.analytics-sceneRow:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 /////////////////////////////////
-// For editable word buttons
+// For editable items
 /////////////////////////////////
 
 .punc {
@@ -145,6 +174,7 @@ div.sceneDiv {
     font-size: 14px;
 }
 
+// This handles uncut words.
 .word {
     background:none;
     background-color: none;
@@ -154,6 +184,7 @@ div.sceneDiv {
     font-size: 14px;
 }
 
+// This handles cut words.
 .cword {
     background:none;
     background-color: none;
@@ -165,6 +196,7 @@ div.sceneDiv {
     font-size: 14px;
 }
 
+// This handles stage directions.
 .stage {
      background:none;
      background-color: none;
@@ -175,6 +207,16 @@ div.sceneDiv {
      font-size: 14px;
 }
 
+.cstage {
+    background:none;
+    background-color: none;
+    text-decoration: line-through;
+    color: #D3D3D3;
+    border:none;
+    padding:0!important;
+    font-size: 14px;
+}
+
 .acthead {
      background:none;
      background-color: none;
@@ -183,6 +225,7 @@ div.sceneDiv {
      border:none;
      text-align: left;
      margin-left: 25px;
+     margin-top: 20px;
      padding:0!important;
      font-size: 28px;
 }
@@ -199,6 +242,10 @@ div.sceneDiv {
      font-size: 20px;
 }
 
+///////////////////////////////////////////
+// For the script's editing functionality
+///////////////////////////////////////////
+
 .character {
      background:none!important;
      color:#000000;
@@ -207,6 +254,50 @@ div.sceneDiv {
      text-align: left;
      margin-left: 25px;
      padding:0!important;
+}
+
+button:focus {outline:0;}
+
+button.save-button {
+    height: 40px;
+    text-align: center;
+    background-color: $nav-first-row-color;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $nav-border-color;
+    width: 50%;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+button.toggle-button {
+    height: 40px;
+    text-align: center;
+    background-color: $nav-second-row-color;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $nav-border-color;
+    width: 50%;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+div.edit-explanation {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    margin-top: 20px;
+    margin-right: 4px;
+    margin-left: 4px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 14px;
+    text-align: justify;
+    background-color: #faebd7
+}
+
+span.edit-explanation-text {
+    margin-left: 6px;
+    margin-right: 6px;
 }
 
 /////////////////////////////////
@@ -238,11 +329,6 @@ button.nav-synopsis, button.nav-analytics {
     position: relative;
 }
 
-button.nav-synopsis:hover{
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    z-index: 2;
-}
-
 button.nav-analytics {
     height: 40px;
     text-align: center;
@@ -252,11 +338,6 @@ button.nav-analytics {
     border-color: $nav-border-color;
     width: 100%;
     transition: 0.3s;
-}
-
-button.nav-analytics:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    z-index: 2;
 }
 
 button.nav-act { 
@@ -271,11 +352,6 @@ button.nav-act {
     position: relative;
 } 
 
-button.nav-act:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    z-index: 2;
-}
-
 button.nav-scene {
     height: 30px;
     text-align: left;
@@ -288,11 +364,6 @@ button.nav-scene {
     transition: 0.3s;
     position: relative;
 } 
-
-button.nav-scene:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    z-index: 2;
-}
 
 /* The Modal (background) */
 .shown-modal {
@@ -314,7 +385,7 @@ button.nav-scene:hover {
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 38%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */

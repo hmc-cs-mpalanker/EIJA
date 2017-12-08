@@ -1,5 +1,11 @@
+<!-- This file controls the view for user's profile pages.
+It can be found at app/views/users/show.html.erb -->
+
+<!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss -->
+
 <html><body style = "background-color: #faebd7; padding-top: 0px;">
 
+<!-- This will display the name of the current user. -->
 <h1><%= @user.user_name%>'s Profile</h1>
 
 <br> <br>
@@ -22,27 +28,34 @@
    <td><strong>Class of:</strong></td>
    <td><%= @user.grad_year %></td>
  </tr>
- <tr class = "user_field">
-   <%- if @user.enrolled %>
-    <td><strong>Currently Enrolled in Shakespeare</strong></td>
-   <%- else %>
-    <td><strong>Not Currently Enrolled in Shakespeare</strong></td>
-   <% end %>
- </tr>
 </table>
+<br>
+<%- if @user.enrolled %>
+    <strong>Currently Enrolled in Shakespeare</strong>
+   <%- else %>
+    <strong>Not Currently Enrolled in Shakespeare</strong>
+   <% end %>
 </div>
 </p>
 
-<br> <br> <br> <br> <br>
+<br> <br> <br> <br>
 
 <div class = "saved-edits">
   <div class = "title-card">
     <%= @user.user_name%>'s Saved Edits
   </div>
   <% edits = Edit.where(:user_id => @user.id) %>
+  <!-- This loops through the current user's edits and displays all of them. -->
   <% edits.each do |edit| %>
-    <div class = "card">
+    <br>
+    <% editLink = "/edits/" + edit.id.to_s %>
+    <a style = color:black href = <%= editLink %> >
+    <div class = "edit-card">
+      <b> <%= edit.play.title %> </b>
+      <br>
+      <i> <%= " edit created at " + edit.created_at.to_s%> </i>
     </div>
+    </a>
   <% end %>
 </div>
 

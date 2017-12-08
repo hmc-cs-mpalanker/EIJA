@@ -1,7 +1,13 @@
+<!-- This file controls the view for the website's bootstrap navigation bar.
+It can be found at app/views/layouts/application.html.erb -->
+
+<!-- The navigation bar of this website can be found at the following link:
+https://github.com/twbs/bootstrap-sass -->
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Shakespeare Script Editor</title>
+  <title>HMC Shakespeare Script Editor</title>
   <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
@@ -18,11 +24,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <%= link_to "Shakespeare Editor", root_url, class: "navbar-brand" %>
+                    <%= link_to "HMC Shakespeare Editor", root_url, class: "navbar-brand" %>
                 </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
+                <!-- Collect the nav links, forms, and other content for navigation. -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
+                        <li class = "nav-text">
+                            <%= link_to "About", pages_about_path %>
+                        </li class = "nav-text">
+
+                        <!-- The contents of the if block will only be displayed if the current user is logged in. -->
                         <%- if current_user %>
                         <li class = "nav-text">
                             <%= link_to "My Profile", current_user %>
@@ -30,6 +41,8 @@
                         <li class = "nav-text">
                             <%= link_to "Logout", destroy_user_session_path, method: :delete, data:{ confirm: "Are you sure?" } %>
                         </li class = "nav-text">
+
+                        <!-- The contents of the else block will only be displayed if the current user is not logged in. -->
                         <% else %>
                         <li class = "nav-text">
                             <%= link_to "Login", new_user_session_path %>
