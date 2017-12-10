@@ -47,8 +47,20 @@ sqlite3: Gem that simplifies connection between Ruby on Rails and sqlite3.
 
 ## Installation
 
-TODO: Describe the installation process.
-Instructions need to be such that a user can just copy/paste the commands to get things set up and running. 
+1. Clone this repo with `git clone https://github.com/hmc-cs-mpalanker/EIJA.git`
+2. Enter the relevant directory with `cd script_editor`
+3. Snstall the above mentioned gems with the command `bundle install`
+4. Seed the database to your liking (see the Seeding section below)
+5. Run the app! enter the command `rails s` to begin the web server, and point your favorite web browser to `localhost:3000`
+
+## Seeding
+Our project requires parsing the folger’s shakespeare XML which can take quite some time depending on your hardware. We have a testing “demo” mode enabled by default. Follow the steps below to seed the databse (with optional step 0 for switching to full deployment mode)
+
+0. Go into the script_editor/db/ directory and edit the seeds.rb file: Switch `fullPlays = false` to `fullPlays = true` If you want to seed all of the plays into the database.
+1. In the script_editor directory enter these commands `rails db:migrate`
+2. `rails db:seed`
+3. Wait as the database populates (this should only take a max of 10 minutes if you are seeding the testing play, but upwards for 2 hours for seeding all of the plays.
+
 
 ## Functionality
 
