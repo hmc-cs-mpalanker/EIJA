@@ -91,6 +91,17 @@ div.script-main {
     text-align: left;
 }
 
+div.script-second {
+    position: fixed;
+    width: 59%;
+    overflow-y: scroll;
+    top: 7%;
+    bottom: 0;
+    right: 20%;
+    z-index:0;
+    text-align: left;
+}
+
 // This handles the section on the right side of the
 // view that controls the editing buttons and explanations.
 div.script-editor {

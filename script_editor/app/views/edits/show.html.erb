@@ -171,6 +171,9 @@ However, they both utilize the same .scss file. -->
         <button class="toggle-button" id="toggle-text"> HIDE CUTS </button>
     </div>
 
+    <div class = "script-second">
+    </div>
+
     <!--
     This is the code for the actual script part of the view.
     -->
@@ -447,13 +450,13 @@ However, they both utilize the same .scss file. -->
         if(compressed)
         {
             $(".script-second").hide();
-            document.getElementById("toggle-text").textContent="HIDE";
+            document.getElementById("toggle-text").textContent="HIDE CUTS";
             $(".script-main").show();
         }
         else
         {
             //Got hide syntax from https://stackoverflow.com/questions/9456289/how-to-make-a-div-visible-and-invisible-with-javascript
-            document.getElementById("toggle-text").textContent="SHOW";
+            document.getElementById("toggle-text").textContent="SHOW CUTS";
             var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length)).concat(" .script-second");
             $(".script-second").load(location, function()
                 {
