@@ -114,7 +114,12 @@ Analytics: Within the navigation bar is an analytics button that users can click
 ## Known Problems
 
 - Occasionally, when the play is loaded, there will be a word/series of words that, when you attempt to cut them, will gray our the entirety of the script, and strikethrough everything in the script BUT the cuttable words (headings, spaces, everything). We are unsure how to recreate this error, the pattern is inconsistent.
--Stage directions in the play are all off by at least a line. We thought we'd fixed this problem earlier in the project, and by the time we realized we had not we didn't have the time to fix it. This is simply true everywhere, nothing needs to be done to recreate it.
+
+- Stage directions in the play are all off by at least a line. We thought we'd fixed this problem earlier in the project, and by the time we realized we had not we didn't have the time to fix it. This is simply true everywhere, nothing needs to be done to recreate it.
+
+- Currently there is an error with the script in seeds.rb when seeding the complete plays list. Some of the plays are in the wrong categories and some of the histories do not seed. Because of the amount of time needed to test a full seed, testing this bug was slow and therefore not doable before the end of the semester. 
+
+- While we have not tested parallel users intentionally, in one instance we encountered an error while two developers were testing the site at the same time unknowingly. While two editors on the same document is not something we are able to handle, we would like for two users to be able to edit different documents at the same time. We encountered an error where a user trying to save broke another user trying to load a page. Further investigation needed
 
 ## Contributing
 
