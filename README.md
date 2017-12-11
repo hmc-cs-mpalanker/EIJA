@@ -62,6 +62,10 @@ Info for this section loving stolen with credit from this awesome guide: https:/
 Due to the…. more fun aspects of getting development packages installed on windows in this section we just link to other guides which should install the same prereqs we need.
 1. If you’re on windows 10 and are willing to install the developmental linux subsystem this guide seems to do a good job: https://gorails.com/setup/windows/10 
 2. Alternatively here is a good guide with a more windows-y approach: http://blog.teamtreehouse.com/installing-rails-5-windows 
+	
+	In addition to this tutorial, although it is not necessary for launching the project, it may be worthwhile to download sqlite 
+	command line tools. They can be downloaded from this page (under Precompiled Binaries for Windows): https://www.sqlite.org/download.html . Unzip this folder somewhere you can find it, then open it, and then open the folder in that folder, then right click on any file here, click "Properties", and copy the location listed on the general tab.
+	Then, open file explorer, right click your pc and selected "Properties", then "Advanced system settings", "Environment variables". Under system variables find Path, click edit, then new, and paste the location you saved earlier. Then hit OK on every window open.
 3. Setting up a rails environment on windows is a wonky and very personal process. No single guide will get everything working and avoid all potential bugs. 
 4. If given a choice, I would recommend either installing the linux subsystem or installing an ubuntu partition on your machine. 
 
