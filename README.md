@@ -28,10 +28,43 @@ Informing the database of cuts to the script is done with JQuery’s AJAX, an as
 
 
 ### Prerequisites
+While the general Prereqs are the same, how to get them differs depending on the operating system
 
-Install Git
-Install Ruby 2.4.1
-Install Bundle Gem
+The major components that need to be installed are:
+ruby
+ruby bundler 
+rails
+sqlite3
+node.js
+
+For help on installing these components we've included a few guides below
+
+#### Debian systems (such as Ubuntu)
+1. install the following packages ruby ruby-dev ruby-bundler build-essential libsqlite3-dev zlib1g-dev nodejs
+2. this can be done with a package manager (in this example we use aptitude) with a command such as this one:
+`sudo apt-get update && sudo apt-get install ruby ruby-dev ruby-bundler build-essential libsqlite3-dev zlib1g-dev nodejs`
+
+
+#### Mac OSX
+Using homebrew (https://brew.sh/) install ruby and rbenv.
+If you already have a working rails installation you can skip most of these steps just make sure to have installed sqlite3 through brew.
+Info for this section loving stolen with credit from this awesome guide: https://gorails.com/setup/osx/10.13-high-sierra
+
+1. `brew install rbenv ruby-build`
+2. `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile source ~/.bash_profile`
+3. `rbenv install 2.4.2`
+4. `rbenv global 2.4.2`
+5. `gem install rails -v 5.1.4`
+6. `rbenv rehash`
+7. `brew install sqlite3`
+
+#### Windows
+Due to the…. more fun aspects of getting development packages installed on windows in this section we just link to other guides which should install the same prereqs we need.
+1. If you’re on windows 10 and are willing to install the developmental linux subsystem this guide seems to do a good job: https://gorails.com/setup/windows/10 
+2. Alternatively here is a good guide with a more windows-y approach: http://blog.teamtreehouse.com/installing-rails-5-windows 
+3. Setting up a rails environment on windows is a wonky and very personal process. No single guide will get everything working and avoid all potential bugs. 
+4. If given a choice, I would recommend either installing the linux subsystem or installing an ubuntu partition on your machine. 
+
 
 ### Gems
 
@@ -46,12 +79,12 @@ Boostrap-Sass: Bootstrap is a gem that helps set up basic UI elements, primarily
 sqlite3: Gem that simplifies connection between Ruby on Rails and sqlite3.
 
 ## Installation
-
+Make sure to install any and all prerequisites before attempting these steps (See above)
 1. Clone this repo with `git clone https://github.com/hmc-cs-mpalanker/EIJA.git`
 2. Enter the relevant directory with `cd script_editor`
-3. Snstall the above mentioned gems with the command `bundle install`
+3. Install the above mentioned gems with the command `bundle install`
 4. Seed the database to your liking (see the Seeding section below)
-5. Run the app! enter the command `rails s` to begin the web server, and point your favorite web browser to `localhost:3000`
+5. Run the app! enter the command `rails s` to begin the web server, and point your favorite web browser to `localhost:3000` or the url of your server 
 
 ## Seeding
 Our project requires parsing the folger’s shakespeare XML which can take quite some time depending on your hardware. We have a testing “demo” mode enabled by default. Follow the steps below to seed the databse (with optional step 0 for switching to full deployment mode)
