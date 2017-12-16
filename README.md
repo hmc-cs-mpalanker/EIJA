@@ -6,20 +6,33 @@ The HMC Shakespeare Script editor makes the editing process easier by providing 
 
 ## Architecture
 
-Database
+### Database
 
 We store all of our data in an SQL database, using SQLite3. The data is organized in a hierarchical setup with the highest level being Plays, and the lowest being individual Words. This allows us to quickly gather all the sub-components from any size division. 
-	e.g. all Scenes in Act 2
-	e.g. all lines from Act 2 Scene 3
-	e.g. all words from Act 2 Scene 3 Line 55
+	
+e.g. all Scenes in Act 2
+
+e.g. all lines from Act 2 Scene 3
+
+e.g. all words from Act 2 Scene 3 Line 55
+
 This data structure is used to construct the display of the individual plays, collect analytics, and generate scripts. 
 Words struck from the script are attached to Edits, via the “Cuts” relationship. This means in our database there is a “Cuts” table whose elements consist of an edit id and a word id, one for each word cut in each edit. Words themselves store their contained text (besides metadata like id, time created, etc), and edits store the user id associated with them (as well as metadata).
 
-Parsing
+Here are some examplse of rails SQL querries we make in our app, and a description of what they do. (these might not all be the most efficient way of doing this task, and doing further research into SQL would be encuraged
+
+
+	Cut.where(:edit_id => @edit.id).pluck(:word_id).to_a.to_set 
+This command asks that we 'pluck' the word_id atribute from all cuts which are associated with the current edit we're on. we then convert this to a set (by way of converting it to an array) for faster lookup time
+
+	Line.joins(:scene).left_outer_joins(:words).where(:scene_id => @scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number)
+This command is a real mess, but what it does is join together lines, scenes, and words. We then ask it to select atrributes of the words and lines. we also only want to include lines which are included in the current scene.
+
+### Parsing
 
 We populate our database by parsing through a set of XML files from Folgers using the Nokogiri ruby gem. Our parsing system lives in the seeds.rb file which can be called to fill our database. Given a hardcoded list of file paths to parse through, it moves through the play looping in the following pattern (Acts -> Scenes -> Lines -> Words). Must of the code for this parsing program came from the group before us, so we don’t know much about it’s functionality, just its output. Since parsing is only done on every play once, then that data is saved in the database, we haven’t worked at improving runtime performance at all.
 
-Cutting
+### Cutting
 
 Cuts are made using Javascript, and minimally JQuery, because the code from previous teams primarily used pure Javascript. The two objects on the page which can be cut are words and stage directions. The scripting for this is really the most “run-time” related component, because it’s the part of the app that the users will actively interact with the most. The primary tasks that this component must complete are:
 Adding line-through to the HTML elements in the play script
