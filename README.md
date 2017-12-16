@@ -9,7 +9,7 @@ The HMC Shakespeare Script editor makes the editing process easier by providing 
 Database
 
 We store all of our data in an SQL database, using SQLite3. The data is organized in a hierarchical setup with the highest level being Plays, and the lowest being individual Words. This allows us to quickly gather all the sub-components from any size division. 
-	e.g. all Scenes in Act 2 
+	e.g. all Scenes in Act 2
 	e.g. all lines from Act 2 Scene 3
 	e.g. all words from Act 2 Scene 3 Line 55
 This data structure is used to construct the display of the individual plays, collect analytics, and generate scripts. 
@@ -87,11 +87,12 @@ Make sure to install any and all prerequisites before attempting these steps (Se
 1. Clone this repo with `git clone https://github.com/hmc-cs-mpalanker/EIJA.git`
 2. Enter the relevant directory with `cd script_editor`
 3. Install the above mentioned gems with the command `bundle install`
-4. Seed the database to your liking (see the Seeding section below)
-5. Run the app! enter the command `rails s` to begin the web server, and point your favorite web browser to `localhost:3000` or the url of your server 
+4. Run the following command to initialize the database `rails db:migrate`
+5. Seed the database to your liking (see the Seeding section below)
+6. Run the app! enter the command `rails s` to begin the web server, and point your favorite web browser to `localhost:3000` or the url of your server 
 
 ## Seeding
-Our project requires parsing the folger’s shakespeare XML which can take quite some time depending on your hardware. We have a testing “demo” mode enabled by default. Follow the steps below to seed the databse (with optional step 0 for switching to full deployment mode)
+Our project requires parsing the folger’s shakespeare XML which can take quite some time depending on your hardware. We have a testing “demo” mode enabled by default. Follow the steps below to seed the databse (with optional step 0 for switching to full deployment mode). If you have more specific needs, head on over to the seeds.rb file in the db/ directory. There you'll find comments about how to seed any subset of the plays manually. 
 
 0. Go into the script_editor/db/ directory and edit the seeds.rb file: Switch `fullPlays = false` to `fullPlays = true` If you want to seed all of the plays into the database.
 1. In the script_editor directory enter these commands `rails db:migrate`
@@ -119,7 +120,7 @@ Analytics: Within the navigation bar is an analytics button that users can click
 
 - Occasionally, when the play is loaded, there will be a word/series of words that, when you attempt to cut them, will gray our the entirety of the script, and strikethrough everything in the script BUT the cuttable words (headings, spaces, everything). We are unsure how to recreate this error, the pattern is inconsistent.
 
-- Stage directions in the play are all off by at least a line. We thought we'd fixed this problem earlier in the project, and by the time we realized we had not we didn't have the time to fix it. This is simply true everywhere, nothing needs to be done to recreate it.
+- Stage directions in the play are all off by at least a line. We thought we'd fixed this problem earlier in the project, and by the time we realized we had not we didn't have the time to fix it. This is simply true everywhere, nothing needs to be done to recreate it. The error is somewhere in the logic for parsing the play in seeds.rb (probably in the `stages.each do |stage|` loop) the logic currently parses all the stage directions independently of the lines. This may be part of the issue. 
 
 - Currently there is an error with the script in seeds.rb when seeding the complete plays list. Some of the plays are in the wrong categories and some of the histories do not seed. Because of the amount of time needed to test a full seed, testing this bug was slow and therefore not doable before the end of the semester. 
 
