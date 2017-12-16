@@ -1,15 +1,20 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
+
+
+
+## his list sets up which plays are which "category" NOTE: There's probably and error somewhere in here.
 histories = ["henry_iv_part_1", "henry_iv_part_2", "henry_vi_part_1", "henry_vi_part_2", "henry_vi_part_3", "henry_v", "henry_viii", "king_john", "pericles", "richard_ii", "richard_iii"]
 comedies = ["a_midsummer_nights_dream", "alls_well_that_ends_well", "as_you_like_it", "loves_labors_lost", "measure_for_measure", "much_ado_about_nothing", "taming_of_the_shrew", "the_comedy_of_errors", "the_merchant_of_venice", "the_merry_wives_of_windsor", "the_tempest", "the_two_gentlemen_of_verona", "the_winters_tale", "timon_of_athens", "titus_andronicus", "troilus_and_cressida"];
 tragedies = ["antony_and_cleopatra", "coriolanus", "cymbeline", "hamlet", "julius_caesar", "king_lear", "macbeth", "othello", "romeo_and_juliet", "twelfth_night"];
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-fullPlays = false
+
+##### FLIP TO true TO SEED ALL THE PLAYS
+fullPlays = false 
+
+
+## this sets up the list of plays to parse, if you're trying to change that you're in the right place.
 if fullPlays
+  #this is the list of all the plays (actually something is wrong with it, but it SHOULD be the list of all plays)
   files =["FolgerDigitalTexts_XML_Complete/MM.xml",
           "FolgerDigitalTexts_XML_Complete/Err.xml",
           "FolgerDigitalTexts_XML_Complete/MV.xml",
@@ -53,8 +58,16 @@ if fullPlays
           "FolgerDigitalTexts_XML_Complete/1H4.xml",
           "FolgerDigitalTexts_XML_Complete/2H4.xml"]
 else
+
+  # Here's what you edit if you want to seed some other set of files. you can expand this list in standard ruby synatx
   files = ["FolgerDigitalTexts_XML_Complete/Err.xml"]
+
 end
+
+
+
+
+
 files.each do |file|
   doc = Nokogiri::XML(File.open(file))
   title = doc.css('title').first
