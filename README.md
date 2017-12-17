@@ -139,6 +139,8 @@ Analytics: Within the navigation bar is an analytics button that users can click
 
 - While we have not tested parallel users intentionally, in one instance we encountered an error while two developers were testing the site at the same time unknowingly. While two editors on the same document is not something we are able to handle, we would like for two users to be able to edit different documents at the same time. We encountered an error where a user trying to save broke another user trying to load a page. Further investigation needed
 
+- If you try to compress the script currently when your edit has no cuts in it at all, you're shown a blank script, with only section headings. This is likely a problem with the SQL request in compress.html.erb's script-second div.
+
 ## Contributing
 
 1. Fork it!
