@@ -131,12 +131,17 @@ files.each do |file|
                   toTextAdd = toTextAdd + word.inner_text
                 end
               end
+              #spword break
             end
+            #ID break
           end
+          # this last conditional prints the last word everytime
           if (toTextAdd != "")
+            puts "#{toTextAdd}"
             newline.words.create(text: toTextAdd, place: wordPlace)
           end
         end
+        # the line below is the break for a lines
       end
     end
   end
