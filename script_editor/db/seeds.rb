@@ -111,7 +111,8 @@ files.each do |file|
           wordIDs = wordIDs.map { |w| w.gsub("#","")}
           allthewords = ""
           wordPlace = 0
-          newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text)
+          # newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text)
+          newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text, currLength: wordPlace)
           toTextAdd = ""
           toPlaceAdd = 0
           wordIDs.each do |id|
@@ -139,6 +140,7 @@ files.each do |file|
           if (toTextAdd != "")
             puts "#{toTextAdd}"
             newline.words.create(text: toTextAdd, place: wordPlace)
+            newline.update(currLength: wordPlace)
           end
         end
         # the line below is the break for a lines
