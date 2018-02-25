@@ -1,4 +1,4 @@
 class LineCut < ApplicationRecord
 	belongs_to :edit
-  	belongs_to :word
+  	belongs_to :line
 end

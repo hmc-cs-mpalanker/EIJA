@@ -38,11 +38,11 @@ ActiveRecord::Schema.define(version: 20180225010247) do
 
   create_table "line_cuts", force: :cascade do |t|
     t.integer  "edit_id"
-    t.integer  "word_id"
+    t.integer  "line_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["edit_id"], name: "index_line_cuts_on_edit_id"
-    t.index ["word_id"], name: "index_line_cuts_on_word_id"
+    t.index ["line_id"], name: "index_line_cuts_on_line_id"
   end
 
   create_table "lines", force: :cascade do |t|
