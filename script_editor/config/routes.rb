@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  post 'line_cuts/new'
+
+  post 'line_cuts/delete'
+
   post 'cuts/new'
   post 'cuts/delete'
   devise_for :users, :controllers => { registrations: 'registrations' }
