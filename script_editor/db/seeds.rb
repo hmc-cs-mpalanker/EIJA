@@ -111,7 +111,7 @@ files.each do |file|
           wordIDs = wordIDs.map { |w| w.gsub("#","")}
           allthewords = ""
           wordPlace = 0
-          # newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text)
+          # appended currLength to each line
           newline = newscene.lines.create(number: lineNum, speaker: speaker.inner_text, currLength: wordPlace)
           toTextAdd = ""
           toPlaceAdd = 0
@@ -138,7 +138,6 @@ files.each do |file|
           end
           # this last conditional prints the last word everytime
           if (toTextAdd != "")
-            puts "#{toTextAdd}"
             newline.words.create(text: toTextAdd, place: wordPlace)
             newline.update(currLength: wordPlace)
           end
