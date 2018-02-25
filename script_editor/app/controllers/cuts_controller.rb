@@ -12,7 +12,7 @@ class CutsController < ApplicationController
   	editLength = @line.currLength - 1
   	@line.update(currLength: editLength)
 
-  	# need to add Edit_id and Line_id NOT WORD_ID
+  	# add editId and lineId for LineCut relationship
   	if editLength == 0
   		LineCut.create(edit_id: params[:editI], line_id: @line.id)
   	end

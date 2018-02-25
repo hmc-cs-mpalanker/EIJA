@@ -1,10 +1,11 @@
 class LineCutsController < ApplicationController
-	# this behavior does NOT work right now -- am not passing these params in
-	# lineID does not exist as a param
+	# do not have a lineI param
+	# call 'new' method from Cut Controller 'new' action
   def new
-  	LineCut.create(edit_id: params[:editI],line_id: params[:lineId])
+  	LineCut.create(edit_id: params[:editI],line_id: params[:lineI])
   end
 
+  # do not use this
   def delete
   	LineCut.where(edit_id: params[:editI],line_id: params[:lineId]).first.delete
   end
