@@ -5,7 +5,7 @@ class LineCutsController < ApplicationController
   	LineCut.create(edit_id: params[:editI],line_id: params[:lineI])
   end
 
-  # Have not used this
+  # do not use this
   def delete
   	LineCut.where(edit_id: params[:editI],line_id: params[:lineId]).first.delete
   end
