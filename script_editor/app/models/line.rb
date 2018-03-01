@@ -10,7 +10,13 @@ class Line < ApplicationRecord
 
     lines = Line.all
 
+    count = 0
+
     lines.each do |line|
+
+      if line.currLength != nil && line.currLength > 0
+        # count += 1
+        # puts "HAHAHAHHAHAHAHAH"
 
 
       # if lines.currLength != nil && lines.currLength == 0
@@ -22,7 +28,9 @@ class Line < ApplicationRecord
           end
         end
       # end
+    end
 
+    # puts "MUFAKA .... #{count}"
     puts "#{lines_per_character}"
     puts "The size of the hash is: #{lines_per_character.size}"
     return lines_per_character

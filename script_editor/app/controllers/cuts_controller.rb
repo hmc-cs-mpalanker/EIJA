@@ -40,6 +40,9 @@ class CutsController < ApplicationController
 			editLength = @line.currLength + 1
 			@line.update(currLength: editLength)
 		end
+
+		l = Line.new
+		l.countAnalytics
 	end
 
 
