@@ -15,11 +15,7 @@ class Line < ApplicationRecord
     lines.each do |line|
 
       if line.currLength != nil && line.currLength > 0
-        # count += 1
-        # puts "HAHAHAHHAHAHAHAH"
 
-
-      # if lines.currLength != nil && lines.currLength == 0
         # the line is not cut
         if lines_per_character.has_key?(line.speaker)
           lines_per_character[line.speaker] += 1
@@ -27,12 +23,9 @@ class Line < ApplicationRecord
           lines_per_character[line.speaker] = 1
           end
         end
-      # end
     end
 
-    # puts "MUFAKA .... #{count}"
-    puts "#{lines_per_character}"
-    puts "The size of the hash is: #{lines_per_character.size}"
+    # puts "#{lines_per_character}"
     return lines_per_character
   end
 

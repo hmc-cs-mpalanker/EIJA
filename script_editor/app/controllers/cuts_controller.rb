@@ -17,9 +17,6 @@ class CutsController < ApplicationController
 				LineCut.create(edit_id: params[:editI], line_id: @line.id)
 			end
 		end
-
-		l = Line.new
-		l.countAnalytics
   end
 
   def delete
@@ -40,9 +37,6 @@ class CutsController < ApplicationController
 			editLength = @line.currLength + 1
 			@line.update(currLength: editLength)
 		end
-
-		l = Line.new
-		l.countAnalytics
 	end
 
 
