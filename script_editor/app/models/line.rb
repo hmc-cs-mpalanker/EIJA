@@ -12,15 +12,21 @@ class Line < ApplicationRecord
 
     lines.each do |line|
 
+
+      # if lines.currLength != nil && lines.currLength == 0
         # the line is not cut
         if lines_per_character.has_key?(line.speaker)
           lines_per_character[line.speaker] += 1
         else
           lines_per_character[line.speaker] = 1
+          end
         end
-      end
+      # end
 
+    puts "#{lines_per_character}"
+    puts "The size of the hash is: #{lines_per_character.size}"
     return lines_per_character
   end
+
 
 end
