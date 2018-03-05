@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20180225010247) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "isStage",    default: false
-    t.integer  "currLength",                  null: false
+    t.integer  "currLength"
     t.index ["scene_id"], name: "index_lines_on_scene_id"
   end
 
