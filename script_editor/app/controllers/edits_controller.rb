@@ -17,7 +17,9 @@ class EditsController < ApplicationController
     @play = Play.find(params[:id])
     @user = current_user
     @edit = Edit.create({:user_id => @user.id, :play_id => @play.id})
-    @link = "/edits/" + (@edit.id.to_s)
+    # @link = "/edits/" + (@edit.id.to_s)
+    # needs to be UserId
+    @link = "/edits/" + (@user.id.to_s)
     redirect_to @link
   end
 end
