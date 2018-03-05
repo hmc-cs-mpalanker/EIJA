@@ -8,8 +8,15 @@ of the plays is almost identical except for the parts pertaining to making edits
 This means that changes to non-editing parts of the view need to be made in both show files.
 However, they both utilize the same .scss file. -->
 
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html><body style = "background-color: #faebd7">
+<html>
+
+<%= javascript_include_tag "edits_show" %>
+
+<body style = "background-color: #faebd7">
     <p id="notice"></p>
 
 
@@ -267,6 +274,7 @@ However, they both utilize the same .scss file. -->
     //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
     //If a server call fails, try again.
     $( document ).ajaxError( function( event, jqxhr, settings, thrownError) {
+        console.log(settings);
         $.ajax(settings);
     });
 
@@ -324,7 +332,6 @@ However, they both utilize the same .scss file. -->
     {
         var script = $(".script-main")[0];
         var cEditId = parseInt(script.id);
-
         if(cutlist.length == 0 && uncutlist.length == 0){
           var modal3 = document.getElementById("save-modal");
           modal3.style.display = "none";
