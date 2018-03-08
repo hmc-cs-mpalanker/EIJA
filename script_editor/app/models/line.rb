@@ -32,14 +32,14 @@ class Line < ApplicationRecord
   # key all the lines of the play that have not been cut
   # output: hash where key = [act,scene] pair and value = [lines]
   #
-
-  # need more work
+  # revised output: [[Speaker, lines]]
   def getLines
 
     all_lines = Hash.new
 
     scenes = Scene.all
 
+    # key as a tuple
     arr = []
     scenes.each_with_index do |item1,index1|
 
@@ -52,6 +52,9 @@ class Line < ApplicationRecord
 
       lines = Line.where(:scene_id => sID)
 
+      lines_per_scene = []
+
+      # iterate over the lines corresponding to a scene
       lines.each_with_index do |item2, index2|
         line = lines[index2]
 
@@ -59,18 +62,22 @@ class Line < ApplicationRecord
 
         wds = []
         if line.currLength != 0
+          # all the words with a given line index
           words = Word.where(:line_id => l_index)
 
           words.each_with_index do |item3, index3|
-            wd = words[index3].id
+            wd = words[index3]
 
-            if Cut.where(:word_id => wd) == 0
-              wds.append(wd)
+            # not in the Cuts table
+            if Cut.where(:word_id => wd.id).length == 0
+              wds.append(wd.text)
             end
           end
         end
+
+        lines_per_scene.append(wds.join(" "))
       end
-      all_lines[arr => wds]
+    all_lines[arr] = lines_per_scene
   end
 
     return all_lines
