@@ -251,14 +251,149 @@ class Line < ApplicationRecord
     end
   end
 
+
+  ## Two Helper functions to support cue-scripts ##
+
+  #input: list of "many_lines"
+  # output: [STAGE, list of lines spoken]
+
+  def getStageScript(stage_lines)
+    lines = []
+
+    stage_lines.each do |sline|
+      swords = []
+
+      sline.each do |swd|
+        # extra-cleaning on swd[1] as it contains \n in strings
+        clean_str = swd[1].gsub(/\n/,"")
+        swords.append(clean_str)
+      end
+
+      str = swords.join(" ")
+      lines.append(str)
+    end
+
+    return ["STAGE", lines]
+
+  end
+
+  # input: the name of the speaker, list of "many_lines"
+  # output: [speaker, [list of lines spoken]]
+  def getSpeakerScript(speakerName, speaker_lines)
+    lines = []
+
+    speaker_lines.each do |line|
+      # for each line
+      # process the list-of-lists to make sentence
+      words = []
+      # a line is a list of lists of wdId, text
+      line.each do |wd|
+        words.append(wd[1])
+      end
+
+      str = words.join(" ")
+      lines.append(str)
+    end
+
+    return [speakerName,lines]
+
+  end
+
+
+  # Main function to generate a cue script
+
+  # input: SCENE ID, Speaker (for whom to build the cue-script for)
+
+  #output: [speaker,[lines]]
+
+  def getCueScript(sceneID, speaker)
+
+    result = []
+
+    blocks = getActScene(sceneID)
+
+    (1...blocks.length).each do |i|
+      # a block is a [speaker, [list of many lines]]
+      prev_block = blocks[i - 1]
+      curr_block = blocks[i]
+
+      # # to get the stage cues
+      if prev_block[0] == "STAGE"
+
+        stage_lines = prev_block[1]
+        i1 = getStageScript(stage_lines)
+        result.append(i1)
+
+      end
+
+      if curr_block[0] == speaker
+
+        #### the previous speaker ####
+        # do not print the stage twice!
+
+        if prev_block[1] != "STAGE"
+
+          # get the list of many lines
+          all_prev_block_lines = prev_block[1]
+          # the last line for the prev speaker
+          last_line = all_prev_block_lines[all_prev_block_lines.length - 1]
+
+          # process the list of wordID, text pairs to form the sentence
+          last_line_wds = []
+          last_line.each do |lol|
+            last_line_wds.append(lol[1])
+          end
+
+          prev_sentence = last_line_wds.join(" ")
+          # note that the prev_sentence is wrapped in a list
+          # this is done to be consistent with other helper functions
+          # returning the same form
+          i2 = [prev_block[0],[prev_sentence]]
+          result.append(i2)
+
+        end
+
+        #### the speaker ####
+        lines = curr_block[1]
+        i3 = getSpeakerScript(curr_block[0] ,lines)
+        result.append(i3)
+      end
+    end
+    return result
+  end
+
+
+
+
   # a wrapper function to generate Cue-scripts
   # Current status: print for a given sceneID and Speaker
   # Aim: to generate cue-script across all SceneIDs
   def selectCueScript
     # the scene ID
     # the speaker
-    getCueScript(1,"\nEGEON\n")
+    lol = getCueScript(1,"\nEGEON\n")
+
+    return lol
+
   end
+
+  # input : LOL where the first item is  the speaker and the second item is a list of sentences
+  # output: print to terminal/views to display data
+  def printCueScipt
+    lol = selectCueScript
+    puts "Printing starts ...."
+
+    lol.each do |elem|
+      puts "#{elem[0]}"
+
+      lines = elem[1]
+
+      lines.each do |line|
+        puts "#{line}"
+      end
+    end
+  end
+
 
   # output: create a list of all speakers in the Play
   def getAllSpeaker
