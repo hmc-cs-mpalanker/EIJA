@@ -118,6 +118,7 @@ class Line < ApplicationRecord
     return play
   end
 
+
   # a helper function to print the nested structure
   # hard-coded for Act 1 Scene 1
   def printLines
@@ -145,12 +146,14 @@ class Line < ApplicationRecord
     end
   end
 
+
   # output: Prints to terminal the all the lines for a given speaker
   # with "cues" :: Stage lines and last line of prev Character
   def getCueScript
     speaker = "\nEGEON\n"
 
     blocks = getActScene(1)
+
 
 
     (1...blocks.length).each do |i|
@@ -160,6 +163,7 @@ class Line < ApplicationRecord
 
       # # to get the stage cues
       if prev_block[0] == "STAGE"
+
 
         puts "#{prev_block[0]}"
 
@@ -181,22 +185,32 @@ class Line < ApplicationRecord
 
 
       if curr_block[0] == speaker
-        # get the list of many lines
-        all_prev_block_lines = prev_block[1]
-        # the last line for the prev speaker
-        last_line = all_prev_block_lines[all_prev_block_lines.length - 1]
 
-        # process the list of wordID, text pairs to form the sentence
-        last_line_wds = []
-        last_line.each do |lol|
-          last_line_wds.append(lol[1])
+        #### the previous speaker ####
+
+        # do not print the stage twice!
+
+        if prev_block[1] != "STAGE"
+
+          # get the list of many lines
+          all_prev_block_lines = prev_block[1]
+          # the last line for the prev speaker
+          last_line = all_prev_block_lines[all_prev_block_lines.length - 1]
+
+          # process the list of wordID, text pairs to form the sentence
+          last_line_wds = []
+          last_line.each do |lol|
+            last_line_wds.append(lol[1])
+          end
+
+          prev_sentence = last_line_wds.join(" ")
+
+          # print to Screen prev_speaker and last line
+          puts "#{prev_block[0]}"
+          puts "#{prev_sentence}"
+
         end
 
-        prev_sentence = last_line_wds.join(" ")
-
-        # print to Screen prev_speaker and last line
-        puts "#{prev_block[0]}"
-        puts "#{prev_sentence}"
 
 
         #### the speaker ####
