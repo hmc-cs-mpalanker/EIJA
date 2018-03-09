@@ -113,16 +113,16 @@ class Line < ApplicationRecord
   # all_pairs = [a_pair]
   def getActScene(act, scene)
 
-    index = 0
     # list of [speaker, many lines]
     all_pairs = []
 
     lines = Line.where(:scene_id => scene)
+    index = 0
     lines.each do |l|
       # speaker, many lines
       a_pair = []
-
       many_lines = []
+
       # the line is not cut
       if l.currLength != 0
         spk = l.speaker
@@ -138,7 +138,12 @@ class Line < ApplicationRecord
           end
         end
 
-        many_lines.append(a_line)
+        if a_line.length == 0
+          next
+        end
+
+        # many_lines.append(a_line)
+        #
         # a_pair.append(spk)
         # a_pair.append(many_lines)
         # all_pairs.append(a_pair)
@@ -150,9 +155,11 @@ class Line < ApplicationRecord
             prev_speaker = prev_pair[0]
             # puts "#{prev_speaker}"
             if prev_speaker == spk
+              # to many_lines
               prev_pair[1].append(a_line)
             else
-              # make a new pair
+
+              many_lines.append(a_line)
               a_pair.append(spk)
               a_pair.append(many_lines)
 
@@ -160,14 +167,15 @@ class Line < ApplicationRecord
             end
 
         else
+          # make from sratch
+          many_lines.append(a_line)
           a_pair.append(spk)
           a_pair.append(many_lines)
           all_pairs.append(a_pair)
         end
 
       end
-        index+=1
-      # puts "#{all_pairs}"
+      index +=1
     end
 
     return all_pairs
