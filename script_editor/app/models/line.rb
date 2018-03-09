@@ -32,10 +32,10 @@ class Line < ApplicationRecord
 
   # input: the scene_id
   # output: a list of all_pairs
-    # all_pairs = list of 'a_pair'
-    # a_pair = list of 'speaker','many_lines'
-    # many_lines = list of 'a_line'
-    # a_line = list of 'wordID', 'text'
+  # all_pairs = list of 'a_pair'
+  # a_pair = list of 'speaker','many_lines'
+  # many_lines = list of 'a_line'
+  # a_line = list of 'wordID', 'text'
   def getActScene(scene)
 
     # list of [speaker, many lines]
@@ -59,7 +59,7 @@ class Line < ApplicationRecord
 
         words.each do |wd|
           if Cut.where(:word_id => wd.id).length == 0
-              a_line.append([wd.id,wd.text])
+            a_line.append([wd.id, wd.text])
           end
         end
 
@@ -69,21 +69,20 @@ class Line < ApplicationRecord
 
 
         if index != 0
-          prev_pair = all_pairs[all_pairs.length-1]
+          prev_pair = all_pairs[all_pairs.length - 1]
 
-            prev_speaker = prev_pair[0]
+          prev_speaker = prev_pair[0]
 
-            if prev_speaker == spk
-              # to many_lines
-              prev_pair[1].append(a_line)
-            else
+          if prev_speaker == spk
+            # to many_lines
+            prev_pair[1].append(a_line)
+          else
 
-              many_lines.append(a_line)
-              a_pair.append(spk)
-              a_pair.append(many_lines)
-
-              all_pairs.append(a_pair)
-            end
+            many_lines.append(a_line)
+            a_pair.append(spk)
+            a_pair.append(many_lines)
+            all_pairs.append(a_pair)
+          end
 
         else
           # make from sratch
@@ -94,7 +93,7 @@ class Line < ApplicationRecord
         end
 
       end
-      index +=1
+      index += 1
     end
 
     return all_pairs
@@ -122,23 +121,74 @@ class Line < ApplicationRecord
   # a helper function to print the nested structure
   # hard-coded for Act 1 Scene 1
   def printLines
-        blocks = getActScene(1)
+    # the arg for getActScene can be changed
+    # to swap data printed to terminal
+    blocks = getActScene(1)
 
-        blocks.each do |block|
-          puts "#{block[0]}"
-          lines = block[1]
+    blocks.each do |block|
+      # the speaker
+      puts "#{block[0]}"
 
-          lines.each do |line|
-            words = []
+      # all the lines spoken by the speaker at that instance
+      lines = block[1]
 
-            line.each do |wd|
-              words.append(wd[1])
-            end
+      lines.each do |line|
+        words = []
 
-            str = words.join(" ")
-            puts "#{str}"
-          end
+        line.each do |wd|
+          words.append(wd[1])
         end
+
+        str = words.join(" ")
+        puts "#{str}"
+      end
+    end
+  end
+
+  def getCueScript
+    speaker = "\nEGEON\n"
+
+    blocks = getActScene(1)
+
+    # blocks.each do |block|
+    #   curr_speaker = block[0]
+    #
+    #   if curr_speaker == speaker
+    #     puts "True"
+    #   end
+    # end
+
+    (1...blocks.length).each do |i|
+      # a block is a [speaker, [list of many lines]]
+      prev_block = blocks[i - 1]
+      curr_block = blocks[i]
+
+      if curr_block[0] == speaker
+        last_line = prev_block[1]
+        last_line = last_line.flatten()[1]
+
+        puts "#{prev_block[0]}"
+        puts "#{last_line}"
+
+        puts "#{curr_block[0]}"
+
+        # all the lines spoken by the speaker at that instance
+        lines = curr_block[1]
+
+        lines.each do |line|
+          words = []
+
+          line.each do |wd|
+            words.append(wd[1])
+          end
+
+          str = words.join(" ")
+          puts "#{str}"
+        end
+      end
+
+    end
+
   end
 
 end
