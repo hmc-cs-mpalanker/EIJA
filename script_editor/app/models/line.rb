@@ -21,8 +21,8 @@ class Line < ApplicationRecord
           lines_per_character[line.speaker] += 1
         else
           lines_per_character[line.speaker] = 1
-          end
         end
+      end
     end
 
     # puts "#{lines_per_character}"
@@ -33,36 +33,41 @@ class Line < ApplicationRecord
   # output: hash where key = [act,scene] pair and value = [lines]
   #
   # revised output: [[Speaker, lines]]
+  # act -> multiple scenes -> lines -> words
+  # lines -> [[wordId,word]]
   def getLines
 
     all_lines = Hash.new
-
+    # all the scenes in the play
     scenes = Scene.all
 
     # key as a tuple
     arr = []
-    scenes.each_with_index do |item1,index1|
+    scenes.each_with_index do |item1, index1|
 
       s = scenes[index1]
 
       aId = s.act_id
       sID = s.id
 
-      arr = [aId,sID]
+      arr = [aId, sID]
 
+      # all the lines with the same Scene ID
       lines = Line.where(:scene_id => sID)
 
       lines_per_scene = []
+      index_lines_per_scene = 0
 
-      # iterate over the lines corresponding to a scene
+      # all the lines for a scene
       lines.each_with_index do |item2, index2|
-        line = lines[index2]
 
+        # a given line
+        line = lines[index2]
         l_index = line.id
 
         wds = []
         if line.currLength != 0
-          # all the words with a given line index
+          # all the words on a given line
           words = Word.where(:line_id => l_index)
 
           words.each_with_index do |item3, index3|
@@ -73,15 +78,62 @@ class Line < ApplicationRecord
               wds.append(wd.text)
             end
           end
-        end
+          speaker = line.speaker
+          str = wds.join(" ")
 
-        lines_per_scene.append(wds.join(" "))
+          if index_lines_per_scene == 0
+            lines_per_scene.append([speaker, [str]])
+
+          else
+            if lines_per_scene[index_lines_per_scene - 1][0] == speaker
+              lines_per_scene[index_lines_per_scene - 1][1].append(str)
+
+            else
+              lines_per_scene.append([speaker, [str]])
+            end
+            # lines_per_scene.append(wds.join(" "))
+
+            index_lines_per_scene += 1
+
+          end
+        end
+        all_lines[arr] = lines_per_scene
       end
-    all_lines[arr] = lines_per_scene
-  end
+
+
+    end
 
     return all_lines
   end
+
+  def getActScene(act, scene)
+
+    lines = Line.where(:scene_id => scene)
+
+    all_lines = []
+
+    lines.each do |l|
+      # res.append(l.id)
+      # the line is not cut
+      if l.currLength != 0
+        spk = l.speaker
+
+        all_words = []
+        words = Word.where(:line_id => l.id)
+
+        words.each do |wd|
+          if Cut.where(:word_id => wd.id).length == 0
+              all_words.append([wd.id,wd.text])
+          end
+        end
+
+        all_lines.append([spk,all_words])
+      end
+    end
+
+    return all_lines
+  end
+
 
 end
 
