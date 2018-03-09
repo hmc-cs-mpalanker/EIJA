@@ -32,10 +32,10 @@ class Line < ApplicationRecord
 
   # input: the scene_id
   # output: a list of all_pairs
-  # all_pairs = list of 'a_pair'
-  # a_pair = list of 'speaker','many_lines'
-  # many_lines = list of 'a_line'
-  # a_line = list of 'wordID', 'text'
+    # all_pairs = list of 'a_pair'
+    # a_pair = list of 'speaker','many_lines'
+    # many_lines = list of 'a_line'
+    # a_line = list of 'wordID', 'text'
   def getActScene(scene)
 
     # list of [speaker, many lines]
@@ -100,7 +100,7 @@ class Line < ApplicationRecord
   end
 
   # get all the Act-scene pairs ::
-  # output: HashMap, key: [act_id, scene_id], value: [many_lines]
+  # output: HashMap, key: [act_id, scene_id] is a unique pairing, value: [many_lines]
 
   def getAllActScenes()
     play = Hash.new
@@ -150,13 +150,6 @@ class Line < ApplicationRecord
 
     blocks = getActScene(1)
 
-    # blocks.each do |block|
-    #   curr_speaker = block[0]
-    #
-    #   if curr_speaker == speaker
-    #     puts "True"
-    #   end
-    # end
 
     (1...blocks.length).each do |i|
       # a block is a [speaker, [list of many lines]]
@@ -164,15 +157,23 @@ class Line < ApplicationRecord
       curr_block = blocks[i]
 
       if curr_block[0] == speaker
-        last_line = prev_block[1]
-        last_line = last_line.flatten()[1]
+        # get the list of many lines
+        all_prev_block_lines = prev_block[1]
+        last_line = all_prev_block_lines[all_prev_block_lines.length-1]
 
+        last_line_wds = []
+        last_line.each do |lol|
+          last_line_wds.append(lol[1])
+        end
+
+        prev_sentence = last_line_wds.join(" ")
         puts "#{prev_block[0]}"
-        puts "#{last_line}"
+        puts "#{prev_sentence}"
+
+
+        #### the speaker ####
 
         puts "#{curr_block[0]}"
-
-        # all the lines spoken by the speaker at that instance
         lines = curr_block[1]
 
         lines.each do |line|
@@ -185,8 +186,8 @@ class Line < ApplicationRecord
           str = words.join(" ")
           puts "#{str}"
         end
+        puts
       end
-
     end
 
   end
