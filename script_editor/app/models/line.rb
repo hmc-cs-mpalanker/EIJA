@@ -119,6 +119,27 @@ class Line < ApplicationRecord
     return play
   end
 
+  # a helper function to print the nested structure
+  # hard-coded for Act 1 Scene 1
+  def printLines
+        blocks = getActScene(1)
+
+        blocks.each do |block|
+          puts "#{block[0]}"
+          lines = block[1]
+
+          lines.each do |line|
+            words = []
+
+            line.each do |wd|
+              words.append(wd[1])
+            end
+
+            str = words.join(" ")
+            puts "#{str}"
+          end
+        end
+  end
 
 end
 

@@ -28,7 +28,7 @@
           <file leaf-file-name="schema.rb" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/db/schema.rb">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-629">
+                <state relative-caret-position="-185">
                   <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
                   <folding />
                 </state>
@@ -72,8 +72,8 @@
           <file leaf-file-name="line.rb" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/models/line.rb">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="498">
-                  <caret line="118" column="0" lean-forward="true" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+                <state relative-caret-position="526">
+                  <caret line="141" column="5" lean-forward="true" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
                   <folding />
                 </state>
               </provider>
@@ -390,12 +390,12 @@
       <workItem from="1520487611944" duration="10000" />
       <workItem from="1520487734193" duration="3038000" />
       <workItem from="1520548453039" duration="183000" />
-      <workItem from="1520557452751" duration="7135000" />
+      <workItem from="1520557452751" duration="8150000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41144000" />
+    <option name="totallyTimeSpent" value="42159000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -783,7 +783,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db/schema.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-629">
+        <state relative-caret-position="-185">
           <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
@@ -799,8 +799,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/line.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="118" column="0" lean-forward="true" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+        <state relative-caret-position="526">
+          <caret line="141" column="5" lean-forward="true" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
           <folding />
         </state>
       </provider>
