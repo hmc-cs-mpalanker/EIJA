@@ -147,14 +147,54 @@ class Line < ApplicationRecord
   end
 
 
+  ## Helper functions to support cue-scripts ##
+
+  #input: list of "many_lines"
+  # output: [speaker,[list of lines spoken]]
+
+  def getStageScript(stage_lines)
+    stage_lines.each do |sline|
+      swords = []
+
+      sline.each do |swd|
+        # extra-cleaning on swd[1] as it contains \n in strings
+        clean_str = swd[1].gsub(/\n/,"")
+        swords.append(clean_str)
+      end
+
+      str = swords.join(" ")
+      puts "#{str}"
+      end
+  end
+
+  # input: list of "many_lines"
+  # output: [speaker, [list of lines spoken]]
+  def getSpeakerScript(speaker_lines)
+    speaker_lines.each do |line|
+      # for each line
+      # process the list-of-lists to make sentence
+      words = []
+      # a line is a list of lists of wdId, text
+      line.each do |wd|
+        words.append(wd[1])
+      end
+
+      str = words.join(" ")
+      # print the line to the terminal
+      puts "#{str}"
+    end
+  end
+
+  # input: SCENE ID, Speaker (for whom to build the cue-script for)
+
   # output: Prints to terminal the all the lines for a given speaker
   # with "cues" :: Stage lines and last line of prev Character
-  def getCueScript
-    speaker = "\nEGEON\n"
+  # can modularize code at the lines level
 
-    blocks = getActScene(1)
+  def getCueScript(sceneID, speaker)
 
 
+    blocks = getActScene(sceneID)
 
     (1...blocks.length).each do |i|
       # a block is a [speaker, [list of many lines]]
@@ -164,25 +204,12 @@ class Line < ApplicationRecord
       # # to get the stage cues
       if prev_block[0] == "STAGE"
 
-
         puts "#{prev_block[0]}"
 
         stage_lines = prev_block[1]
+        getStageScript(stage_lines)
 
-        stage_lines.each do |sline|
-          swords = []
-
-          sline.each do |swd|
-            # extra-cleaning on swd[1] as it contains \n in strings
-            clean_str = swd[1].gsub(/\n/,"")
-            swords.append(clean_str)
-          end
-
-          str = swords.join(" ")
-          puts "#{str}"
-        end
       end
-
 
       if curr_block[0] == speaker
 
@@ -211,31 +238,25 @@ class Line < ApplicationRecord
 
         end
 
-
-
         #### the speaker ####
-
 
         puts "#{curr_block[0]}"
 
         lines = curr_block[1]
 
-        lines.each do |line|
-          # for each line
-          # process the list-of-lists to make sentence
-          words = []
-          line.each do |wd|
-            words.append(wd[1])
-          end
-
-          str = words.join(" ")
-          # print the line to the terminal
-          puts "#{str}"
-        end
+        getSpeakerScript(lines)
       end
     end
   end
 
+  def selectCueScript
+
+    # the scene ID
+    # the speaker
+
+    getCueScript(1,"\nEGEON\n")
+
+  end
 
 end
 
