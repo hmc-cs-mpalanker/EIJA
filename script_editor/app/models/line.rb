@@ -145,6 +145,8 @@ class Line < ApplicationRecord
     end
   end
 
+  # output: Prints to terminal the all the lines for a given speaker
+  # with "cues" :: Stage lines and last line of prev Character
   def getCueScript
     speaker = "\nEGEON\n"
 
@@ -156,41 +158,70 @@ class Line < ApplicationRecord
       prev_block = blocks[i - 1]
       curr_block = blocks[i]
 
+      # # to get the stage cues
+      if prev_block[0] == "STAGE"
+
+        puts "#{prev_block[0]}"
+
+        stage_lines = prev_block[1]
+
+        stage_lines.each do |sline|
+          swords = []
+
+          sline.each do |swd|
+            # extra-cleaning on swd[1] as it contains \n in strings
+            clean_str = swd[1].gsub(/\n/,"")
+            swords.append(clean_str)
+          end
+
+          str = swords.join(" ")
+          puts "#{str}"
+        end
+      end
+
+
       if curr_block[0] == speaker
         # get the list of many lines
         all_prev_block_lines = prev_block[1]
-        last_line = all_prev_block_lines[all_prev_block_lines.length-1]
+        # the last line for the prev speaker
+        last_line = all_prev_block_lines[all_prev_block_lines.length - 1]
 
+        # process the list of wordID, text pairs to form the sentence
         last_line_wds = []
         last_line.each do |lol|
           last_line_wds.append(lol[1])
         end
 
         prev_sentence = last_line_wds.join(" ")
+
+        # print to Screen prev_speaker and last line
         puts "#{prev_block[0]}"
         puts "#{prev_sentence}"
 
 
         #### the speaker ####
 
+
         puts "#{curr_block[0]}"
+
         lines = curr_block[1]
 
         lines.each do |line|
+          # for each line
+          # process the list-of-lists to make sentence
           words = []
-
           line.each do |wd|
             words.append(wd[1])
           end
 
           str = words.join(" ")
+          # print the line to the terminal
           puts "#{str}"
         end
-        puts
       end
     end
-
   end
+
 
 end
 
