@@ -106,32 +106,71 @@ class Line < ApplicationRecord
     return all_lines
   end
 
+
+  # a_line = []
+  # many_lines = [a_line]
+  # a_pair = [spk,many_lines]
+  # all_pairs = [a_pair]
   def getActScene(act, scene)
 
+    index = 0
+    # list of [speaker, many lines]
+    all_pairs = []
+
     lines = Line.where(:scene_id => scene)
-
-    all_lines = []
-
     lines.each do |l|
-      # res.append(l.id)
+      # speaker, many lines
+      a_pair = []
+
+      many_lines = []
       # the line is not cut
       if l.currLength != 0
         spk = l.speaker
 
-        all_words = []
+        # elements are [wordID, text]
+        a_line = []
+
         words = Word.where(:line_id => l.id)
 
         words.each do |wd|
           if Cut.where(:word_id => wd.id).length == 0
-              all_words.append([wd.id,wd.text])
+              a_line.append([wd.id,wd.text])
           end
         end
 
-        all_lines.append([spk,all_words])
+        many_lines.append(a_line)
+        # a_pair.append(spk)
+        # a_pair.append(many_lines)
+        # all_pairs.append(a_pair)
+
+        if index != 0
+          prev_pair = all_pairs[all_pairs.length-1]
+
+
+            prev_speaker = prev_pair[0]
+            # puts "#{prev_speaker}"
+            if prev_speaker == spk
+              prev_pair[1].append(a_line)
+            else
+              # make a new pair
+              a_pair.append(spk)
+              a_pair.append(many_lines)
+
+              all_pairs.append(a_pair)
+            end
+
+        else
+          a_pair.append(spk)
+          a_pair.append(many_lines)
+          all_pairs.append(a_pair)
+        end
+
       end
+        index+=1
+      # puts "#{all_pairs}"
     end
 
-    return all_lines
+    return all_pairs
   end
 
 
