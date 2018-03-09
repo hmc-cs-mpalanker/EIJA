@@ -3,14 +3,14 @@ class Line < ApplicationRecord
   has_many :edits, through: :line_cuts
   has_many :words
 
-  # count the number of lines per character
+
+
+  # Count the number of lines per character
   # output: A Hash, key is the speaker, value is the number of lines
   def countAnalytics
     lines_per_character = Hash.new
 
     lines = Line.all
-
-    count = 0
 
     lines.each do |line|
 
@@ -25,9 +25,9 @@ class Line < ApplicationRecord
       end
     end
 
-    # puts "#{lines_per_character}"
     return lines_per_character
   end
+
 
 
   # input: the scene_id
@@ -99,7 +99,9 @@ class Line < ApplicationRecord
     return all_pairs
   end
 
-  # get all the Act-scene pairs ::
+
+
+  # a wrapper function to get all Act, Scene pairs in the play
   # output: HashMap, key: [act_id, scene_id] is a unique pairing, value: [many_lines]
 
   def getAllActScenes()
@@ -120,7 +122,7 @@ class Line < ApplicationRecord
 
 
   # a helper function to print the nested structure
-  # hard-coded for Act 1 Scene 1
+  # Helpful to print the data in the views in such a manner
   def printLines
     # the arg for getActScene can be changed
     # to swap data printed to terminal
@@ -147,7 +149,7 @@ class Line < ApplicationRecord
   end
 
 
-  ## Helper functions to support cue-scripts ##
+  ## Two Helper functions to support cue-scripts ##
 
   #input: list of "many_lines"
   # output: [speaker,[list of lines spoken]]
@@ -185,6 +187,9 @@ class Line < ApplicationRecord
     end
   end
 
+
+  # Main function to generate a cue script
+
   # input: SCENE ID, Speaker (for whom to build the cue-script for)
 
   # output: Prints to terminal the all the lines for a given speaker
@@ -192,7 +197,6 @@ class Line < ApplicationRecord
   # can modularize code at the lines level
 
   def getCueScript(sceneID, speaker)
-
 
     blocks = getActScene(sceneID)
 
@@ -214,7 +218,6 @@ class Line < ApplicationRecord
       if curr_block[0] == speaker
 
         #### the previous speaker ####
-
         # do not print the stage twice!
 
         if prev_block[1] != "STAGE"
@@ -243,19 +246,45 @@ class Line < ApplicationRecord
         puts "#{curr_block[0]}"
 
         lines = curr_block[1]
-
         getSpeakerScript(lines)
       end
     end
   end
 
+  # a wrapper function to generate Cue-scripts
+  # Current status: print for a given sceneID and Speaker
+  # Aim: to generate cue-script across all SceneIDs
   def selectCueScript
-
     # the scene ID
     # the speaker
-
     getCueScript(1,"\nEGEON\n")
+  end
 
+  # output: create a list of all speakers in the Play
+  def getAllSpeaker
+    speakerLst = []
+
+    arr = Line.find_by_sql("select distinct(speaker) from Lines")
+
+    arr.each do |i|
+      speakerLst.append(i.speaker)
+    end
+
+    return speakerLst
+
+  end
+
+  # output: a list of all sceneIDs
+  def getAllScenes
+      sceneIDs = []
+
+      scenes = Scene.all
+
+      scenes.each do |scene|
+          sceneIDs.append(scene.id)
+      end
+
+    return sceneIDs
   end
 
 end
