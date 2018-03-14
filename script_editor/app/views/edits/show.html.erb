@@ -45,11 +45,17 @@ However, they both utilize the same .scss file. -->
     <!--
         The analytics will show up here as a popup.
     -->
-    <div id="analytics-modal" class="shown-modal">
+    <div class="modal" tabindex="-1" role="dialog" id="analytics-modal">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <span class="close2">&times;</span>
-            <div class="hidden-analytics" id="hidden-analytics"></div>
-          <table class="table">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
               <thead>
               <tr>
                 <th scope="col">Character</th>
@@ -61,28 +67,21 @@ However, they both utilize the same .scss file. -->
                 <% a = speaker %>
                 <% spk = a[0] %>
                 <% lineNum = a[1] %>
-              <tr>
-                <td> <%= spk %></td>
-                <td> <%= lineNum.to_s() %></td>
-              </tr>
+                <tr>
+                  <td> <%= spk %></td>
+                  <td> <%= lineNum.to_s() %></td>
+                </tr>
               <% end %>
               </tbody>
-          </table>
-
-
-
-
-
-
-
-
-
-                </div>
-
-
-
-
-
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
             <% analyticstext = "" %>
             <script>
                 document.getElementById('hidden-analytics').innerHTML = '<%= escape_javascript analyticstext %>';
