@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'scene_render/show'
+
   post 'line_cuts/new'
 
   post 'line_cuts/delete'
