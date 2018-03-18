@@ -134,9 +134,18 @@ class Line < ApplicationRecord
     # list of [speaker, many lines]
     all_pairs = []
 
-    lines = Line.where(:scene_id => scene)
+    lines = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number", scene]
+
+    puts "#{lines}"
+    puts "#{lines.class}"
+
     index = 0
     lines.each do |l|
+
+      if l.number == nil
+        next
+      end
+
       # speaker, many lines
       a_pair = []
       many_lines = []
@@ -149,6 +158,10 @@ class Line < ApplicationRecord
         a_line = []
 
         words = Word.where(:line_id => l.id)
+
+        if words == nil
+          next
+        end
 
         words.each do |wd|
           # the word is not in the Cuts table
@@ -297,7 +310,9 @@ class Line < ApplicationRecord
 
   #output: [speaker,[lines]]
 
+
   def getCueScript(sceneID, speaker)
+    # countStageLines = 0
 
     result = []
 
@@ -310,7 +325,6 @@ class Line < ApplicationRecord
 
       # to get the stage cues
       if prev_block[0] == "STAGE"
-
         stage_lines = prev_block[1]
         i1 = getStageScript(stage_lines)
         result.append(i1)
@@ -322,7 +336,7 @@ class Line < ApplicationRecord
         #### the previous speaker ####
         # do not print the stage twice!
 
-        if prev_block[1] != "STAGE"
+        if prev_block[0] != "STAGE"
 
           # get the list of many lines
           all_prev_block_lines = prev_block[1]
@@ -350,9 +364,56 @@ class Line < ApplicationRecord
         result.append(i3)
       end
     end
+    # puts "STAGE LINES ARE #{countStageLines}"
     return result
   end
 
+  # check pieces work!
+  def getCueScript2(sceneID, speaker)
+    result = []
+
+    blocks = getActScene(sceneID)
+
+    (0...blocks.length).each do |i|
+      # a block is a [speaker, [list of many lines]]
+      # prev_block = blocks[i - 1]
+      curr_block = blocks[i]
+
+      # to get the stage cues
+      if curr_block[0] == "STAGE"
+        stage_lines = curr_block[1]
+        i1 = getStageScript(stage_lines)
+        result.append(i1)
+
+      elsif curr_block[0] == speaker
+        val = (i - 1)
+        if val >= 0
+
+          prev_block = blocks[val]
+          prev_block_lines = prev_block[1]
+          last_line = prev_block_lines[prev_block_lines.length-1]
+
+          last_line_wds = []
+          last_line.each do |lol|
+            last_line_wds.append(lol[1])
+          end
+
+          prev_sentence = last_line_wds.join(" ")
+
+
+          i2 = [prev_block[0],[prev_sentence]]
+          result.append(i2)
+
+        end
+        #### the speaker ####
+        lines = curr_block[1]
+        i3 = getSpeakerScript(curr_block[0], lines)
+        result.append(i3)
+      end
+    end
+
+    return result
+  end
 
   # a wrapper function to generate Cue-scripts
   # Current status: print for a given sceneID and Speaker
@@ -360,7 +421,10 @@ class Line < ApplicationRecord
   def selectCueScript
     # the scene ID
     # the speaker
-    lol = getCueScript(1, "\nEGEON\n")
+
+    # lol = getCueScript(1, "\nEGEON\n")
+
+    lol = getCueScript(2, "\nFIRST\n \nMERCHANT\n")
 
     return lol
 
@@ -409,6 +473,18 @@ class Line < ApplicationRecord
     end
 
     return sceneIDs
+  end
+
+
+  # debugging the nested-list
+  def debug
+    blocks = getActScene(1)
+
+    blocks.each do |block|
+      if block[0] == "STAGE"
+        puts "#{block}"
+      end
+    end
   end
 
 

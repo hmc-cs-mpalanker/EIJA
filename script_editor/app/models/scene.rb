@@ -50,4 +50,20 @@ class Scene < ApplicationRecord
     return actScene
   end
 
+  # 155 lines of Stage for this play
+  def testStageData
+    stageLines = Line.find_by_sql("select * from Lines where speaker = 'STAGE' order by id")
+
+    countFalse = 0
+
+    stageLines.each do |stage|
+      if !stage.isStage
+        countFalse += 1
+      end
+    end
+
+    return countFalse
+  end
+
+
 end
