@@ -77,6 +77,11 @@ class Line < ApplicationRecord
         end
       end
 
+      # do not add empty lines to the nested-list structure
+      if a_line.size == 0
+        next
+      end
+
       if index != 0
         prev_pair = all_pairs[all_pairs.length - 1]
 
@@ -152,7 +157,8 @@ class Line < ApplicationRecord
           end
         end
 
-        if a_line.length == 0
+        # do not add empty-lines to the nested structure
+        if a_line.size == 0
           next
         end
 
