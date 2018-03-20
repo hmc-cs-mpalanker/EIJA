@@ -378,16 +378,16 @@ class Line < ApplicationRecord
 
   # output: create a list of all speakers in the Play
   def getAllSpeakers
-    speakerLst = []
+    speakerHash = {}
 
     arr = Line.find_by_sql("select distinct(speaker) from Lines")
 
     arr.each do |i|
-      speakerLst.append(i.speaker)
+      val = i.speaker.gsub(/\n/,"")
+      speakerHash[val] = i.speaker
     end
 
-    return speakerLst
-
+    return speakerHash
   end
 
   # output: a list of all sceneIDs
