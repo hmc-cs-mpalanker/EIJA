@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   get 'pages/about'
 
   get 'lines/show'
-  get 'lines/script'
+  # get 'lines/script'
+
+   match '/script' => 'lines#script', :via => :post
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

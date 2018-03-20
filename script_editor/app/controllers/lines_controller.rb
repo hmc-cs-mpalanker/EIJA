@@ -16,7 +16,6 @@ class LinesController < ApplicationController
 
     val = params[:id]
     puts "#{val}"
-    redirect_to action: "script"
   end
 
   # required stub for the lines/show route to work
@@ -25,12 +24,18 @@ class LinesController < ApplicationController
   end
 
   def script
-    # l = Line.new
-    # l.getCueScript(1,speaker)
-    l = Line.new
 
-    # @blocks = l.selectCueScript
-    @blocks = l.getCueScript(1,params[:id])
+    l = Line.new
+    hash = l.getAllSpeakers
+    key = params[:id]
+    puts "THE KEY CLASS IS: #{key.class}"
+    puts "THE KEY IS: #{key}"
+
+    puts "#{hash}"
+
+    
+
+    @blocks = l.getCueScript(1,"\nABBESS\n")
 
   end
 
