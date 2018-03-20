@@ -13,9 +13,6 @@ class LinesController < ApplicationController
     # @edit = Edit.find(params[:id])
     l = Line.new
     @hash = l.getAllSpeakers
-
-    val = params[:id]
-    puts "#{val}"
   end
 
   # required stub for the lines/show route to work
@@ -26,16 +23,30 @@ class LinesController < ApplicationController
   def script
 
     l = Line.new
-    hash = l.getAllSpeakers
+
+    @hash = l.getAllSpeakers
     key = params[:id]
+
+    puts "THE HASH CLASS IS: #{@hash.class}"
+    puts "THE HASH IS:#{@hash} "
+
     puts "THE KEY CLASS IS: #{key.class}"
-    puts "THE KEY IS: #{key}"
+    puts "THE KEY IS:#{key} "
 
-    puts "#{hash}"
+    # k = "#{key}"
+    k = key.to_s
 
-    
+    puts "DOES THE KEY EXIST: #{@hash.key?(k)}"
+    puts "DOES THE KEY EXIST: #{@hash.key?("EGEON")}"
+    puts "THE NEW KEY VAL IS: #{k}"
+    val = @hash[k]
 
-    @blocks = l.getCueScript(1,"\nABBESS\n")
+    puts "THE VALUE class IS: #{val.class}"
+    puts "THE VALUE IS:#{val} "
+
+
+    @blocks = l.getCueScript(1,"\nEGEON\n")
+
 
   end
 
