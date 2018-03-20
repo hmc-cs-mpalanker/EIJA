@@ -36,10 +36,16 @@ class LinesController < ApplicationController
     # k = "#{key}"
     k = key.to_s
 
-    puts "DOES THE KEY EXIST: #{@hash.key?(k)}"
-    puts "DOES THE KEY EXIST: #{@hash.key?("EGEON")}"
-    puts "THE NEW KEY VAL IS: #{k}"
-    val = @hash[k]
+    # puts "HMMM::: #{k == key}"
+    # puts "HMMM::: #{k.class == "EGEON".class}"
+    key = key.gsub(" ","")
+    # puts "THE EQUALITY:: #{key == "EGEON"}"
+    #
+    # puts "DOES THE KEY EXIST: #{@hash.key?(key)}"
+    # puts "DOES THE KEY EXIST: #{@hash.key?("EGEON")}"
+    # puts "THE NEW KEY VAL IS: #{k}"
+
+    val = @hash[key]
 
     puts "THE VALUE class IS: #{val.class}"
     puts "THE VALUE IS:#{val} "
