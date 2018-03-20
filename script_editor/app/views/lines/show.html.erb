@@ -1,15 +1,14 @@
-<% @blocks.each do |block| %>
+<h3> Choose a speaker: </h3>
 
-  <p>
-    <%= block[0] %>
+<% @hash.each do |k, v| %>
 
-    <% lines = block[1] %>
-    <br>
-    <% lines.each do |line| %>
-      <%= line %>
-    <% end %>
+  <%= k %>
+  <br>
 
-  </p>
 <% end %>
 
 
+<%= form_tag lines_show_path, method: "get" do %>
+<p> Enter the speaker: <%= text_field_tag :id %>  </p>
+<%= submit_tag "Cue Script" %>
+<% end %>

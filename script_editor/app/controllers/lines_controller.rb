@@ -12,16 +12,11 @@ class LinesController < ApplicationController
   def show
     # @edit = Edit.find(params[:id])
     l = Line.new
-    @blocks = l.selectCueScript
+    @hash = l.getAllSpeakers
 
-    # val = params[:a]
-    #
-    # puts "#{val}"
-
-    puts "ONE MORE TIME!"
-
+    val = params[:id]
+    puts "#{val}"
     redirect_to action: "script"
-
   end
 
   # required stub for the lines/show route to work
@@ -33,7 +28,10 @@ class LinesController < ApplicationController
     # l = Line.new
     # l.getCueScript(1,speaker)
     l = Line.new
-    @blocks = l.selectCueScript
+
+    # @blocks = l.selectCueScript
+    @blocks = l.getCueScript(1,params[:id])
+
   end
 
   # # GET /lines/new

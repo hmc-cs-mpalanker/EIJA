@@ -387,6 +387,7 @@ class Line < ApplicationRecord
       speakerHash[val] = i.speaker
     end
 
+    speakerHash = Hash[speakerHash.sort]
     return speakerHash
   end
 
