@@ -350,9 +350,9 @@ class Line < ApplicationRecord
     # the scene ID
     # the speaker
 
-    # lol = getCueScript(1, "\nEGEON\n")
+    lol = getCueScript(1, "\nEGEON\n")
 
-    lol = getCueScript(2, "\nFIRST\n \nMERCHANT\n")
+    # lol = getCueScript(2, "\nFIRST\n \nMERCHANT\n")
 
     return lol
 

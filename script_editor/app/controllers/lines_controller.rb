@@ -11,13 +11,14 @@ class LinesController < ApplicationController
   # GET /lines/1.json
   def show
     # @edit = Edit.find(params[:id])
-    @l = Line.new
-    @l.renderActScene(1)
+    l = Line.new
+    @blocks = l.selectCueScript
   end
 
+  # required stub for the lines/show route to work
   def set_line
-
   end
+
   # # GET /lines/new
   # def new
   #   @line = Line.new

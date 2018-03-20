@@ -1,1 +1,13 @@
-<p> Hello, world!</p>
+<% @blocks.each do |block| %>
+
+  <p>
+    <%= block[0] %>
+
+    <% lines = block[1] %>
+    <br>
+    <% lines.each do |line| %>
+      <%= line %>
+    <% end %>
+
+  </p>
+<% end %>
