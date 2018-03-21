@@ -17,42 +17,19 @@ class LinesController < ApplicationController
 
   # required stub for the lines/show route to work
   def set_line
-
   end
 
+  # generate the cue-script
   def script
 
     l = Line.new
 
     @hash = l.getAllSpeakers
     key = params[:id]
-
-    puts "THE HASH CLASS IS: #{@hash.class}"
-    puts "THE HASH IS:#{@hash} "
-
-    puts "THE KEY CLASS IS: #{key.class}"
-    puts "THE KEY IS:#{key} "
-
-    # k = "#{key}"
-    k = key.to_s
-
-    # puts "HMMM::: #{k == key}"
-    # puts "HMMM::: #{k.class == "EGEON".class}"
     key = key.gsub(" ","")
-    # puts "THE EQUALITY:: #{key == "EGEON"}"
-    #
-    # puts "DOES THE KEY EXIST: #{@hash.key?(key)}"
-    # puts "DOES THE KEY EXIST: #{@hash.key?("EGEON")}"
-    # puts "THE NEW KEY VAL IS: #{k}"
-
     val = @hash[key]
 
-    puts "THE VALUE class IS: #{val.class}"
-    puts "THE VALUE IS:#{val} "
-
-
-    @blocks = l.getCueScript(1,"\nEGEON\n")
-
+    @blocks = l.getCueScript(1,val)
 
   end
 

@@ -403,6 +403,22 @@ class Line < ApplicationRecord
 
     return sceneIDs
   end
-  
+
+  # input: speaker: speaker Name
+  # output: Hash, Key: scene-id, value: LOL [speaker,[lines]]
+  def getAllCueScript(speaker)
+    sceneIDs = getAllScenes
+    result = {}
+
+    sceneIDs.each do |sceneID|
+      val = getCueScript(sceneID,speaker)
+      result[sceneID] = val
+    end
+
+    result = Hash[result.sort]
+    return result
+  end
+
+
 end
 
