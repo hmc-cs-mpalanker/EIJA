@@ -29,7 +29,8 @@ class LinesController < ApplicationController
     key = key.gsub(" ","")
     val = @hash[key]
 
-    @blocks = l.getCueScript(1,val)
+    # @blocks = l.getCueScript(1,val)
+    @allLines = l.getAllCueScript(val)
 
   end
 
