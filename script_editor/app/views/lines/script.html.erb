@@ -1,11 +1,11 @@
 
+<div style="text-align: center;"> CueScript for <%= @character %> </div>
+
 <% @allLines.each do |sceneNum, blocks| %>
 
   <div style="text-align: center;"> Scene <%= sceneNum%> </div>
 
-
   <% blocks.each do |block| %>
-
     <p>
       <%= block[0] %>
 

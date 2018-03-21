@@ -3,6 +3,15 @@ class Line < ApplicationRecord
   has_many :edits, through: :line_cuts
   has_many :words
 
+  # attr_accessor :speaker
+  #
+  # def initialize
+  #   @errors = ActiveModel::Errors.new(self)
+  # end
+  #
+  # def validate!
+  #   errors.add(message: "incorrect speaker") unless getAllSpeakers.keys.include?(speaker)
+  # end
 
   # Count the number of lines per character
   # output: A Hash, key is the speaker, value is the number of lines

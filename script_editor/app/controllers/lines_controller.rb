@@ -27,12 +27,12 @@ class LinesController < ApplicationController
     speakers = l.getAllSpeakers.keys
     @hash = l.getAllSpeakers
     key = params[:id]
-    key = key.gsub(" ","").upcase
+    key = key.gsub(" ", "").upcase
 
     if speakers.include?(key)
-      puts "HERE"
       val = @hash[key]
       @allLines = l.getAllCueScript(val)
+      @character = key
     else
       flash[:error] = "Incorrect speaker name"
       # redirect_to :line => 'show'
@@ -40,10 +40,10 @@ class LinesController < ApplicationController
 
   end
 
-  # # GET /lines/new
-  # def new
-  #   @line = Line.new
-  # end
+  # GET /lines/new
+  def new
+    @line = Line.new
+  end
   #
   # # GET /lines/1/edit
   # def edit
