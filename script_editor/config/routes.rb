@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   get 'scene_render/show'
 
   post 'line_cuts/new'
-
   post 'line_cuts/delete'
 
   post 'cuts/new'
@@ -20,6 +19,11 @@ Rails.application.routes.draw do
   get 'home/homepage'
   root 'home#homepage'
   get 'pages/about'
+
+  get 'lines/show'
+  # get 'lines/script'
+
+   match '/script' => 'lines#script', :via => :post
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
