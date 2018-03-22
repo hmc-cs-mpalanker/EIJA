@@ -3,6 +3,15 @@ class Line < ApplicationRecord
   has_many :edits, through: :line_cuts
   has_many :words
 
+  # attr_accessor :speaker
+  #
+  # def initialize
+  #   @errors = ActiveModel::Errors.new(self)
+  # end
+  #
+  # def validate!
+  #   errors.add(message: "incorrect speaker") unless getAllSpeakers.keys.include?(speaker)
+  # end
 
   # Count the number of lines per character
   # output: A Hash, key is the speaker, value is the number of lines
@@ -31,20 +40,17 @@ class Line < ApplicationRecord
 
   # input: the scene_id
   # output: a list of all_pairs
-  # all_pairs = list of 'a_pair'
-  # a_pair = list of 'speaker','many_lines'
+    # all_pairs = list of 'a_pair'
+    # a_pair = list of 'speaker','many_lines'
+    # many_lines = list of 'a_line' -> [T|F , Lines]
+    # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
 
-  # mess-around here !
-  # many_lines = list of 'a_line' -> [T|F , Lines]
-  # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
-
-  # # Used to recompute the line-numbers for a given scene in the play
   def renderActScene(scene)
 
     # list of [speaker, many lines]
     all_pairs = []
 
-    lines = Line.where(:scene_id => scene)
+    lines = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number", scene]
     index = 0
 
     lines.each do |l|
@@ -77,6 +83,11 @@ class Line < ApplicationRecord
         end
       end
 
+      # do not add empty lines to the nested-list structure
+      if a_line.size == 0
+        next
+      end
+
       if index != 0
         prev_pair = all_pairs[all_pairs.length - 1]
 
@@ -87,7 +98,6 @@ class Line < ApplicationRecord
           prev_pair[1].append([flag, a_line])
 
         else
-
           many_lines.append([flag, a_line])
           # make "a_pair"
           a_pair.append(spk)
@@ -107,7 +117,6 @@ class Line < ApplicationRecord
       # increment index at end of each "line-iteration"
       index += 1
     end
-
     return all_pairs
   end
 
@@ -116,22 +125,28 @@ class Line < ApplicationRecord
 
   # input: the scene_id
   # output: a list of all_pairs
-  # all_pairs = list of 'a_pair'
-  # a_pair = list of 'speaker','many_lines'
+    # all_pairs = list of 'a_pair'
+    # a_pair = list of 'speaker','many_lines'
+    # many_lines = list of 'a_line' -> [T|F , Lines]
+    # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
 
-  # mess-around here !
-  # many_lines = list of 'a_line'
-  # a_line = list of 'wordID', 'text'
-
-  # # Used to recompute the line-numbers for a given scene in the play
   def getActScene(scene)
 
     # list of [speaker, many lines]
     all_pairs = []
+    # order lines by the number, not by id, attribute to ensure correctness of lines rendered
+    lines = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number", scene]
 
-    lines = Line.where(:scene_id => scene)
+    puts "#{lines}"
+    puts "#{lines.class}"
+
     index = 0
     lines.each do |l|
+
+      if l.number == nil
+        next
+      end
+
       # speaker, many lines
       a_pair = []
       many_lines = []
@@ -145,6 +160,10 @@ class Line < ApplicationRecord
 
         words = Word.where(:line_id => l.id)
 
+        if words == nil
+          next
+        end
+
         words.each do |wd|
           # the word is not in the Cuts table
           if Cut.where(:word_id => wd.id).length == 0
@@ -152,10 +171,10 @@ class Line < ApplicationRecord
           end
         end
 
-        if a_line.length == 0
+        # do not add empty-lines to the nested structure
+        if a_line.size == 0
           next
         end
-
 
         if index != 0
           prev_pair = all_pairs[all_pairs.length - 1]
@@ -180,11 +199,9 @@ class Line < ApplicationRecord
           a_pair.append(many_lines)
           all_pairs.append(a_pair)
         end
-
       end
       index += 1
     end
-
     return all_pairs
   end
 
@@ -288,73 +305,63 @@ class Line < ApplicationRecord
   # Main function to generate a cue script
 
   # input: SCENE ID, Speaker (for whom to build the cue-script for)
-
-  #output: [speaker,[lines]]
+  # output: [speaker,[lines]]
 
   def getCueScript(sceneID, speaker)
-
     result = []
 
     blocks = getActScene(sceneID)
 
-    (1...blocks.length).each do |i|
+    (0...blocks.length).each do |i|
       # a block is a [speaker, [list of many lines]]
-      prev_block = blocks[i - 1]
+      # prev_block = blocks[i - 1]
       curr_block = blocks[i]
 
       # to get the stage cues
-      if prev_block[0] == "STAGE"
-
-        stage_lines = prev_block[1]
+      if curr_block[0] == "STAGE"
+        stage_lines = curr_block[1]
         i1 = getStageScript(stage_lines)
         result.append(i1)
 
-      end
+      elsif curr_block[0] == speaker
+        #### the previous-speaker ####
+        val = (i - 1)
+        if val >= 0 and blocks[val][0] != "STAGE"
 
-      if curr_block[0] == speaker
+          prev_block = blocks[val]
+          prev_block_lines = prev_block[1]
+          last_line = prev_block_lines[prev_block_lines.length - 1]
 
-        #### the previous speaker ####
-        # do not print the stage twice!
-
-        if prev_block[1] != "STAGE"
-
-          # get the list of many lines
-          all_prev_block_lines = prev_block[1]
-          # the last line for the prev speaker
-          last_line = all_prev_block_lines[all_prev_block_lines.length - 1]
-
-          # process the list of wordID, text pairs to form the sentence
           last_line_wds = []
           last_line.each do |lol|
             last_line_wds.append(lol[1])
           end
 
           prev_sentence = last_line_wds.join(" ")
-          # note that the prev_sentence is wrapped in a list
-          # this is done to be consistent with other helper functions
-          # returning the same form
           i2 = [prev_block[0], [prev_sentence]]
           result.append(i2)
-
         end
-
         #### the speaker ####
         lines = curr_block[1]
         i3 = getSpeakerScript(curr_block[0], lines)
         result.append(i3)
       end
     end
+
     return result
   end
-
 
   # a wrapper function to generate Cue-scripts
   # Current status: print for a given sceneID and Speaker
   # Aim: to generate cue-script across all SceneIDs
+
   def selectCueScript
     # the scene ID
     # the speaker
+
     lol = getCueScript(1, "\nEGEON\n")
+
+    # lol = getCueScript(2, "\nFIRST\n \nMERCHANT\n")
 
     return lol
 
@@ -380,16 +387,17 @@ class Line < ApplicationRecord
 
   # output: create a list of all speakers in the Play
   def getAllSpeakers
-    speakerLst = []
+    speakerHash = {}
 
     arr = Line.find_by_sql("select distinct(speaker) from Lines")
 
     arr.each do |i|
-      speakerLst.append(i.speaker)
+      val = i.speaker.gsub(/\n/,"")
+      speakerHash[val] = i.speaker
     end
 
-    return speakerLst
-
+    speakerHash = Hash[speakerHash.sort]
+    return speakerHash
   end
 
   # output: a list of all sceneIDs
@@ -403,6 +411,21 @@ class Line < ApplicationRecord
     end
 
     return sceneIDs
+  end
+
+  # input: speaker: speaker Name
+  # output: Hash, Key: scene-id, value: LOL [speaker,[lines]]
+  def getAllCueScript(speaker)
+    sceneIDs = getAllScenes
+    result = {}
+
+    sceneIDs.each do |sceneID|
+      val = getCueScript(sceneID,speaker)
+      result[sceneID] = val
+    end
+
+    result = Hash[result.sort]
+    return result
   end
 
 
