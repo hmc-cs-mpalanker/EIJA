@@ -9,8 +9,17 @@ $(function() {
         $('.accordion-toggle').on('click', function() {
             $(this).toggleClass('active').siblings().removeClass('active');
         });
+        renderHelper(1);//this will need to be fixed later
+        detectCut();
     });
     analytics();
+    renderScene();
+    $(document).on("mousedown", '.word', function(event) {
+        console.log("down Detected");
+        console.log(this);
+    });
+
+
 
 
 
@@ -40,3 +49,54 @@ function analytics() {
 
 }
 
+/**
+ * Will handel loading difrent scences into the Play area
+ */
+function renderScene()
+{
+    $(".sceneMenu").click(function () {
+        console.log(this.id);
+        var scenceId = this.id.slice(5); //slices off scene of scene2 to give 2 or other number
+        console.log( scenceId);
+        renderHelper(scenceId);
+    })
+
+};
+function renderHelper(scenceId) {
+    $.get('/scene_render/' + scenceId)//get HTML to insert
+        .done(function(data)
+        {
+            // console.log(data);
+            var play =$("#PlaySection");
+            play.html("");//clear previous data
+            play.html(data);//load new scene
+        });
+}
+
+function detectCut(){
+    console.log("down bound ");
+    $(".word").mousedown(function () {
+        console.log("down Detected");
+        console.log(this);
+    })
+}
+
+// function renderHelper(scenceId) {
+//     $.ajax({
+//         type: "GET",
+//         url: '/scene_render/' + scenceId,
+//         success: function(data) {
+//             console.log("data");
+//             var play =$("#PlaySection");
+//             play.html("");//clear previous data
+//             play.html(data);//load new scene
+//         },
+//         complete: function() {
+//             console.log("completed");
+//             $('.sceneMenu').click(function () {
+//                 console.log("rebind");
+//                 renderScene();
+//             }); // will fire either on success or error
+//         }
+//     });
+// }

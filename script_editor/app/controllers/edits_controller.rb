@@ -9,7 +9,10 @@ class EditsController < ApplicationController
 
     l = Line.new
     @hash = l.countAnalytics
-    @scene = l.renderActScene(1)
+    @scene = l.renderActScene(3)
+    @scene.each do |p|
+      puts "#{p}"
+    end
     # puts "#{@hash}"
     # puts "#{@hash.length}"
     # Line.countAnalytics

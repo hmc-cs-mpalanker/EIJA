@@ -1,7 +1,12 @@
 class SceneRenderController < ApplicationController
+
   def show
+
     l = Line.new
-    @hash = l.countAnalytics
-    @scene1 = l.getActScene(1)
+    @scene = l.renderActScene(params[:id])
+    @scene.each do |p|
+      puts "#{p}"
+    end
+    render :layout => false
   end
 end

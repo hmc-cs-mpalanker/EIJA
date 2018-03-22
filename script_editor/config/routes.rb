@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'scene_render/show'
+  get 'scene_render/:id' => 'scene_render#show'
 
   post 'line_cuts/new'
 

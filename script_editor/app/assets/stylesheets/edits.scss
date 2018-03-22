@@ -73,11 +73,23 @@ html, body {
 
 
 .script-Table {
+  table-layout: fixed;
   margin-left:30px ;
   margin-bottom: 15px;
+  width: 400px;//mabey change to 100%
 
 }
 
 .characterName{
   border-bottom: -15px;
+}
+
+.lineNumer {
+  overflow: hidden;
+  width: 40px;
+}
+
+.lineText {
+  overflow: hidden;
+  width: 360px;
 }
