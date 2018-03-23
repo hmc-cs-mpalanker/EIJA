@@ -327,18 +327,26 @@ class Line < ApplicationRecord
         #### the previous-speaker ####
         val = (i - 1)
         if val >= 0 and blocks[val][0] != "STAGE"
+          # client would like the last word,
+          # instead of the last line
 
           prev_block = blocks[val]
           prev_block_lines = prev_block[1]
           last_line = prev_block_lines[prev_block_lines.length - 1]
 
           last_line_wds = []
-          last_line.each do |lol|
-            last_line_wds.append(lol[1])
-          end
 
-          prev_sentence = last_line_wds.join(" ")
-          i2 = [prev_block[0], [prev_sentence]]
+          # the last line removed as per Client request
+          # last_line.each do |lol|
+          #   last_line_wds.append(lol[1])
+          # end
+          # prev_sentence = last_line_wds.join(" ")
+
+          # the last word
+          last_line_wds = last_line[last_line.length-1][1]
+          last_line_wds = ".."*5 + last_line_wds
+
+          i2 = [prev_block[0], [last_line_wds]]
           result.append(i2)
         end
         #### the speaker ####
