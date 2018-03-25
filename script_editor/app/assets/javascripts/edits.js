@@ -9,7 +9,7 @@ $(function() {
         $('.accordion-toggle').on('click', function() {
             $(this).toggleClass('active').siblings().removeClass('active');
         });
-        renderHelper(1);//this will need to be fixed later
+        //renderHelper(1);//this will need to be fixed later
         detectCut();
     });
     analytics();

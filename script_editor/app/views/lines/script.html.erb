@@ -1,22 +1,92 @@
-
-<div style="text-align: center;"> CueScript for <%= @character %> </div>
-
-<% @allLines.each do |sceneNum, blocks| %>
-
-  <div style="text-align: center;"> Scene <%= sceneNum%> </div>
-
-  <% blocks.each do |block| %>
-    <p>
-      <%= block[0] %>
-
-      <% lines = block[1] %>
-      <br>
-      <% lines.each do |line| %>
-        <%= line %>
-      <% end %>
-    </p>
-  <% end %>
-
+<% content_for :head do %>
+  <%= stylesheet_link_tag "edits.scss" -%>
 <% end %>
 
-<%= link_to 'Back', lines_show_path %>
+<h4 style="margin-left: 10px"> Act 1:</h4>
+<h6 style="margin-left: 10px"> Scene 1</h6>
+<% @queScript.each do |lineGroup| %>
+
+  <% if lineGroup[0]=="STAGE" %>
+    <table class="script-Table">
+      <% lineGroup[1].each do |line| %>
+        <!--each line in a characters speaking part-->
+        <tr>
+          <td>
+            <em>
+              <%= line.to_s() %>
+            </em>
+          </td>
+      <% end %>
+      </tr>
+    </table>
+    <% else %>
+    <table class="script-Table">
+      <col span="1" class="lineNumer">
+      <tr>
+        <td><strong> <%= lineGroup[0] %></strong> </td>
+      </tr>
+      <% lineGroup[1].each do |lines| %>
+
+        <!--each line in a characters speaking part-->
+        <tr class="lineRow">
+          <td class ="lineNumer"></td>
+          <td class="lineText">
+            <!--render line -->
+            <%= lines %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+<% end %>
+<% if false %>
+  <% @queScript.each do |lineGroup| %>
+
+    <% if lineGroup[0]=="STAGE" %>
+      <table class="script-Table">
+        <% lineGroup[1].each do |line| %>
+          <!--each line in a characters speaking part-->
+          <tr>
+            <td>
+              <em>
+                <%= line[1][0][2].to_s() %>
+              </em>
+            </td>
+        <% end %>
+        </tr>
+      </table>
+    <% else %>
+      <!--this loops through each characters speaking part in the scene-->
+      <table class="script-Table">
+        <col span="1" class="lineNumer">
+        <tr>
+          <td><strong> <%= lineGroup[0] %></strong> </td>
+        </tr>
+        <% lineGroup[1].each do |line| %>
+
+          <!--each line in a characters speaking part-->
+          <tr class="lineRow">
+            <td class ="lineNumer"></td>
+            <td class="lineText">
+              <!--render line -->
+              <% line[1].each do |word|%>
+                          <span  class="word" id=<%= word[1].to_s() %>>
+                            <!--detect if word has been removed from play-->
+                            <% if word[0] %>
+                            <del>
+                              <%= word[2].to_s() %>
+                            </del>
+                            <% else %>
+                            <%= word[2].to_s() %>
+                         <% end %>
+                          </span>
+              <% end %>
+            </td>
+          </tr>
+          <% lineNum += 1%>
+        <% end %>
+      </table>
+
+    <% end %>
+  <% end %>
+<% end %>

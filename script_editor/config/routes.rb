@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get 'lines/show'
   # get 'lines/script'
 
-   match '/script' => 'lines#script', :via => :post
+   get '/script/:charecterName' => 'lines#script'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
