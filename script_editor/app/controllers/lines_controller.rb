@@ -36,7 +36,7 @@ class LinesController < ApplicationController
     #
     if speakers.include?(key)
       val = @hash[key]
-      @queScript = l.selectCueScript(val)
+      @queScript = l.getAllCueScript(val)
       @character = key
       @queScript.each do |p|
         puts "#{p}"
