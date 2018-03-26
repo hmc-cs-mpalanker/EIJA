@@ -36,14 +36,92 @@ class Line < ApplicationRecord
     return lines_per_character
   end
 
+  def countCharMatches
+    speakers = Line.find_by_sql("select distinct(speaker) from Lines order by speaker")
+
+    puts "#{speakers}"
+    map = Hash.new
+
+    # map the speaker to index in the matrix
+
+    speakers.each_with_index do |s, index|
+      val = s.speaker
+      map[index] = val
+    end
+
+
+    acts = Act.find_by_sql("select * from Acts")
+    # names of the speakers corresponding to i
+    set = Set.new
+    # initialize the matrix to 0s
+    arr = Array.new(speakers.length) {Array.new(speakers.length)}
+
+    for i in 0...speakers.length do
+      for j in 0...speakers.length do
+        arr[i][j] = 0
+      end
+    end
+
+
+    for i in 0...speakers.length do
+      for j in i + 1...speakers.length do
+
+        if !set.include?(map[j])
+
+          acts.each do |act|
+            scenes = Scene.find_by_sql ["select * from Scenes where act_id = ?", act.id]
+            # puts "#{scenes}"
+
+            spk1 = map[i]
+            spk2 = map[j]
+            # spk, in scene flag, num-lines
+            result = Array.new(2) {Array.new(3)}
+            result[0][0] = spk1
+            result[0][1] = false
+            result[0][2] = 0
+            result[1][0] = spk2
+            result[1][1] = false
+            result[1][2] = 0
+
+            scenes.each do |scene|
+              script = renderActScene(scene.id)
+
+
+              script.each do |block|
+                if block[0] == spk1 || block[0] == spk2
+                  index = block[0] == spk1 ? 0 : 1
+                  result[index][1] = true
+                  result[index][2] += block[1].length
+                end
+              end
+            end
+            if result[0][1] && result[1][1]
+              arr[i][j] = result[0][2] + result[1][2]
+            end
+
+
+            # puts "#{scenes}"
+
+          end
+        end
+
+      end
+     set = set.add(map[i])
+    end
+
+    return arr
+
+  end
+
+
   # note: the method below is meant for front-end data rendering
 
   # input: the scene_id
   # output: a list of all_pairs
-    # all_pairs = list of 'a_pair'
-    # a_pair = list of 'speaker','many_lines'
-    # many_lines = list of 'a_line' -> [T|F , Lines]
-    # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
+  # all_pairs = list of 'a_pair'
+  # a_pair = list of 'speaker','many_lines'
+  # many_lines = list of 'a_line' -> [T|F , Lines]
+  # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
 
   def renderActScene(scene)
 
@@ -125,10 +203,10 @@ class Line < ApplicationRecord
 
   # input: the scene_id
   # output: a list of all_pairs
-    # all_pairs = list of 'a_pair'
-    # a_pair = list of 'speaker','many_lines'
-    # many_lines = list of 'a_line' -> [T|F , Lines]
-    # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
+  # all_pairs = list of 'a_pair'
+  # a_pair = list of 'speaker','many_lines'
+  # many_lines = list of 'a_line' -> [T|F , Lines]
+  # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
 
   def getActScene(scene)
 
@@ -343,8 +421,8 @@ class Line < ApplicationRecord
           # prev_sentence = last_line_wds.join(" ")
 
           # the last word
-          last_line_wds = last_line[last_line.length-1][1]
-          last_line_wds = ".."*5 + last_line_wds
+          last_line_wds = last_line[last_line.length - 1][1]
+          last_line_wds = ".." * 5 + last_line_wds
 
           i2 = [prev_block[0], [last_line_wds]]
           result.append(i2)
@@ -400,7 +478,7 @@ class Line < ApplicationRecord
     arr = Line.find_by_sql("select distinct(speaker) from Lines")
 
     arr.each do |i|
-      val = i.speaker.gsub(/\n/,"")
+      val = i.speaker.gsub(/\n/, "")
       speakerHash[val] = i.speaker
     end
 
@@ -428,7 +506,7 @@ class Line < ApplicationRecord
     result = {}
 
     sceneIDs.each do |sceneID|
-      val = getCueScript(sceneID,speaker)
+      val = getCueScript(sceneID, speaker)
       result[sceneID] = val
     end
 
@@ -436,6 +514,24 @@ class Line < ApplicationRecord
     return result
   end
 
+  def debug
+    arr = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number ASC", 2]
+
+    count = 0
+
+    for i in 1...arr.length do
+
+      prev = arr[i-1]
+      curr = arr[i]
+      if prev.number != nil and curr.number != nil
+        if prev.number > curr.number
+          count += 1
+        end
+      end
+    end
+
+    return count
+  end
 
 end
 

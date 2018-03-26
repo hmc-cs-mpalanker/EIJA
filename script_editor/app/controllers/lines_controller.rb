@@ -26,6 +26,7 @@ class LinesController < ApplicationController
     l = Line.new
     speakers = l.getAllSpeakers.keys
     @hash = l.getAllSpeakers
+
     key = params[:id]
     key = key.gsub(" ", "").upcase
 
