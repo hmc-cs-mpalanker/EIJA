@@ -3,16 +3,6 @@ class Line < ApplicationRecord
   has_many :edits, through: :line_cuts
   has_many :words
 
-  # attr_accessor :speaker
-  #
-  # def initialize
-  #   @errors = ActiveModel::Errors.new(self)
-  # end
-  #
-  # def validate!
-  #   errors.add(message: "incorrect speaker") unless getAllSpeakers.keys.include?(speaker)
-  # end
-
   # Count the number of lines per character
   # output: A Hash, key is the speaker, value is the number of lines
   def countAnalytics
@@ -532,6 +522,105 @@ class Line < ApplicationRecord
 
     return count
   end
+
+  def matching
+    scenes = getAllScenes
+
+    scenes.each do |scene|
+      stageLines = Line.find_by_sql ["Select * from Lines where scene_id = ? and speaker = 'STAGE' ", scene]
+
+      stageLines.each do |line|
+        words = Word.find_by_sql ["select * from Words where line_id = ?", line.id]
+        # puts "#{words}"
+        words.each do |wd|
+
+          # puts "#{wd.text}"
+          # processing the text
+          text = wd.text
+          text = text.gsub("\n","")
+          text = text.gsub(".","")
+          text = text.gsub(",","")
+          # the array of words
+          arr = text.split
+          cue = "Enter"
+
+          if arr[0] == cue
+              speakers = getAllSpeakers.keys
+              tSpeaker = transformSpeaker
+              result = []
+            result = recurseMatches(arr,1,tSpeaker, result,speakers)
+
+            puts "#{result} + #{arr}"
+          end
+
+        end
+      end
+      puts ".............................................................."
+    end
+  end
+
+  def matchHelper
+    w = Word.find_by_sql ("select * from Words where id = 1")
+    text = w[0].text
+    text = text.gsub("\n","")
+    text = text.gsub(",","")
+
+    arr = text.split
+    cue = "Enter"
+
+    # get the word "Enter"
+    if arr[0]  == cue
+      puts "#{arr}"
+      tSpeaker = transformSpeaker
+
+      res = recurseMatches(arr,1,tSpeaker,[],getAllSpeakers.keys)
+      puts "#{res}"
+    end
+  end
+
+  # the array of speakers keys
+  def transformSpeaker
+    arr = getAllSpeakers.keys
+
+    for i in 0...arr.length do
+      arr[i] = arr[i].split
+    end
+    return arr
+  end
+
+  # arr: cleaned text
+  # index: of arr
+  # tSpeaker: the list of speakers made into a list
+  # result: the matches for speakers
+  # speakers: a list of speakers in the play
+  def recurseMatches(arr, index, tSpeaker, result, speakers)
+    if index >= arr.length
+      return result
+
+    else
+      word = arr[index]
+      word = word.upcase
+      for i in 0...tSpeaker.length
+        subArr = tSpeaker[i]
+
+        if subArr.length != 0
+          if subArr[0] == word
+            subArr.delete_at(0)
+            if tSpeaker[i].length == 0
+              # puts "#{speakers[i]}"
+              # puts "#{speakers[i].class}"
+              result.insert(result.length-1,speakers[i])
+              val = speakers[i]
+
+            end
+          end
+        end
+
+      end
+      return recurseMatches(arr,index+1,tSpeaker,result,speakers)
+    end
+  end
+
 
 end
 
