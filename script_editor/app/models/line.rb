@@ -533,11 +533,13 @@ class Line < ApplicationRecord
         words = Word.find_by_sql ["select * from Words where line_id = ?", line.id]
         # puts "#{words}"
         words.each do |wd|
-
           # puts "#{wd.text}"
+
+          # # puts "#{wd.text}"
           # processing the text
           text = wd.text
-          text = text.gsub("\n","")
+          # add this spacing 
+          text = text.gsub("\n"," ")
           text = text.gsub(".","")
           text = text.gsub(",","")
           # the array of words
