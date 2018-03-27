@@ -39,6 +39,4 @@ class CutsController < ApplicationController
 		end
 	end
 
-
-
 end
