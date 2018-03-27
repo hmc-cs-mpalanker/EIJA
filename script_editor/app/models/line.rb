@@ -504,6 +504,7 @@ class Line < ApplicationRecord
     return result
   end
 
+  # for parsing error
   def debug
     arr = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number ASC", 2]
 
@@ -523,62 +524,8 @@ class Line < ApplicationRecord
     return count
   end
 
-  def matching
-    scenes = getAllScenes
 
-    scenes.each do |scene|
-      stageLines = Line.find_by_sql ["Select * from Lines where scene_id = ? and speaker = 'STAGE' ", scene]
-
-      stageLines.each do |line|
-        words = Word.find_by_sql ["select * from Words where line_id = ?", line.id]
-        # puts "#{words}"
-        words.each do |wd|
-          # puts "#{wd.text}"
-
-          # # puts "#{wd.text}"
-          # processing the text
-          text = wd.text
-          # add this spacing 
-          text = text.gsub("\n"," ")
-          text = text.gsub(".","")
-          text = text.gsub(",","")
-          # the array of words
-          arr = text.split
-          cue = "Enter"
-
-          if arr[0] == cue
-              speakers = getAllSpeakers.keys
-              tSpeaker = transformSpeaker
-              result = []
-            result = recurseMatches(arr,1,tSpeaker, result,speakers)
-
-            puts "#{result} + #{arr}"
-          end
-
-        end
-      end
-      puts ".............................................................."
-    end
-  end
-
-  def matchHelper
-    w = Word.find_by_sql ("select * from Words where id = 1")
-    text = w[0].text
-    text = text.gsub("\n","")
-    text = text.gsub(",","")
-
-    arr = text.split
-    cue = "Enter"
-
-    # get the word "Enter"
-    if arr[0]  == cue
-      puts "#{arr}"
-      tSpeaker = transformSpeaker
-
-      res = recurseMatches(arr,1,tSpeaker,[],getAllSpeakers.keys)
-      puts "#{res}"
-    end
-  end
+  # helper functions for the Matching feature
 
   # the array of speakers keys
   def transformSpeaker
@@ -621,6 +568,57 @@ class Line < ApplicationRecord
       end
       return recurseMatches(arr,index+1,tSpeaker,result,speakers)
     end
+  end
+
+  # output: HashMap, key: sceneID, val: the list of unique characters that speak in the play
+  def matching
+
+    map = Hash.new
+
+    scenes = getAllScenes
+
+    scenes.each do |scene|
+      stageLines = Line.find_by_sql ["Select * from Lines where scene_id = ? and speaker = 'STAGE' ", scene]
+
+      stageLines.each do |line|
+        words = Word.find_by_sql ["select * from Words where line_id = ?", line.id]
+        # puts "#{words}"
+        words.each do |wd|
+          # processing the text
+          text = wd.text
+          # add this spacing
+          text = text.gsub("\n"," ")
+          text = text.gsub(".","")
+          text = text.gsub(",","")
+          # the array of words
+          arr = text.split
+          cue = "Enter"
+
+          if arr[0] == cue
+            speakers = getAllSpeakers.keys
+            tSpeaker = transformSpeaker
+            result = []
+            result = recurseMatches(arr,1,tSpeaker, result,speakers)
+            # puts "#{result} + #{arr}"
+
+            if map.has_key?(scene)
+              val = map[scene]
+
+              result.each do |spk|
+                if !val.include?(spk)
+                  val = val.insert(val.length-1,spk)
+                end
+              end
+              result[scene] = val
+            else
+              map[scene] = result
+            end
+          end
+        end
+      end
+      puts ".............................................................."
+    end
+    return map
   end
 
 
