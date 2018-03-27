@@ -96,7 +96,7 @@ class Line < ApplicationRecord
         end
 
       end
-     set = set.add(map[i])
+      set = set.add(map[i])
     end
 
     return arr
@@ -504,7 +504,7 @@ class Line < ApplicationRecord
     return result
   end
 
-  # for parsing error
+  # to research :: for parsing error
   def debug
     arr = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number ASC", 2]
 
@@ -512,7 +512,7 @@ class Line < ApplicationRecord
 
     for i in 1...arr.length do
 
-      prev = arr[i-1]
+      prev = arr[i - 1]
       curr = arr[i]
       if prev.number != nil and curr.number != nil
         if prev.number > curr.number
@@ -558,7 +558,7 @@ class Line < ApplicationRecord
             if tSpeaker[i].length == 0
               # puts "#{speakers[i]}"
               # puts "#{speakers[i].class}"
-              result.insert(result.length-1,speakers[i])
+              result.insert(result.length - 1, speakers[i])
               val = speakers[i]
 
             end
@@ -566,14 +566,17 @@ class Line < ApplicationRecord
         end
 
       end
-      return recurseMatches(arr,index+1,tSpeaker,result,speakers)
+      return recurseMatches(arr, index + 1, tSpeaker, result, speakers)
     end
   end
 
-  # output: HashMap, key: sceneID, val: the list of unique characters that speak in the play
+  # output: a two-element array where the first element is a HashMap, second element is Set
+  # HashMap, key: sceneID, val: the list of unique characters that speak in the play
+  # Set: of the characters in the play (as determined by the algorithm)
   def matching
 
     map = Hash.new
+    set = Set.new
 
     scenes = getAllScenes
 
@@ -587,9 +590,9 @@ class Line < ApplicationRecord
           # processing the text
           text = wd.text
           # add this spacing
-          text = text.gsub("\n"," ")
-          text = text.gsub(".","")
-          text = text.gsub(",","")
+          text = text.gsub("\n", " ")
+          text = text.gsub(".", "")
+          text = text.gsub(",", "")
           # the array of words
           arr = text.split
           cue = "Enter"
@@ -598,19 +601,24 @@ class Line < ApplicationRecord
             speakers = getAllSpeakers.keys
             tSpeaker = transformSpeaker
             result = []
-            result = recurseMatches(arr,1,tSpeaker, result,speakers)
+            result = recurseMatches(arr, 1, tSpeaker, result, speakers)
             # puts "#{result} + #{arr}"
-
+            # code to add elements to the set in both places
             if map.has_key?(scene)
               val = map[scene]
 
               result.each do |spk|
+                set.add(spk)
                 if !val.include?(spk)
-                  val = val.insert(val.length-1,spk)
+                  val = val.insert(val.length - 1, spk)
                 end
               end
               result[scene] = val
             else
+              # add to set
+              result.each do |spk|
+                set.add(spk)
+              end
               map[scene] = result
             end
           end
@@ -618,9 +626,55 @@ class Line < ApplicationRecord
       end
       puts ".............................................................."
     end
-    return map
+    # sort the order of the set
+    # the set should return all the characters expect for "STAGE"
+    set = SortedSet.new(set)
+    return [map, set]
   end
 
+  # output: a 2D matrix where i,j represent two characters
+  # arr[i][j] denotes the number of times the two characters appear
+  # as a pair across the play
+  def charMatrix
+    mapSet = matching
+
+    map = mapSet[0]
+    set = mapSet[1]
+    charToNum = Hash.new
+    index = 0
+    set.each do |s|
+      charToNum[s] = index
+      index += 1
+    end
+
+    arr = Array.new(set.length) {Array.new(set.length)}
+    for i in 0...arr.length do
+      for j in 0...arr.length do
+        arr[i][j] = 0
+      end
+    end
+
+    # create the matrix
+
+    map.each do |key, val|
+      if val.length != 0
+
+        for i in 0...val.length do
+          for j in i + 1...val.length do
+            # get the names of the chars
+            r = val[i]
+            c = val[j]
+
+            # puts "#{r} + #{c}"
+            # charName to index mapping
+            arr[charToNum[r]][charToNum[c]] += 1
+          end
+        end
+
+      end
+    end
+    return arr
+  end
 
 end
 
