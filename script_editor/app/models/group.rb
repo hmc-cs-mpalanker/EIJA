@@ -1,5 +1,7 @@
 class Group < ApplicationRecord
 
+  # groupId does not get reset to 1 when I remove all entries but defaults to 4 if 3 deleted
+
   # a list of userIds
   # void: adds users to a new group with a new group Number
   def createGroup(lst)
@@ -21,13 +23,15 @@ class Group < ApplicationRecord
   # remove a group that has a number in the db
   def removeGroup(number)
     # remove all users that are in the same group
-    Group.delete_all ["groupNum = ?", number]
+    # Group.delete_all ["groupNum = ?", number]
+    Group.where(groupNum: number).delete_all
   end
 
   # remove a single user from a group
   # input: userID
   def removeUserGroup(id)
-    Group.delete_all ["user_id = ?", id ]
+    # Group.delete_all ["user_id = ?", id ]
+    Group.where(user_id: id).delete_all
   end
-  
+
 end
