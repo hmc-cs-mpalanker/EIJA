@@ -18,5 +18,16 @@ class Group < ApplicationRecord
     lst.each {|user| Group.create(groupNum: gNum, user_id: user)}
   end
 
+  # remove a group that has a number in the db
+  def removeGroup(number)
+    # remove all users that are in the same group
+    Group.delete_all ["groupNum = ?", number]
+  end
 
+  # remove a single user from a group
+  # input: userID
+  def removeUserGroup(id)
+    Group.delete_all ["user_id = ?", id ]
+  end
+  
 end
