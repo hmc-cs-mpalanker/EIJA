@@ -640,13 +640,16 @@ class Line < ApplicationRecord
 
     map = mapSet[0]
     set = mapSet[1]
+
     charToNum = Hash.new
     index = 0
+    # map a character to an index
     set.each do |s|
       charToNum[s] = index
       index += 1
     end
 
+    # initialize the array
     arr = Array.new(set.length) {Array.new(set.length)}
     for i in 0...arr.length do
       for j in 0...arr.length do
@@ -656,25 +659,34 @@ class Line < ApplicationRecord
 
     # create the matrix
 
+    # for all the scenes
     map.each do |key, val|
       if val.length != 0
-
+        # for a given scene
         for i in 0...val.length do
           for j in i + 1...val.length do
             # get the names of the chars
             r = val[i]
             c = val[j]
 
-            # puts "#{r} + #{c}"
             # charName to index mapping
             arr[charToNum[r]][charToNum[c]] += 1
           end
         end
-
       end
     end
     return arr
   end
 
+  # returns an array where the first element is the list of characters
+  #                        the second element is the 2D matrix
+  def charFeatureWrapper
+    resultArr = []
+    # index 1 of matching arr is the sorted list of speakers
+    resultArr[0] = matching[1]
+    # the r,c characters are indices of the sorted list of speakers
+    resultArr[1] = charMatrix
+    return resultArr
+  end
 end
 
