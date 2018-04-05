@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'home/homepage'
   root 'home#homepage'
   get 'pages/about'
-
+  get 'analytics_modal/show'
   get 'lines/show'
   # get 'lines/script'
 

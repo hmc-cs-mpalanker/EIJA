@@ -43,7 +43,7 @@ However, they both utilize the same .scss file. -->
         The analytics will show up here as a popup.
     -->
     <div class="modal" tabindex="-1" role="dialog" id="analytics-modal">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
             <ul class="nav nav-tabs noMargin" id="myTab" role="tablist">
@@ -62,57 +62,8 @@ However, they both utilize the same .scss file. -->
                 </button>
               </li>
             </ul>
-
-
-
-
-
-
-          <div class="modal-body">
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <table class="table">
-                  <thead>
-                  <tr>
-                    <th scope="col">Character</th>
-                    <th scope="col"># Line numbers</th>
-                  </tr>
-                  </thead>
-                  <!--this data needs to be loaded from a different page or a json object sent from the server-->
-                  <tbody>
-                  <% @hash.each do |speaker| %>
-                    <% a = speaker %>
-                    <% spk = a[0] %>
-                    <% lineNum = a[1] %>
-                    <tr>
-                      <td> <%= spk %></td>
-                      <td> <%= lineNum.to_s() %></td>
-                    </tr>
-                  <% end %>
-                  </tbody>
-                </table>
-
-
-              </div>
-              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="form-group">
-                  <label for="exampleFormControlSelect1">Example select</label>
-                  <select class="form-control" id="exampleFormControlSelect1">
-                    <option >1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </div>
-                <button type="button" class="btn btn-primary">Primary</button>
-
-              </div>
-              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-            </div>
-
-
-
+          <div class="modal-body" id="analyticsBody">
+              <!--gets dynamically inserted in edits.js-->
           </div>
         </div>
       </div>
@@ -145,7 +96,7 @@ However, they both utilize the same .scss file. -->
 
         </div>
 
-        <div class="col-sm-6" id="PlaySection">
+          <div class="col-sm-6" id="PlaySection">
           <!--this area displays the script itself-->
           <h4 style="margin-left: 10px"> Act 1:</h4>
           <h6 style="margin-left: 10px"> Scene 1</h6>
@@ -181,16 +132,18 @@ However, they both utilize the same .scss file. -->
                     <td class="lineText">
                       <!--render line -->
                       <% line[1].each do |word|%>
-                        <span  class="word" id=<%= word[1].to_s() %>>
+                        <% if word[0] %>
+                        <span  class="word del" id=<%= word[1].to_s() %>>
                           <!--detect if word has been removed from play-->
-                          <% if word[0] %>
-                          <del>
                             <%= word[2].to_s() %>
-                          </del>
-                          <% else %>
-                          <%= word[2].to_s() %>
-                       <% end %>
                         </span>
+
+                        <% else %>
+                       <span  class="word" id=<%= word[1].to_s() %>>
+                          <!--detect if word has been removed from play-->
+                         <%= word[2].to_s() %>
+                        </span>
+                        <% end %>
                       <% end %>
                     </td>
                   </tr>
