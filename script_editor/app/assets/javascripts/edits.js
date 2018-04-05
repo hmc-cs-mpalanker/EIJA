@@ -57,10 +57,25 @@ function analytics() {
                 var play =$("#analyticsBody");
                 play.html("");//clear previous data
                 play.html(data);//load new scene
+                bindQueScript();//bind button
             });
         $("#analytics-modal").modal("show");
     })
 
+}
+
+/**
+ * Analytics bind
+ * so this will bind the button to foward you to the appropriate que script 
+ * the musics load and im feeling load, If I break your heart Im a dumb dude
+ */
+
+function bindQueScript() {
+    $("#cueScriptSelect").click(function () {
+        var charName = $("#queScriptNameSelector option:selected")[0].value
+        console.log(charName);
+        window.location.href='/script/' + charName;
+    })
 }
 
 /**
