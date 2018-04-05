@@ -431,11 +431,11 @@ class Line < ApplicationRecord
   # Current status: print for a given sceneID and Speaker
   # Aim: to generate cue-script across all SceneIDs
 
-  def selectCueScript
+  def selectCueScript(speaker)
     # the scene ID
     # the speaker
 
-    lol = getCueScript(1, "\nEGEON\n")
+    lol = getCueScript(1, speaker)
 
     # lol = getCueScript(2, "\nFIRST\n \nMERCHANT\n")
 
