@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326212818) do
+ActiveRecord::Schema.define(version: 20180327042541) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
@@ -36,14 +36,6 @@ ActiveRecord::Schema.define(version: 20180326212818) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "groups", force: :cascade do |t|
-    t.integer  "groupNum"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id"
-    t.index ["user_id"], name: "index_groups_on_user_id"
-  end
-
   create_table "line_cuts", force: :cascade do |t|
     t.integer  "edit_id"
     t.integer  "line_id"
@@ -62,6 +54,15 @@ ActiveRecord::Schema.define(version: 20180326212818) do
     t.boolean  "isStage",    default: false
     t.integer  "currLength"
     t.index ["scene_id"], name: "index_lines_on_scene_id"
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_memberships_on_group_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
   create_table "plays", force: :cascade do |t|
