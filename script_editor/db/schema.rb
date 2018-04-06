@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326212818) do
+ActiveRecord::Schema.define(version: 20180406205615) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 20180326212818) do
     t.integer  "play_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "groups_id"
+    t.index ["groups_id"], name: "index_edits_on_groups_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -97,7 +99,9 @@ ActiveRecord::Schema.define(version: 20180326212818) do
     t.integer  "grad_year"
     t.boolean  "enrolled"
     t.boolean  "admin",                  default: false
+    t.integer  "groups_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["groups_id"], name: "index_users_on_groups_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
