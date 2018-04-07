@@ -3,16 +3,6 @@ class Line < ApplicationRecord
   has_many :edits, through: :line_cuts
   has_many :words
 
-  # attr_accessor :speaker
-  #
-  # def initialize
-  #   @errors = ActiveModel::Errors.new(self)
-  # end
-  #
-  # def validate!
-  #   errors.add(message: "incorrect speaker") unless getAllSpeakers.keys.include?(speaker)
-  # end
-
   # Count the number of lines per character
   # output: A Hash, key is the speaker, value is the number of lines
   def countAnalytics
@@ -36,14 +26,92 @@ class Line < ApplicationRecord
     return lines_per_character
   end
 
+  def countCharMatches
+    speakers = Line.find_by_sql("select distinct(speaker) from Lines order by speaker")
+
+    puts "#{speakers}"
+    map = Hash.new
+
+    # map the speaker to index in the matrix
+
+    speakers.each_with_index do |s, index|
+      val = s.speaker
+      map[index] = val
+    end
+
+
+    acts = Act.find_by_sql("select * from Acts")
+    # names of the speakers corresponding to i
+    set = Set.new
+    # initialize the matrix to 0s
+    arr = Array.new(speakers.length) {Array.new(speakers.length)}
+
+    for i in 0...speakers.length do
+      for j in 0...speakers.length do
+        arr[i][j] = 0
+      end
+    end
+
+
+    for i in 0...speakers.length do
+      for j in i + 1...speakers.length do
+
+        if !set.include?(map[j])
+
+          acts.each do |act|
+            scenes = Scene.find_by_sql ["select * from Scenes where act_id = ?", act.id]
+            # puts "#{scenes}"
+
+            spk1 = map[i]
+            spk2 = map[j]
+            # spk, in scene flag, num-lines
+            result = Array.new(2) {Array.new(3)}
+            result[0][0] = spk1
+            result[0][1] = false
+            result[0][2] = 0
+            result[1][0] = spk2
+            result[1][1] = false
+            result[1][2] = 0
+
+            scenes.each do |scene|
+              script = renderActScene(scene.id)
+
+
+              script.each do |block|
+                if block[0] == spk1 || block[0] == spk2
+                  index = block[0] == spk1 ? 0 : 1
+                  result[index][1] = true
+                  result[index][2] += block[1].length
+                end
+              end
+            end
+            if result[0][1] && result[1][1]
+              arr[i][j] = result[0][2] + result[1][2]
+            end
+
+
+            # puts "#{scenes}"
+
+          end
+        end
+
+      end
+      set = set.add(map[i])
+    end
+
+    return arr
+
+  end
+
+
   # note: the method below is meant for front-end data rendering
 
   # input: the scene_id
   # output: a list of all_pairs
-    # all_pairs = list of 'a_pair'
-    # a_pair = list of 'speaker','many_lines'
-    # many_lines = list of 'a_line' -> [T|F , Lines]
-    # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
+  # all_pairs = list of 'a_pair'
+  # a_pair = list of 'speaker','many_lines'
+  # many_lines = list of 'a_line' -> [T|F , Lines]
+  # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
 
   def renderActScene(scene)
 
@@ -125,10 +193,10 @@ class Line < ApplicationRecord
 
   # input: the scene_id
   # output: a list of all_pairs
-    # all_pairs = list of 'a_pair'
-    # a_pair = list of 'speaker','many_lines'
-    # many_lines = list of 'a_line' -> [T|F , Lines]
-    # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
+  # all_pairs = list of 'a_pair'
+  # a_pair = list of 'speaker','many_lines'
+  # many_lines = list of 'a_line' -> [T|F , Lines]
+  # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
 
   def getActScene(scene)
 
@@ -327,18 +395,26 @@ class Line < ApplicationRecord
         #### the previous-speaker ####
         val = (i - 1)
         if val >= 0 and blocks[val][0] != "STAGE"
+          # client would like the last word,
+          # instead of the last line
 
           prev_block = blocks[val]
           prev_block_lines = prev_block[1]
           last_line = prev_block_lines[prev_block_lines.length - 1]
 
           last_line_wds = []
-          last_line.each do |lol|
-            last_line_wds.append(lol[1])
-          end
 
-          prev_sentence = last_line_wds.join(" ")
-          i2 = [prev_block[0], [prev_sentence]]
+          # the last line removed as per Client request
+          # last_line.each do |lol|
+          #   last_line_wds.append(lol[1])
+          # end
+          # prev_sentence = last_line_wds.join(" ")
+
+          # the last word
+          last_line_wds = last_line[last_line.length - 1][1]
+          last_line_wds = ".." * 5 + last_line_wds
+
+          i2 = [prev_block[0], [last_line_wds]]
           result.append(i2)
         end
         #### the speaker ####
@@ -392,7 +468,7 @@ class Line < ApplicationRecord
     arr = Line.find_by_sql("select distinct(speaker) from Lines")
 
     arr.each do |i|
-      val = i.speaker.gsub(/\n/,"")
+      val = i.speaker.gsub(/\n/, "")
       speakerHash[val] = i.speaker
     end
 
@@ -420,7 +496,7 @@ class Line < ApplicationRecord
     result = {}
 
     sceneIDs.each do |sceneID|
-      val = getCueScript(sceneID,speaker)
+      val = getCueScript(sceneID, speaker)
       result[sceneID] = val
     end
 
@@ -428,6 +504,189 @@ class Line < ApplicationRecord
     return result
   end
 
+  # to research :: for parsing error
+  def debug
+    arr = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number ASC", 2]
 
+    count = 0
+
+    for i in 1...arr.length do
+
+      prev = arr[i - 1]
+      curr = arr[i]
+      if prev.number != nil and curr.number != nil
+        if prev.number > curr.number
+          count += 1
+        end
+      end
+    end
+
+    return count
+  end
+
+
+  # helper functions for the Matching feature
+
+  # the array of speakers keys
+  def transformSpeaker
+    arr = getAllSpeakers.keys
+
+    for i in 0...arr.length do
+      arr[i] = arr[i].split
+    end
+    return arr
+  end
+
+  # arr: cleaned text
+  # index: of arr
+  # tSpeaker: the list of speakers made into a list
+  # result: the matches for speakers
+  # speakers: a list of speakers in the play
+  def recurseMatches(arr, index, tSpeaker, result, speakers)
+    if index >= arr.length
+      return result
+
+    else
+      word = arr[index]
+      word = word.upcase
+      for i in 0...tSpeaker.length
+        subArr = tSpeaker[i]
+
+        if subArr.length != 0
+          if subArr[0] == word
+            subArr.delete_at(0)
+            if tSpeaker[i].length == 0
+              # puts "#{speakers[i]}"
+              # puts "#{speakers[i].class}"
+              result.insert(result.length - 1, speakers[i])
+              val = speakers[i]
+
+            end
+          end
+        end
+
+      end
+      return recurseMatches(arr, index + 1, tSpeaker, result, speakers)
+    end
+  end
+
+  # output: a two-element array where the first element is a HashMap, second element is Set
+  # HashMap, key: sceneID, val: the list of unique characters that speak in the play
+  # Set: of the characters in the play (as determined by the algorithm)
+  def matching
+
+    map = Hash.new
+    set = Set.new
+
+    scenes = getAllScenes
+
+    scenes.each do |scene|
+      stageLines = Line.find_by_sql ["Select * from Lines where scene_id = ? and speaker = 'STAGE' ", scene]
+
+      stageLines.each do |line|
+        words = Word.find_by_sql ["select * from Words where line_id = ?", line.id]
+        # puts "#{words}"
+        words.each do |wd|
+          # processing the text
+          text = wd.text
+          # add this spacing
+          text = text.gsub("\n", " ")
+          text = text.gsub(".", "")
+          text = text.gsub(",", "")
+          # the array of words
+          arr = text.split
+          cue = "Enter"
+
+          if arr[0] == cue
+            speakers = getAllSpeakers.keys
+            tSpeaker = transformSpeaker
+            result = []
+            result = recurseMatches(arr, 1, tSpeaker, result, speakers)
+            # puts "#{result} + #{arr}"
+            # code to add elements to the set in both places
+            if map.has_key?(scene)
+              val = map[scene]
+
+              result.each do |spk|
+                set.add(spk)
+                if !val.include?(spk)
+                  val = val.insert(val.length - 1, spk)
+                end
+              end
+              result[scene] = val
+            else
+              # add to set
+              result.each do |spk|
+                set.add(spk)
+              end
+              map[scene] = result
+            end
+          end
+        end
+      end
+      puts ".............................................................."
+    end
+    # sort the order of the set
+    # the set should return all the characters expect for "STAGE"
+    set = SortedSet.new(set)
+    return [map, set]
+  end
+
+  # output: a 2D matrix where i,j represent two characters
+  # arr[i][j] denotes the number of times the two characters appear
+  # as a pair across the play
+  def charMatrix
+    mapSet = matching
+
+    map = mapSet[0]
+    set = mapSet[1]
+
+    charToNum = Hash.new
+    index = 0
+    # map a character to an index
+    set.each do |s|
+      charToNum[s] = index
+      index += 1
+    end
+
+    # initialize the array
+    arr = Array.new(set.length) {Array.new(set.length)}
+    for i in 0...arr.length do
+      for j in 0...arr.length do
+        arr[i][j] = 0
+      end
+    end
+
+    # create the matrix
+
+    # for all the scenes
+    map.each do |key, val|
+      if val.length != 0
+        # for a given scene
+        for i in 0...val.length do
+          for j in i + 1...val.length do
+            # get the names of the chars
+            r = val[i]
+            c = val[j]
+
+            # charName to index mapping
+            arr[charToNum[r]][charToNum[c]] += 1
+          end
+        end
+      end
+    end
+    return arr
+  end
+
+  # returns an array where the first element is the list of characters
+  #                        the second element is the 2D matrix
+  def charFeatureWrapper
+    resultArr = []
+    # index 1 of matching arr is the sorted list of speakers
+    resultArr[0] = matching[1]
+    # the r,c characters are indices of the sorted list of speakers
+    resultArr[1] = charMatrix
+    return resultArr
+  end
 end
 

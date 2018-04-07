@@ -32,8 +32,8 @@ class LinesController < ApplicationController
     speakers = l.getAllSpeakers.keys
     @hash = l.getAllSpeakers
     key = params[:charecterName]
-    # key = key.gsub(" ", "").upcase
-    #
+    
+    
     if speakers.include?(key)
       val = @hash[key]
       @queScript = l.selectCueScript(val)
