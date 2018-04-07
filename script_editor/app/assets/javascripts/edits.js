@@ -99,6 +99,7 @@ function renderHelper(scenceId) {
             var play =$("#PlaySection");
             play.html("");//clear previous data
             play.html(data);//load new scene
+            detectSelections(); // bind to scence 
         });
 }
 

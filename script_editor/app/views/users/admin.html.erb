@@ -10,12 +10,12 @@ It can be found at app/views/users/show.html.erb -->
 <TABLE BORDER="0">
     <TR>
         <TD class = "select">Student Groups
+        <% groups = User.all %>
+        <% groups.each do |group| %>
         <select>
-                <option value="group_1">Group 1</option>
-                <option value="group_2">Group 2</option>
-                <option value="group_3">Group 3</option>
-                <option value="group_4">Group 4</option>
+                <option value="group">Group #</option>
         </select>
+        <% end %>
         <TD ALIGN="center"></TD>
         </TD>
     </TR>
