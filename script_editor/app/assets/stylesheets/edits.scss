@@ -27,24 +27,24 @@ html, body {
   }
 }
 
-.top {
-  position: sticky;
-  top: -55px;
+.sidebar, .fixed-top.sidebar {
+  top: 55px;
   right: 0;
   left: 0;
   background-color: whitesmoke;
 }
 
 .accordion-h6{
-  right: -10px;
+  right: -2px;
+  border-bottom: 1px solid #cccccc;
+  margin: 0;
+  padding: 5px 0;
+  position: relative;
 }
 
 .accordion-toggle {
-  border-bottom: 1px solid #cccccc;
   cursor: pointer;
-  margin: 0;
-  padding: 5px 0;
-  position: relative;}
+}
 .accordion-toggle.active:after{
   content:"";
   position:absolute;
@@ -70,6 +70,41 @@ html, body {
 .accordion-toggle.active {color: #000000;}
 
 
-td {
-  padding: 50px 0;
+
+
+.script-Table {
+  table-layout: fixed;
+  margin-left:30px ;
+  margin-bottom: 15px;
+  width: 400px;//mabey change to 100%
+
+}
+
+.characterName{
+  border-bottom: -15px;
+}
+
+.lineNumer {
+  overflow: hidden;
+  width: 40px;
+}
+
+.lineText {
+  overflow: hidden;
+  width: 360px;
+}
+
+.noMargin{
+
+  margin: 0;
+}
+
+.word{
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+.del{
+  text-decoration: line-through;
 }

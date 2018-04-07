@@ -23,17 +23,25 @@ class LinesController < ApplicationController
   # regex matching to santize user-input is important
   def script
 
+
     l = Line.new
+
+
+    # render :layout => false
+    # l = Line.new
     speakers = l.getAllSpeakers.keys
     @hash = l.getAllSpeakers
-
-    key = params[:id]
-    key = key.gsub(" ", "").upcase
-
+    key = params[:charecterName]
+    
+    
     if speakers.include?(key)
       val = @hash[key]
-      @allLines = l.getAllCueScript(val)
+      @queScript = l.selectCueScript(val)
       @character = key
+      @queScript.each do |p|
+        puts "#{p}"
+      end
+      puts "#{params[:charecterName]}"
     else
       flash[:error] = "Incorrect speaker name"
       # redirect_to :line => 'show'
