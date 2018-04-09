@@ -160,8 +160,27 @@ However, they both utilize the same .scss file. -->
         <div class="col-sm-3">
           <!--additional space if we want to put anything on the left -->
 
+          <TABLE BORDER="0">
+              <TR>
+                  <% user = User.find(current_user) %>
+                  <TD class = "select"> <%=user.user_name %>'s Groups
+                  <select onChange="window.location.href=this.value">
+                  <% groups = Group.all %> <!--list of user groups -->
+                  <% groups.each do |group| %>
+                    <% if group.groupNum == -1 %>
+                          <option value ="/edits/new/<%=user.id%>"> User Edit  </option>
+                    <% else %>
+                          <option value="/edits/show/<%=group.groupNum%>"> Group <%= group.groupNum %> </option>
+                    <% end %>
+                  <% end %>
+                  </select>
+                  <TD ALIGN="center"></TD>
+                  </TD>
+              </TR>
+          </TABLE>
 
         </div>
+
         </div>
 
 

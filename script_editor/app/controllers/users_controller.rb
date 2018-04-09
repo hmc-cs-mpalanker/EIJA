@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   end
 
   def admin
+    #only allow access if user is admin
   	@user = User.find(params[:id])
   	unless @user.admin?
   		redirect_to root_path

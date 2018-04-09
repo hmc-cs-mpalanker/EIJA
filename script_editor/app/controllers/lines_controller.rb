@@ -31,22 +31,12 @@ class LinesController < ApplicationController
     # l = Line.new
     speakers = l.getAllSpeakers.keys
     @hash = l.getAllSpeakers
-<<<<<<< HEAD
-<<<<<<< HEAD
-
     key = params[:id]
-    key = key.gsub(" ", "").upcase
+    #key = key.gsub(" ", "").upcase
 
-=======
     key = params[:charecterName]
     # key = key.gsub(" ", "").upcase
     #
->>>>>>> origin/AlasdairSpringBreakSprint
-=======
-    key = params[:charecterName]
-    
-    
->>>>>>> AlasdairSpringBreakSprint
     if speakers.include?(key)
       val = @hash[key]
       @queScript = l.selectCueScript(val)

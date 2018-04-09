@@ -10,13 +10,17 @@ It can be found at app/views/users/show.html.erb -->
 <TABLE BORDER="0">
     <TR>
         <TD class = "select">Student Groups
-        <% groups = User.all %>
+        <select onChange="window.location.href=this.value">
+        <% groups = Group.all %>
         <% groups.each do |group| %>
-        <select>
-                <option value="group">Group #</option>
-        </select>
+                <option value="www.google.com"> <%= group.id =%> </option>
         <% end %>
+        </select>
         <TD ALIGN="center"></TD>
         </TD>
     </TR>
 </TABLE>
+
+<div class="group-info" id="groupInfo">
+
+</div>

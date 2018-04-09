@@ -1,4 +1,4 @@
-<!-- This file controls the view for the website's front page.
+a<!-- This file controls the view for the website's front page.
 It can be found at app/views/home/homepage.html.erb -->
 
 <!-- This file uses the app/assets/stylesheets/home.scss file for controlling its css. -->
@@ -71,7 +71,7 @@ It can be found at app/views/home/homepage.html.erb -->
 			<% @plays = Play.where(:category => 0) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, play_path(play)%>
+					<%= link_to play.title, edit_path(play)%>
 				</li><br>
 			<% end %>
 		</ul>
@@ -82,7 +82,7 @@ It can be found at app/views/home/homepage.html.erb -->
 			<% @plays = Play.where(:category => 1) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, play_path(play)%>
+					<%= link_to play.title, edit_path(play)%>
 				</li><br>
 			<% end %>
 			</ul>
@@ -93,7 +93,7 @@ It can be found at app/views/home/homepage.html.erb -->
 			<% @plays = Play.where(:category => 2) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, play_path(play)%>
+					<%= link_to play.title, edit_path(play)%>
 				</li><br>
 			<% end %>
 			</ul>
