@@ -99,7 +99,7 @@ function renderHelper(scenceId) {
             var play =$("#PlaySection");
             play.html("");//clear previous data
             play.html(data);//load new scene
-            detectSelections(); // bind to scence 
+            detectSelections(); // bind to scence
         });
 }
 
@@ -155,6 +155,7 @@ function logWords(onOff) {
         );
     }
     else{
+        sendPayload(true);
         $( ".word" ).off( "mouseenter mouseleave" );
     }
 }
@@ -167,22 +168,25 @@ function sendPayload(cutUncut) {
     out = {
         "meta" : {
             "playID" : 1, //should not be hardcoded
-            "editID" : 1
+            "editID" : 1, //Xans gon take u Xans gonna betray u
+            "cutOrUncut" : cutUncut //tells u if its cut or uncut
         },
         "payload" : payLoadG
-    }
+    };
+    console.log(out);
     $.ajax({
         method: "POST",
-        url: "/someURL",
-        data: JSON.stringify(out),
-    }).error(function () {
-        
+        url: "/cuts/new",
+        data: out
+    }) .done(function() {
+        console.log( "success" );
+        payLoadG = [];
     })
 
 }
 
 /*
-* updates UI based on server response and or the payload I havent decied yet
+ * updates UI based on server response and or the payload I havent decied yet
  */
 function iuUpdate() {
 

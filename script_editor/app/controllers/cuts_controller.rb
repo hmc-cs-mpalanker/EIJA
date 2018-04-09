@@ -1,22 +1,30 @@
+require 'json'
+
+
 class CutsController < ApplicationController
   def new
-  	#  are combining new (GET) and create (POST) actions
-  	@cut = Cut.create(edit_id: params[:editI],word_id: params[:wordI])
+		puts "start"
+		puts "#{params[:payload]}"
+		for wordID in  params[:payload] do
+			 #are combining new (GET) and create (POST) actions
+			@cut = Cut.create(edit_id: 1,word_id: wordID)
 
-  	# get the word -> the line.id of the word -> update the length of the line with the update method
-  	# this is word_id in the data-base
-  	@word = @cut.word
-  	@line = @word.line
+			# get the word -> the line.id of the word -> update the length of the line with the update method
+			# this is word_id in the data-base
+			@word = @cut.word
+			@line = @word.line
 
-		if @line.currLength > 0
+			if @line.currLength > 0
 			editLength = @line.currLength - 1
 			@line.update(currLength: editLength)
 
 			# add editId and lineId for LineCut relationship
 			if editLength == 0
-				LineCut.create(edit_id: params[:editI], line_id: @line.id)
+				LineCut.create(edit_id: 1, line_id: @line.id)
+			end
 			end
 		end
+
   end
 
   def delete
