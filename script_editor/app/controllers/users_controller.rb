@@ -10,5 +10,8 @@ class UsersController < ApplicationController
   		redirect_to root_path
   		flash.alert = "You must be logged in as admin"
   	end
+    
+  def new
+    @user = User.new
   end
 end

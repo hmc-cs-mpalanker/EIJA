@@ -1,5 +1,4 @@
 class Group < ApplicationRecord
-
   # groupId does not get reset to 1 when I remove all entries but defaults to 4 if 3 deleted
 
   # a list of userIds
