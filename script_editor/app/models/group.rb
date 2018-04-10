@@ -17,7 +17,8 @@ class Group < ApplicationRecord
   end
 
   # list all groups a user is part of
-  # output: Hash, key: user_id, value: list of [[groupName, groupId]]
+  # output: Hash, key
+  # : user_id, value: list of [[groupName, groupId]]
   #
   # note: groupId of -1 is for every user
   def getUserGroups
