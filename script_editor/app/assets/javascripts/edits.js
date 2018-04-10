@@ -43,6 +43,14 @@ $(function() {
  */
 
 var payLoadG = [];
+var out = {
+        "meta" : {
+            "playID" : 1, //should not be hardcoded
+            "editID" : 1, //Xans gon take u Xans gonna betray u
+            "cutOrUncut" : null //tells u if its cut or uncut
+        },
+        "payload" : payLoadG
+    };
 
 /**
  * The bellow method binds the Anyalicts element to the analytis modal so when
@@ -139,15 +147,30 @@ function logWords(onOff) {
     if (onOff) {
         $( ".word" ).hover(
             function() {
-                console.log(this.id);
+                var classofElement = $(this).attr("class");//get class of current element
+                console.log(classofElement);
+                setCutUncut(classofElement);//sets global and returns weather we are cutting or nah
+                var cutingOrNah = out["meta"]["cutOrUncut"];
                 if ($.inArray(this.id, payLoadG) === -1){
-                    console.log("adding to payload");
-                    //check to make sure that this word is not already in the payload
-                    //if it is unique add it
-                    payLoadG.push(this.id);
+                    console.log(cutingOrNah);
+                    if ((classofElement === "word") == cutingOrNah){
+                        //so I know this is hacky as shit but I hope u get it
+                        //I want the behavior that once I start selecting words that
+                        //it is locked in that I am cutting or uncuting the words
+                        //so lets think about that now then so what will happen
+                        //is if I click a word we will first check to see if the class
+                        //is 'word' or 'word del' if it is word then
+                        //
+                        //check to make sure that this word is not already in the payload
+                        //if it is unique add it
+                        console.log("adding :" +
+                            "");
+                        console.log(this.id);
+                        payLoadG.push(this.id);
+                        cutOrUncutUiInteractionUpdate(cutingOrNah, this);
+                    }
                 }
-                $( this ).addClass("del");
-                //strike through word
+
             },
             function() {
                 //$( this ).removeClass("del");
@@ -155,24 +178,52 @@ function logWords(onOff) {
         );
     }
     else{
-        sendPayload(true);
+        sendPayload();
         $( ".word" ).off( "mouseenter mouseleave" );
     }
 }
 
 /**
- * sends edit data to server
- * @param cutUncut determins if payload is to be cut or uncut
+ *
  */
-function sendPayload(cutUncut) {
-    out = {
-        "meta" : {
-            "playID" : 1, //should not be hardcoded
-            "editID" : 1, //Xans gon take u Xans gonna betray u
-            "cutOrUncut" : cutUncut //tells u if its cut or uncut
-        },
-        "payload" : payLoadG
-    };
+function setCutUncut(classofElement){
+    if (out["meta"]["cutOrUncut"] === null){
+        if (classofElement === "word"){//word that is uncut cut it
+            out["meta"]["cutOrUncut"] = true;
+            //now we know we want to cut words for the rest of this
+            // selection we will only allow you to cut words
+            console.log(out);
+            return true;
+        }
+        else{
+            out["meta"]["cutOrUncut"] = false;
+            console.log(out);
+            return false
+        }
+    }
+
+
+}
+
+/**
+ *
+ */
+function cutOrUncutUiInteractionUpdate(cutUncut, element){
+    if (cutUncut){
+        $( element).addClass("del");
+        //strike through word
+    }
+    else{
+        $( element ).removeClass("del");
+    }
+}
+
+/**
+ * sends edit data to server
+ *
+ */
+function sendPayload() {
+
     console.log(out);
     $.ajax({
         method: "POST",
@@ -181,6 +232,14 @@ function sendPayload(cutUncut) {
     }) .done(function() {
         console.log( "success" );
         payLoadG = [];
+        out = {
+            "meta" : {
+                "playID" : 1, //should not be hardcoded
+                "editID" : 1, //Xans gon take u Xans gonna betray u
+                "cutOrUncut" : null //tells u if its cut or uncut
+            },
+            "payload" : payLoadG
+        };
     })
 
 }
