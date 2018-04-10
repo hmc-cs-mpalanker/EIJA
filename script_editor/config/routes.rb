@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   #get '/edits/compress'
 
-  get '/edits/new/:id' =>'edits#new'
+  get '/edits/:id' =>'edits#new'
   get 'home/homepage'
   root 'home#homepage'
   get 'pages/about'
