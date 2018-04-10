@@ -1,6 +1,5 @@
 class Group < ApplicationRecord
 
-
   # list all active groups (that are not singleton users)
   # output: a LOL where the first element is the groupName and the second element is the groupNumber
   def getGroups
@@ -40,12 +39,11 @@ class Group < ApplicationRecord
   end
 
 
-
   # groupId does not get reset to 1 when I remove all entries but defaults to 4 if 3 deleted
 
   # a list of userIds
   # void: adds users to a new group with a new group Number
-  def createGroup(lst)
+  def createGroup(lst, groupName)
     gNum = -1
 
     len = Group.all.length
@@ -58,7 +56,7 @@ class Group < ApplicationRecord
       # the next number for the group
       gNum +=1
     end
-    lst.each {|user| Group.create(groupNum: gNum, user_id: user)}
+    lst.each {|user| Group.create(groupNum: gNum, user_id: user, name: groupName)}
   end
 
   # remove a group that has a number in the db
