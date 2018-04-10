@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3725695d-0806-4be8-a0bf-2ac0a35c2780" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/05ee4464-6e3e-4ea8-9d4f-3009d119fc75.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f47ee4de-077c-4579-8a1e-40faa3a4f450.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/edits.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/edits.js" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/cuts_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/cuts_controller.rb" />
     </list>
     <ignored path="$PROJECT_DIR$/.bundle/" />
     <ignored path="$PROJECT_DIR$/components/" />
@@ -45,11 +40,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="edits.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="edits.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/edits.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="152" column="60" lean-forward="false" selection-start-line="152" selection-start-column="60" selection-end-line="152" selection-end-column="60" />
+            <state relative-caret-position="332">
+              <caret line="49" column="24" lean-forward="false" selection-start-line="49" selection-start-column="12" selection-end-line="49" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cuts_controller.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/cuts_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="155">
+              <caret line="25" column="11" lean-forward="true" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -84,7 +89,6 @@
         <option value="$PROJECT_DIR$/db/schema.rb" />
         <option value="$PROJECT_DIR$/app/controllers/edits_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/edits/show.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/cuts_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/line_cuts/delete.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/line_cuts_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/scene.rb" />
@@ -96,6 +100,7 @@
         <option value="$PROJECT_DIR$/app/models/line.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20180326211527_make_groups_table.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/edits.js" />
+        <option value="$PROJECT_DIR$/app/controllers/cuts_controller.rb" />
       </list>
     </option>
   </component>
@@ -172,6 +177,12 @@
               <item name="script_editor" type="b2602c69:ProjectViewProjectNode" />
               <item name="script_editor" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="script_editor" type="b2602c69:ProjectViewProjectNode" />
+              <item name="script_editor" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="script_editor" type="b2602c69:ProjectViewProjectNode" />
@@ -430,12 +441,12 @@
       <workItem from="1521832316331" duration="21000" />
       <workItem from="1521832352134" duration="1000" />
       <workItem from="1523333030956" duration="517000" />
-      <workItem from="1523333690461" duration="4151000" />
+      <workItem from="1523333690461" duration="4336000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="92559000" />
+    <option name="totallyTimeSpent" value="92744000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -771,14 +782,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/cuts_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="5" lean-forward="false" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/f67040fe-e06f-4312-984a-1529097fcc57/console.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -837,8 +840,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/edits.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="152" column="60" lean-forward="false" selection-start-line="152" selection-start-column="60" selection-end-line="152" selection-end-column="60" />
+        <state relative-caret-position="332">
+          <caret line="49" column="24" lean-forward="false" selection-start-line="49" selection-start-column="12" selection-end-line="49" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/cuts_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="25" column="11" lean-forward="true" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
           <folding />
         </state>
       </provider>
