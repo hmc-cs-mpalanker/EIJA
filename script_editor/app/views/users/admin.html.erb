@@ -20,7 +20,7 @@ It can be found at app/views/users/show.html.erb -->
             <select onChange="window.location.href=this.value">
               <% groups = current_user.getGroups %>
               <% groups.uniq.each do |group| %>
-                  <option value="/edits/new/<%=group[1]%>"> <%= group[1]%> </option>
+                  <option value="/edits/new/<%=group[0]%>"> <%= group[0]%> </option>
               <% end %>
             </select>
             <TD ALIGN="center"></TD>
