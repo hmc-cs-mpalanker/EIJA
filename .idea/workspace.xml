@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="d7d13150-b167-4f02-924d-276058d3c599" name="Default" comment="" />
+=======
     <list default="true" id="d7d13150-b167-4f02-924d-276058d3c599" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/EIJA.iml" afterPath="$PROJECT_DIR$/.idea/EIJA.iml" />
       <change beforePath="$PROJECT_DIR$/script_editor/app/models/group.rb" afterPath="$PROJECT_DIR$/script_editor/app/models/group.rb" />
       <change beforePath="$PROJECT_DIR$/script_editor/db/schema.rb" afterPath="$PROJECT_DIR$/script_editor/db/schema.rb" />
     </list>
+>>>>>>> develop-dhruv2
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,6 +17,14 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="schema.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/script_editor/db/schema.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1071">
+=======
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
     <option name="GROUP_DATA_SOURCES" value="true" />
@@ -35,15 +47,60 @@
       <file leaf-file-name="group.rb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script_editor/app/models/group.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="83">
-              <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+<<<<<<< HEAD
+            <state relative-caret-position="224">
+              <caret line="15" column="30" lean-forward="false" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="routes.rb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script_editor/config/routes.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="23" lean-forward="false" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="registrations_controller.rb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script_editor/app/controllers/registrations_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="90">
+              <caret line="6" column="7" lean-forward="false" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
+=======
+            <state relative-caret-position="0">
+>>>>>>> develop-dhruv2
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
+=======
+            <state relative-caret-position="83">
+              <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+>>>>>>> develop-dhruv2
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <file leaf-file-name="routes.rb" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/ruby/gems/2.4.0/gems/devise-4.3.0/lib/devise/rails/routes.rb">
+=======
+<<<<<<< HEAD
+    </leaf>
+  </component>
+=======
+      <file leaf-file-name="20180326212555_add_user_ref_to_groups.rb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script_editor/db/migrate/20180326212555_add_user_ref_to_groups.rb">
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
+=======
       <file leaf-file-name="schema.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/script_editor/db/schema.rb">
+>>>>>>> develop-dhruv2
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="262">
               <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
@@ -80,6 +137,7 @@
       <find>hash</find>
     </findStrings>
   </component>
+>>>>>>> develop-dhruv2
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -140,6 +198,13 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+      <pane id="Scratches" />
+>>>>>>> develop-dhruv2
+=======
+>>>>>>> develop-dhruv2
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -162,6 +227,9 @@
               <item name="EIJA" type="b2602c69:ProjectViewProjectNode" />
               <item name="EIJA" type="462c0819:PsiDirectoryNode" />
               <item name="script_editor" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
+              <item name="db" type="462c0819:PsiDirectoryNode" />
+=======
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -201,19 +269,37 @@
               <item name="script_editor" type="462c0819:PsiDirectoryNode" />
               <item name="db" type="462c0819:PsiDirectoryNode" />
             </path>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> develop-dhruv2
             <path>
               <item name="EIJA" type="b2602c69:ProjectViewProjectNode" />
               <item name="EIJA" type="462c0819:PsiDirectoryNode" />
               <item name="script_editor" type="462c0819:PsiDirectoryNode" />
               <item name="db" type="462c0819:PsiDirectoryNode" />
               <item name="migrate" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
+>>>>>>> develop-dhruv2
             </path>
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
+=======
+            </path>
+>>>>>>> develop-dhruv2
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
+<<<<<<< HEAD
+<<<<<<< HEAD
       <pane id="Scratches" />
+=======
+>>>>>>> develop-dhruv2
+=======
+      <pane id="Scratches" />
+>>>>>>> develop-dhruv2
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -311,9 +397,13 @@
       <workItem from="1519429972567" duration="129000" />
       <workItem from="1519439134770" duration="2000" />
       <workItem from="1519439142029" duration="16000" />
+<<<<<<< HEAD
+      <workItem from="1522123580707" duration="24000" />
+=======
       <workItem from="1521832362685" duration="216000" />
       <workItem from="1522017417275" duration="5866000" />
       <workItem from="1522029988279" duration="4717000" />
+<<<<<<< HEAD
       <workItem from="1522098115124" duration="2655000" />
       <workItem from="1522120267331" duration="3377000" />
       <workItem from="1522127788524" duration="5374000" />
@@ -321,26 +411,67 @@
       <workItem from="1522347201504" duration="3340000" />
       <workItem from="1522779661342" duration="3176000" />
       <workItem from="1523047600095" duration="3151000" />
+<<<<<<< HEAD
+=======
+      <workItem from="1522098115124" duration="2470000" />
+>>>>>>> develop-dhruv2
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
+=======
       <workItem from="1523067092896" duration="415000" />
       <workItem from="1523067604753" duration="302000" />
       <workItem from="1523327907626" duration="3691000" />
+>>>>>>> develop-dhruv2
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36741000" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="32314000" />
+=======
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="175000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="722" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2657512" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+    <option name="totallyTimeSpent" value="13420000" />
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
+=======
+    <option name="totallyTimeSpent" value="36741000" />
+>>>>>>> develop-dhruv2
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1280" height="722" extended-state="0" />
+    <editor active="true" />
+    <layout>
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18336026" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27786753" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> develop-dhruv2
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
+=======
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30210015" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> develop-dhruv2
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15266559" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+=======
+>>>>>>> develop-dhruv2
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25767368" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -365,6 +496,52 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/script_editor/db/schema.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script_editor/db/migrate/20180326212818_add_admin.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script_editor/db/seeds.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2025">
+          <caret line="135" column="0" lean-forward="false" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script_editor/db/migrate/20180326212555_add_user_ref_to_groups.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="3" lean-forward="false" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script_editor/db/migrate/20180326211527_make_groups_table.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="3" lean-forward="false" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/script_editor/db/schema.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1071">
+=======
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
+=======
+>>>>>>> develop-dhruv2
     <entry file="file://$PROJECT_DIR$/script_editor/app/models/line.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -591,11 +768,18 @@
     <entry file="file://$PROJECT_DIR$/script_editor/app/models/application_record.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
+>>>>>>> develop-dhruv2
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file:///usr/local/lib/ruby/gems/2.4.0/gems/devise-4.3.0/app/controllers/devise/registrations_controller.rb">
+=======
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/script_editor/db/migrate/20180326212818_add_admin.rb">
+>>>>>>> 5aeebd85cb13c1b708e50332d4a60f4fed05ae7c
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
           <caret line="31" column="27" lean-forward="false" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
@@ -694,6 +878,7 @@
         </state>
       </provider>
     </entry>
+>>>>>>> develop-dhruv2
   </component>
   <component name="masterDetails">
     <states>
