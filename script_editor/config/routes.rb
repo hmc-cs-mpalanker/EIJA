@@ -16,8 +16,8 @@ Rails.application.routes.draw do
   #get '/makenewedit/:id' => 'edits#new'
   #get '/plays/show'
 
-  get '/edits/show/:GroupNum' => 'edits#show'
-  #this will need a GroupNum id after
+  get '/edits/show/:name' => 'edits#show'
+
   #get '/edits/compress'
 
   get '/edits/new/:id' =>'edits#new'
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
   #resources :update, defaults: { format: 'json' }
   get '/update/show' => 'update#show', defaults: { format: 'json' }
-  #post '/update/update_cuts' => 'update#update_cuts', defaults: { format: 'json' }
+  post '/update/update_cuts' => 'update#update_cuts', defaults: { format: 'json' }
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
