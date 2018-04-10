@@ -162,15 +162,14 @@ However, they both utilize the same .scss file. -->
 
           <TABLE BORDER="0">
               <TR>
-                  <% user = User.find(current_user) %>
-                  <TD class = "select"> <%=user.user_name %>'s Groups
+                  <TD class = "select"> <%=current_user.user_name %>'s Groups
                   <select onChange="window.location.href=this.value">
-                  <% groups = Group.all %> <!--list of user groups -->
-                  <% groups.each do |group| %>
-                    <% if group.groupNum == -1 %>
-                          <option value ="/edits/new/<%=user.id%>"> User Edit  </option>
+                  <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
+                  <% groups.uniq.each do |group| %>
+                    <% if group[1] == -1 %>
+                          <option value = "/edits/new/<%=current_user.id%>"> User Edit </option>
                     <% else %>
-                          <option value="/edits/show/<%=group.groupNum%>"> Group <%= group.groupNum %> </option>
+                          <option value="/edits/show/<%=group[1]%>"> Group <%= group[1]%> </option>
                     <% end %>
                   <% end %>
                   </select>

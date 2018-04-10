@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20180409223421) do
-=======
 ActiveRecord::Schema.define(version: 20180410033125) do
->>>>>>> develop-dhruv2
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
