@@ -8,31 +8,27 @@ class UpdateController < ApplicationController
 			#@cut_data= JSON.parse(params[:cut_data])
 			#puts @cut_data
     		#words = [{word_id: 1,text: 'foo'}, {word_id: 2, text: 'bar'}, {word_id: 3, text: 'cow'}]
-    		words = {
-    			"cuts": 
-    				[
+    		cuts = {
     					"1": 
-    						{text:'foo'}, 
+              				{text: 'foo'}, 
     					"2": 
-    						{text:'bar'}, 
+    						{text: 'bar'}, 
     					"3": 
-    						{text:'cow'}
-    				], 
-    				uncuts:
-    				[
+    						{text: 'cow'}
+    				} 
+    		uncuts = {
     					"1": 
     						{text: 'me'}, 
     					"2": 
     						{text: 'you'}
-    				]
     			}
-    		format.json  { render :json => words } 
+    		format.json  { render :json => cuts} 
     	end
   	end
 
   	def update_cuts
   		params[:id].split(',').map(&:to_i).each do |id|
-        Window.find(id).update params[:cuts][id]
+        Update.find(id).update params[:cuts][id]
     end
   	end
 end

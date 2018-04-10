@@ -7,20 +7,34 @@ It can be found at app/views/users/show.html.erb -->
 
 <!-- This will display the name of the current user. -->
 <h1><%= @user.user_name%>'s Admin Page</h1>
-<TABLE BORDER="0">
-    <TR>
-        <TD class = "select">Student Groups
-        <select onChange="window.location.href=this.value">
-        <% groups = Group.all %>
-        <% groups.each do |group| %>
-                <option value="www.google.com"> <%= group.id =%> </option>
-        <% end %>
-        </select>
-        <TD ALIGN="center"></TD>
-        </TD>
-    </TR>
+
+<div class="popup" onclick="createGroup()">Create Group
+  <span class="popuptext" id="groupPopup">Here is where a group will be created</span>
+</div>
+
+<div>
+  <TABLE BORDER="0">
+      <TR>
+          <TD class = "select">Student Groups
+            <select onChange="window.location.href=this.value">
+              <% groups = Group.all %>
+              <% groups.each do |group| %>
+                  <option value="/edits/new"> <%= group.groupNum =%> </option>
+              <% end %>
+            </select>
+            <TD ALIGN="center"></TD>
+          </TD>
+      </TR>
 </TABLE>
 
 <div class="group-info" id="groupInfo">
 
 </div>
+
+// When the user clicks on <div>, open the popup
+<script>
+function createGroup() {
+    var popup = document.getElementById("groupPopup");
+    popup.classList.toggle("show");
+}
+</script>
