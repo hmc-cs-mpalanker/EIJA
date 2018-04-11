@@ -13,14 +13,14 @@ Rails.application.routes.draw do
 
   get '/users/:id' => 'users#show', :as => :user
   get '/admin/:id' => 'users#admin', :as => :admin
-  #get '/makenewedit/:id' => 'edits#new'
+  get '/makenewedit/:id' => 'edits#new'
   #get '/plays/show'
 
-  get '/edits/show/:name' => 'edits#show'
+  get '/edits/show/:play_id/:group_name' => 'edits#show'
 
   #get '/edits/compress'
 
-  get '/edits/:id' =>'edits#new'
+  get '/edits/:play_id/:user_id' =>'edits#new'
   get 'home/homepage'
   root 'home#homepage'
   get 'pages/about'

@@ -1,8 +1,8 @@
 require 'nokogiri'
 require 'open-uri'
 class EditsController < ApplicationController
+  before_action :authenticate_user!
   def show
-    # @edit = Edit.find(params[:id])
     # @play = @edit.play
     # @acts = Act.joins(:play).where(:play_id => @play.id).order(:number)
     # @relCuts = Cut.where(:edit_id => @edit.id).pluck(:word_id).to_a.to_set
@@ -32,18 +32,4 @@ class EditsController < ApplicationController
     @link = "/edits/" + (@user.id.to_s)
     redirect_to @link
   end
-
-  def update
-        respond_to do |format|
-            cuts =  {
-                    "meta" => {
-                        "playID" => "1", #should not be hardcoded
-                        "editID" => "1" #Xans gon take u Xans gonna betray u
-                    },
-                    "payload" => { "cut" => [5,6,7],
-                                  "uncut" => [8,9,10]}
-                    }
-            format.json  { render :json => cuts} 
-        end
-    end
 end
