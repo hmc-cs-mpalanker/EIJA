@@ -5,30 +5,23 @@ class UpdateController < ApplicationController
 
 	def show
 		respond_to do |format|
-			#@cut_data= JSON.parse(params[:cut_data])
-			#puts @cut_data
-    		#words = [{word_id: 1,text: 'foo'}, {word_id: 2, text: 'bar'}, {word_id: 3, text: 'cow'}]
-    		cuts = {
-    					"1": 
-              				{text: 'foo'}, 
-    					"2": 
-    						{text: 'bar'}, 
-    					"3": 
-    						{text: 'cow'}
-    				} 
-    		uncuts = {
-    					"1": 
-    						{text: 'me'}, 
-    					"2": 
-    						{text: 'you'}
-    			}
+    		cuts = 	{
+			        "meta" => {
+			            "playID" => "1", #should not be hardcoded
+			            "editID" => "1" #Xans gon take u Xans gonna betray u
+			        },
+			        "payload" => { "cut" => [5,6,7],
+								  "uncut" => [8,9,10]}
+				    }
     		format.json  { render :json => cuts} 
+
+    	#cuts = Net::HTTP.get(URI.parse("/cuts/new"))
+    	#puts cuts
     	end
   	end
 
   	def update_cuts
-  		params[:id].split(',').map(&:to_i).each do |id|
-        Update.find(id).update params[:cuts][id]
-    end
   	end
 end
+
+

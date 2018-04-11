@@ -16,6 +16,7 @@ $(function() {
     });
     analytics();
     renderScene();
+    iuUpdate();
     // detectCut();
     // $(document).on("mousedown", '.word', function(event) {
     //     console.log("down Detected");
@@ -248,8 +249,56 @@ function sendPayload() {
  * updates UI based on server response and or the payload I havent decied yet
  */
 function iuUpdate() {
+    // $.ajax({
+    // url: '/update/update_cuts',
+    // data: JSON.stringify(out),
+    // type: 'POST',
+    // cache: false,
+    // success: function(data) {
+    //     console.log("success")
+    // },
+    // error: function() {
+    //   console.log("error")
+    // }
+    // });
+    // $.get('/update/show')//get HTML to insert
+    //         .done(function(data)
+    //         {
+    //             console.log(data);
+    //             for (i = 0; i < data.payload.cut.length; i++) {
+    //                 var CutId = data.payload.cut[i];
+    //                 console.log($("#" + CutId));
+    //                 $("#" + CutId).addClass("del");
+    //             }
+    //             for (i = 0; i < data.payload.uncut.length; i++) {
+    //                 var UncutId = data.payload.uncut[i];
+    //                 console.log($("#" + UncutId));
+    //                 $("#" + UncutId).removeClass("del");
+    //             }
+    //             //gets the data once you have the data
+    //             //parse the object and update words be adding or removing
+    //             //del class for cut or uncut
+    //         });
+    // }
 
+    console.log(out);
+    if (out["meta"]["cutOrUncut"]) {
+        for (i = 0; i < out["payload"].length; i++) {
+            var CutId = out["payload"][i];
+            console.log($("#" + CutId));
+            $("#" + CutId).addClass("del");
+        }
+    }
+    else{
+        for (i = 0; i < out["payload"].length; i++) {
+            var UncutId = out["payload"][i];
+            console.log($("#" + UncutId));
+            $("#" + UncutId).removeClass("del");
+        }
+    }
 }
+
+
 
 
 /* When the user clicks on the button, 

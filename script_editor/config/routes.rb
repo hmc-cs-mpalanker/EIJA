@@ -31,8 +31,7 @@ Rails.application.routes.draw do
   get '/script/:charecterName' => 'lines#script'
 
   #resources :update, defaults: { format: 'json' }
+  post 'update/update_cuts' => 'update#update_cuts', defaults: { format: 'json' }
   get '/update/show' => 'update#show', defaults: { format: 'json' }
-  post '/update/update_cuts' => 'update#update_cuts', defaults: { format: 'json' }
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

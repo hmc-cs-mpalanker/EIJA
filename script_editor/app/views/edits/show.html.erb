@@ -168,6 +168,7 @@ However, they both utilize the same .scss file. -->
               font-size: 16px;
               border: none;
               cursor: pointer;
+              position: fixed
           }
 
           .dropbtn:hover, .dropbtn:focus {
@@ -175,7 +176,7 @@ However, they both utilize the same .scss file. -->
           }
 
           .dropdown {
-              position: relative;
+              position: sticky;
               display: inline-block;
           }
 
@@ -220,7 +221,7 @@ However, they both utilize the same .scss file. -->
           <script>
           /* When the user clicks on the button,
           toggle between hiding and showing the dropdown content */
-          function myFunction() {
+          function groupDropdown() {
               document.getElementById("myDropdown").classList.toggle("show");
           }
 
