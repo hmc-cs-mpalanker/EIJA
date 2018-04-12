@@ -1,6 +1,8 @@
 require 'nokogiri'
 
 class EditsController < ApplicationController
+  before_action :authenticate_user!
+
   def show
     # @edit = Edit.find(params[:id])
     # @play = @edit.play
