@@ -6,21 +6,21 @@ class UpdateController < ApplicationController
 	end
 
 	def show
-		edit = Edit.find(:editID).includes(:cuts)
-		cuts = edit.cuts
+		edit_id = params[:meta][:editID]
+		cuts = Cut.find_by_sql(["Select word_id from Cuts where edit_id = ? and created_at > ?",edit_id, Time.now-5.minutes]).map{|x| x.word_id}
+		uncuts = Uncut.find_by_sql(["Select word_id from Uncuts where edit_id = ? and created_at > ?",edit_id, Time.now-5.minutes]).map{|x| x.word_id}
+		# puts "#{cuts}"
+		# puts "#{uncuts.map{|x| x.word_id}}"
+		# puts "#{cuts.map{|x| x.word_id} }"
 		respond_to do |format|
     		cuts = 	{
 			        "meta" => {
-			            "playID" => "1", #should not be hardcoded
-			            "editID" => "1" #Xans gon take u Xans gonna betray u
+			            "editID" => params[:meta][:editID] #Xans gon take u Xans gonna betray u
 			        },
-			        "payload" => { "cut" => [5,6,7],
-								  "uncut" => [8,9,10]}
+			        "payload" => { "cut" => [33,34,35],
+								  "uncut" => [3,4 ,5]}
 				    }
-    		format.json  { render :json => @update} 
-
-    	#cuts = Net::HTTP.get(URI.parse("/cuts/new"))
-    	puts cuts
+    		format.json  { render :json => cuts} 
     	end
   	end
 

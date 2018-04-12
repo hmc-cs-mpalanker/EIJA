@@ -11,6 +11,9 @@ It can be found at app/views/users/show.html.erb -->
 <br> <br>
 <p>
   <div class = "profile-display">
+<% if current_user.try(:admin?) %>
+ <a href="/admin/<%=current_user.id%>" class="button">Admin Page</a>
+<%end%>
 <table style="width:30%">
  <tr class = "user_field">
    <td><strong>Name:</strong></td>

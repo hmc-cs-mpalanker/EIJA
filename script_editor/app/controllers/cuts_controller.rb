@@ -29,7 +29,7 @@ class CutsController < ApplicationController
 					# get the cut data-entry with the appropriate entries
 					#  delete it from the DB
 					@cut = Cut.where(edit_id: 1,word_id: wordID).first.delete
-
+					uncut = Uncut.create(edit_id: 1, word_id: wordID)
 					# increment the line-length
 					@word = @cut.word
 					@line = @word.line

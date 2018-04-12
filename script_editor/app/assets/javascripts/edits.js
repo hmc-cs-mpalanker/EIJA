@@ -16,6 +16,7 @@ $(function() {
     });
     analytics();
     renderScene();
+    iuUpdate();
     //iuUpdate();
     // detectCut();
     // $(document).on("mousedown", '.word', function(event) {
@@ -100,18 +101,7 @@ function renderScene()
     })
 
 };
-function renderHelper(scenceId) {
-    $.get('/scene_render/' + scenceId)//get HTML to insert
-        .done(function(data)
-        {
-            // console.log(data);
-            var play =$("#PlaySection");
-            console.log(play);
-            play.html("");//clear previous data
-            play.html(data);//load new scene
-            detectSelections(); // bind to scence
-        });
-}
+
 
 /**
  * This method handels detecting what selection the user is making
@@ -250,53 +240,48 @@ function sendPayload() {
  * updates UI based on server response and or the payload I havent decied yet
  */
 function iuUpdate() {
-    // $.ajax({
-    // url: '/update/update_cuts',
-    // data: JSON.stringify(out),
-    // type: 'POST',
-    // cache: false,
-    // success: function(data) {
-    //     console.log("success")
-    // },
-    // error: function() {
-    //   console.log("error")
-    // }
-    // });
-    $.get('/update/show')//get HTML to insert
-            .done(function(data)
-            {
-                console.log(data);
-                for (i = 0; i < data.payload.cut.length; i++) {
-                    var CutId = data.payload.cut[i];
+    console.log($(".playEditId"));
+    $.ajax({
+        method: "POST",
+        url: '/update/show',
+        data: {
+            "meta": {
+                "editID" : $(".playEditId")[0].id,
+                "sceneID" : 1 //FIX ME ALASDAIR IS LAZY
+            }
+        }
+    }).done(function(data){
+            console.log("success");
+            renderHelper(data);
+    });
+
+
+    }
+
+/*
+ * I just want feel liberated
+ * this method will take in a edits payload from the 
+ * update controller and then will render the updates
+ * from the cuts and uncuts onto the page
+*/
+
+function renderHelper(uiUpdatesResponse) {
+                console.log(uiUpdatesResponse);
+                var payload = uiUpdatesResponse["payload"];
+                console.log(payload);
+                for (i = 0; i < payload["cut"].length; i++) {
+                    var CutId = payload["cut"][i];
                     console.log($("#" + CutId));
                     $("#" + CutId).addClass("del");
                 }
-                for (i = 0; i < data.payload.uncut.length; i++) {
-                    var UncutId = data.payload.uncut[i];
+                for (i = 0; i < payload["uncut"].length; i++) {
+                    var UncutId = payload["uncut"][i];
                     console.log($("#" + UncutId));
                     $("#" + UncutId).removeClass("del");
                 }
-                //gets the data once you have the data
-                //parse the object and update words be adding or removing
-                //del class for cut or uncut
-            });
-    }
 
-    // console.log(out);
-    // if (out["meta"]["cutOrUncut"]) {
-    //     for (i = 0; i < out["payload"].length; i++) {
-    //         var CutId = out["payload"][i];
-    //         console.log($("#" + CutId));
-    //         $("#" + CutId).addClass("del");
-    //     }
-    // }
-    // else{
-    //     for (i = 0; i < out["payload"].length; i++) {
-    //         var UncutId = out["payload"][i];
-    //         console.log($("#" + UncutId));
-    //         $("#" + UncutId).removeClass("del");
-    //     }
-    // }
+}
+
 
 
 
