@@ -378,6 +378,8 @@ class Line < ApplicationRecord
   def getCueScript(sceneID, speaker)
     result = []
 
+    hasSpeaker = false
+
     blocks = getActScene(sceneID)
 
     (0...blocks.length).each do |i|
@@ -392,6 +394,7 @@ class Line < ApplicationRecord
         result.append(i1)
 
       elsif curr_block[0] == speaker
+        hasSpeaker = true
         #### the previous-speaker ####
         val = (i - 1)
         if val >= 0 and blocks[val][0] != "STAGE"
@@ -406,7 +409,7 @@ class Line < ApplicationRecord
 
           # the last line removed as per Client request
           # last_line.each do |lol|
-          #   last_line_wds.append(lol[1])
+          #   last_line_wds.append(lol[1])x
           # end
           # prev_sentence = last_line_wds.join(" ")
 
@@ -424,7 +427,11 @@ class Line < ApplicationRecord
       end
     end
 
-    return result
+    if hasSpeaker
+      return result
+    else
+      return []
+    end
   end
 
   # a wrapper function to generate Cue-scripts

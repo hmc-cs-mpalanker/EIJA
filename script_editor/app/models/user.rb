@@ -1,14 +1,12 @@
 class User < ApplicationRecord
-  has_many :memberships
-  has_many :groups, through: :memberships
+
+  # a call-back after User object initialization via registrations_controller
+  after_create :addUserGroupRelation
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-
-  # a call-back after User object initialization via registrations_controller
-  after_create :addUserGroupRelation
 
   def addUserGroupRelation
     group_record = Group.create(groupNum: -1, user_id: self.id)

@@ -16,6 +16,8 @@ $(function() {
     });
     analytics();
     renderScene();
+    iuUpdate();
+    //iuUpdate();
     // detectCut();
     // $(document).on("mousedown", '.word', function(event) {
     //     console.log("down Detected");
@@ -94,12 +96,13 @@ function renderScene()
     $(".sceneMenu").click(function () {
         console.log(this.id);
         var scenceId = this.id.slice(5); //slices off scene of scene2 to give 2 or other number
-        console.log( scenceId);
-        renderHelper(scenceId);
+        console.log(scenceId);
+        ScenerenderHelper(scenceId);
     })
 
 };
-function renderHelper(scenceId) {
+
+function ScenerenderHelper(scenceId) {
     $.get('/scene_render/' + scenceId)//get HTML to insert
         .done(function(data)
         {
@@ -110,7 +113,6 @@ function renderHelper(scenceId) {
             detectSelections(); // bind to scence
         });
 }
-
 /**
  * This method handels detecting what selection the user is making
  * to the text so if they want to cut we need to know what they are selecting
@@ -248,9 +250,72 @@ function sendPayload() {
  * updates UI based on server response and or the payload I havent decied yet
  */
 function iuUpdate() {
+    console.log($(".playEditId"));
+    $.ajax({
+        method: "POST",
+        url: '/update/show',
+        data: {
+            "meta": {
+                "editID" : $(".playEditId")[0].id,
+                "sceneID" : 1 //FIX ME ALASDAIR IS LAZY
+            }
+        }
+    }).done(function(data){
+            console.log("success");
+            renderHelper(data);
+    });
+
+
+    }
+
+/*
+ * I just want feel liberated
+ * this method will take in a edits payload from the 
+ * update controller and then will render the updates
+ * from the cuts and uncuts onto the page
+*/
+
+function renderHelper(uiUpdatesResponse) {
+                console.log(uiUpdatesResponse);
+                var payload = uiUpdatesResponse["payload"];
+                console.log(payload);
+                for (i = 0; i < payload["cut"].length; i++) {
+                    var CutId = payload["cut"][i];
+                    console.log($("#" + CutId));
+                    $("#" + CutId).addClass("del");
+                }
+                for (i = 0; i < payload["uncut"].length; i++) {
+                    var UncutId = payload["uncut"][i];
+                    console.log($("#" + UncutId));
+                    $("#" + UncutId).removeClass("del");
+                }
 
 }
 
+
+
+
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function groupDropdown() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 //work on how to build payload
 
     // $(".PlaySection").mousedown(function () {
