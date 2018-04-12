@@ -691,8 +691,18 @@ class Line < ApplicationRecord
   #                        the second element is the 2D matrix
   def charFeatureWrapper
     resultArr = []
+
     # index 1 of matching arr is the sorted list of speakers
-    resultArr[0] = matching[1]
+    sortedSet = matching[1]
+    # convert the sorted set into an array to index easily
+    # for front-end rendering
+    arr = []
+
+    sortedSet.each do |elem|
+      arr << elem
+    end
+
+    resultArr[0] = arr
     # the r,c characters are indices of the sorted list of speakers
     resultArr[1] = charMatrix
     return resultArr
