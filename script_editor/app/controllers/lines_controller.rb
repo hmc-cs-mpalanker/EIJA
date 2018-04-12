@@ -29,26 +29,26 @@ class LinesController < ApplicationController
 
     # render :layout => false
     # l = Line.new
-    speakers = l.getAllSpeakers.keys
-    @hash = l.getAllSpeakers
-    key = params[:id]
+    # speakers = l.getAllSpeakers.keys
+    # @hash = l.getAllSpeakers
+    # key = params[:id]
     #key = key.gsub(" ", "").upcase
 
-    key = params[:charecterName]
+    # key = params[:charecterName]
     # key = key.gsub(" ", "").upcase
     #
-    if speakers.include?(key)
-      val = @hash[key]
-      @queScript = l.selectCueScript(val)
-      @character = key
-      @queScript.each do |p|
-        puts "#{p}"
-      end
+    # if speakers.include?(key)
+    #   val = @hash[key]
+      @queScript = l.getAllCueScript(params[:charecterName])
+      # @character = key
+      # @queScript.each do |p|
+      #   puts "#{p}"
+      # end
       puts "#{params[:charecterName]}"
-    else
-      flash[:error] = "Incorrect speaker name"
-      # redirect_to :line => 'show'
-    end
+    # else
+    #   flash[:error] = "Incorrect speaker name"
+    #   # redirect_to :line => 'show'
+    # end
 
   end
 
