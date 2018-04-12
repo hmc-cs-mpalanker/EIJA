@@ -494,10 +494,11 @@ class Line < ApplicationRecord
   ################ Main function for Cue-script generation ##############
 
   # input: speaker: speaker Name
-  # output: Hash, Key: scene-id, value: LOL [speaker,[lines]]
+  # output: Hash, Key: [actId,sceneId], value: LOL [speaker,[lines]]
   def getAllCueScript(speaker)
+
     sceneIDs = getAllScenes
-    # sceneIDs = [1,2,3,4]
+
 
     dbSpeaker = getAllSpeakers[speaker]
 
@@ -509,6 +510,26 @@ class Line < ApplicationRecord
     end
 
     result = Hash[result.sort]
+
+    # hard-coded for the current play
+    acts = Act.where(play_id: 1)
+
+    for i in 0 ... acts.size
+      aID = acts[i].id
+
+      scenes = Scene.where(act_id: aID)
+
+      # use j as proxy for sceneID
+      for j in 0...scenes.size
+        sID = scenes[j].id
+        # puts "THE ACT IS: #{aID} THE SCENE IS: #{sID}"
+
+        key = [aID,j+1]
+        result[key] = result[sID]
+        result.delete(sID)
+      end
+    end
+
     return result
   end
 
