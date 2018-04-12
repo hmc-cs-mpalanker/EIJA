@@ -70,7 +70,7 @@ However, they both utilize the same .scss file. -->
     </div>
 
 
-      <span id=<%=@edit.id %> class="playEditId"></span> 
+      <span id=<%=@edit.id %> class="playEditId"></span>
       <div class="row" id="collapseExample">
         <div class="col-sm-3 bd-sidebar sidebar fixed-top " id="sidebar">
           <div class="accordion">
@@ -101,8 +101,8 @@ However, they both utilize the same .scss file. -->
         </div>
         <div class="col-sm-6" id="PlaySection">
         <!--this area displays the script itself-->
-        <h4 style="margin-left: 10px"> Act 1 :</h4>
-        <h6 style="margin-left: 10px"> Scene 1</h6>
+        <h4 style="margin-left: 10px" id="actName"> Act 1 :</h4>
+        <h6 style="margin-left: 10px" id="sceneName"> Scene 1</h6>
 
             <% lineNum = 1 %>
             <% @scene.each do |lineGroup| %>

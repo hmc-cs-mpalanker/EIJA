@@ -97,12 +97,22 @@ function renderScene()
         console.log(this.id);
         var scenceId = this.id.slice(5); //slices off scene of scene2 to give 2 or other number
         console.log(scenceId);
-        renderHelper(scenceId);
+        ScenerenderHelper(scenceId);
     })
 
 };
 
-
+function ScenerenderHelper(scenceId) {
+    $.get('/scene_render/' + scenceId)//get HTML to insert
+        .done(function(data)
+        {
+            // console.log(data);
+            var play =$("#PlaySection");
+            play.html("");//clear previous data
+            play.html(data);//load new scene
+            detectSelections(); // bind to scence
+        });
+}
 /**
  * This method handels detecting what selection the user is making
  * to the text so if they want to cut we need to know what they are selecting
