@@ -2,6 +2,10 @@ require 'nokogiri'
 require 'open-uri'
 class EditsController < ApplicationController
   before_action :authenticate_user!
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop-dhruv2
   def show
     @edit = Edit.find(params[:id])
 
@@ -27,6 +31,9 @@ class EditsController < ApplicationController
   end
   def new
     @play = Play.find(params[:id])
+
+    @name = session[:user_id]
+
     @user = current_user
     @edit = Edit.create({:user_id => @user.id, :play_id => @play.id})
     # @link = "/edits/" + (@edit.id.to_s)

@@ -378,6 +378,8 @@ class Line < ApplicationRecord
   def getCueScript(sceneID, speaker)
     result = []
 
+    hasSpeaker = false
+
     blocks = getActScene(sceneID)
 
     (0...blocks.length).each do |i|
@@ -392,6 +394,7 @@ class Line < ApplicationRecord
         result.append(i1)
 
       elsif curr_block[0] == speaker
+        hasSpeaker = true
         #### the previous-speaker ####
         val = (i - 1)
         if val >= 0 and blocks[val][0] != "STAGE"
@@ -406,7 +409,7 @@ class Line < ApplicationRecord
 
           # the last line removed as per Client request
           # last_line.each do |lol|
-          #   last_line_wds.append(lol[1])
+          #   last_line_wds.append(lol[1])x
           # end
           # prev_sentence = last_line_wds.join(" ")
 
@@ -424,7 +427,11 @@ class Line < ApplicationRecord
       end
     end
 
-    return result
+    if hasSpeaker
+      return result
+    else
+      return []
+    end
   end
 
   # a wrapper function to generate Cue-scripts
@@ -446,7 +453,7 @@ class Line < ApplicationRecord
   # input : LOL where the first item is  the speaker and the second item is a list of sentences
   # output: print to terminal/views to display data
   def printCueScipt
-    lol = selectCueScript
+    lol = selectCueScript("\nFIRST\n \nMERCHANT\n")
     puts "Printing starts ...."
 
     lol.each do |elem|
@@ -489,39 +496,48 @@ class Line < ApplicationRecord
     return sceneIDs
   end
 
+
+
+  ################ Main function for Cue-script generation ##############
+
   # input: speaker: speaker Name
-  # output: Hash, Key: scene-id, value: LOL [speaker,[lines]]
+  # output: Hash, Key: [actId,sceneId], value: LOL [speaker,[lines]]
   def getAllCueScript(speaker)
+
     sceneIDs = getAllScenes
+
+
+    dbSpeaker = getAllSpeakers[speaker]
+
     result = {}
 
     sceneIDs.each do |sceneID|
-      val = getCueScript(sceneID, speaker)
+      val = getCueScript(sceneID, dbSpeaker)
       result[sceneID] = val
     end
 
     result = Hash[result.sort]
-    return result
-  end
 
-  # to research :: for parsing error
-  def debug
-    arr = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number ASC", 2]
+    # hard-coded for the current play
+    acts = Act.where(play_id: 1)
 
-    count = 0
+    for i in 0 ... acts.size
+      aID = acts[i].id
 
-    for i in 1...arr.length do
+      scenes = Scene.where(act_id: aID)
 
-      prev = arr[i - 1]
-      curr = arr[i]
-      if prev.number != nil and curr.number != nil
-        if prev.number > curr.number
-          count += 1
-        end
+      # use j as proxy for sceneID
+      for j in 0...scenes.size
+        sID = scenes[j].id
+        # puts "THE ACT IS: #{aID} THE SCENE IS: #{sID}"
+
+        key = [aID,j+1]
+        result[key] = result[sID]
+        result.delete(sID)
       end
     end
 
-    return count
+    return result
   end
 
 
@@ -682,8 +698,18 @@ class Line < ApplicationRecord
   #                        the second element is the 2D matrix
   def charFeatureWrapper
     resultArr = []
+
     # index 1 of matching arr is the sorted list of speakers
-    resultArr[0] = matching[1]
+    sortedSet = matching[1]
+    # convert the sorted set into an array to index easily
+    # for front-end rendering
+    arr = []
+
+    sortedSet.each do |elem|
+      arr << elem
+    end
+
+    resultArr[0] = arr
     # the r,c characters are indices of the sorted list of speakers
     resultArr[1] = charMatrix
     return resultArr

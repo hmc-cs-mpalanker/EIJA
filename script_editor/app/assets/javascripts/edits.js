@@ -76,7 +76,7 @@ function analytics() {
 
 /**
  * Analytics bind
- * so this will bind the button to foward you to the appropriate que script 
+ * so this will bind the button to forward you to the appropriate que script
  * the musics load and im feeling load, If I break your heart Im a dumb dude
  */
 

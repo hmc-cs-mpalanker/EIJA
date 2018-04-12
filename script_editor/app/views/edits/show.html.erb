@@ -54,7 +54,7 @@ However, they both utilize the same .scss file. -->
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Generate Cue Script</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" style="">Character Realiton Analytics</a>
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" style="">Character Relation Analytics</a>
               </li>
               <li class="nav-item my-2 my-lg-0">
                 <button type="button" class="close noMargin" data-dismiss="modal" aria-label="Close">
@@ -162,6 +162,7 @@ However, they both utilize the same .scss file. -->
 
         <div class="col-sm-3">
           <!--additional space if we want to put anything on the left -->
+<<<<<<< HEAD
           </head>
           <body>
           <div class="dropdown">
@@ -202,6 +203,26 @@ However, they both utilize the same .scss file. -->
           }
           </script>
 
+=======
+          <TABLE BORDER="0">
+            <TR>
+              <TD class = "select"> <%=current_user.user_name %>'s Groups
+                <select onChange="window.location.href=this.value">
+                  <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
+                  <% groups.uniq.each do |group| %>
+                    <% if group[1] == -1 %>
+                      <option value = "/edits/new/<%=current_user.id%>"> User Edit </option>
+                    <% else %>
+                      <option value="/edits/show/<%=group[0]%>"> Group <%= group[0]%> </option>
+                    <% end %>
+                  <% end %>
+                </select>
+              <TD ALIGN="center"></TD>
+              </TD>
+            </TR>
+          </TABLE>
+>>>>>>> develop-dhruv2
+
 
         </div>
 
@@ -237,18 +258,6 @@ However, they both utilize the same .scss file. -->
 
 
     <!--</div>-->
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
 
