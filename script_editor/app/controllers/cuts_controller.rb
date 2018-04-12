@@ -7,7 +7,6 @@ class CutsController < ApplicationController
 		# at runtime can know the current User
     # userID = current_user.id
     # puts " THE USER ID IS :: #{userID}"
-
 		cutAndUncut(params[:payload],params[:meta][:cutOrUncut],1)
   end
 

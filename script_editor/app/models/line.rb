@@ -446,7 +446,7 @@ class Line < ApplicationRecord
   # input : LOL where the first item is  the speaker and the second item is a list of sentences
   # output: print to terminal/views to display data
   def printCueScipt
-    lol = selectCueScript
+    lol = selectCueScript("\nFIRST\n \nMERCHANT\n")
     puts "Printing starts ...."
 
     lol.each do |elem|
@@ -489,39 +489,27 @@ class Line < ApplicationRecord
     return sceneIDs
   end
 
+
+
+  ################ Main function for Cue-script generation ##############
+
   # input: speaker: speaker Name
   # output: Hash, Key: scene-id, value: LOL [speaker,[lines]]
   def getAllCueScript(speaker)
     sceneIDs = getAllScenes
+    # sceneIDs = [1,2,3,4]
+
+    dbSpeaker = getAllSpeakers[speaker]
+
     result = {}
 
     sceneIDs.each do |sceneID|
-      val = getCueScript(sceneID, speaker)
+      val = getCueScript(sceneID, dbSpeaker)
       result[sceneID] = val
     end
 
     result = Hash[result.sort]
     return result
-  end
-
-  # to research :: for parsing error
-  def debug
-    arr = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number ASC", 2]
-
-    count = 0
-
-    for i in 1...arr.length do
-
-      prev = arr[i - 1]
-      curr = arr[i]
-      if prev.number != nil and curr.number != nil
-        if prev.number > curr.number
-          count += 1
-        end
-      end
-    end
-
-    return count
   end
 
 
