@@ -1,6 +1,9 @@
 <% content_for :head do %>
   <%= stylesheet_link_tag "edits.scss" -%>
 <% end %>
+
+
+
 <% @queScript.each do |actScene, scene| %>
   <h4>Act : <%= actScene[0] %></h4>
   <h5>Scene : <%= actScene[1] %></h5>

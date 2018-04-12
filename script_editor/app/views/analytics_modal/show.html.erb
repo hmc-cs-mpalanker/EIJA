@@ -38,33 +38,41 @@
 
   </div>
   <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
-
-
-
-
-    <% @matrixData[0].each do |obj|%>
-     <%= obj %>
-      <br>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <% @matrixData[0].each do |charName|%>
+          <th scope="col" style="font-size: 10px"><%= charName %></th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% @matrixData[1].each_with_index do |rowArr , index|%>
+        <tr>
+          <th scope="row" style="font-size: 10px"><%= @matrixData[0][index] %></th>
+          <% rowArr.each do |data|%>
+            <td><%= data %></td>
+          <% end %>
+        </tr>
       <% end %>
-    <% proHaxz = @matrixData[1].zip(b@matrixData[0]) %>
-    <%=proHaxz %>
+      </tbody>
+    </table>
+
+
+
+
 
     <% if false %>
 
-      <% @matrixData[1].each_with_index do |obj , index|%>
-        <%= obj %>
-        <%= @matrixData[0].values_at(0) %>
-        <br>
-      <% end %>
+
       <%= @matrixData[0] %>
-      <table class="table table-bordered">
+
         <% @matrixData.each do |obj|%>
           <!--so becuase of the data structer that we choose this coode is hella hacky but hell shit happens -->
           <% obj.each do |inner|%>
             <!--terrible var names I know-->
-            <thead>
-            <tr>
+
 
 
               <% if inner.class == String %>
@@ -103,7 +111,7 @@
           <td>@fat</td>
         </tr>
         <tr>
-          <th scope="row">3</th>
+
           <td colspan="2">Larry the Bird</td>
           <td>@twitter</td>
         </tr>
