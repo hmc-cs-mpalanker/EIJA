@@ -17,8 +17,8 @@ class UpdateController < ApplicationController
 			        "meta" => {
 			            "editID" => params[:meta][:editID] #Xans gon take u Xans gonna betray u
 			        },
-			        "payload" => { "cut" => [33,34,35],
-								  "uncut" => [3,4 ,5]}
+			        "payload" => { "cut" => cuts,
+								  "uncut" => uncuts}
 				    }
     		format.json  { render :json => cuts} 
     	end
