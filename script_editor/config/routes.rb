@@ -16,11 +16,12 @@ Rails.application.routes.draw do
   get '/makenewedit/:id' => 'edits#new'
   #get '/plays/show'
 
-  get '/edits/show/:play_id/:group_name' => 'edits#show'
+  get '/edits/show/:id/:name' => 'edits#show'
 
   #get '/edits/compress'
 
-  get '/edits/:play_id/:user_id' =>'edits#new'
+  get '/edits/:id/:user_id' =>'edits#new'
+
   get 'home/homepage'
   root 'home#homepage'
   get 'pages/about'

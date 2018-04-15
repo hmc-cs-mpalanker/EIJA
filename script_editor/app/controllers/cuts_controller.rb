@@ -2,7 +2,6 @@ require 'json'
 
 
 class CutsController < ApplicationController
-<<<<<<< HEAD
   def new
 		puts "start"
 		puts "#{params[:payload]}"
@@ -46,9 +45,6 @@ class CutsController < ApplicationController
 					end
 			end
 		end
-=======
->>>>>>> develop-dhruv2
-
   def new
 		# at runtime can know the current User
     # userID = current_user.id
@@ -83,7 +79,7 @@ class CutsController < ApplicationController
 
   def cutAndUncut(payload, binOpt, editId)
 
-    for wordID in  payload do
+    for wordID in payload do
 
       if binOpt == "true"
 

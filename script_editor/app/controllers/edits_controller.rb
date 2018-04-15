@@ -2,10 +2,6 @@ require 'nokogiri'
 require 'open-uri'
 class EditsController < ApplicationController
   before_action :authenticate_user!
-<<<<<<< HEAD
-=======
-
->>>>>>> develop-dhruv2
   def show
     @edit = Edit.find(params[:id])
 

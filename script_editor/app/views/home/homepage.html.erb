@@ -72,7 +72,7 @@ It can be found at app/views/home/homepage.html.erb -->
 		<% @plays = Play.where(:category => 1) %>
 		<% @plays.each do |play| %>
 			<li class = "play-title">
-				<%= link_to play.title, edit_path(play)%>
+				<%= link_to play.title, edit_path(id: play.id)%>
 			</li><br>
 		<% end %>
 	</ul>
@@ -83,7 +83,8 @@ It can be found at app/views/home/homepage.html.erb -->
 			<% @plays = Play.where(:category => 0) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, edit_path(play)%>
+					<%= link_to play.title, edit_path(id: play.id)%>
+					<%= current_user.id%>
 				</li><br>
 			<% end %>
 		</ul>
@@ -96,7 +97,7 @@ It can be found at app/views/home/homepage.html.erb -->
 			<% @plays = Play.where(:category => 2) %>
 			<% @plays.each do |play| %>
 				<li class = "play-title">
-					<%= link_to play.title, edit_path(play)%>
+					<%= link_to play.title, edit_path(id: play.id)%>
 				</li><br>
 			<% end %>
 			</ul>
