@@ -233,7 +233,7 @@ function sendPayload() {
         data: out
     }) .done(function() {
         console.log( "success" );
-        payLoadG = [];
+        payLoadG = [];//reset globals
         out = {
             "meta" : {
                 "playID" : 1, //should not be hardcoded
