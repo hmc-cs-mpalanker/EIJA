@@ -37,7 +37,7 @@ class CutsController < ApplicationController
 
   def cutAndUncut(payload, binOpt, editId)
 
-    for wordID in  payload do
+    for wordID in payload do
 
       if binOpt == "true"
 

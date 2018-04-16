@@ -3,17 +3,24 @@ It can be found at app/views/users/show.html.erb -->
 
 <!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss -->
 
-<html><body style = "background-color: white; padding-top: 0px;">
+<html>
+<body style = "background-color: white; padding-top: 0px;">
 
 <!-- This will display the name of the current user. -->
 <h1><%= current_user.user_name%>'s Admin Page</h1>
 
-<!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss
-<div class="popup" onclick="addGroup()">Create Group
-  <span class="popuptext" id="groupPopup">Here is where a group will be created</span>
+<button id="myBtn">Add New Group</button>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Add Group Functionality</p>
+  </div>
+
 </div>
--->
-<div>
+
   <TABLE style="width:50%">
       <TR>
           <TD class = "select">Student Groups
@@ -31,11 +38,6 @@ It can be found at app/views/users/show.html.erb -->
 <div class="group-info" id="groupInfo">
 
 </div>
+</body>
 
-
-<script>
-function addGroup() {
-    var popup = document.getElementById("groupPopup");
-    popup.classList.toggle("show");
-}
-</script>
+</html>

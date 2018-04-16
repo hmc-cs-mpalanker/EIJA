@@ -162,6 +162,10 @@ However, they both utilize the same .scss file. -->
 
         <div class="col-sm-3">
           <!--additional space if we want to put anything on the left -->
+
+          </head>
+          <body>
+
           <div class="dropdown">
             <button onclick="groupDropdown()" class="dropbtn">
               <%= current_user.user_name %>'s Groups</button>
@@ -200,6 +204,7 @@ However, they both utilize the same .scss file. -->
           }
           </script>
 
+
           <TABLE BORDER="0">
             <TR>
               <TD class = "select"> <%=current_user.user_name %>'s Groups
@@ -217,7 +222,6 @@ However, they both utilize the same .scss file. -->
               </TD>
             </TR>
           </TABLE>
-
 
         </div>
 

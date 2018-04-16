@@ -17,7 +17,6 @@ $(function() {
     analytics();
     renderScene();
     iuUpdate();
-
 });
 
 /*
@@ -233,7 +232,6 @@ function sendPayload() {
             "payload" : payLoadG
         };
     })
-
 }
 
 
