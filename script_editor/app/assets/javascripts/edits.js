@@ -22,10 +22,6 @@ $(function() {
     //     console.log(this);
     // });
 
-
-
-
-
 });
 
 /*
@@ -241,7 +237,6 @@ function sendPayload() {
             "payload" : payLoadG
         };
     })
-
 }
 
 /*
