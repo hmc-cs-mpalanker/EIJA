@@ -37,53 +37,55 @@ class CutsController < ApplicationController
 
   def cutAndUncut(payload, binOpt, editId)
 
-    for wordID in payload do
+    if payload != nil && payload.length != 0
+      for wordID in payload do
 
-      if binOpt == "true"
+        if binOpt == "true"
 
-        @cut = Cut.create(edit_id: editId,word_id: wordID)
+          @cut = Cut.create(edit_id: editId,word_id: wordID)
 
-        # update the edit
-        # need to create the correct editID first
-        # the groupId is the row in the Group table
-        # the groupNum tells the group the user is part of
-        Edit.where(user_id: current_user.id).update(groups_id: current_user.groups_id)
+          # update the edit
+          # need to create the correct editID first
+          # the groupId is the row in the Group table
+          # the groupNum tells the group the user is part of
+          Edit.where(user_id: current_user.id).update(groups_id: current_user.groups_id)
 
-        # get the word -> the line.id of the word -> update the length of the line with the update method
-        # this is word_id in the data-base
-        @word = @cut.word
-        @line = @word.line
+          # get the word -> the line.id of the word -> update the length of the line with the update method
+          # this is word_id in the data-base
+          @word = @cut.word
+          @line = @word.line
 
-        if @line.currLength > 0
-          editLength = @line.currLength - 1
-          @line.update(currLength: editLength)
+          if @line.currLength > 0
+            editLength = @line.currLength - 1
+            @line.update(currLength: editLength)
 
-          # add editId and lineId for LineCut relationship
-          if editLength == 0
-            # the user has an id
-            # use that id to get the row in the edits table
-            LineCut.create(edit_id: 1, line_id: @line.id)
+            # add editId and lineId for LineCut relationship
+            if editLength == 0
+              # the user has an id
+              # use that id to get the row in the edits table
+              LineCut.create(edit_id: 1, line_id: @line.id)
+            end
           end
-        end
-      else
-        # get the cut data-entry with the appropriate entries
-        #  delete it from the DB
-        @cut = Cut.where(edit_id: 1,word_id: wordID).first.delete
-
-        Edit.where(user_id: current_user.id).update(groups_id: current_user.groups_id)
-
-        # increment the line-length
-        @word = @cut.word
-        @line = @word.line
-
-        # un-cut the line from LineCut table
-        # if currLength is 0
-        if @line.currLength == 0
-          @line.update(currLength: 1)
-          LineCut.where(edit_id: 1, line_id: @line.id).first.delete
         else
-          editLength = @line.currLength + 1
-          @line.update(currLength: editLength)
+          # get the cut data-entry with the appropriate entries
+          #  delete it from the DB
+          @cut = Cut.where(edit_id: 1,word_id: wordID).first.delete
+
+          Edit.where(user_id: current_user.id).update(groups_id: current_user.groups_id)
+
+          # increment the line-length
+          @word = @cut.word
+          @line = @word.line
+
+          # un-cut the line from LineCut table
+          # if currLength is 0
+          if @line.currLength == 0
+            @line.update(currLength: 1)
+            LineCut.where(edit_id: 1, line_id: @line.id).first.delete
+          else
+            editLength = @line.currLength + 1
+            @line.update(currLength: editLength)
+          end
         end
       end
     end
