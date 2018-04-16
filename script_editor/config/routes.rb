@@ -8,19 +8,16 @@ Rails.application.routes.draw do
   post 'cuts/delete'
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :edit_plays
-  resources :plays
   resources :edits
+  resources :plays
 
   get '/users/:id' => 'users#show', :as => :user
   get '/admin/:id' => 'users#admin', :as => :admin
-  get '/makenewedit/:id' => 'edits#new'
+  #get '/makenewedit/:id' => 'edits#new'
   #get '/plays/show'
 
-  get '/edits/show/:id/:name' => 'edits#show'
-
   #get '/edits/compress'
-
-  get '/edits/:id/:user_id' =>'edits#new'
+  get '/edits/:id' =>'edits#new'
 
   get 'home/homepage'
   root 'home#homepage'
