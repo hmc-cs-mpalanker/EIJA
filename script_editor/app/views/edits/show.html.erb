@@ -70,54 +70,57 @@ However, they both utilize the same .scss file. -->
     </div>
 
 
-
+      <span id=<%=@edit.id %> class="playEditId"></span>
       <div class="row" id="collapseExample">
         <div class="col-sm-3 bd-sidebar sidebar fixed-top " id="sidebar">
           <div class="accordion">
             <h6 class=" accordion-h6" id="play-analytics">Analytics</h6>
           </div>
+          <% @play = Edit.find(params[:id]).play%>
+          <% @acts = @play.acts %>
+          <% @acts.each do |act| %>
           <div class="accordion">
-            <h6 class="accordion-toggle accordion-h6">Act 1</h6>
-            <div class="accordion-content">
-              <p class="sceneMenu" id="scene1">
-                Scence 1
-              </p>
-              <p class="sceneMenu" id="scene2">
-                Scence 2
-              </p>
+              <h6 class="accordion-toggle accordion-h6">Act <%= act.number %></h6>
+                <div class="accordion-content">
+                  <% act.scenes.each do |scene| %>
+                  <p class="sceneMenu" id="scene<%= scene.number %>">
+                      Scene <%= scene.number %>
+                    <%end%>
+                  </p>
+              <!-- <p class="sceneMenu" id="scene2">
+                Scene 2
+              </p> -->
             </div>
-
-
           </div>
+        <%end%>
         </div>
         <div class="col-sm-3">
           <!--this is a hack to fix spacing on page -->
 
 
         </div>
+        <div class="col-sm-6" id="PlaySection">
+        <!--this area displays the script itself-->
+        <h4 style="margin-left: 10px" id="actName"> Act 1 :</h4>
+        <h6 style="margin-left: 10px" id="sceneName"> Scene 1</h6>
 
-          <div class="col-sm-6" id="PlaySection">
-          <!--this area displays the script itself-->
-          <h4 style="margin-left: 10px"> Act 1:</h4>
-          <h6 style="margin-left: 10px"> Scene 1</h6>
-
-          <%  lineNum = 1 %>
-          <% @scene.each do |lineGroup| %>
-            <% puts "#{lineGroup}" %>
-            <% if lineGroup[0]=="STAGE" %>
-              <table class="script-Table">
-                <% lineGroup[1].each do |line| %>
-                  <!--each line in a characters speaking part-->
-                  <tr>
-                    <td>
-                      <em>
-                        <%= line[1][0][2].to_s() %>
-                      </em>
-                    </td>
-                <% end %>
+            <% lineNum = 1 %>
+            <% @scene.each do |lineGroup| %>
+              <% puts "#{lineGroup}" %>
+              <% if lineGroup[0]=="STAGE" %>
+                <table class="script-Table">
+                  <% lineGroup[1].each do |line| %>
+                    <!--each line in a characters speaking part-->
+                    <tr>
+                      <td>
+                        <em>
+                          <%= line[1][0][2].to_s() %>
+                        </em>
+                      </td>
+              <% end %>
                 </tr>
               </table>
-            <% else %>
+              <% else %>
               <!--this loops through each characters speaking part in the scene-->
               <table class="script-Table">
                 <col span="1" class="lineNumer">
@@ -159,24 +162,45 @@ However, they both utilize the same .scss file. -->
 
         <div class="col-sm-3">
           <!--additional space if we want to put anything on the left -->
-          <TABLE BORDER="0">
-            <TR>
-              <TD class = "select"> <%=current_user.user_name %>'s Groups
-                <select onChange="window.location.href=this.value">
-                  <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
-                  <% groups.uniq.each do |group| %>
-                    <% if group[1] == -1 %>
-                      <option value = "/edits/new/<%=current_user.id%>"> User Edit </option>
-                    <% else %>
-                      <option value="/edits/show/<%=group[0]%>"> Group <%= group[0]%> </option>
-                    <% end %>
+          </head>
+          <body>
+          <div class="dropdown">
+            <button onclick="groupDropdown()" class="dropbtn">
+              <%= current_user.user_name %>'s Groups</button>
+              <div id="myDropdown" class="dropdown-content">
+                <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
+                <% groups.uniq.each do |group| %>
+                  <% if group[1] == -1 %>
+                    <a href="/edits/<%=current_user.id%>">User Edit</a>
+                  <% else %>
+                    <a href="/edits/show/<%=group[0]%>">Group <%= group[0]%></a>
                   <% end %>
-                </select>
-              <TD ALIGN="center"></TD>
-              </TD>
-            </TR>
-          </TABLE>
+                <% end %>
+              </div>
+            </div>
 
+          <script>
+          /* When the user clicks on the button,
+          toggle between hiding and showing the dropdown content */
+          function groupDropdown() {
+              document.getElementById("myDropdown").classList.toggle("show");
+          }
+
+          // Close the dropdown if the user clicks outside of it
+          window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+
+              var dropdowns = document.getElementsByClassName("dropdown-content");
+              var i;
+              for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                  openDropdown.classList.remove('show');
+                }
+              }
+            }
+          }
+          </script>
 
         </div>
 

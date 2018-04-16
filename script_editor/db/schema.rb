@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410033125) do
+ActiveRecord::Schema.define(version: 20180412061335) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
@@ -80,6 +80,15 @@ ActiveRecord::Schema.define(version: 20180410033125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["act_id"], name: "index_scenes_on_act_id"
+  end
+
+  create_table "uncuts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "edit_id"
+    t.integer  "word_id"
+    t.index ["edit_id"], name: "index_uncuts_on_edit_id"
+    t.index ["word_id"], name: "index_uncuts_on_word_id"
   end
 
   create_table "users", force: :cascade do |t|

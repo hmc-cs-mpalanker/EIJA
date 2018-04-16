@@ -2,33 +2,30 @@ class UpdateController < ApplicationController
 	require 'open-uri'
 	respond_to :html, :json
 
+	def new
+	end
 
 	def show
+		edit_id = params[:meta][:editID]
+		cuts = Cut.find_by_sql(["Select word_id from Cuts where edit_id = ? and created_at > ?",edit_id, Time.now-5.minutes]).map{|x| x.word_id}
+		uncuts = Uncut.find_by_sql(["Select word_id from Uncuts where edit_id = ? and created_at > ?",edit_id, Time.now-5.minutes]).map{|x| x.word_id}
+		# puts "#{cuts}"
+		# puts "#{uncuts.map{|x| x.word_id}}"
+		# puts "#{cuts.map{|x| x.word_id} }"
 		respond_to do |format|
-			#@cut_data= JSON.parse(params[:cut_data])
-			#puts @cut_data
-    		#words = [{word_id: 1,text: 'foo'}, {word_id: 2, text: 'bar'}, {word_id: 3, text: 'cow'}]
-    		cuts = {
-    					"1": 
-              				{text: 'foo'}, 
-    					"2": 
-    						{text: 'bar'}, 
-    					"3": 
-    						{text: 'cow'}
-    				} 
-    		uncuts = {
-    					"1": 
-    						{text: 'me'}, 
-    					"2": 
-    						{text: 'you'}
-    			}
+    		cuts = 	{
+			        "meta" => {
+			            "editID" => params[:meta][:editID] #Xans gon take u Xans gonna betray u
+			        },
+			        "payload" => { "cut" => [33,34,35],
+								  "uncut" => [3,4 ,5]}
+				    }
     		format.json  { render :json => cuts} 
     	end
   	end
 
   	def update_cuts
-  		params[:id].split(',').map(&:to_i).each do |id|
-        Update.find(id).update params[:cuts][id]
-    end
   	end
 end
+
+

@@ -8,19 +8,17 @@ Rails.application.routes.draw do
   post 'cuts/delete'
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :edit_plays
-  resources :plays
   resources :edits
+  resources :plays
 
   get '/users/:id' => 'users#show', :as => :user
   get '/admin/:id' => 'users#admin', :as => :admin
   #get '/makenewedit/:id' => 'edits#new'
   #get '/plays/show'
 
-  get '/edits/show/:GroupNum' => 'edits#show'
-  #this will need a GroupNum id after
   #get '/edits/compress'
+  get '/edits/:id' =>'edits#new'
 
-  get '/edits/new/:id' =>'edits#new'
   get 'home/homepage'
   root 'home#homepage'
   get 'pages/about'
@@ -31,8 +29,7 @@ Rails.application.routes.draw do
   get '/script/:charecterName' => 'lines#script'
 
   #resources :update, defaults: { format: 'json' }
-  get '/update/show' => 'update#show', defaults: { format: 'json' }
-  #post '/update/update_cuts' => 'update#update_cuts', defaults: { format: 'json' }
-
+  #post 'update/update_cuts' => 'update#update_cuts', defaults: { format: 'json' }
+  post'/update/show' => 'update#show', defaults: { format: 'json' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

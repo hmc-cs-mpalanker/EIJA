@@ -1,10 +1,10 @@
 require 'nokogiri'
-
+require 'open-uri'
 class EditsController < ApplicationController
   before_action :authenticate_user!
-
   def show
-    # @edit = Edit.find(params[:id])
+    @edit = Edit.find(params[:id])
+
     # @play = @edit.play
     # @acts = Act.joins(:play).where(:play_id => @play.id).order(:number)
     # @relCuts = Cut.where(:edit_id => @edit.id).pluck(:word_id).to_a.to_set
@@ -29,12 +29,25 @@ class EditsController < ApplicationController
     @play = Play.find(params[:id])
 
     @name = session[:user_id]
-
+    puts 'hello'
     @user = current_user
-    @edit = Edit.create({:user_id => @user.id, :play_id => @play.id})
-    # @link = "/edits/" + (@edit.id.to_s)
+    if Edit.where(:user_id => @user.id, :play_id => @play.id) != nil
+      @edit = Edit.where(:user_id => @user.id, :play_id => @play.id).where('updated_at != created_at').order(created_at :desc)
+    else
+      @edit = Edit.create({:user_id => @user.id, :play_id => @play.id})
+    end
+    #@link = "/edits/" + (@edit.id.to_s)
     # needs to be UserId
-    @link = "/edits/" + (@user.id.to_s)
+    @link = "/edits/" + (@edit.id.to_s)
     redirect_to @link
   end
+  # def group_edit
+  #   @edit = Edit.find(params[:id])
+  #   puts "#{@edit}"
+  #   @play = @edit.play
+  #   group_id = @edit.groups_id
+  #   group_name = Group.find_by_sql(["Select name from Groups where group_id = ?",group_id])
+  #   @link = "/edits/group_edit/"+ (@edit.id.to_s) + "/" + (@group_name.to_s)
+
+  # end
 end
