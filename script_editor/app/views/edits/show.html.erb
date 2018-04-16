@@ -162,8 +162,10 @@ However, they both utilize the same .scss file. -->
 
         <div class="col-sm-3">
           <!--additional space if we want to put anything on the left -->
+
           </head>
           <body>
+
           <div class="dropdown">
             <button onclick="groupDropdown()" class="dropbtn">
               <%= current_user.user_name %>'s Groups</button>
@@ -202,6 +204,25 @@ However, they both utilize the same .scss file. -->
           }
           </script>
 
+
+          <TABLE BORDER="0">
+            <TR>
+              <TD class = "select"> <%=current_user.user_name %>'s Groups
+                <select onChange="window.location.href=this.value">
+                  <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
+                  <% groups.uniq.each do |group| %>
+                    <% if group[1] == -1 %>
+                      <option value = "/edits/new/<%=current_user.id%>"> User Edit </option>
+                    <% else %>
+                      <option value="/edits/show/<%=group[0]%>"> Group <%= group[0]%> </option>
+                    <% end %>
+                  <% end %>
+                </select>
+              <TD ALIGN="center"></TD>
+              </TD>
+            </TR>
+          </TABLE>
+
         </div>
 
         </div>
@@ -237,324 +258,7 @@ However, they both utilize the same .scss file. -->
 
     <!--</div>-->
 
-<script>
 
-
-    //Create events for the various functions associated with strikethrough.
-
-    //If we click the mouse down, tell the program we're dragging the mouse.
-    document.querySelector(".script-main").addEventListener("mousedown", drag, false);
-
-    //If we move the mouse over an element, let it know. If the mouse is down, this will strikethrough the element.
-    //document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
-
-    //If the mouse is clicked down over an element, cut the element.
-    // document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
-
-    //If the mouse is lifted, tell the program that we're no long dragging the mouse.
-    document.querySelector(".script-main").addEventListener("mouseup", lift, false);
-
-    //Stop cutting or uncutting if the mouse leaves the document or window.
-    $(document).mouseleave(function()
-    {
-        lift();
-    });
-
-    document.querySelector(".toggle-button").addEventListener("click",toggleScript, false);
-
-    document.querySelector(".save-button").addEventListener("click", saveWrapper, false);
-    var mousedrag = false;
-    var origId = 0;
-    var cutlist = [];
-    var uncutlist = [];
-    var checkId = "";
-    var compressed = false;
-
-
-    $(window).on("beforeunload", function() {
-        if(cutlist.length != 0 || uncutlist != 0)
-        {
-            return "Are you sure you want to leave? You have unsaved work which will be lost.";
-        }
-    });
-
-    //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
-    //If a server call fails, try again.
-    $( document ).ajaxError( function( event, jqxhr, settings, thrownError) {
-        console.log(settings);
-        $.ajax(settings);
-    });
-
-    //Save that the mouse is down.
-    function drag(e)
-    {
-        mousedrag = true;
-        origId = parseInt(e.target.id);
-    }
-
-    //Save that the mouse is up.
-    function lift(e)
-    {
-        doCut(e);
-        mousedrag = false;
-    }
-
-    //A filter which removes the word given.
-    function remove(word)
-    {
-        return word != checkId;
-    }
-
-    //Manage the data necessary to cut or uncut a word.
-    function dataCut(clickedItem,cut)
-    {
-        var idNum = parseInt(clickedItem.id);
-        checkId = idNum;
-        if(cut)
-        {
-            cutlist = cutlist.filter(remove);
-            cutlist.push(idNum);
-        }
-        else
-        {
-            uncutlist = uncutlist.filter(remove);
-            uncutlist.push(idNum);
-        }
-    }
-
-
-    function saveWrapper()
-    {
-
-      if(cutlist.length > 0 || uncutlist.length > 0){
-        var modal3 = document.getElementById("save-modal");
-        modal3.style.display = "block";
-        saveCut();
-        }
-    }
-
-
-    //If the save button is hit, send cached data to the database.
-    function saveCut()
-    {
-        var script = $(".script-main")[0];
-        var cEditId = parseInt(script.id);
-        if(cutlist.length == 0 && uncutlist.length == 0){
-          var modal3 = document.getElementById("save-modal");
-          modal3.style.display = "none";
-          window.alert("Saved!");
-          return;
-        }
-
-        if(cutlist.length != 0)
-        {
-            idNum = cutlist.pop();
-            var cutmessage = "Cut: " + idNum.toString();
-            console.log(cutmessage);
-            $.post("/cuts/new",
-            {
-                editI: cEditId,
-                wordI: idNum
-            },function()
-            {
-                saveCut();
-            });
-            return;
-        }
-        if(uncutlist.length != 0)
-        {
-            idNum = uncutlist.pop();
-            var cutmessage = "Uncut: " + idNum.toString();
-            console.log(cutmessage);
-            $.post("/cuts/delete",
-            {
-                editI: cEditId,
-                wordI: idNum
-            },function()
-            {
-                saveCut();
-            });
-            return;
-        }
-    }
-
-    //Changes visuals of a word.
-    function modifyStyle(clickedItem,color,style,cut)
-    {
-        clickedItem.style.color = color;
-        clickedItem.style.textDecoration = style;
-        clickedItem.dataset.cut = cut;
-    }
-
-    //Actually executes the XML cut on a word based on whether it was cut before or not.
-    function literalCut(clickedItem,cut)
-    {
-        var color;
-        var style;
-        var currId = parseInt(clickedItem.id);
-        console.log("ORIG ID: " + origId);
-        console.log("CURR ID: " + currId);
-        if(cut)
-        {
-              style = "line-through";
-              if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
-              {
-                  color = "#D3D3D3";
-              }
-              else
-              {
-                  color = "#888888";
-              }
-        }
-        else
-        {
-            style = "none";
-            if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
-            {
-                color = "#006BFF";
-            }
-            else
-            {
-                color = "#000000";
-            }
-        }
-        while(origId <= currId){
-          currObj = document.getElementById(origId.toString());
-          modifyStyle(currObj,color,style,cut);
-          dataCut(currObj,cut);
-          console.log("cutting word with id " + origId);
-          origId++;
-        }
-    }
-
-    // all words will need to be printed within the div class "script-main"
-    function doCut(e) {
-        var clickedItem = e.target;
-        // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
-        if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc"
-            || clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "stage" || clickedItem.getAttribute("class") == "cstage")
-        {
-            if (mousedrag && !e.shiftKey) {
-                literalCut(clickedItem,true);
-            }
-            else if(e.shiftKey && mousedrag) {
-                literalCut(clickedItem,false);
-            }
-        }
-    }
-
-    function toggleScript(e)
-    {
-        if(compressed)
-        {
-            $(".script-second").hide();
-            document.getElementById("toggle-text").textContent="HIDE CUTS";
-            $(".script-main").show();
-        }
-        else
-        {
-            //Got hide syntax from https://stackoverflow.com/questions/9456289/how-to-make-a-div-visible-and-invisible-with-javascript
-            document.getElementById("toggle-text").textContent="SHOW CUTS";
-            var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length)).concat(" .script-second");
-            $(".script-second").load(location, function()
-                {
-                    $(".script-main").hide();
-                    $(".script-second").show();
-                });
-        }
-        compressed = !compressed;
-    }
-</script>
-
-    <script>
-        /**
-         * This controls scene buttons in the navigation bar
-         */
-        var sceneButtons = document.getElementsByClassName("nav-scene");
-        var sceneLength = sceneButtons.length;
-        for (var i = 0; i < sceneLength; i++) {
-            sceneButton = sceneButtons[i];
-            sceneButton.addEventListener("click", showScene, false);
-        }
-        function showScene(scene) {
-            var allScenes = document.getElementsByClassName("scenehead");
-            for (var i = 0; i < allScenes.length; i++) {
-                if (("n" + allScenes[i].id) == scene.target.id) {
-                    allScenes[i].style.backgroundColor = "yellow";
-                    window.location.hash = allScenes[i].id;
-                }
-                else {
-                    allScenes[i].style.backgroundColor = "transparent";
-                }
-            }
-            var allActs = document.getElementsByClassName("acthead");
-            for (var i = 0; i < allActs.length; i++) {
-                allActs[i].style.backgroundColor = "transparent";
-            }
-        }
-        /**
-         * This controls act buttons in the navigation bar
-         */
-        var actButtons = document.getElementsByClassName("nav-act");
-        var actLength = actButtons.length;
-        for (var i = 0; i < actLength; i++) {
-            actButton = actButtons[i];
-            actButton.addEventListener("click", showAct, false);
-        }
-        function showAct(act) {
-            var allActs = document.getElementsByClassName("acthead");
-            for (var i = 0; i < allActs.length; i++) {
-                if (("n" + allActs[i].id) == act.target.id) {
-                    allActs[i].style.backgroundColor = "yellow";
-                    window.location.hash = allActs[i].id;
-                }
-                else {
-                    allActs[i].style.backgroundColor = "transparent";
-                }
-            }
-            var allScenes = document.getElementsByClassName("scenehead");
-            for (var i = 0; i < allScenes.length; i++) {
-                allScenes[i].style.backgroundColor = "transparent";
-            }
-        }
-        /**
-         * This controls the synopsis button in the navigation bar.
-         */
-        var modal = document.getElementById("synopsis-modal");
-        var btn = document.getElementById("synopsis-button");
-        var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        /**
-         * This controls the analytics button in the navigation bar.
-         */
-        var modal2 = document.getElementById("analytics-modal");
-        var btn2 = document.getElementById("analytics-button");
-        var span2 = document.getElementsByClassName("close2")[0];
-        btn2.onclick = function() {
-            modal2.style.display = "block";
-        }
-        span2.onclick = function() {
-            modal2.style.display = "none";
-        }
-
-        /**
-         * This closes the modals if the user clicks outside of either
-         * the synopsis or analytics modal.
-         */
-        window.onclick = function(event) {
-            if (event.target == modal2) {
-                modal2.style.display = "none";
-            }
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
 
 
 </body></html>

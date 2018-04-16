@@ -2,13 +2,11 @@ require 'nokogiri'
 require 'open-uri'
 class EditsController < ApplicationController
   before_action :authenticate_user!
-  def show
-    @edit = Edit.find(params[:id])
 
-    # @play = @edit.play
+  def show
     # @acts = Act.joins(:play).where(:play_id => @play.id).order(:number)
     # @relCuts = Cut.where(:edit_id => @edit.id).pluck(:word_id).to_a.to_set
-
+    @edit = Edit.find(params[:id])
     l = Line.new
     @hash = l.countAnalytics
     @scene = l.renderActScene(1)

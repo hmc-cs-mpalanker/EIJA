@@ -17,13 +17,6 @@ $(function() {
     analytics();
     renderScene();
     iuUpdate();
-    //iuUpdate();
-    // detectCut();
-    // $(document).on("mousedown", '.word', function(event) {
-    //     console.log("down Detected");
-    //     console.log(this);
-    // });
-
 });
 
 /*
@@ -39,7 +32,7 @@ $(function() {
  * Globals
  * payloadG = list to contain words to be modified
  */
-
+var heartBeat = 10000; //update UI every second
 var payLoadG = [];
 var out = {
         "meta" : {
@@ -229,7 +222,7 @@ function sendPayload() {
         data: out
     }) .done(function() {
         console.log( "success" );
-        payLoadG = [];
+        payLoadG = [];//reset globals
         out = {
             "meta" : {
                 "playID" : 1, //should not be hardcoded
@@ -241,8 +234,12 @@ function sendPayload() {
     })
 }
 
-/*
- * updates UI based on server response and or the payload I havent decied yet
+
+
+
+/**
+ * updates UI based on server response this is the heart and soul of the
+ * app this is the litteral heart beat of the app
  */
 function iuUpdate() {
     console.log($(".playEditId"));
@@ -258,6 +255,11 @@ function iuUpdate() {
     }).done(function(data){
             console.log("success");
             renderHelper(data);
+            setTimeout(
+                function()
+                {
+                    iuUpdate()
+                }, heartBeat);
     });
 
 
