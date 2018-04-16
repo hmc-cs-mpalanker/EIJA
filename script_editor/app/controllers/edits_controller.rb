@@ -3,6 +3,15 @@ require 'open-uri'
 class EditsController < ApplicationController
   before_action :authenticate_user!
 
+  def show
+
+    @edit = Edit.find(params[:id])
+
+    l = Line.new
+    @hash = l.countAnalytics
+    # WHY IS THIS HARD-CODED 
+    @scene = l.renderActScene(1)
+ end
 
   def compress
     @edit = Edit.find(params[:id])
