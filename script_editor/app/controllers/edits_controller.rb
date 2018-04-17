@@ -9,7 +9,7 @@ class EditsController < ApplicationController
 
     l = Line.new
     @hash = l.countAnalytics
-    # WHY IS THIS HARD-CODED 
+    # WHY IS THIS HARD-CODED
     @scene = l.renderActScene(1)
  end
 

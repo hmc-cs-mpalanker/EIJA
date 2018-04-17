@@ -10,6 +10,8 @@ class CutsController < ApplicationController
 
     new_edit = nil
 
+    # the group id is the row entry in the Group DB, we can then access the groupNum with this groupId row index
+    # the GroupNum is -1 for individual users
     if play_id != nil && curr_id != nil
       arr = Edit.where({user_id: current_user.id , play_id:params[:meta][:playID], groups_id: current_user.groups_id})
       if arr.length == 0
@@ -19,15 +21,18 @@ class CutsController < ApplicationController
       end
     end
 
-    puts "THE EDIT IS : #{new_edit}"
-    puts "THE EDIT ID IS : #{new_edit[0].id}"
+    # Debug edit output
+    # puts "THE EDIT IS : #{new_edit}"
+    # puts "THE EDIT ID IS : #{new_edit[0].id}"
+
+    edit_id = new_edit[0].id
 
     # DO NOT BREAK MY SYSTEM IF NIL
-    if new_edit == nil
-      new_edit = 1
+    if edit_id == nil
+      edit_id = 1
     end
 
-    cutAndUncut(params[:payload],params[:meta][:cutOrUncut],new_edit[0].id)
+    cutAndUncut(params[:payload],params[:meta][:cutOrUncut],edit_id)
 
   end
 
