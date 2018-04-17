@@ -3,10 +3,14 @@ class Line < ApplicationRecord
   has_many :edits, through: :line_cuts
   has_many :words
 
+  # cattr_accessor :curr_play_id
+
   # Count the number of lines per character
   # output: A Hash, key is the speaker, value is the number of lines
   def countAnalytics
     lines_per_character = Hash.new
+
+
 
     lines = Line.all
 
@@ -23,8 +27,15 @@ class Line < ApplicationRecord
       end
     end
 
+    # puts "THE VAL IS: #{Line.curr_play_id}"
+    # puts "THE VAL IS: #{Line.curr_play_id.class}"
+
+
     return lines_per_character
   end
+
+
+
 
   def countCharMatches
     speakers = Line.find_by_sql("select distinct(speaker) from Lines order by speaker")

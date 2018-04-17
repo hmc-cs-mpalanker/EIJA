@@ -3,12 +3,30 @@ require 'open-uri'
 class EditsController < ApplicationController
   before_action :authenticate_user!
 
+  # before_filter :set_current_play_id
+  #
+  # def set_current_play_id
+  #   #  set @current_account from session data here
+  #   Line.curr_play_id = params[:id]
+  # end
+
+
   def show
+
+    # Line.curr_play_id = params[:id]
+
+    # @test = params[:id]
+
+    cookies[:play_id] = params[:id]
+
+    puts "THE PLAY ID IS: #{cookies[:play_id]}"
 
     @edit = Edit.find(params[:id])
 
     l = Line.new
+
     @hash = l.countAnalytics
+
     # WHY IS THIS HARD-CODED
     @scene = l.renderActScene(1)
  end
