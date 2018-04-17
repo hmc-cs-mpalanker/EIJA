@@ -13,20 +13,16 @@ class EditsController < ApplicationController
 
   def show
 
-    # Line.curr_play_id = params[:id]
-
-    # @test = params[:id]
-
+    # ENSURE THIS IS THE PLAY ID
+    # this is the main view to look at the edit mode
+    # so we make changes here
     cookies[:play_id] = params[:id]
-
     puts "THE PLAY ID IS: #{cookies[:play_id]}"
 
     @edit = Edit.find(params[:id])
 
     l = Line.new
-
-    @hash = l.countAnalytics
-
+    @hash = l.countAnalytics(cookies[:play_id])
     # WHY IS THIS HARD-CODED
     @scene = l.renderActScene(1)
  end

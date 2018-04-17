@@ -5,14 +5,40 @@ class Line < ApplicationRecord
 
   # cattr_accessor :curr_play_id
 
+
+  # gets all the lines for the play in session
+  # input: the play_id
+  # output: the list of Lines for the given play id
+  def getPlayLines(play_id)
+    acts =  Act.find_by_sql ["select * from Acts where play_id = ?",play_id]
+
+    scenes = []
+
+    acts.each do |act|
+      scenes.append(Scene.find_by_sql ["select * from Scenes where act_id = ?", act.id])
+    end
+
+    scenes = scenes.flatten
+
+    lines = []
+
+    scenes.each do |scene|
+      lines.append(Line.find_by_sql ["select * from Lines where scene_id = ?", scene.id])
+    end
+
+    lines = lines.flatten
+
+    return lines
+
+  end
+
   # Count the number of lines per character
   # output: A Hash, key is the speaker, value is the number of lines
-  def countAnalytics
+  def countAnalytics(play_id)
+
+    lines = getPlayLines(play_id)
+
     lines_per_character = Hash.new
-
-
-
-    lines = Line.all
 
     lines.each do |line|
 
@@ -32,6 +58,7 @@ class Line < ApplicationRecord
 
 
     return lines_per_character
+
   end
 
 
