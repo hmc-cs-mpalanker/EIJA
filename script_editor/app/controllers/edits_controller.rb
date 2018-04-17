@@ -23,8 +23,10 @@ class EditsController < ApplicationController
 
     l = Line.new
     @hash = l.countAnalytics(cookies[:play_id])
+
     # WHY IS THIS HARD-CODED
-    @scene = l.renderActScene(1)
+    @scene = l.renderActScene(cookies[:play_id],1)
+
  end
 
   def compress

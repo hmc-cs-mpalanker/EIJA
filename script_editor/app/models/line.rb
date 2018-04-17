@@ -5,30 +5,29 @@ class Line < ApplicationRecord
 
   # cattr_accessor :curr_play_id
 
+  # a key helper method used in the front-end data rendering
+  # output: gets all the lines for a play_id and scene_id pairing
+  def lineByPlayScene(play_id,scene_id)
+
+    arr = Act.find_by_sql ["select * from Acts where play_id = ?",play_id]
+    scenes = arr.map {|act| Scene.find_by_sql [" select * from Scenes where act_id = ?", act.id]}.flatten
+
+    scenes.each do |scene|
+      if scene.id == scene_id
+        return Line.find_by_sql ["select * from Lines where scene_id = ? order by number",scene.id]
+      end
+    end
+
+  end
 
   # gets all the lines for the play in session
   # input: the play_id
   # output: the list of Lines for the given play id
   def getPlayLines(play_id)
-    acts =  Act.find_by_sql ["select * from Acts where play_id = ?",play_id]
 
-    scenes = []
-
-    acts.each do |act|
-      scenes.append(Scene.find_by_sql ["select * from Scenes where act_id = ?", act.id])
-    end
-
-    scenes = scenes.flatten
-
-    lines = []
-
-    scenes.each do |scene|
-      lines.append(Line.find_by_sql ["select * from Lines where scene_id = ?", scene.id])
-    end
-
-    lines = lines.flatten
-
-    return lines
+    arr = Act.find_by_sql ["select * from Acts where play_id = ?",play_id]
+    scenes = arr.map {|act| Scene.find_by_sql [" select * from Scenes where act_id = ?", act.id]}.flatten
+    return scenes.map {|scene| Line.find_by_sql ["select * from Lines where scene_id = ? order by number",scene.id]}.flatten
 
   end
 
@@ -43,7 +42,6 @@ class Line < ApplicationRecord
     lines.each do |line|
 
       if line.currLength != nil && line.currLength > 0
-
         # the line is not cut
         if lines_per_character.has_key?(line.speaker)
           lines_per_character[line.speaker] += 1
@@ -52,17 +50,11 @@ class Line < ApplicationRecord
         end
       end
     end
-
-    # puts "THE VAL IS: #{Line.curr_play_id}"
-    # puts "THE VAL IS: #{Line.curr_play_id.class}"
-
-
     return lines_per_character
-
   end
 
 
-
+  # BROKEN FEATURE
 
   def countCharMatches
     speakers = Line.find_by_sql("select distinct(speaker) from Lines order by speaker")
@@ -144,19 +136,22 @@ class Line < ApplicationRecord
 
   # note: the method below is meant for front-end data rendering
 
-  # input: the scene_id
+  # input: the play_id, scene_id
   # output: a list of all_pairs
   # all_pairs = list of 'a_pair'
   # a_pair = list of 'speaker','many_lines'
   # many_lines = list of 'a_line' -> [T|F , Lines]
   # a_line = list of 'wordID', 'text' -> [T|F, wordID, text]
 
-  def renderActScene(scene)
+  def renderActScene(play_id,scene)
 
     # list of [speaker, many lines]
     all_pairs = []
 
-    lines = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number", scene]
+    # lines = Line.find_by_sql ["Select * from Lines where scene_id = ? order by number", scene]
+
+    lines = lineByPlayScene(play_id,scene)
+
     index = 0
 
     lines.each do |l|
@@ -225,6 +220,26 @@ class Line < ApplicationRecord
     end
     return all_pairs
   end
+
+  # a wrapper function to get all Act, Scene pairs in the play
+  # output: HashMap, key: [act_id, scene_id] is a unique pairing, value: [many_lines]
+
+  def renderAllActScenes(play_id)
+    play = Hash.new
+    scenes = Scene.all
+
+    scenes.each do |scene|
+
+      key = [scene.act_id, scene.id]
+
+      val = renderActScene(play_id,scene.id)
+
+      play[key] = val
+    end
+
+    return play
+  end
+
 
 
   # the method below is used exclusively for CueScript dependencies
@@ -312,25 +327,8 @@ class Line < ApplicationRecord
   end
 
 
-  # a wrapper function to get all Act, Scene pairs in the play
-  # output: HashMap, key: [act_id, scene_id] is a unique pairing, value: [many_lines]
 
-  def renderAllActScenes()
-    play = Hash.new
-    scenes = Scene.all
-
-    scenes.each do |scene|
-
-      key = [scene.act_id, scene.id]
-
-      val = renderActScene(scene.id)
-
-      play[key] = val
-    end
-
-    return play
-  end
-
+  # BROKEN FEATURE
 
   # a helper function to print the nested structure
   # Helpful to print the data in the views in such a manner
