@@ -19,7 +19,15 @@ class EditsController < ApplicationController
     cookies[:play_id] = params[:id]
     puts "THE PLAY ID IS: #{cookies[:play_id]}"
 
-    @edit = Edit.find(params[:id])
+    # @edit = Edit.find(params[:id])
+    #
+
+    # @edit = Edit.where({user_id: current_user.id , play_id:params[:meta][:playID], groups_id: current_user.groups_id})
+    #
+    # if @edit == nil
+    #   @edit = EditsController.makeEdit(current_user.id, params[:meta][:playID], current_user.groups_id)
+    # end
+
 
     l = Line.new
     @hash = l.countAnalytics(cookies[:play_id])
