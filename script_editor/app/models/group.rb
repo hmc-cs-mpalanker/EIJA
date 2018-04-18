@@ -60,11 +60,13 @@ class Group < ApplicationRecord
     end
 
     lst.each do |user|
-      curr_user = Group.find_by_sql ["select * from Groups where groupNum = ? and user_id = ? and name = ?",gNum,user,groupName]
+      # puts "Here"
+      # curr_user = Group.find_by_sql ["select * from Groups where groupNum = ? and user_id = ? and name = ?",gNum,user,groupName]
       # ensure that it has not already been added to avoid duplicates
-      if curr_user == 0
+      # if curr_user == 0
+      #   puts "Make"
         Group.create(groupNum: gNum, user_id: user, name: groupName)
-      end
+      # end
     end
   end
 
