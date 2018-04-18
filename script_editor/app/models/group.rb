@@ -44,7 +44,7 @@ class Group < ApplicationRecord
   # a list of userIds
   # void: adds "" users to a new group with a new group Number
 
-  # Ensure that the groupName is exists
+  # Ensure the GroupName is unique
   def createGroup(lst, groupName)
 
     gNum = -1
@@ -59,14 +59,20 @@ class Group < ApplicationRecord
       gNum += 1
     end
 
+    flag = false
+
     lst.each do |user|
-      # puts "Here"
-      # curr_user = Group.find_by_sql ["select * from Groups where groupNum = ? and user_id = ? and name = ?",gNum,user,groupName]
-      # ensure that it has not already been added to avoid duplicates
-      # if curr_user == 0
-      #   puts "Make"
+      curr_user = Group.find_by_sql ["select * from Groups where user_id = ? and name = ?",user,groupName]
+      if curr_user.length == 0
+        flag = true
         Group.create(groupNum: gNum, user_id: user, name: groupName)
-      # end
+      end
+    end
+
+    # add the admin to all the groups
+    if flag
+      admin = User.first
+      Group.create(groupNum: gNum, user_id: admin.id, name: groupName)
     end
   end
 
