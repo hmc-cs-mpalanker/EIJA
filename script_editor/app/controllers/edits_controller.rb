@@ -3,14 +3,38 @@ require 'open-uri'
 class EditsController < ApplicationController
   before_action :authenticate_user!
 
+  # before_filter :set_current_play_id
+  #
+  # def set_current_play_id
+  #   #  set @current_account from session data here
+  #   Line.curr_play_id = params[:id]
+  # end
+
+
   def show
 
-    @edit = Edit.find(params[:id])
+    # ENSURE THIS IS THE PLAY ID
+    # this is the main view to look at the edit mode
+    # so we make changes here
+    cookies[:play_id] = params[:id]
+    puts "THE PLAY ID IS: #{cookies[:play_id]}"
+
+    # @edit = Edit.find(params[:id])
+    #
+
+    # @edit = Edit.where({user_id: current_user.id , play_id:params[:meta][:playID], groups_id: current_user.groups_id})
+    #
+    # if @edit == nil
+    #   @edit = EditsController.makeEdit(current_user.id, params[:meta][:playID], current_user.groups_id)
+    # end
+
 
     l = Line.new
-    @hash = l.countAnalytics
+    @hash = l.countAnalytics(cookies[:play_id])
+
     # WHY IS THIS HARD-CODED
-    @scene = l.renderActScene(1)
+    @scene = l.renderActScene(cookies[:play_id],1)
+
  end
 
   def compress
