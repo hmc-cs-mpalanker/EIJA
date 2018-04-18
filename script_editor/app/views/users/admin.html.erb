@@ -2,7 +2,8 @@
 It can be found at app/views/users/show.html.erb -->
 
 <!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss -->
-
+<%= javascript 'application' %>
+<%= javascript 'users' %>
 <html>
 <body style = "background-color: white; padding-top: 0px;">
 
@@ -11,23 +12,80 @@ It can be found at app/views/users/show.html.erb -->
 
 <div class="container">
 <span id=<%=current_user.id %> class="adminId"></span>
-<div class="row" id="collapseExample">
-  <div class="col-sm-3" id="GroupDropdown">
-    <button id="myBtn" type="button" class="btn btn-info">Add New Group</button>
-      <!-- The Modal -->
-      <div id="myModal" class="modal">
+  <div class="row" id="collapseExample">
+    <div class="col-sm-3" id="GroupDropdown">
+      <button id="myBtn" type="button" class="btn btn-info">Add New Group</button>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
 
-      <!-- Modal content -->
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>Add Group Functionality</p>
-      </div>
-    </div>
-      <ul class="list-group">
-        <% groups = current_user.getGroups %>
-        <% groups.uniq.each do |group| %>
-          <a href="#" class="list-group-item"><%=group[0]%></a>
-        <% end %>
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+              <p>Add Group Functionality</p>
+            </div>
+          </div>
+
+            <ul class="list-group">
+              <% groups = current_user.getGroups %>
+              <% groups.uniq.each do |group| %>
+                <a class="groupToggle" id=<%="group" + String(group[1])%> ><%=group[0]%></a>
+             <% end %>
+            </ul>
+            <script>
+
+            // Get the modal
+            var modal = document.getElementById('myModal');
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on the button, open the modal
+            $("#myBtn").click(function(){
+             $("#myModal").modal('show');
+            })
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+
+            function showGroupInfo(groupNum) {
+            // $.get('/scene_render/' + scenceId)//get HTML to insert
+            //     .done(function(data)
+            {
+              // console.log(data);
+              var group =$("#GroupWindow");
+              group.html("");//clear previous data
+            };
+            }
+
+            function bindGroupToggle()
+            {
+            $("#groupToggle").click(function(){
+              console.log("ho");
+              document.cookie="group_number=" + this.id;
+              console.log(document.cookie);
+              });
+            $.each($(".groupToggle"), function(index, element){
+              console.log(element);
+              element.click(function(){
+                console.log("ho");
+                document.cookie="group_number=" + element.id;
+                console.log(document.cookie);
+              });
+            });
+            }
+            </script>
       <!-- <TABLE style="width:50%">
         <TR>
             <TD class = "select">Student Groups
@@ -54,6 +112,7 @@ It can be found at app/views/users/show.html.erb -->
     </div>
 </div>
 </div>
+
 </body>
 
 </html>

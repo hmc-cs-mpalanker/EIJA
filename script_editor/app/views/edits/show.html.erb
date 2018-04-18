@@ -8,13 +8,14 @@ of the plays is almost identical except for the parts pertaining to making edits
 This means that changes to non-editing parts of the view need to be made in both show files.
 However, they both utilize the same .scss file. -->
 
-
-
-
+<%= javascript 'application' %>
+<%= javascript 'edits.js' %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
 <html>
 
-<body>
+<body
+
 
 
     <!--
@@ -180,56 +181,6 @@ However, they both utilize the same .scss file. -->
                 <% end %>
               </div>
             </div>
-
-<<<<<<< HEAD
-=======
-          <script>
-          /* When the user clicks on the button,
-          toggle between hiding and showing the dropdown content */
-          function groupDropdown() {
-              document.getElementById("myDropdown").classList.toggle("show");
-          }
-
-          // Close the dropdown if the user clicks outside of it
-          window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-
-              var dropdowns = document.getElementsByClassName("dropdown-content");
-              var i;
-              for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                  openDropdown.classList.remove('show');
-                }
-              }
-            }
-          }
-
-
-          </script>
-
-
-          <!--<TABLE BORDER="0">-->
-            <!--<TR>-->
-              <!--<TD class = "select"> <%=current_user.user_name %>'s Groups-->
-                <!--<select onChange="window.location.href=this.value">-->
-                  <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
-                  <!--<% groups.uniq.each do |group| %>-->
-                    <!--<% if group[1] == -1 %>-->
-                      <!--<option value = "/edits/new/<%=current_user.id%>"> User Edit </option>-->
-                    <!--<% else %>-->
-                      <!--<option value="/edits/show/<%=group[0]%>"> Group <%= group[0]%> </option>-->
-                    <!--<% end %>-->
-                  <!--<% end %>-->
-                <!--</select>-->
-              <!--<TD ALIGN="center"></TD>-->
-              <!--</TD>-->
-            <!--</TR>-->
-          <!--</TABLE>-->
-
-        </div>
-
->>>>>>> develop-dhruv2
         </div>
 
 
