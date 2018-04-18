@@ -12,20 +12,23 @@ It can be found at app/views/users/show.html.erb -->
 <div class="container">
 <span id=<%=current_user.id %> class="adminId"></span>
 <div class="row" id="collapseExample">
-  <button id="myBtn">Add New Group</button>
-<!-- The Modal -->
-  <div id="myModal" class="modal">
+  <div class="col-sm-3" id="GroupDropdown">
+    <button id="myBtn" type="button" class="btn btn-info">Add New Group</button>
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Add Group Functionality</p>
+      <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Add Group Functionality</p>
+      </div>
     </div>
-
-  </div>
-
-    <div class="col-sm-3">
-      <TABLE style="width:50%">
+      <ul class="list-group">
+        <% groups = current_user.getGroups %>
+        <% groups.uniq.each do |group| %>
+          <a href="#" class="list-group-item"><%=group[0]%></a>
+        <% end %>
+      <!-- <TABLE style="width:50%">
         <TR>
             <TD class = "select">Student Groups
               <select onChange="window.location.href=this.value">
@@ -37,7 +40,7 @@ It can be found at app/views/users/show.html.erb -->
               <TD ALIGN="center"></TD>
             </TD>
         </TR>
-      </TABLE>
+      </TABLE> -->
     </div>
 
     <div class="col-sm-6" id="GroupWindow">
