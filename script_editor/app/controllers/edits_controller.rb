@@ -14,20 +14,17 @@ class EditsController < ApplicationController
   def show
 
     # ENSURE THIS IS THE PLAY ID
-    # this is the main view to look at the edit mode
-    # so we make changes here
     cookies[:play_id] = params[:id]
-    puts "THE PLAY ID IS: #{cookies[:play_id]}"
 
-    # @edit = Edit.find(params[:id])
-    #
+    @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: current_user.groups_id})
 
-    # @edit = Edit.where({user_id: current_user.id , play_id:params[:meta][:playID], groups_id: current_user.groups_id})
-    #
-    # if @edit == nil
-    #   @edit = EditsController.makeEdit(current_user.id, params[:meta][:playID], current_user.groups_id)
-    # end
+    if @edit.length == 0
+      @edit = EditsController.makeEdit(current_user.id, cookies[:play_id], current_user.groups_id)
+      @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: current_user.groups_id})
+    end
 
+    # get the first element from the array
+    @edit = @edit[0]
 
     l = Line.new
     @hash = l.countAnalytics(cookies[:play_id])
