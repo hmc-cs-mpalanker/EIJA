@@ -95,6 +95,8 @@ function renderScene()
         console.log(this.id);
         var scenceId = this.id; //slices off scene of scene2 to give 2 or other number
         console.log(scenceId);
+        console.log(scenceId[0]);
+        console.log(scenceId[2]);
         ScenerenderHelper(scenceId);
     })
 

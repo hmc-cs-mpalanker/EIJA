@@ -13,6 +13,8 @@ class EditsController < ApplicationController
 
   def show
 
+
+    a = Scene.new
     # ENSURE THIS IS THE PLAY ID
     # this is the main view to look at the edit mode
     # so we make changes here
@@ -24,9 +26,12 @@ class EditsController < ApplicationController
     l = Line.new
     @hash = l.countAnalytics(cookies[:play_id])
 
-    # WHY IS THIS HARD-CODED
+    # So there is a reason why this was hard code
+    # it is namily becuse we want to load the first act
+    # of the play here not the whole play thats like the
+    # point of what we have been doing.
     @scene = l.renderActScene(cookies[:play_id],1)
-
+    puts "#{a.getAllActScenes}"
  end
 
   def compress
