@@ -25,15 +25,25 @@ It can be found at app/views/users/show.html.erb -->
       <TR>
           <TD class = "select">Student Groups
             <select onChange="window.location.href=this.value">
-              <% groups = current_user.getGroups %>
-              <% groups.uniq.each do |group| %>
-                  <option value="/edits/new/<%=group[1]%>"> <%= group[0]%> </option>
+              <% @groups.uniq.each do |group| %>
+                  <%
+                  <option value="/edits/new/<%=group[0]%>"> <%= group[1]%> </option>
               <% end %>
             </select>
             <TD ALIGN="center"></TD>
           </TD>
       </TR>
 </TABLE>
+<div class="col-sm-3">
+  <!--this is a hack to fix spacing on page -->
+
+
+</div>
+<div class="col-sm-6" id="GroupWindow">
+<!--this area displays the each group's info'-->
+<h4 style="margin-left: 10px" id="GroupName"> Act 1 :</h4>
+
+</div>
 
 <div class="group-info" id="groupInfo">
 

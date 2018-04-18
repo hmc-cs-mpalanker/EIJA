@@ -23,3 +23,15 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+function showGroupInfo(groupNum) {
+    // $.get('/scene_render/' + scenceId)//get HTML to insert
+    //     .done(function(data)
+        {
+            // console.log(data);
+            var group =$("#GroupWindow");
+            group.html("");//clear previous data
+            group.html("abcde");//load new scene
+            detectSelections(); // bind to scence
+        };
+}
