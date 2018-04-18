@@ -43,6 +43,8 @@ class Group < ApplicationRecord
 
   # a list of userIds
   # void: adds users to a new group with a new group Number
+
+  # Ensure that the groupName is exists
   def createGroup(lst, groupName)
     gNum = -1
 
