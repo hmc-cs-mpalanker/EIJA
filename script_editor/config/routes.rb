@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   #get '/plays/show'
 
   #get '/edits/compress'
+
+  # get 'edits' => 'edits#show'
+
+  # new calls the show method
   get '/edits/:id' =>'edits#new'
 
   get 'home/homepage'
