@@ -12,12 +12,13 @@ $(function() {
         });
         //renderHelper(1);//this will need to be fixed later
         detectSelections();
-        bindGroupToggle();
+
 
     });
     analytics();
     renderScene();
     iuUpdate();
+    bindGroupToggle();
 
 });
 
@@ -40,6 +41,7 @@ var out = {
         "meta" : {
             "playID" : 1, //should not be hardcoded
             "editID" : 1, //Xans gon take u Xans gonna betray u
+            "groupNum": getCookie("group_number"),
             "cutOrUncut" : null //tells u if its cut or uncut
         },
         "payload" : payLoadG
@@ -229,7 +231,8 @@ function sendPayload() {
             "meta" : {
                 "playID" : 1, //should not be hardcoded
                 "editID" : 1, //Xans gon take u Xans gonna betray u
-                "cutOrUncut" : null //tells u if its cut or uncut
+                "cutOrUncut" : null, //tells u if its cut or uncut
+                "groupNum": getCookie("group_number")
             },
             "payload" : payLoadG
         };
@@ -251,7 +254,8 @@ function iuUpdate() {
         data: {
             "meta": {
                 "editID" : $(".playEditId")[0].id,
-                "sceneID" : 1 //FIX ME ALASDAIR IS LAZY
+                "sceneID" : 1, //FIX ME ALASDAIR IS LAZY
+                 "groupNum": getCookie("group_number")
             }
         }
     }).done(function(data){
@@ -321,22 +325,27 @@ window.onclick = function(event) {
  */
 function bindGroupToggle()
 {
-    $("#group-1").click(function(){
-        console.log("ho");
-        document.cookie="group_number=" + this.id;
-        console.log(document.cookie);
+$(".groupToggle").click(function(){
+    document.cookie="group_number=" + parseInt(this.id.slice(5)) + ";path=/";
     });
- $.each($(".groupToggle"), function(index, element){
-    console.log(element);
-    element.click(function(){
-        console.log("ho");
-        document.cookie="group_number=" + element.id;
-        console.log(document.cookie);
-    });
-});
 }
 
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
 //work on how to build payload
 

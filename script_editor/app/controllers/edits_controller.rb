@@ -24,7 +24,9 @@ class EditsController < ApplicationController
 
     # cookies[:group_number] = 2
     #
-    # puts "THE THING IS :: #{cookies[:group_number]}"
+    puts "THE THING IS :: #{cookies[:group_number]}"
+
+    puts "THE CLASS THING IS :: #{cookies[:group_number].class}"
 
     cookies[:group_number] = groupNum
 
