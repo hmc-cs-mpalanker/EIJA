@@ -83,7 +83,7 @@ However, they both utilize the same .scss file. -->
               <h6 class="accordion-toggle accordion-h6">Act <%= act.number %></h6>
                 <div class="accordion-content">
                   <% act.scenes.each do |scene| %>
-                  <p class="sceneMenu" id="scene<%= scene.number %>">
+                  <p class="sceneMenu" id="<%= scene.number %>:<%= act.number %>">
                       Scene <%= scene.number %>
                     <%end%>
                   </p>
@@ -106,6 +106,7 @@ However, they both utilize the same .scss file. -->
 
             <% lineNum = 1 %>
             <% @scene.each do |lineGroup| %>
+              <%cache lineGroup do %>
               <% puts "#{lineGroup}" %>
               <% if lineGroup[0]=="STAGE" %>
                 <table class="script-Table">
@@ -156,7 +157,7 @@ However, they both utilize the same .scss file. -->
 
             <% end %>
           <% end %>
-
+          <% end %>
 
         </div>
 
@@ -203,7 +204,6 @@ However, they both utilize the same .scss file. -->
             }
           }
           </script>
-
 
           <TABLE BORDER="0">
             <TR>
