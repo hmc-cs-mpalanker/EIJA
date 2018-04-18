@@ -9,44 +9,47 @@ It can be found at app/views/users/show.html.erb -->
 <!-- This will display the name of the current user. -->
 <h1><%= current_user.user_name%>'s Admin Page</h1>
 
-<button id="myBtn">Add New Group</button>
+<div class="container">
+<span id=<%=current_user.id %> class="adminId"></span>
+<div class="row" id="collapseExample">
+  <button id="myBtn">Add New Group</button>
 <!-- The Modal -->
-<div id="myModal" class="modal">
+  <div id="myModal" class="modal">
 
   <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Add Group Functionality</p>
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Add Group Functionality</p>
+    </div>
+
   </div>
 
+    <div class="col-sm-3">
+      <TABLE style="width:50%">
+        <TR>
+            <TD class = "select">Student Groups
+              <select onChange="window.location.href=this.value">
+                <% groups = current_user.getGroups %>
+                <% groups.uniq.each do |group| %>
+                    <option value="/edits/new/<%=group[0]%>"> <%= group[0]%> </option>
+                <% end %>
+              </select>
+              <TD ALIGN="center"></TD>
+            </TD>
+        </TR>
+      </TABLE>
+    </div>
+
+    <div class="col-sm-6" id="GroupWindow">
+      <!-- this area displays the each group's info' -->
+      <h4 style="margin-left: 10px" id="GroupName"> Group 1 :</h4>
+
+    </div>
+
+    <div class="group-info" id="groupInfo">
+
+    </div>
 </div>
-
-  <TABLE style="width:50%">
-      <TR>
-          <TD class = "select">Student Groups
-            <select onChange="window.location.href=this.value">
-              <% @groups.uniq.each do |group| %>
-                  <%
-                  <option value="/edits/new/<%=group[0]%>"> <%= group[1]%> </option>
-              <% end %>
-            </select>
-            <TD ALIGN="center"></TD>
-          </TD>
-      </TR>
-</TABLE>
-<div class="col-sm-3">
-  <!--this is a hack to fix spacing on page -->
-
-
-</div>
-<div class="col-sm-6" id="GroupWindow">
-<!--this area displays the each group's info'-->
-<h4 style="margin-left: 10px" id="GroupName"> Act 1 :</h4>
-
-</div>
-
-<div class="group-info" id="groupInfo">
-
 </div>
 </body>
 
