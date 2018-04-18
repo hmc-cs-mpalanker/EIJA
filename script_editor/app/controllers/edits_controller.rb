@@ -16,6 +16,21 @@ class EditsController < ApplicationController
     # ENSURE THIS IS THE PLAY ID
     cookies[:play_id] = params[:id]
 
+    # puts "The current user is: #{current_user.id} and the current group is #{current_user.groups_id}"
+
+    # get the group number associated with this row in the Groups DB
+    x = Group.find_by_sql [ "select * from Groups where id = ?",current_user.groups_id]
+    groupNum = x[0].groupNum
+
+    # cookies[:group_number] = 2
+    #
+    # puts "THE THING IS :: #{cookies[:group_number]}"
+
+    cookies[:group_number] = groupNum
+
+    puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
+
+
     @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: current_user.groups_id})
 
     if @edit.length == 0

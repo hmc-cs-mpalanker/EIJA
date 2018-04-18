@@ -12,11 +12,13 @@ $(function() {
         });
         //renderHelper(1);//this will need to be fixed later
         detectSelections();
+        bindGroupToggle();
 
     });
     analytics();
     renderScene();
     iuUpdate();
+
 });
 
 /*
@@ -313,6 +315,29 @@ window.onclick = function(event) {
     }
   }
 }
+
+/**
+ * its admrible
+ */
+function bindGroupToggle()
+{
+    $("#group-1").click(function(){
+        console.log("ho");
+        document.cookie="group_number=" + this.id;
+        console.log(document.cookie);
+    });
+ $.each($(".groupToggle"), function(index, element){
+    console.log(element);
+    element.click(function(){
+        console.log("ho");
+        document.cookie="group_number=" + element.id;
+        console.log(document.cookie);
+    });
+});
+}
+
+
+
 //work on how to build payload
 
     // $(".PlaySection").mousedown(function () {
