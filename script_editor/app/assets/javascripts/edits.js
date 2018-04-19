@@ -48,8 +48,8 @@ var heartBeat = 10000000; //update UI every milliseconds
 var payLoadG = [];
 var out = {
         "meta" : {
-            "playID" : 1, //should not be hardcoded
-            "editID" : 1, //Xans gon take u Xans gonna betray u
+            "playID" : getCookie("play_id"), //should not be hardcoded
+            //"editID" : 1, //Xans gon take u Xans gonna betray u
             "groupNum": getCookie("group_number"),
             "cutOrUncut" : null //tells u if its cut or uncut
         },
@@ -250,8 +250,8 @@ function sendPayload() {
         payLoadG = [];//reset globals
         out = {
             "meta" : {
-                "playID" : 1, //should not be hardcoded
-                "editID" : 1, //Xans gon take u Xans gonna betray u
+                "playID" : getCookie("play_id"), //should not be hardcoded
+                //"editID" : 1, //Xans gon take u Xans gonna betray u
                 "cutOrUncut" : null, //tells u if its cut or uncut
                 "groupNum": getCookie("group_number")
             },
@@ -267,20 +267,20 @@ function sendPayload() {
  * calling back home to get update
  */
 function iuUpdate(heartBeatOrUpdate) {
-    console.log($(".playEditId"));
+   // console.log($(".sceneName")[0].id.slice(9));
     $.ajax({
         method: "POST",
         url: '/update/show',
         data: {
             "meta": {
-                "editID" : $(".playEditId")[0].id,
-                "sceneID" : 1, //FIX ME ALASDAIR IS LAZY
-                 "groupNum": getCookie("group_number")
+                //"editID" : $(".playEditId")[0].id,
+                "sceneID" : $(".sceneName")[0].id.slice(9),
+                "groupNum": getCookie("group_number")
             }
         }
     }).done(function(data){
+            renderHelper(data);
             if (heartBeatOrUpdate) {
-                renderHelper(data);
                 setTimeout(
                     function()
                     {
