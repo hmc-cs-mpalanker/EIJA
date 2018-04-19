@@ -76,16 +76,16 @@ However, they both utilize the same .scss file. -->
           <div class="accordion">
             <h6 class=" accordion-h6" id="play-analytics">Analytics</h6>
           </div>
-          <% @play = Edit.find(params[:id]).play%>
-          <% @acts = @play.acts %>
-          <% @acts.each do |act| %>
+          <% @scene_id_map.each do |actNumber, sceneList| %>
           <div class="accordion">
-              <h6 class="accordion-toggle accordion-h6">Act <%= act.number %></h6>
+              <h6 class="accordion-toggle accordion-h6">Act <%= actNumber %></h6>
                 <div class="accordion-content">
-                  <% act.scenes.each do |scene| %>
-                  <p class="sceneMenu" id="<%= scene.number %>:<%= act.number %>">
-                      Scene <%= scene.number %>
+                  <% sceneList.each do |sceneDict| %>
+                    <% sceneDict.each do |sceneNumber, sceneID| %>
+                  <p class="sceneMenu" id="<%=sceneID %>">
+                      Scene <%= sceneNumber %>
                     <%end%>
+                  <%end%>
                   </p>
               <!-- <p class="sceneMenu" id="scene2">
                 Scene 2
