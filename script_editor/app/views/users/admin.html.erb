@@ -35,6 +35,24 @@ It can be found at app/views/users/show.html.erb -->
       </TR>
 </TABLE>
 
+
+<TABLE style="width:50%">
+  <TR>
+    <TD class = "select"> Current Students
+      <select onChange="window.location.href=this.value">
+
+        <% @active_users.each do |usr| %>
+          <option value="<%=usr[0]%>"> <%= usr[1]%> </option>
+        <% end %>
+      </select>
+    <TD ALIGN="center"></TD>
+    </TD>
+  </TR>
+</TABLE>
+
+
+
+
 <div class="group-info" id="groupInfo">
 
 </div>
