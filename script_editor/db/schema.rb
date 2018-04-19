@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180412061335) do
+ActiveRecord::Schema.define(version: 20180419181157) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "number"
@@ -23,8 +23,9 @@ ActiveRecord::Schema.define(version: 20180412061335) do
   create_table "cuts", force: :cascade do |t|
     t.integer  "edit_id"
     t.integer  "word_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "groupNum",   default: -1
     t.index ["edit_id"], name: "index_cuts_on_edit_id"
     t.index ["word_id"], name: "index_cuts_on_word_id"
   end
