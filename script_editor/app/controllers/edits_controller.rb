@@ -56,7 +56,8 @@ class EditsController < ApplicationController
     # it is namily becuse we want to load the first act
     # of the play here not the whole play thats like the
     # point of what we have been doing.
-    @scene = l.renderActScene(cookies[:play_id],1)
+
+    @scene = l.renderActScene(cookies[:play_id],1, cookies[:group_number])
     @scene_id_map = a.getAllActScenes(cookies[:play_id])
     # puts "Out: #{a.getAllActScenes(cookies[:play_id])}"
 
