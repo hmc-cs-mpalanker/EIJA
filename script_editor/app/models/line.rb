@@ -174,7 +174,8 @@ class Line < ApplicationRecord
 
       words.each do |wd|
         # the word is not in the Cuts table
-        if Cut.where(:word_id => wd.id).length == 0
+        # change made to check for GroupNumber in the Cuts table
+        if Cut.where(:word_id => wd.id, :groupNum => group_number).length == 0
           a_line.append([false, wd.id, wd.text])
         else
           a_line.append([true, wd.id, wd.text])
