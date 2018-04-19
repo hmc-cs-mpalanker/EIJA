@@ -4,8 +4,10 @@ class Scene < ApplicationRecord
 
   # output: a LOL where first element is the act id and the 2nd element is the list of scenes
 
-  def getAllActScenes
-    scenes = Scene.find_by_sql("Select * from Scenes order by act_id")
+  def getAllActScenes(play_id)
+    arr = Act.find_by_sql ["select * from Acts where play_id = ?",play_id]
+
+    scenes = arr.map {|act| Scene.find_by_sql [" select * from Scenes where act_id = ?", act.id]}.flatten
 
     # edge-case
     if scenes.size == 0
@@ -37,8 +39,9 @@ class Scene < ApplicationRecord
   # output: Masks the true the actId - Scene numbering(above)
   # for front-end rendering
 
-  def reformatActScene
-    actScene = getAllActScenes
+  def reformatActScene(play_id)
+
+    actScene = getAllActScenes(play_id)
 
     (0...actScene.length).each do |i|
       lol = actScene[i]

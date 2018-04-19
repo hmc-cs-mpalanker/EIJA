@@ -39,7 +39,7 @@ class LinesController < ApplicationController
     #
     # if speakers.include?(key)
     #   val = @hash[key]
-      @queScript = l.getAllCueScript(params[:charecterName])
+      @queScript = l.getAllCueScript(cookies[:play_id],params[:charecterName])
       # @character = key
       # @queScript.each do |p|
       #   puts "#{p}"

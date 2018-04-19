@@ -13,20 +13,12 @@ $(function() {
         //renderHelper(1);//this will need to be fixed later
         detectSelections();
 
+
     });
     analytics();
     renderScene();
     iuUpdate();
-    //iuUpdate();
-    // detectCut();
-    // $(document).on("mousedown", '.word', function(event) {
-    //     console.log("down Detected");
-    //     console.log(this);
-    // });
-
-
-
-
+    bindGroupToggle();
 
 });
 
@@ -43,12 +35,13 @@ $(function() {
  * Globals
  * payloadG = list to contain words to be modified
  */
-
+var heartBeat = 10000; //update UI every second
 var payLoadG = [];
 var out = {
         "meta" : {
             "playID" : 1, //should not be hardcoded
             "editID" : 1, //Xans gon take u Xans gonna betray u
+            "groupNum": getCookie("group_number"),
             "cutOrUncut" : null //tells u if its cut or uncut
         },
         "payload" : payLoadG
@@ -233,21 +226,25 @@ function sendPayload() {
         data: out
     }) .done(function() {
         console.log( "success" );
-        payLoadG = [];
+        payLoadG = [];//reset globals
         out = {
             "meta" : {
                 "playID" : 1, //should not be hardcoded
                 "editID" : 1, //Xans gon take u Xans gonna betray u
-                "cutOrUncut" : null //tells u if its cut or uncut
+                "cutOrUncut" : null, //tells u if its cut or uncut
+                "groupNum": getCookie("group_number")
             },
             "payload" : payLoadG
         };
     })
-
 }
 
-/*
- * updates UI based on server response and or the payload I havent decied yet
+
+
+
+/**
+ * updates UI based on server response this is the heart and soul of the
+ * app this is the litteral heart beat of the app
  */
 function iuUpdate() {
     console.log($(".playEditId"));
@@ -257,12 +254,18 @@ function iuUpdate() {
         data: {
             "meta": {
                 "editID" : $(".playEditId")[0].id,
-                "sceneID" : 1 //FIX ME ALASDAIR IS LAZY
+                "sceneID" : 1, //FIX ME ALASDAIR IS LAZY
+                 "groupNum": getCookie("group_number")
             }
         }
     }).done(function(data){
             console.log("success");
             renderHelper(data);
+            setTimeout(
+                function()
+                {
+                    iuUpdate()
+                }, heartBeat);
     });
 
 
@@ -316,6 +319,34 @@ window.onclick = function(event) {
     }
   }
 }
+
+/**
+ * its admrible
+ */
+function bindGroupToggle()
+{
+$(".groupToggle").click(function(){
+    document.cookie="group_number=" + parseInt(this.id.slice(5)) + ";path=/";
+    });
+}
+
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 //work on how to build payload
 
     // $(".PlaySection").mousedown(function () {

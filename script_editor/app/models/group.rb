@@ -42,21 +42,38 @@ class Group < ApplicationRecord
   # groupId does not get reset to 1 when I remove all entries but defaults to 4 if 3 deleted
 
   # a list of userIds
-  # void: adds users to a new group with a new group Number
+  # void: adds "" users to a new group with a new group Number
+
+  # Ensure the GroupName is unique
   def createGroup(lst, groupName)
+
     gNum = -1
 
-    len = Group.all.length
+    # returns an array
+    lastGroup = Group.find_by_sql("select * from Groups where groupNum <> -1 order by created_at DESC")
 
-    if len == 0
+    if lastGroup.length == 0
       gNum = 1
     else
-
-      gNum = Group.last.groupNum
-      # the next number for the group
-      gNum +=1
+      gNum = lastGroup[0].groupNum
+      gNum += 1
     end
-    lst.each {|user| Group.create(groupNum: gNum, user_id: user, name: groupName)}
+
+    flag = false
+
+    lst.each do |user|
+      curr_user = Group.find_by_sql ["select * from Groups where user_id = ? and name = ?",user,groupName]
+      if curr_user.length == 0
+        flag = true
+        Group.create(groupNum: gNum, user_id: user, name: groupName)
+      end
+    end
+
+    # add the admin to all the groups
+    if flag
+      admin = User.first
+      Group.create(groupNum: gNum, user_id: admin.id, name: groupName)
+    end
   end
 
   # remove a group that has a number in the db
