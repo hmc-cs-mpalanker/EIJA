@@ -46,4 +46,21 @@ class User < ApplicationRecord
       return value
   end
 
+
+  # output: a lol, first elem: user_id, second elem: user_name
+  def getAllUsers
+
+    active_users = []
+
+    users = User.all
+    users.each do |usr|
+      # admin
+      if usr.id != 1
+        lst = [usr.id,usr.user_name]
+        active_users.append(lst)
+      end
+    end
+    return active_users
+  end
+
 end
