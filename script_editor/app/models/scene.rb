@@ -8,20 +8,36 @@ class Scene < ApplicationRecord
     arr = Act.find_by_sql ["select * from Acts where play_id = ?",play_id]
 
     scenes = arr.map {|act| Scene.find_by_sql [" select * from Scenes where act_id = ?", act.id]}.flatten
-
+    puts"scenes: #{scenes}"
+    puts"arr: #{arr}"
     # edge-case
     if scenes.size == 0
       return []
     end
-
+    out = Hash.new()
     result = []
+    puts"push: #{scenes}"
 
     # add the first scene
     fst_scene = scenes[0]
     result.append([fst_scene.act_id,[fst_scene.id]])
 
-    (1...scenes.length).each do |i|
+    (0...scenes.length).each do |i|
       curr_scene = scenes[i]
+      current_act_num = Act.where({id: curr_scene.act_id})[0].number
+      sub = Hash.new()
+      sub[curr_scene.number] = curr_scene.id
+      if out.key?(current_act_num)#if the act key is in hash
+        out[current_act_num] = out[current_act_num].append(sub)
+      else#if the key is not on the hash
+        out[current_act_num] = [sub]
+      end
+      # puts"number: #{curr_scene.number}"
+      # puts"Scene_id: #{curr_scene.id}"
+      # puts"Act_Id: #{curr_scene.act_id}"
+      # puts "Act Num: #{Act.where({id: curr_scene.act_id})[0].number}"
+      # puts " empty #{out}"
+
       # act-id is different
       if curr_scene.act_id != result[result.size-1][0]
         lst = []
@@ -33,7 +49,7 @@ class Scene < ApplicationRecord
       end
     end
 
-    return result
+    return out
   end
 
   # output: Masks the true the actId - Scene numbering(above)
@@ -43,14 +59,17 @@ class Scene < ApplicationRecord
 
     actScene = getAllActScenes(play_id)
 
+    out = Hash.new()
     (0...actScene.length).each do |i|
+      out[actScene[i][0]] = actScene[i][1]
       lol = actScene[i]
       sceneLen = lol[1].size
       (0...sceneLen).each do |j|
         lol[1][j] = j+1
       end
     end
-    return actScene
+    puts "OUT: #{out}"
+    return out
   end
 
 end
