@@ -100,6 +100,4 @@ class Group < ApplicationRecord
     return result
   end
 
-
-
 end
