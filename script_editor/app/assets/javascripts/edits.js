@@ -22,7 +22,7 @@ $(function() {
     });
     analytics();
     renderScene();
-    iuUpdate();
+    iuUpdate(true);
     bindGroupToggle();
 
 });
@@ -263,8 +263,10 @@ function sendPayload() {
 /**
  * updates UI based on server response this is the heart and soul of the
  * app this is the litteral heart beat of the app
+ * heartBeatOrUpdate: true will cause this function to loop on a globally set interval
+ * calling back home to get update
  */
-function iuUpdate() {
+function iuUpdate(heartBeatOrUpdate) {
     console.log($(".playEditId"));
     $.ajax({
         method: "POST",
@@ -277,16 +279,17 @@ function iuUpdate() {
             }
         }
     }).done(function(data){
+            if (heartBeatOrUpdate) {
+                renderHelper(data);
+                setTimeout(
+                    function()
+                    {
+                        iuUpdate()
+                    }, heartBeat);
+            }
             console.log("success");
-            renderHelper(data);
-            setTimeout(
-                function()
-                {
-                    iuUpdate()
-                }, heartBeat);
+
     });
-
-
     }
 
 /**
@@ -312,6 +315,20 @@ function renderHelper(uiUpdatesResponse) {
 
 }
 
+/**
+ * when the user clicks on the drop down update cookie so they are looking at a diffrent
+ * set of edtis
+ * also update all edits in view
+ */
+function bindGroupToggle() {
+    $(".groupToggle").click(function(){
+        document.cookie = "group_number" + "=" + this.id.slice(5)+ ";path=/";
+        iuUpdate(false);//lol just saw this name, this will call update once so new edits are
+        //reflected on page
+    });
+}
+
+
 /** When the user clicks on the button,
  * toggle between hiding and showing the dropdown content
  */
@@ -332,4 +349,41 @@ window.onclick = function(event) {
       }
     }
   }
+}
+
+/**
+ * Take the cookiename as parameter (cname).
+ *
+ * Create a variable (name) with the text to search for (cname + "=").
+ *
+ * Decode the cookie string, to handle cookies with special characters, e.g. '$'
+ *
+ * Split document.cookie on semicolons into an array called ca (ca = decodedCookie.split(';')).
+ *
+ * Loop through the ca array (i = 0; i < ca.length; i++), and read out each value c = ca[i]).
+ *
+ * If the cookie is found (c.indexOf(name) == 0), return the value of the cookie (c.substring(name.length, c.length).
+ *
+ * If the cookie is not found, return "".
+ * @param cname
+ * @returns {string}
+ *
+ * thanks w3 schools
+ *
+ * https://www.w3schools.com/js/js_cookies.asp
+ */
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
