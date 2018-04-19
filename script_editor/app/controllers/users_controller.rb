@@ -9,8 +9,6 @@ class UsersController < ApplicationController
   	unless current_user.try(:admin?)
   		redirect_to root_path
   		flash.alert = "You must be logged in as admin"
-      @groups = current_user.getGroups
-      # @edits = Edit.find_by_sql(["Select * from Edits where groups_id = ?", group_id])
     end
 
       # the active users

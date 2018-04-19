@@ -24,6 +24,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'coffee-script-source', '1.8.0'
 # This gem adds the navigation bar.
 gem 'bootstrap', '~> 4.0.0'
+gem 'jquery-datatables-rails'
 
 gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'bcrypt'
 

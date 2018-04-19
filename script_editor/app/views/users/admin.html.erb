@@ -10,95 +10,164 @@ It can be found at app/views/users/show.html.erb -->
 <h1><%= current_user.user_name%>'s Admin Page</h1>
 
 <div class="container">
-<span id=<%=current_user.id %> class="adminId"></span>
+<span id="<%=current_user.id %>" class="adminId"></span>
   <div class="row" id="collapseExample">
-    <div class="col-sm-3" id="GroupDropdown">
-      <button id="myBtn" type="button" class="btn btn-info">Add New Group</button>
+    <div class="col-sm-3" id="adminButtons">
+
+      <button id="groupBtn" type="button" class="btn btn-info">Add New Group</button>
         <!-- The Modal -->
-        <div id="myModal" class="modal">
+        <div id="groupModal" class="modal">
 
           <!-- Modal content -->
           <div class="modal-content">
-            <span class="close">&times;</span>
-              <p>Add Group Functionality</p>
-            </div>
+            <h4>Add New Group</h4>
+              <button id="createGroup" type="button" class="btn btn-info">Create Group</button>
+
+              <!-- Example here: https://datatables.net/examples/api/select_row.html -->
+              <table id="allUsersGroups" class="table" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @active_users.each do |usr| %>
+                  <tr>
+                    <td><%=usr[1]%></td>
+                  </tr>
+                  <% end %>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </tfoot>
+            </table>
           </div>
+        </div>
 
-            <ul class="list-group">
-              <% groups = current_user.getGroups %>
-              <% groups.uniq.each do |group| %>
-                <a class="groupToggle" id=<%="group" + String(group[1])%> ><%=group[0]%></a>
-             <% end %>
-            </ul>
-            <script>
+      <button id="adminBtn" type="button" class="btn btn-info">Add Admin</button>
+      <!-- The Modal -->
+        <div id="adminModal" class="modal">
 
-            // Get the modal
-            var modal = document.getElementById('myModal');
+          <!-- Modal content -->
+          <div class="modal-content">
+            <h4>Add Admin</h4>
+            <button id="createAdmin" type="button" class="btn btn-info">Make Admin</button>
+            <table id="allUsersAdmin" class="table" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @active_users.each do |usr| %>
+                  <tr>
+                    <td><%=usr[1]%></td>
+                  </tr>
+                  <% end %>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Name</th>
+                  </tr>
+                </tfoot>
+            </table>
+          </div>
+        </div>
+        <style>
 
-            // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
+        </style>
 
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-
-            // When the user clicks on the button, open the modal
-            $("#myBtn").click(function(){
-             $("#myModal").modal('show');
-            })
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-              modal.style.display = "none";
-            }
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-              if (event.target == modal) {
-                modal.style.display = "none";
+        <script>
+            $(
+              $(document).ready(function() {
+              // When the user clicks on the button, open the modal
+              $("#groupBtn").click(function(){
+               $("#groupModal").modal('show');
+              })
+              $("#adminBtn").click(function(){
+               $("#adminModal").modal('show');
+              })
+              // When the user clicks anywhere outside of the modal, close it
+              var modal = document.getElementsByClassName("modal")[0]
+              window.onclick = function(event) {
+                if (event.target == modal) {
+                  modal.style.display = "none";
+                }
               }
-            }
+              $(document).ready(function() {
+                  var table = $('#allUsersGroups').DataTable()
 
-            function showGroupInfo(groupNum) {
-            // $.get('/scene_render/' + scenceId)//get HTML to insert
-            //     .done(function(data)
-            {
-              // console.log(data);
-              var group =$("#GroupWindow");
-              group.html("");//clear previous data
-            };
-            }
+                  $('#allUsersAdmin tbody').on( 'click', 'tr', function () {
+                        $(this).toggleClass('active');
+                  } );
+                  $('.createGroup').click( function () {
+                      alert( table.rows('.active').data().length +' row(s) active' );
+                  } );
+                    //{
+                    // select: {style: 'multi'},
+                    //   buttons: [
+                    //   {
+                    //       text: 'Get selected data',
+                    //       action: function () {
+                    //           var count = table.rows( { selected: true } ).count()
+                    //         }
+                    //   }
+                    // ]
+                    // });
+                  });
+              $(document).ready(function() {
+                  var table = $('#allUsersAdmin').DataTable();
 
-            function bindGroupToggle()
-            {
-            // $("#groupToggle").click(function(){
-            //   console.log("ho");
-            //   document.cookie="group_number=" + this.id;
-            //   console.log(document.cookie);
-            //   });
-            $(".groupToggle").click, function(index, element){
-              console.log("Yeah");
-              console.log(element);
-              // element.click(function(){
-              //   console.log("ho");
-              //   document.cookie="group_number=" + element.id;
-              //   console.log(document.cookie);
+                  $('#allUsersAdmin tbody').on( 'click', 'tr', function () {
+                      $(this).toggleClass('active');
+                  } );
+
+                  $('.createAdmin').click( function () {
+                      alert( table.rows('.active').data().length +' row(s) active' );
+                  } );
+              } );
+
+              function showGroupInfo(groupNum) {
+              // $.get('/scene_render/' + scenceId)//get HTML to insert
+              //     .done(function(data)
+              {
+                // console.log(data);
+                var group =$("#GroupWindow");
+                group.html("");//clear previous data
               };
-            //});
-            }
-            </script>
-            <TABLE style="width:50%">
-              <TR>
-                <TD class = "select"> Current Students
-                  <select onChange="window.location.href=this.value">
+              }
 
-                    <% @active_users.each do |usr| %>
-                      <option value="<%=usr[0]%>"> <%= usr[1]%> </option>
-                    <% end %>
-                  </select>
-                <TD ALIGN="center"></TD>
-                </TD>
-              </TR>
-            </TABLE>
+              function bindGroupToggle()
+              {
+              // $("#groupToggle").click(function(){
+              //   console.log("ho");
+              //   document.cookie="group_number=" + this.id;
+              //   console.log(document.cookie);
+              //   });
+              $(".groupToggle").click, function(index, element){
+                console.log("Yeah");
+                console.log(element);
+                // element.click(function(){
+                //   console.log("ho");
+                //   document.cookie="group_number=" + element.id;
+                //   console.log(document.cookie);
+                };
+              //});
+              }
+            })
+            );
+        </script>
     </div>
+
+    <ul class="list-group">
+      <h4>Groups</h4>
+        <% groups = current_user.getGroups %>
+        <% groups.uniq.each do |group| %>
+           <a class="groupToggle" id=<%="group" + String(group[1])%> ><%=group[0]%></a>
+        <% end %>
+    </ul>
 
     <div class="col-sm-6" id="GroupWindow">
       <!-- this area displays the each group's info' -->
