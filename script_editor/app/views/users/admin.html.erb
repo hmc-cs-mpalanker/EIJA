@@ -50,35 +50,12 @@ It can be found at app/views/users/show.html.erb -->
             span.onclick = function() {
               modal.style.display = "none";
             }
-
-<<<<<<< HEAD
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
               if (event.target == modal) {
                 modal.style.display = "none";
               }
             }
-=======
-
-<TABLE style="width:50%">
-  <TR>
-    <TD class = "select"> Current Students
-      <select onChange="window.location.href=this.value">
-
-        <% @active_users.each do |usr| %>
-          <option value="<%=usr[0]%>"> <%= usr[1]%> </option>
-        <% end %>
-      </select>
-    <TD ALIGN="center"></TD>
-    </TD>
-  </TR>
-</TABLE>
-
-
-
-
-<div class="group-info" id="groupInfo">
->>>>>>> develop-dhruv2
 
             function showGroupInfo(groupNum) {
             // $.get('/scene_render/' + scenceId)//get HTML to insert
@@ -108,19 +85,19 @@ It can be found at app/views/users/show.html.erb -->
             //});
             }
             </script>
-      <!-- <TABLE style="width:50%">
-        <TR>
-            <TD class = "select">Student Groups
-              <select onChange="window.location.href=this.value">
-                <% groups = current_user.getGroups %>
-                <% groups.uniq.each do |group| %>
-                    <option value="/edits/new/<%=group[0]%>"> <%= group[0]%> </option>
-                <% end %>
-              </select>
-              <TD ALIGN="center"></TD>
-            </TD>
-        </TR>
-      </TABLE> -->
+            <TABLE style="width:50%">
+              <TR>
+                <TD class = "select"> Current Students
+                  <select onChange="window.location.href=this.value">
+
+                    <% @active_users.each do |usr| %>
+                      <option value="<%=usr[0]%>"> <%= usr[1]%> </option>
+                    <% end %>
+                  </select>
+                <TD ALIGN="center"></TD>
+                </TD>
+              </TR>
+            </TABLE>
     </div>
 
     <div class="col-sm-6" id="GroupWindow">
