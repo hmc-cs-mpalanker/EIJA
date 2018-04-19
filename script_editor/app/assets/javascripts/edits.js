@@ -1,4 +1,9 @@
-// (function($) {})(jQuery);
+// This is the most important file in th whole app so read it and understand it
+// If you dont know JS its ok Im amazing at commenting
+// Also read examples
+// And stackoverflow
+// Jquery docs are some of the best around but I still hate reading so you know
+// life advice be aggressively lazy
 
 $(function() {
     $(document).ready(function() {
@@ -17,7 +22,7 @@ $(function() {
     });
     analytics();
     renderScene();
-    iuUpdate();
+    iuUpdate(true);
     bindGroupToggle();
 
 });
@@ -29,18 +34,22 @@ $(function() {
     however as a web dev I have never seen this before in any other framework
     another hack that works is to inline script
     but this is terrible style
+    also if u can figure this out u have more time and are more diligent than me
+    so good for u I guess
+    I'll buy you a burrito hit me up Alasdair Johnson like no joke do it
+    well become friends and walk into the sunset
  */
 
 /**
  * Globals
  * payloadG = list to contain words to be modified
  */
-var heartBeat = 10000; //update UI every second
+var heartBeat = 10000000; //update UI every milliseconds
 var payLoadG = [];
 var out = {
         "meta" : {
-            "playID" : 1, //should not be hardcoded
-            "editID" : 1, //Xans gon take u Xans gonna betray u
+            "playID" : getCookie("play_id"), //should not be hardcoded
+            //"editID" : 1, //Xans gon take u Xans gonna betray u
             "groupNum": getCookie("group_number"),
             "cutOrUncut" : null //tells u if its cut or uncut
         },
@@ -88,8 +97,7 @@ function renderScene()
 {
     $(".sceneMenu").click(function () {
         console.log(this.id);
-        var scenceId = this.id.slice(5); //slices off scene of scene2 to give 2 or other number
-        console.log(scenceId);
+        var scenceId = this.id; //slices off scene of scene2 to give 2 or other number
         ScenerenderHelper(scenceId);
     })
 
@@ -124,6 +132,7 @@ function detectSelections() {
         .mousedown(function() {
             console.log("down Detected");
             console.log(this);
+            addToPayload(this)//this is a hack but hell it works
             //while the mouse is down
             logWords(true);//we have detected user wants to make changes to selection
         })
@@ -141,31 +150,8 @@ function detectSelections() {
 function logWords(onOff) {
     if (onOff) {
         $( ".word" ).hover(
-            function() {
-                var classofElement = $(this).attr("class");//get class of current element
-                console.log(classofElement);
-                setCutUncut(classofElement);//sets global and returns weather we are cutting or nah
-                var cutingOrNah = out["meta"]["cutOrUncut"];
-                if ($.inArray(this.id, payLoadG) === -1){
-                    console.log(cutingOrNah);
-                    if ((classofElement === "word") == cutingOrNah){
-                        //so I know this is hacky as shit but I hope u get it
-                        //I want the behavior that once I start selecting words that
-                        //it is locked in that I am cutting or uncuting the words
-                        //so lets think about that now then so what will happen
-                        //is if I click a word we will first check to see if the class
-                        //is 'word' or 'word del' if it is word then
-                        //
-                        //check to make sure that this word is not already in the payload
-                        //if it is unique add it
-                        console.log("adding :" +
-                            "");
-                        console.log(this.id);
-                        payLoadG.push(this.id);
-                        cutOrUncutUiInteractionUpdate(cutingOrNah, this);
-                    }
-                }
-
+            function() {//this function is called while hover is active
+               addToPayload(this);
             },
             function() {
                 //$( this ).removeClass("del");
@@ -179,7 +165,41 @@ function logWords(onOff) {
 }
 
 /**
- *
+ * Add to payload add words to payload and then will
+ * also toggle its classe this also sets if we are cutting or uncuting
+ */
+function addToPayload(payloadElement){
+    var classofElement = $(payloadElement).attr("class");//get class of current element
+    console.log(classofElement);
+    setCutUncut(classofElement);//sets global and returns weather we are cutting or nah
+    var cutingOrNah = out["meta"]["cutOrUncut"];
+    if ($.inArray(payloadElement.id, payLoadG) === -1){
+        console.log(cutingOrNah);
+        if ((classofElement === "word") == cutingOrNah){
+            //so I know this is hacky as shit but I hope u get it
+            //I want the behavior that once I start selecting words that
+            //it is locked in that I am cutting or uncuting the words
+            //so lets think about that now then so what will happen
+            //is if I click a word we will first check to see if the class
+            //is 'word' or 'word del' if it is word then
+            //
+            //check to make sure that this word is not already in the payload
+            //if it is unique add it
+            console.log("adding :" +
+                "");
+            console.log(payloadElement.id);
+            payLoadG.push(payloadElement.id);
+            cutOrUncutUiInteractionUpdate(cutingOrNah, payloadElement);
+        }
+    }
+}
+
+
+/**
+ * will set the globals so that once you start cutting for that payload
+ * all will be cuts
+ * this is kind of a hack but hey its javascript the whole launge is a hack
+ * and dont you think about rewriting this in coffeescript
  */
 function setCutUncut(classofElement){
     if (out["meta"]["cutOrUncut"] === null){
@@ -201,7 +221,7 @@ function setCutUncut(classofElement){
 }
 
 /**
- *
+ * A wraper so that code is cleaner to toggle the del css class
  */
 function cutOrUncutUiInteractionUpdate(cutUncut, element){
     if (cutUncut){
@@ -215,7 +235,8 @@ function cutOrUncutUiInteractionUpdate(cutUncut, element){
 
 /**
  * sends edit data to server
- *
+ * pretty obvious AJAX is cool right
+ * learn it
  */
 function sendPayload() {
 
@@ -229,8 +250,8 @@ function sendPayload() {
         payLoadG = [];//reset globals
         out = {
             "meta" : {
-                "playID" : 1, //should not be hardcoded
-                "editID" : 1, //Xans gon take u Xans gonna betray u
+                "playID" : getCookie("play_id"), //should not be hardcoded
+                //"editID" : 1, //Xans gon take u Xans gonna betray u
                 "cutOrUncut" : null, //tells u if its cut or uncut
                 "groupNum": getCookie("group_number")
             },
@@ -239,45 +260,44 @@ function sendPayload() {
     })
 }
 
-
-
-
 /**
  * updates UI based on server response this is the heart and soul of the
  * app this is the litteral heart beat of the app
+ * heartBeatOrUpdate: true will cause this function to loop on a globally set interval
+ * calling back home to get update
  */
-function iuUpdate() {
-    console.log($(".playEditId"));
+function iuUpdate(heartBeatOrUpdate) {
+   // console.log($(".sceneName")[0].id.slice(9));
     $.ajax({
         method: "POST",
         url: '/update/show',
         data: {
             "meta": {
-                "editID" : $(".playEditId")[0].id,
-                "sceneID" : 1, //FIX ME ALASDAIR IS LAZY
-                 "groupNum": getCookie("group_number")
+                //"editID" : $(".playEditId")[0].id,
+                "sceneID" : $(".sceneName")[0].id.slice(9),
+                "groupNum": getCookie("group_number")
             }
         }
     }).done(function(data){
-            console.log("success");
             renderHelper(data);
-            setTimeout(
-                function()
-                {
-                    iuUpdate()
-                }, heartBeat);
+            if (heartBeatOrUpdate) {
+                setTimeout(
+                    function()
+                    {
+                        iuUpdate()
+                    }, heartBeat);
+            }
+            console.log("success");
+
     });
-
-
     }
 
-/*
+/**
  * I just want feel liberated
  * this method will take in a edits payload from the 
  * update controller and then will render the updates
  * from the cuts and uncuts onto the page
 */
-
 function renderHelper(uiUpdatesResponse) {
                 console.log(uiUpdatesResponse);
                 var payload = uiUpdatesResponse["payload"];
@@ -295,12 +315,23 @@ function renderHelper(uiUpdatesResponse) {
 
 }
 
+/**
+ * when the user clicks on the drop down update cookie so they are looking at a diffrent
+ * set of edtis
+ * also update all edits in view
+ */
+function bindGroupToggle() {
+    $(".groupToggle").click(function(){
+        document.cookie = "group_number" + "=" + this.id.slice(5)+ ";path=/";
+        iuUpdate(false);//lol just saw this name, this will call update once so new edits are
+        //reflected on page
+    });
+}
 
 
-
-
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
+/** When the user clicks on the button,
+ * toggle between hiding and showing the dropdown content
+ */
 function groupDropdown() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
@@ -321,16 +352,26 @@ window.onclick = function(event) {
 }
 
 /**
- * its admrible
+ * Take the cookiename as parameter (cname).
+ *
+ * Create a variable (name) with the text to search for (cname + "=").
+ *
+ * Decode the cookie string, to handle cookies with special characters, e.g. '$'
+ *
+ * Split document.cookie on semicolons into an array called ca (ca = decodedCookie.split(';')).
+ *
+ * Loop through the ca array (i = 0; i < ca.length; i++), and read out each value c = ca[i]).
+ *
+ * If the cookie is found (c.indexOf(name) == 0), return the value of the cookie (c.substring(name.length, c.length).
+ *
+ * If the cookie is not found, return "".
+ * @param cname
+ * @returns {string}
+ *
+ * thanks w3 schools
+ *
+ * https://www.w3schools.com/js/js_cookies.asp
  */
-function bindGroupToggle()
-{
-$(".groupToggle").click(function(){
-    document.cookie="group_number=" + parseInt(this.id.slice(5)) + ";path=/";
-    });
-}
-
-
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -346,264 +387,3 @@ function getCookie(cname) {
     }
     return "";
 }
-
-//work on how to build payload
-
-    // $(".PlaySection").mousedown(function () {
-    //     console.log("down Detected");
-    //     console.log(parseInt(this));
-    //     $( ".word" ).hover(
-    //         function() {
-    //             console.log("hover on");
-    //             $( this ).append( $( "<span> ***</span>" ) );
-    //         }, function() {
-    //             $( this ).find( "span:last" ).remove();
-    //         }
-    //     );
-
-
-
-
-    // })
-//}
-
-
-
-
-// function renderHelper(scenceId) {
-//     $.ajax({
-//         type: "GET",
-//         url: '/scene_render/' + scenceId,
-//         success: function(data) {
-//             console.log("data");
-//             var play =$("#PlaySection");
-//             play.html("");//clear previous data
-//             play.html(data);//load new scene
-//         },
-//         complete: function() {
-//             console.log("completed");
-//             $('.sceneMenu').click(function () {
-//                 console.log("rebind");
-//                 renderScene();
-//             }); // will fire either on success or error
-//         }
-//     });
-// }
-
-
-// //Create events for the various functions associated with strikethrough.
-//
-// //If we click the mouse down, tell the program we're dragging the mouse.
-// document.querySelector(".script-main").addEventListener("mousedown", drag, false);
-//
-// //If we move the mouse over an element, let it know. If the mouse is down, this will strikethrough the element.
-// //document.querySelector(".script-main").addEventListener("mouseover", doCut, false);
-//
-// //If the mouse is clicked down over an element, cut the element.
-// // document.querySelector(".script-main").addEventListener("mousedown", doCut, false);
-//
-// //If the mouse is lifted, tell the program that we're no long dragging the mouse.
-// document.querySelector(".script-main").addEventListener("mouseup", lift, false);
-//
-// //Stop cutting or uncutting if the mouse leaves the document or window.
-// $(document).mouseleave(function()
-// {
-//     lift();
-// });
-//
-// document.querySelector(".toggle-button").addEventListener("click",toggleScript, false);
-//
-// document.querySelector(".save-button").addEventListener("click", saveWrapper, false);
-// var mousedrag = false;
-// var origId = 0;
-// var cutlist = [];
-// var uncutlist = [];
-// var checkId = "";
-// var compressed = false;
-//
-// //Credit to Odin Thunder https://stackoverflow.com/questions/45349885/how-to-resend-a-failed-ajax-request-globally
-// //If a server call fails, try again.
-// $( document ).ajaxError( function( event, jqxhr, settings, thrownError) {
-//     console.log(settings);
-//     $.ajax(settings);
-// });
-//
-// //Save that the mouse is down.
-// function drag(e)
-// {
-//     mousedrag = true;
-//     origId = parseInt(e.target.id);
-// }
-//
-// //Save that the mouse is up.
-// function lift(e)
-// {
-//     doCut(e);
-//     mousedrag = false;
-// }
-//
-// //A filter which removes the word given.
-// function remove(word)
-// {
-//     return word != checkId;
-// }
-//
-// //Manage the data necessary to cut or uncut a word.
-// function dataCut(clickedItem,cut)
-// {
-//     var idNum = parseInt(clickedItem.id);
-//     checkId = idNum;
-//     if(cut)
-//     {
-//         cutlist = cutlist.filter(remove);
-//         cutlist.push(idNum);
-//     }
-//     else
-//     {
-//         uncutlist = uncutlist.filter(remove);
-//         uncutlist.push(idNum);
-//     }
-// }
-//
-//
-// function saveWrapper()
-// {
-//
-//     if(cutlist.length > 0 || uncutlist.length > 0){
-//         var modal3 = document.getElementById("save-modal");
-//         modal3.style.display = "block";
-//         saveCut();
-//     }
-// }
-//
-//
-// //If the save button is hit, send cached data to the database.
-// function saveCut()
-// {
-//     var script = $(".script-main")[0];
-//     var cEditId = parseInt(script.id);
-//     if(cutlist.length == 0 && uncutlist.length == 0){
-//         var modal3 = document.getElementById("save-modal");
-//         modal3.style.display = "none";
-//         window.alert("Saved!");
-//         return;
-//     }
-//
-//     if(cutlist.length != 0)
-//     {
-//         idNum = cutlist.pop();
-//         var cutmessage = "Cut: " + idNum.toString();
-//         console.log(cutmessage);
-//         $.post("/cuts/new",
-//             {
-//                 editI: cEditId,
-//                 wordI: idNum
-//             },function()
-//             {
-//                 saveCut();
-//             });
-//         return;
-//     }
-//     if(uncutlist.length != 0)
-//     {
-//         idNum = uncutlist.pop();
-//         var cutmessage = "Uncut: " + idNum.toString();
-//         console.log(cutmessage);
-//         $.post("/cuts/delete",
-//             {
-//                 editI: cEditId,
-//                 wordI: idNum
-//             },function()
-//             {
-//                 saveCut();
-//             });
-//         return;
-//     }
-// }
-//
-// //Changes visuals of a word.
-// function modifyStyle(clickedItem,color,style,cut)
-// {
-//     clickedItem.style.color = color;
-//     clickedItem.style.textDecoration = style;
-//     clickedItem.dataset.cut = cut;
-// }
-//
-// //Actually executes the XML cut on a word based on whether it was cut before or not.
-// function literalCut(clickedItem,cut)
-// {
-//     var color;
-//     var style;
-//     var currId = parseInt(clickedItem.id);
-//     console.log("ORIG ID: " + origId);
-//     console.log("CURR ID: " + currId);
-//     if(cut)
-//     {
-//         style = "line-through";
-//         if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
-//         {
-//             color = "#D3D3D3";
-//         }
-//         else
-//         {
-//             color = "#888888";
-//         }
-//     }
-//     else
-//     {
-//         style = "none";
-//         if(clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "cstage")
-//         {
-//             color = "#006BFF";
-//         }
-//         else
-//         {
-//             color = "#000000";
-//         }
-//     }
-//     while(origId <= currId){
-//         currObj = document.getElementById(origId.toString());
-//         modifyStyle(currObj,color,style,cut);
-//         dataCut(currObj,cut);
-//         console.log("cutting word with id " + origId);
-//         origId++;
-//     }
-// }
-//
-// // all words will need to be printed within the div class "script-main"
-// function doCut(e) {
-//     var clickedItem = e.target;
-//     // Strikesthrough lines if mouse is down, and unstrikes if shift is also held.
-//     if (clickedItem.getAttribute("class") == "word" || clickedItem.getAttribute("class") == "punc"
-//         || clickedItem.getAttribute("class") == "cword" || clickedItem.getAttribute("class") == "stage" || clickedItem.getAttribute("class") == "cstage")
-//     {
-//         if (mousedrag && !e.shiftKey) {
-//             literalCut(clickedItem,true);
-//         }
-//         else if(e.shiftKey && mousedrag) {
-//             literalCut(clickedItem,false);
-//         }
-//     }
-// }
-//
-// function toggleScript(e)
-// {
-//     if(compressed)
-//     {
-//         $(".script-second").hide();
-//         document.getElementById("toggle-text").textContent="HIDE CUTS";
-//         $(".script-main").show();
-//     }
-//     else
-//     {
-//         //Got hide syntax from https://stackoverflow.com/questions/9456289/how-to-make-a-div-visible-and-invisible-with-javascript
-//         document.getElementById("toggle-text").textContent="SHOW CUTS";
-//         var location = ("/edits/compress/").concat(window.location.pathname.substring(7,window.location.pathname.length)).concat(" .script-second");
-//         $(".script-second").load(location, function()
-//         {
-//             $(".script-main").hide();
-//             $(".script-second").show();
-//         });
-//     }
-//     compressed = !compressed;
-// }

@@ -76,16 +76,16 @@ However, they both utilize the same .scss file. -->
           <div class="accordion">
             <h6 class=" accordion-h6" id="play-analytics">Analytics</h6>
           </div>
-          <% @play = Edit.find(params[:id]).play%>
-          <% @acts = @play.acts %>
-          <% @acts.each do |act| %>
+          <% @scene_id_map.each do |actNumber, sceneList| %>
           <div class="accordion">
-              <h6 class="accordion-toggle accordion-h6">Act <%= act.number %></h6>
+              <h6 class="accordion-toggle accordion-h6">Act <%= actNumber %></h6>
                 <div class="accordion-content">
-                  <% act.scenes.each do |scene| %>
-                  <p class="sceneMenu" id="scene<%= scene.number %>">
-                      Scene <%= scene.number %>
+                  <% sceneList.each do |sceneDict| %>
+                    <% sceneDict.each do |sceneNumber, sceneID| %>
+                  <p class="sceneMenu" id="<%=sceneID %>">
+                      Scene <%= sceneNumber %>
                     <%end%>
+                  <%end%>
                   </p>
               <!-- <p class="sceneMenu" id="scene2">
                 Scene 2
@@ -102,10 +102,11 @@ However, they both utilize the same .scss file. -->
         <div class="col-sm-6" id="PlaySection">
         <!--this area displays the script itself-->
         <h4 style="margin-left: 10px" id="actName"> Act 1 :</h4>
-        <h6 style="margin-left: 10px" id="sceneName"> Scene 1</h6>
+        <h6 style="margin-left: 10px" id="sceneName1" class="sceneName"> Scene 1</h6>
 
             <% lineNum = 1 %>
             <% @scene.each do |lineGroup| %>
+              <%cache lineGroup do %>
               <% puts "#{lineGroup}" %>
               <% if lineGroup[0]=="STAGE" %>
                 <table class="script-Table">
@@ -156,7 +157,7 @@ However, they both utilize the same .scss file. -->
 
             <% end %>
           <% end %>
-
+          <% end %>
 
         </div>
 
@@ -206,24 +207,6 @@ However, they both utilize the same .scss file. -->
 
           </script>
 
-
-          <!--<TABLE BORDER="0">-->
-            <!--<TR>-->
-              <!--<TD class = "select"> <%=current_user.user_name %>'s Groups-->
-                <!--<select onChange="window.location.href=this.value">-->
-                  <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
-                  <!--<% groups.uniq.each do |group| %>-->
-                    <!--<% if group[1] == -1 %>-->
-                      <!--<option value = "/edits/new/<%=current_user.id%>"> User Edit </option>-->
-                    <!--<% else %>-->
-                      <!--<option value="/edits/show/<%=group[0]%>"> Group <%= group[0]%> </option>-->
-                    <!--<% end %>-->
-                  <!--<% end %>-->
-                <!--</select>-->
-              <!--<TD ALIGN="center"></TD>-->
-              <!--</TD>-->
-            <!--</TR>-->
-          <!--</TABLE>-->
 
         </div>
 
