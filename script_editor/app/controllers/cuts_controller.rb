@@ -3,11 +3,37 @@ require 'json'
 
 class CutsController < ApplicationController
 
+  # add logic similar to the edits_ctrl#show to check if an edit object is made, else, make a new one
+
+  # ensure that the where clause calls [0] index value to get the object from the array
   def new
 
     # update the edit here
-    edit_object = Edit.where({user_id: current_user.id , play_id: params[:meta][:playID], groups_id: current_user.groups_id}).update(updated_at: Time.now)
-    edit_id = edit_object[0].id
+    # groups_id is the row NOT THE GROUP NUM
+
+    # from the cookie we will get the GROUP NUMBER
+    # for the current_user we have the userID
+    # the combination of GroupNumber and UserId will give the "groups_id" row from the Groups table
+
+    group_number = cookies[:group_number]
+    group_number = group_number.to_i
+
+    # puts "THE NUMBER IS: #{group_number}"
+    # puts "THE CLASS IS: #{group_number.class}"
+
+
+    group_id = Group.find_by_sql ["select * from Groups where user_id = ? and groupNum = ?",current_user.id,group_number]
+
+    # added the correct groupID
+    edit_object = Edit.where({user_id: current_user.id , play_id: params[:meta][:playID], groups_id: group_id})[0]
+
+    if edit_object.nil?
+      # puts "IN THE NIL CASE"
+      EditsController.makeEdit(current_user.id,params[:meta][:playID],group_id)
+      edit_object = Edit.where({user_id: current_user.id , play_id: cookies[:play_id], groups_id: group_id})[0]
+    end
+
+    edit_id = edit_object.id
     cutAndUncut(params[:payload],params[:meta][:cutOrUncut],edit_id)
 
   end
