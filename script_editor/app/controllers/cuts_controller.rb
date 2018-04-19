@@ -15,7 +15,7 @@ class CutsController < ApplicationController
     # for the current_user we have the userID
     # the combination of GroupNumber and UserId will give the "groups_id" row from the Groups table
 
-    group_number = cookies[:group_number]
+    group_number = cookies[:group_num]
     group_number = group_number.to_i
 
     # puts "THE NUMBER IS: #{group_number}"
