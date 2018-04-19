@@ -84,14 +84,20 @@ class Group < ApplicationRecord
 
   # remove a single user from a single group
   # input: userID
-  def removeUserGroup(uId, gId)
-    Group.where(groupNum: gId).where(userId: uId).delete_all
+  def removeUserGroup(uId, gNum)
+    Group.where(groupNum: gNum).where(userId: uId).delete_all
   end
 
-  # Hash: Key: groupName, val: [PlayName, playID, GroupNumber]
+  def getGroupEdits(gNum)
+    group = Group.where(groupNum: gNum)
+    edits = Group.find_by_sql("select edit_id from Groups where groupNum = gNum")
+    result = Hash.new
+    edits.each do |editId|
+      play = Edit.find(params[:editId]).play
 
-  def groupsInfo
-    
+      result[play] = editId
+    end
+    return result
   end
 
 end
