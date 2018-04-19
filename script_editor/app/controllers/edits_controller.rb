@@ -12,8 +12,11 @@ class EditsController < ApplicationController
 
   def show
 
+
+    a = Scene.new
     # ENSURE THIS IS THE PLAY ID
-    cookies[:play_id] = params[:id]
+    cookies[:play_id] = params[:id]#gang gang
+
 
     # get the group number associated with this row in the Groups DB
     x = Group.find_by_sql [ "select * from Groups where id = ?",current_user.groups_id]
@@ -27,7 +30,10 @@ class EditsController < ApplicationController
 
     # puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
 
+
+    #be sure to change this so group id is the cookie so we can more easily change it
     @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: current_user.groups_id})
+
 
     if @edit.length == 0
       @edit = EditsController.makeEdit(current_user.id, cookies[:play_id], current_user.groups_id)
@@ -41,9 +47,13 @@ class EditsController < ApplicationController
     l = Line.new
     @hash = l.countAnalytics(cookies[:play_id])
 
-    # WHY IS THIS HARD-CODED
+    # So there is a reason why this was hard code
+    # it is namily becuse we want to load the first act
+    # of the play here not the whole play thats like the
+    # point of what we have been doing.
     @scene = l.renderActScene(cookies[:play_id],1)
-
+    @scene_id_map = a.getAllActScenes(cookies[:play_id])
+    # puts "Out: #{a.getAllActScenes(cookies[:play_id])}"
  end
 
   def compress
