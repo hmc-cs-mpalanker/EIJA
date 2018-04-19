@@ -26,7 +26,12 @@ class EditsController < ApplicationController
     # puts "THE CLASS THING IS :: #{cookies[:group_number].class}"
 
     # add to the cookie as the current Group Number
-    cookies[:group_number] = groupNum
+    if cookies[:group_num].nil?
+      cookies[:group_num] = -1
+    end
+    puts "THE THING IS :: #{cookies[:group_number]}"
+
+    puts "THE CLASS THING IS :: #{cookies[:group_number].class}"
 
     # puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
 
@@ -54,6 +59,7 @@ class EditsController < ApplicationController
     @scene = l.renderActScene(cookies[:play_id],1)
     @scene_id_map = a.getAllActScenes(cookies[:play_id])
     # puts "Out: #{a.getAllActScenes(cookies[:play_id])}"
+
  end
 
   def compress
