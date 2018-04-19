@@ -88,4 +88,10 @@ class Group < ApplicationRecord
     Group.where(groupNum: gId).where(userId: uId).delete_all
   end
 
+  # Hash: Key: groupName, val: [PlayName, playID, GroupNumber]
+
+  def groupsInfo
+    
+  end
+
 end
