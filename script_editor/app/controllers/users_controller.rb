@@ -11,10 +11,16 @@ class UsersController < ApplicationController
   		flash.alert = "You must be logged in as admin"
       groups = current_user.getGroups
       # @edits = Edit.find_by_sql(["Select * from Edits where groups_id = ?", group_id])
-  	end
+    end
+
+      # the active users
+      user_obj = User.new
+      @active_users = user_obj.getAllUsers
+
   end
     
   def new
     @user = User.new
   end
+
 end
