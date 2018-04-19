@@ -3,7 +3,7 @@ class SceneRenderController < ApplicationController
   def show
 
     l = Line.new
-    @scene = l.renderActScene(params[:id])
+    @scene = l.renderActScene(1,params[:id])
     # @scene.each do |p|
     #   puts "#{p}"
     # end
