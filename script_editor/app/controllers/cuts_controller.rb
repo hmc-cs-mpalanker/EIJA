@@ -8,45 +8,52 @@ class CutsController < ApplicationController
   # ensure that the where clause calls [0] index value to get the object from the array
   def new
 
-    # update the edit here
-    # groups_id is the row NOT THE GROUP NUM
-
     # from the cookie we will get the GROUP NUMBER
     # for the current_user we have the userID
     # the combination of GroupNumber and UserId will give the "groups_id" row from the Groups table
 
+    # sanitize cookie input
     group_number = cookies[:group_number]
     group_number = group_number.to_i
 
-    # puts "THE GROUP NUMBER IS: #{group_number}"
+    pID = params[:meta][:playID].to_i
 
-    group_id = Group.find_by_sql ["select * from Groups where user_id = ? and groupNum = ?",current_user.id,group_number]
+    puts "THE GROUP NUMBER IS: #{group_number}"
+    puts "THE PLAY ID IS: #{pID}"
+
+    group_object = Group.find_by_sql ["select * from Groups where user_id = ? and groupNum = ?",current_user.id,group_number]
+    # returns an array where first elem is object
+    group_object = group_object[0]
+    group_id = group_object.id
+
+    puts "THE GROUP OBJECT IS: #{group_object}"
+    puts "THE GROUP ID IS: #{group_id}"
 
     # added the correct groupID
-    edit_object = Edit.where({user_id: current_user.id , play_id: params[:meta][:playID], groups_id: group_id})
+    edit_object = Edit.where({user_id: current_user.id , play_id: pID, groups_id: group_id})
     # edit_object = edit_object[0]
 
-    pID = params[:meta][:playID].to_i
+    puts "The EDIT OBJECT (1st) is: #{edit_object}"
+
 
     # edit_object is an array
     if edit_object.length == 0
-      # EditsController.makeEdit(current_user.id,pID,group_id)
-      # puts "HERE !!"
       Edit.create({:user_id => current_user.id, :play_id => pID, :groups_id => group_id})
     end
 
-
+    # pull again :: MUST be created by now
     edit_object = Edit.where({user_id: current_user.id , play_id: pID , groups_id: group_id})
 
-    # puts "THE CLASS IS: #{edit_object}"
-    # puts "The CLASS IS NULL: #{edit_object.length == 0}"
+    puts "THE CLASS IS: #{edit_object}"
+    puts "The CLASS IS NULL: #{edit_object.length == 0}"
 
     # edit_object = edit_object[0]
 
-    # DO NOT TOUCH THIS LINE
-    edit_id = edit_object[0].id
+    # get the Edit Object
+    edit_object = edit_object[0]
+    edit_id = edit_object.id
 
-    # puts "THE EDIT ID IS: #{edit_id}"
+    puts "THE EDIT ID IS: #{edit_id}"
     # cutAndUncut(params[:payload],params[:meta][:cutOrUncut],edit_id)
 
     # the modified function that takes the group_number as an attribute as well
