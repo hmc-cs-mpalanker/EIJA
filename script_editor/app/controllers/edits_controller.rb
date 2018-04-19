@@ -25,13 +25,14 @@ class EditsController < ApplicationController
     x = Group.find_by_sql [ "select * from Groups where id = ?",current_user.groups_id]
     groupNum = x[0].groupNum
 
-    # cookies[:group_number] = 2
-    #
+    if cookies[:group_num].nil?
+      cookies[:group_num] = -1
+    end
     puts "THE THING IS :: #{cookies[:group_number]}"
 
     puts "THE CLASS THING IS :: #{cookies[:group_number].class}"
 
-    cookies[:group_number] = groupNum
+    # cookies[:group_number] = groupNum
 
     puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
 
@@ -59,6 +60,7 @@ class EditsController < ApplicationController
     @scene = l.renderActScene(cookies[:play_id],1)
     @scene_id_map = a.getAllActScenes(cookies[:play_id])
     # puts "Out: #{a.getAllActScenes(cookies[:play_id])}"
+
  end
 
   def compress
