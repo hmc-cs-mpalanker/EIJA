@@ -3,7 +3,6 @@ It can be found at app/views/users/show.html.erb -->
 
 <!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss -->
 <%= javascript 'application' %>
-<%= javascript 'users' %>
 <html>
 <body style = "background-color: white; padding-top: 0px;">
 
@@ -71,19 +70,20 @@ It can be found at app/views/users/show.html.erb -->
 
             function bindGroupToggle()
             {
-            $("#groupToggle").click(function(){
-              console.log("ho");
-              document.cookie="group_number=" + this.id;
-              console.log(document.cookie);
-              });
-            $.each($(".groupToggle"), function(index, element){
+            // $("#groupToggle").click(function(){
+            //   console.log("ho");
+            //   document.cookie="group_number=" + this.id;
+            //   console.log(document.cookie);
+            //   });
+            $(".groupToggle").click, function(index, element){
+              console.log("Yeah");
               console.log(element);
-              element.click(function(){
-                console.log("ho");
-                document.cookie="group_number=" + element.id;
-                console.log(document.cookie);
-              });
-            });
+              // element.click(function(){
+              //   console.log("ho");
+              //   document.cookie="group_number=" + element.id;
+              //   console.log(document.cookie);
+              };
+            //});
             }
             </script>
       <!-- <TABLE style="width:50%">
