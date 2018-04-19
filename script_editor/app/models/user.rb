@@ -53,7 +53,6 @@ class User < ApplicationRecord
     active_users = []
 
     users = User.all
-
     users.each do |usr|
       # admin
       if usr.id != 1
