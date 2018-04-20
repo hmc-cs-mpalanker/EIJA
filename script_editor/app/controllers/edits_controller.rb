@@ -29,11 +29,12 @@ class EditsController < ApplicationController
 
     # puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
 
-
-    @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: cookies[:group_num]})
-
-
     group_number = cookies[:group_num].to_i
+
+    @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: group_number})
+
+
+
     # group_number, user_id => group_id from the Groups table that corresponds to the current user
     g = Group.find_by_sql ["select * from Groups where user_id = ? and groupNum = ?",current_user.id, group_number]
     # returns an array and the object is at the first index
@@ -61,7 +62,7 @@ class EditsController < ApplicationController
     @hash = l.countAnalytics(cookies[:play_id])
 
     a = Scene.new
-    @scene = l.renderActScene(cookies[:play_id],1, cookies[:group_number])
+    @scene = l.renderActScene(cookies[:play_id],1, group_number)
     @scene_id_map = a.getAllActScenes(cookies[:play_id])
     # puts "Out: #{a.getAllActScenes(cookies[:play_id])}"
  end
