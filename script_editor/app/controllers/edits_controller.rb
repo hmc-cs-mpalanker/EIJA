@@ -29,8 +29,11 @@ class EditsController < ApplicationController
 
     # puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
 
+    group_number = cookies[:group_num].to_i
 
-    @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: cookies[:group_num]})
+    @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: group_number})
+
+
 
 
     play_id = cookies[:play_id].to_i
