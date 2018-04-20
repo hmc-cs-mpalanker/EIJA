@@ -49,7 +49,7 @@ class EditsController < ApplicationController
     @hash = l.countAnalytics(cookies[:play_id])
 
     a = Scene.new
-    @scene = l.renderActScene(cookies[:play_id],1, cookies[:group_number])
+    @scene = l.renderActScene(cookies[:play_id],1, group_number)
     @scene_id_map = a.getAllActScenes(cookies[:play_id])
     # puts "Out: #{a.getAllActScenes(cookies[:play_id])}"
  end

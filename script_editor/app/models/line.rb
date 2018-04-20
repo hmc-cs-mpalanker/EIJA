@@ -11,7 +11,11 @@ class Line < ApplicationRecord
     scenes = arr.map {|act| Scene.find_by_sql [" select * from Scenes where act_id = ?", act.id]}.flatten
 
     scenes.each do |scene|
+      puts "Before check"
+      puts "Scene.id class is :#{scene.id.class}"
+      puts "Scene_id class is :#{scene_id.class}"
       if scene.id == scene_id
+        puts "After check"
         return Line.find_by_sql ["select * from Lines where scene_id = ? order by number",scene.id]
       end
     end
