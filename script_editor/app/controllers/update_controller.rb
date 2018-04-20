@@ -30,8 +30,41 @@ class UpdateController < ApplicationController
     	end
   	end
 
-  	def update_cuts
-  	end
+	def update_cuts
+	end
+
+	# return the list of recent cut wordIDs
+	def getCutLists(group_number, p_id)
+		cut_word_lst = []
+
+		cutsLst = Cut.where(:groupNum => group_number)
+
+		cutsLst.each do |cut|
+			edit_object = Edit.where(:play_id => p_id).first
+
+			if edit_object.play_id == p_id && cut.created_at > Time.now-5.minutes
+				cut_word_lst.append(cut.word_id)
+			end
+		end
+
+		return cut_word_lst
+	end
+
+	# return the list of recent cut wordIDs
+	def getUnCutLists(group_number, p_id)
+		uncut_word_lst = []
+
+		uncutsLst = Uncut.where(:groupNum => group_number)
+
+		uncutsLst.each do |uncut|
+			edit_object = Edit.where(:play_id => p_id).first
+
+			if edit_object.play_id == p_id && uncut.created_at > Time.now-5.minutes
+				uncut_word_lst.append(uncut.word_id)
+			end
+		end
+		return uncut_word_lst
+	end
+
+
 end
-
-
