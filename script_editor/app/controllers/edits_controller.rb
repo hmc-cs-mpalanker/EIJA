@@ -11,15 +11,27 @@ class EditsController < ApplicationController
   # end
 
   def show
+    a = Scene.new
+
 
     # sanitize input from the cookies
 
     # ENSURE THIS IS THE PLAY ID
+    # why do we do this? -Alasdair
     cookies[:play_id] = params[:id]#gang gang
     # add to the cookie as the current Group Number
     if cookies[:group_num].nil?
       cookies[:group_num] = -1
     end
+    puts "THE THING IS :: #{cookies[:group_num]}"
+
+    puts "THE CLASS THING IS :: #{cookies[:group_num].class}"
+
+    # puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
+
+
+    @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: cookies[:group_num]})
+
 
     play_id = cookies[:play_id].to_i
 
@@ -41,6 +53,7 @@ class EditsController < ApplicationController
     if @edit.length == 0
       @edit = EditsController.makeEdit(current_user.id, play_id, g.id)
       @edit = Edit.where({user_id: current_user.id , play_id: play_id, groups_id: g.id})
+
     end
 
     # get the first element from the array
