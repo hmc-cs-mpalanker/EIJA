@@ -154,8 +154,8 @@ class CutsController < ApplicationController
           # use the groupNumber instead
           # at the lines-render, only render for the current group
 
-          puts "The word id is: #{wordID}"
-          puts "The group number is: #{group_number}"
+          # puts "The word id is: #{wordID}"
+          # puts "The group number is: #{group_number}"
 
           @cut = Cut.where(word_id: wordID, groupNum: group_number)
 
@@ -165,8 +165,8 @@ class CutsController < ApplicationController
             next
           end
 
-          puts "The class is: #{@cut}"
-          puts "The class length is zero: #{@cut.length == 0}"
+          # puts "The class is: #{@cut}"
+          # puts "The class length is zero: #{@cut.length == 0}"
 
           @cut = Cut.where(word_id: wordID, groupNum: group_number).first.delete
           # increment the line-length
