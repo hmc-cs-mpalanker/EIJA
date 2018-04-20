@@ -15,7 +15,6 @@ class Line < ApplicationRecord
         return Line.find_by_sql ["select * from Lines where scene_id = ? order by number",scene.id]
       end
     end
-
   end
 
   # gets all the lines for the play in session
