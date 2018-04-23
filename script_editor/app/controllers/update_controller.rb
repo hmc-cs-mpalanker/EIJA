@@ -24,8 +24,18 @@ class UpdateController < ApplicationController
     	end
   	end
 
-  	def update_cuts
-  	end
+	def userNames
+		#do things here
+		#
+		respond_to do |format|
+			out = 	{
+					"meta" => {
+							"editID" => params[:meta][:editID] #Xans gon take u Xans gonna betray u
+					}
+			}
+			format.json  { render :json => out}
+			end
+		end
 end
 
 

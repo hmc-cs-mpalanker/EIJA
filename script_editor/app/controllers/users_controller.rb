@@ -14,11 +14,13 @@ class UsersController < ApplicationController
       # the active users
       user_obj = User.new
       @active_users = user_obj.getAllUsers
-
+      @group_users = user_obj.getUsersFromGroups
   end
     
   def new
     @user = User.new
   end
+
+
 
 end

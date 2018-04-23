@@ -7,24 +7,28 @@ It can be found at app/views/users/show.html.erb -->
 <body style = "background-color: white; padding-top: 0px;">
 
 <!-- This will display the name of the current user. -->
-<h1><%= current_user.user_name%>'s Admin Page</h1>
+<h1 style ="text-align: center"><%= current_user.user_name%>'s Admin Page</h1>
+
+<hr>
 
 <div class="container">
 <span id="<%=current_user.id %>" class="adminId"></span>
-  <div class="row" id="collapseExample">
-    <div class="col-sm-3" id="adminButtons">
-
-      <button id="groupBtn" type="button" class="btn btn-info">Add New Group</button>
+   <div class="buttons" style="text-align: center;">
+        <button id="groupBtn" type="button" class="btn btn-info">Add New Group</button>
+        <button id="adminBtn" type="button" class="btn btn-info">Add Admin</button>
+   </div>
         <!-- The Modal -->
         <div id="groupModal" class="modal">
 
           <!-- Modal content -->
           <div class="modal-content">
+            <br>
             <h4>Add New Group</h4>
-              <button id="createGroup" type="button" class="btn btn-info">Create Group</button>
-
+            <br>
+            <button id="createGroup" type="button" class="btn btn-info" style="width: 150px; text-align: center">Create Group</button>
+            <br>
               <!-- Example here: https://datatables.net/examples/api/select_row.html -->
-              <table id="allUsersGroups" class="table" style="width:100%">
+              <table id="allUsersGroups" class="table table-hover" style="width:100%" >
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -37,24 +41,22 @@ It can be found at app/views/users/show.html.erb -->
                   </tr>
                   <% end %>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Name</th>
-                  </tr>
-                </tfoot>
             </table>
           </div>
         </div>
 
-      <button id="adminBtn" type="button" class="btn btn-info">Add Admin</button>
+      <!-- <button id="adminBtn" type="button" class="btn btn-info">Add Admin</button>
       <!-- The Modal -->
         <div id="adminModal" class="modal">
 
           <!-- Modal content -->
           <div class="modal-content">
+
             <h4>Add Admin</h4>
-            <button id="createAdmin" type="button" class="btn btn-info">Make Admin</button>
-            <table id="allUsersAdmin" class="table" style="width:100%">
+            <br>
+            <button id="createGroup" type="button" class="btn btn-info" style="width: 150px; text-align: center">Make Admin</button>
+            <br>
+            <table id="allUsersAdmin" class="table table-hover" style="width:100%">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -79,107 +81,88 @@ It can be found at app/views/users/show.html.erb -->
 
         </style>
 
-        <script>
-            $(
-              $(document).ready(function() {
-              // When the user clicks on the button, open the modal
-              $("#groupBtn").click(function(){
-               $("#groupModal").modal('show');
-              })
-              $("#adminBtn").click(function(){
-               $("#adminModal").modal('show');
-              })
-              // When the user clicks anywhere outside of the modal, close it
-              var modal = document.getElementsByClassName("modal")[0]
-              window.onclick = function(event) {
-                if (event.target == modal) {
-                  modal.style.display = "none";
+            <script>
+                // $(
+                $(document).ready(function() {
+                    // When the user clicks on the button, open the modal
+                    $("#groupBtn").click(function(){
+                        $("#groupModal").modal('show');
+
+                        var table = $('#allUsersGroups').DataTable();
+                        $('#allUsersGroups tbody').on( 'click', 'tr', function () {
+                            $(this).toggleClass('table-active');
+                        } );
+                        $('.createGroup').click( function () {
+                            alert( table.rows('.table-active').data().length +' row(s) active' );
+                        } );
+
+                    });
+
+                    $("#adminBtn").click(function(){
+
+                        $("#adminModal").modal('show');
+                        var table = $('#allUsersAdmin').DataTable();
+
+                        $('#allUsersAdmin tboday').on( 'click', 'tr', function () {
+                            $(this).toggleClass('table-active');
+                        } );
+
+                        $('.createAdmin').click( function () {
+                            alert( table.rows('.table-active').data().length +' row(s) active' );
+                        });
+
+                    });
+
+                    $(".groupToggle").click(function(){
+                        console.log("theheh");
+                        var groupNum = this.id.slice(5);
+                        $.get('/getUsers/1') //get HTML to insert
+                            .done(function(data)
+                            {
+                                console.log(data);
+                            });
+                    })
+                });
+
+                // When the user clicks anywhere outside of the modal, close it
+                var modal = document.getElementsByClassName("modal")[0];
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
                 }
-              }
-              $(document).ready(function() {
-                  var table = $('#allUsersGroups').DataTable()
-
-                  $('#allUsersAdmin tbody').on( 'click', 'tr', function () {
-                        $(this).toggleClass('active');
-                  } );
-                  $('.createGroup').click( function () {
-                      alert( table.rows('.active').data().length +' row(s) active' );
-                  } );
-                    //{
-                    // select: {style: 'multi'},
-                    //   buttons: [
-                    //   {
-                    //       text: 'Get selected data',
-                    //       action: function () {
-                    //           var count = table.rows( { selected: true } ).count()
-                    //         }
-                    //   }
-                    // ]
-                    // });
-                  });
-              $(document).ready(function() {
-                  var table = $('#allUsersAdmin').DataTable();
-
-                  $('#allUsersAdmin tbody').on( 'click', 'tr', function () {
-                      $(this).toggleClass('active');
-                  } );
-
-                  $('.createAdmin').click( function () {
-                      alert( table.rows('.active').data().length +' row(s) active' );
-                  } );
-              } );
-
-              function showGroupInfo(groupNum) {
-              // $.get('/scene_render/' + scenceId)//get HTML to insert
-              //     .done(function(data)
-              {
-                // console.log(data);
-                var group =$("#GroupWindow");
-                group.html("");//clear previous data
-              };
-              }
-
-              function bindGroupToggle()
-              {
-              // $("#groupToggle").click(function(){
-              //   console.log("ho");
-              //   document.cookie="group_number=" + this.id;
-              //   console.log(document.cookie);
-              //   });
-              $(".groupToggle").click, function(index, element){
-                console.log("Yeah");
-                console.log(element);
-                // element.click(function(){
-                //   console.log("ho");
-                //   document.cookie="group_number=" + element.id;
-                //   console.log(document.cookie);
-                };
-              //});
-              }
-            })
-            );
-        </script>
+            </script>
     </div>
 
     <ul class="list-group">
-      <h4>Groups</h4>
+
+      <br>
+
+      <h2 style="font-weight: normal">Groups</h2>
         <% groups = current_user.getGroups %>
         <% groups.uniq.each do |group| %>
-           <a class="groupToggle" id=<%="group" + String(group[1])%> ><%=group[0]%></a>
+           <a style="padding-left: 5px; font-size: 100%" class="groupToggle" id=<%="group" + String(group[1])%> href="edits/play_id"> <%=group[0]%> </a>
         <% end %>
     </ul>
 
-    <div class="col-sm-6" id="GroupWindow">
       <!-- this area displays the each group's info' -->
-      <h4 style="margin-left: 10px" id="GroupName"> Group 1 :</h4>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
 
-    </div>
-
-    <div class="group-info" id="groupInfo">
-
-    </div>
-</div>
-</div>
+          <h2 style="font-weight: normal; padding-left: 35px" > Groups & Members </h2>
+          <div style="padding-left: 35px;">
+            <%= @group_users.each do |key, val| %>
+              <%= key %>
+              <br>
+              <% val.each do |lst| %>
+              <%= lst[1] %>
+              <% end %>
+              <br>
+            <% end %>
+          </div>
 
 </body>
 
