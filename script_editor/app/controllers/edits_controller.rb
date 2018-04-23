@@ -11,15 +11,32 @@ class EditsController < ApplicationController
   # end
 
   def show
+    a = Scene.new
+
 
     # sanitize input from the cookies
 
     # ENSURE THIS IS THE PLAY ID
+    # why do we do this? -Alasdair
     cookies[:play_id] = params[:id]#gang gang
     # add to the cookie as the current Group Number
     if cookies[:group_num].nil?
       cookies[:group_num] = -1
     end
+    puts "THE THING IS :: #{cookies[:group_num]}"
+
+    puts "THE CLASS THING IS :: #{cookies[:group_num].class}"
+
+    # puts "The current user is: #{current_user.id} and the REAL GROUP NUMBER is #{groupNum}"
+
+    group_number = cookies[:group_num].to_i
+
+    @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: group_number})
+
+
+
+
+    play_id = cookies[:play_id].to_i
 
     group_number = cookies[:group_num].to_i
     # group_number, user_id => group_id from the Groups table that corresponds to the current user
@@ -34,11 +51,12 @@ class EditsController < ApplicationController
     #be sure to change this so group id is the cookie so we can more easily change it
     # @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: current_user.groups_id})
 
-    @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: g.id})
+    @edit = Edit.where({user_id: current_user.id , play_id:play_id, groups_id: g.id})
 
     if @edit.length == 0
-      @edit = EditsController.makeEdit(current_user.id, cookies[:play_id], g.id)
-      @edit = Edit.where({user_id: current_user.id , play_id:cookies[:play_id], groups_id: g.id})
+      @edit = EditsController.makeEdit(current_user.id, play_id, g.id)
+      @edit = Edit.where({user_id: current_user.id , play_id: play_id, groups_id: g.id})
+
     end
 
     # get the first element from the array
@@ -46,11 +64,14 @@ class EditsController < ApplicationController
     @edit = @edit[0]
 
     l = Line.new
-    @hash = l.countAnalytics(cookies[:play_id])
+    @hash = l.countAnalytics(play_id)
 
     a = Scene.new
-    @scene = l.renderActScene(cookies[:play_id],1, cookies[:group_number])
-    @scene_id_map = a.getAllActScenes(cookies[:play_id])
+
+    first_scene_id = getFirstScenePlay(play_id)
+
+    @scene = l.renderActScene(play_id, first_scene_id , group_number)
+    @scene_id_map = a.getAllActScenes(play_id)
     # puts "Out: #{a.getAllActScenes(cookies[:play_id])}"
  end
 
@@ -86,14 +107,17 @@ class EditsController < ApplicationController
     return @edit
   end
 
+  # return the first scene for the play
+  # input: the play_id (of integer class)
+  def getFirstScenePlay(play_id)
+    acts = Act.find_by_sql ["select * from Acts where play_id = ? order by id", play_id]
 
-  # def group_edit
-  #   @edit = Edit.find(params[:id])
-  #   puts "#{@edit}"
-  #   @play = @edit.play
-  #   group_id = @edit.groups_id
-  #   group_name = Group.find_by_sql(["Select name from Groups where group_id = ?",group_id])
-  #   @link = "/edits/group_edit/"+ (@edit.id.to_s) + "/" + (@group_name.to_s)
+    first_act_id = acts.first.id
 
-  # end
+    scene_id_lst = Scene.find_by_sql ["select id from Scenes where act_id = ? order by id", first_act_id]
+
+    first_scene_id = scene_id_lst[0].id
+    return first_scene_id
+  end
+
 end
