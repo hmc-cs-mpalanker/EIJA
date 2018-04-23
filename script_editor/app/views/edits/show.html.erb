@@ -136,7 +136,7 @@
               <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
               <% groups.uniq.each do |group| %>
                 <% if group[1] == -1 %>
-                  <a class="dropdown-item groupToggle" id="group-1">User Edit</a>
+                  <a class="dropdown-item groupToggle" id="group-1"><%= current_user.user_name %></a>
                   <% else %>
                   <a class="dropdown-item groupToggle" id=<%="group" + String(group[1])%> >Group <%= group[0]%></a>
                   <% end %>

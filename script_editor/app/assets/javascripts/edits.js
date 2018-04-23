@@ -22,7 +22,7 @@ $(function() {
     });
     analytics();
     renderScene();
-    iuUpdate(true);
+    iuUpdate(true, true);
     bindGroupToggle();
 
 });
@@ -266,7 +266,7 @@ function sendPayload() {
  * heartBeatOrUpdate: true will cause this function to loop on a globally set interval
  * calling back home to get update
  */
-function iuUpdate(heartBeatOrUpdate) {
+function iuUpdate(heartBeatOrUpdate, getAllOrLastInterval) {
     console.log("play ID");
     console.log(getCookie("play_id"));
    // console.log($(".sceneName")[0].id.slice(9));
@@ -276,6 +276,7 @@ function iuUpdate(heartBeatOrUpdate) {
         data: {
             "meta": {
                 //"editID" : $(".playEditId")[0].id,
+                "timePeriodFlag": getAllOrLastInterval,
                 "sceneID" : $(".sceneName")[0].id.slice(9),
                 "groupNum": getCookie("group_num"),
                 "playID" : getCookie("play_id"), //should not be hardcoded
@@ -327,7 +328,10 @@ function renderHelper(uiUpdatesResponse) {
 function bindGroupToggle() {
     $(".groupToggle").click(function(){
         document.cookie = "group_num" + "=" + this.id.slice(5)+ ";path=/";
-        iuUpdate(false);//lol just saw this name, this will call update once so new edits are
+        $("#dropdownMenuButton").html(this.text);
+        //console.log($(".sceneName")[0].id.slice(9));
+        ScenerenderHelper($(".sceneName")[0].id.slice(9));
+       // iuUpdate(false, false);//lol just saw this name, this will call update once so new edits are
         //reflected on page
     });
 }
