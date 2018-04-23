@@ -1,4 +1,5 @@
 // Homepage js
+//= require jquery3
 
 var a = $('#searchbar');
 a.submit(function(e) {

@@ -1,12 +1,15 @@
 
 
-
-
-
+<%= javascript 'application' %>
+<%= javascript 'edits.js' %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
 <html>
 
-<body>
+
+<body
+
+
     <!--
         The analytics will show up here as a popup.
     -->
@@ -142,7 +145,38 @@
                   <% end %>
                 <% end %>
             </div>
+
+
+          <script>
+          /* When the user clicks on the button,
+          toggle between hiding and showing the dropdown content */
+          function groupDropdown() {
+              document.getElementById("myDropdown").classList.toggle("show");
+          }
+
+          // Close the dropdown if the user clicks outside of it
+          window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+
+              var dropdowns = document.getElementsByClassName("dropdown-content");
+              var i;
+              for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                  openDropdown.classList.remove('show');
+                }
+              }
+            }
+          }
+
+
+          </script>
+
+
+        </div>
+=
           </div>
+
         </div>
       </div>
 </body>

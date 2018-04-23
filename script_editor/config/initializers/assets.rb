@@ -13,4 +13,6 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 
 Rails.application.config.assets.precompile += %w( edits.js )
+Rails.application.config.assets.precompile += %w( users.js )
+Rails.application.config.assets.precompile += %w( homepage.js )
 # Above for the JS for edits/show.html.erb handels editing code Alasdairs Pro Haxz

@@ -54,7 +54,6 @@
     </column>
     <index id="26" parent="6" name="index_acts_on_play_id">
       <ColNames>play_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="27" parent="6">
       <ColNames>id</ColNames>
@@ -82,7 +81,6 @@
     <index id="32" parent="7" name="sqlite_autoindex_ar_internal_metadata_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>key</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="33" parent="7">
@@ -121,11 +119,9 @@
     </column>
     <index id="40" parent="8" name="index_cuts_on_edit_id">
       <ColNames>edit_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <index id="41" parent="8" name="index_cuts_on_word_id">
       <ColNames>word_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="42" parent="8">
       <ColNames>id</ColNames>
@@ -161,7 +157,6 @@
     </column>
     <index id="49" parent="9" name="index_edits_on_groups_id">
       <ColNames>groups_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="50" parent="9">
       <ColNames>id</ColNames>
@@ -198,7 +193,6 @@
     </column>
     <index id="57" parent="10" name="index_groups_on_user_id">
       <ColNames>user_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="58" parent="10">
       <ColNames>id</ColNames>
@@ -235,11 +229,9 @@
     </column>
     <index id="65" parent="11" name="index_line_cuts_on_edit_id">
       <ColNames>edit_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <index id="66" parent="11" name="index_line_cuts_on_line_id">
       <ColNames>line_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="67" parent="11">
       <ColNames>id</ColNames>
@@ -284,7 +276,6 @@
     </column>
     <index id="76" parent="12" name="index_lines_on_scene_id">
       <ColNames>scene_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="77" parent="12">
       <ColNames>id</ColNames>
@@ -344,7 +335,6 @@
     </column>
     <index id="89" parent="14" name="index_scenes_on_act_id">
       <ColNames>act_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="90" parent="14">
       <ColNames>id</ColNames>
@@ -358,7 +348,6 @@
     <index id="92" parent="15" name="sqlite_autoindex_schema_migrations_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>version</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="93" parent="15">
@@ -418,11 +407,9 @@
     </column>
     <index id="106" parent="18" name="index_uncuts_on_edit_id">
       <ColNames>edit_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <index id="107" parent="18" name="index_uncuts_on_word_id">
       <ColNames>word_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="108" parent="18">
       <ColNames>id</ColNames>
@@ -517,17 +504,14 @@
     </column>
     <index id="128" parent="19" name="index_users_on_email">
       <ColNames>email</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <index id="129" parent="19" name="index_users_on_reset_password_token">
       <ColNames>reset_password_token</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <index id="130" parent="19" name="index_users_on_groups_id">
       <ColNames>groups_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="131" parent="19">
       <ColNames>id</ColNames>
@@ -563,7 +547,6 @@
     </column>
     <index id="138" parent="20" name="index_words_on_line_id">
       <ColNames>line_id</ColNames>
-      <ColumnCollations></ColumnCollations>
     </index>
     <key id="139" parent="20">
       <ColNames>id</ColNames>
