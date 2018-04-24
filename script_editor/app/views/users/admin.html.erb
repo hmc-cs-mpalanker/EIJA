@@ -4,6 +4,77 @@ It can be found at app/views/users/show.html.erb -->
 <!-- This file's corresponding .scss file can be found at app/assets/stylesheets/users.scss -->
 <%= javascript 'application' %>
 <html>
+
+<div class="modal" id="groupModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Group</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Example here: https://datatables.net/examples/api/select_row.html -->
+        <table id="allUsersGroups" class="table table-hover" style="width:100%" >
+          <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @active_users.each do |usr| %>
+            <tr>
+              <td id=<%="userID" + usr[0].to_s %>><%=usr[1]%></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <form>
+          Group Name:
+          <br>
+          <input type="text" name="groupName" id="groupName">
+          <br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="createGroup" type="button" class="btn btn-info" style="width: 150px; text-align: center">Create Group</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="adminModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Make Admin</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table id="allUsersAdmin" class="table table-hover" style="width:100%">
+          <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @active_users.each do |usr| %>
+            <tr>
+              <td><%=usr[1]%></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button id="createGroup" type="button" class="btn btn-info" style="width: 150px; text-align: center">Make Admin</button>
+      </div>
+    </div>
+  </div>
+</div>
 <body style = "background-color: white; padding-top: 0px;">
 
 <!-- This will display the name of the current user. -->
@@ -17,145 +88,14 @@ It can be found at app/views/users/show.html.erb -->
         <button id="groupBtn" type="button" class="btn btn-info">Add New Group</button>
         <button id="adminBtn" type="button" class="btn btn-info">Add Admin</button>
    </div>
-        <!-- The Modal -->
-        <div id="groupModal" class="modal">
 
-          <!-- Modal content -->
-          <div class="modal-content">
-            <br>
-            <h4>Add New Group</h4>
-            <br>
-            <button id="createGroup" type="button" class="btn btn-info" style="width: 150px; text-align: center">Create Group</button>
-            <br>
-              <!-- Example here: https://datatables.net/examples/api/select_row.html -->
-              <table id="allUsersGroups" class="table table-hover" style="width:100%" >
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @active_users.each do |usr| %>
-                  <tr>
-                    <td><%=usr[1]%></td>
-                  </tr>
-                  <% end %>
-                </tbody>
-            </table>
-          </div>
-        </div>
 
-      <!-- <button id="adminBtn" type="button" class="btn btn-info">Add Admin</button>
-      <!-- The Modal -->
-        <div id="adminModal" class="modal">
-
-          <!-- Modal content -->
-          <div class="modal-content">
-
-            <h4>Add Admin</h4>
-            <br>
-            <button id="createGroup" type="button" class="btn btn-info" style="width: 150px; text-align: center">Make Admin</button>
-            <br>
-            <table id="allUsersAdmin" class="table table-hover" style="width:100%">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @active_users.each do |usr| %>
-                  <tr>
-                    <td><%=usr[1]%></td>
-                  </tr>
-                  <% end %>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Name</th>
-                  </tr>
-                </tfoot>
-            </table>
-          </div>
-        </div>
-        <style>
-
-        </style>
-
-            <script>
-                // $(
-                $(document).ready(function() {
-                    // When the user clicks on the button, open the modal
-                    $("#groupBtn").click(function(){
-                        $("#groupModal").modal('show');
-
-                        var table = $('#allUsersGroups').DataTable();
-                        $('#allUsersGroups tbody').on( 'click', 'tr', function () {
-                            $(this).toggleClass('table-active');
-                        } );
-                        $('.createGroup').click( function () {
-                            alert( table.rows('.table-active').data().length +' row(s) active' );
-                        } );
-
-                    });
-
-                    $("#adminBtn").click(function(){
-
-                        $("#adminModal").modal('show');
-                        var table = $('#allUsersAdmin').DataTable();
-
-                        $('#allUsersAdmin tboday').on( 'click', 'tr', function () {
-                            $(this).toggleClass('table-active');
-                        } );
-
-                        $('.createAdmin').click( function () {
-                            alert( table.rows('.table-active').data().length +' row(s) active' );
-                        });
-
-                    });
-
-                    $(".groupToggle").click(function(){
-                        console.log("theheh");
-                        var groupNum = this.id.slice(5);
-                        $.get('/getUsers/1') //get HTML to insert
-                            .done(function(data)
-                            {
-                                console.log(data);
-                            });
-                    })
-                    bindGroupNumbCookieSeter()
-                });
-
-                // When the user clicks anywhere outside of the modal, close it
-                var modal = document.getElementsByClassName("modal")[0];
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-
-                //to whoever comes next Im sorry inline JS is such bad style but you know time
-
-                function bindGroupNumbCookieSeter() {
-                  $(".groupLink").click(function(){
-                     var groupNum = this.id.slice(8);
-                     //so I do this kind of hack alot so I should prob explain it
-                      //so what we want to do is redirect and set the cookie actually I should prob
-                      //check to see if this will work any way
-                      //to avoid duplicate id's in a document aka andouther element with
-                      //id 1 i append a string to it and when I extract the id I slice off
-                      //the rest cool
-                      document.cookie = "group_num" + "=" + groupNum + ";path=/";
-                     // window.location.href=<%= "edits/"  + "1" %>;//this can def be done in a beter way
-                  });
-                }
-
-            </script>
     </div>
 
     <ul class="list-group">
 
       <br>
-      <h1>  <%= @group_users %> </h1>
+
 
       <h2 style="font-weight: normal">Groups</h2>
 
@@ -176,7 +116,7 @@ It can be found at app/views/users/show.html.erb -->
 
           <h2 style="font-weight: normal; padding-left: 35px" > Groups & Members </h2>
           <div style="padding-left: 35px;">
-            <%= @group_users.each do |key, val| %>
+            <% @group_users.each do |key, val| %>
               <%= key %>
               <br>
               <% val.each do |lst| %>
@@ -187,5 +127,93 @@ It can be found at app/views/users/show.html.erb -->
           </div>
 
 </body>
+
+<script>
+    // $(
+    $(document).ready(function() {
+        // When the user clicks on the button, open the modal
+        $("#groupBtn").click(function(){
+            $("#groupModal").modal('show');
+
+            var table = $('#allUsersGroups').DataTable({
+                "bInfo" : false
+            });
+            $('#allUsersGroups tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('table-active');
+            } );
+            $('#createGroup').click( function () {
+                var out = [];
+                var groupName = $("#groupName")[0].value;
+                for (var i =0; i < $(".table-active").length; i++){
+                    out.push($(".table-active")[i].firstElementChild.id)
+                }
+
+                $.ajax({
+                    method: "POST",
+                    url: '/addGroup',
+                    data: {
+                        "data": out,
+                        "name" : groupName
+                    }
+                } );
+
+            })});
+
+        $("#adminBtn").click(function(){
+
+            $("#adminModal").modal('show');
+            var table = $('#allUsersAdmin').DataTable({
+                "bInfo" : false
+            });
+
+            $('#allUsersAdmin tboday').on( 'click', 'tr', function () {
+                $(this).toggleClass('table-active');
+            } );
+
+            $('.createAdmin').click( function () {
+                alert( table.rows('.table-active').data().length +' row(s) active' );
+            });
+
+        });
+
+        $(".groupToggle").click(function(){
+            console.log("theheh");
+            var groupNum = this.id.slice(5);
+            $.get('/getUsers/1') //get HTML to insert
+                .done(function(data)
+                {
+                    console.log(data);
+                });
+        })
+        bindGroupNumbCookieSeter()
+    });
+
+    // When the user clicks anywhere outside of the modal, close it
+    var modal = document.getElementsByClassName("modal")[0];
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    //to whoever comes next Im sorry inline JS is such bad style but you know time
+
+    function bindGroupNumbCookieSeter() {
+        $(".groupLink").click(function(){
+            var groupNum = this.id.slice(8);
+            //so I do this kind of hack alot so I should prob explain it
+            //so what we want to do is redirect and set the cookie actually I should prob
+            //check to see if this will work any way
+            //to avoid duplicate id's in a document aka andouther element with
+            //id 1 i append a string to it and when I extract the id I slice off
+            //the rest cool
+            document.cookie = "group_num" + "=" + groupNum + ";path=/";
+        });
+    }
+
+
+
+</script>
+
 
 </html>

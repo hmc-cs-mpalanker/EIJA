@@ -48,7 +48,7 @@ class UpdateController < ApplicationController
 			format.json  { render :json => out}
 			end
 		end
-end
+
 
 	# return the list of recent cut wordIDs
 	# flag: True, gets the cuts in the previous 5 minutes
@@ -77,5 +77,28 @@ end
 		return cut_word_lst
 	end
 
+	# return the list of recent cut wordIDs
+	# flag: True, gets the uncuts in the previous 5 minutes
+	# 			False, gets all the edits for the groupNumber
+	def getUnCutLists(group_number, p_id, flag)
+		uncut_word_lst = []
+
+		uncutsLst = Uncut.where(:groupNum => group_number)
+
+		uncutsLst.each do |uncut|
+			edit_object = Edit.where(:play_id => p_id).first
+
+			if edit_object.play_id == p_id
+				if flag
+					if uncut.created_at > Time.now-5.minutes
+						uncut_word_lst.append(uncut.word_id)
+					end
+				else
+					uncut_word_lst.append(uncut.word_id)
+				end
+			end
+		end
+		return uncut_word_lst
+	end
 
 end

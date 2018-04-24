@@ -22,6 +22,10 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def createGroup
+    group_obj = Group.new
+    group_obj.createGroup(params[:data], params[:name])
+  end
 
 
 end

@@ -7,7 +7,7 @@
 <html>
 
 
-<body
+<body>
 
 
     <!--
@@ -15,8 +15,13 @@
     -->
     <div class="modal" tabindex="-1" role="dialog" id="analytics-modal">
       <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
 
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 ng-hide="newUser">Play Analytics</h3>
+            <button type="button" class="close" data-dismiss="modal">×</button>
+
+          </div>
             <ul class="nav nav-tabs noMargin" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Line Analytics</a>
@@ -24,26 +29,21 @@
               <li class="nav-item">
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Generate Cue Script</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" style="">Character Relation Analytics</a>
-              </li>
-              <li class="nav-item my-2 my-lg-0">
-                <button type="button" class="close noMargin" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </li>
             </ul>
+          <!--gets dynamically inserted in edits.js-->
           <div class="modal-body" id="analyticsBody">
-              <!--gets dynamically inserted in edits.js-->
+
           </div>
         </div>
       </div>
     </div>
+
+
       <span id=<%=@edit.id %> class="playEditId"></span>
       <div class="row" id="collapseExample">
         <div class="col-sm-3 bd-sidebar sidebar fixed-top " id="sidebar">
           <div class="accordion">
-            <h6 class=" accordion-h6" id="play-analytics">Analytics</h6>
+            <h6 class=" accordion-h6 underline-on-hover" id="play-analytics">Analytics</h6>
           </div>
           <% @scene_id_map.each do |actNumber, sceneList| %>
           <div class="accordion">
@@ -51,7 +51,7 @@
                 <div class="accordion-content">
                   <% sceneList.each do |sceneDict| %>
                     <% sceneDict.each do |sceneNumber, sceneID| %>
-                  <p class="sceneMenu" id="<%=sceneID %>">
+                  <p class="sceneMenu underline-on-hover" id="<%=sceneID %>">
                       Scene <%= sceneNumber %>
                     <%end%>
                   <%end%>
@@ -140,7 +140,7 @@
               <% groups.uniq.each do |group| %>
                 <% if group[1] == -1 %>
                   <a class="dropdown-item groupToggle" id="group-1"><%= current_user.user_name %></a>
-                  <% else %>
+                <% else %>
                   <a class="dropdown-item groupToggle" id=<%="group" + String(group[1])%> >Group <%= group[0]%></a>
                   <% end %>
                 <% end %>
@@ -150,31 +150,30 @@
           <script>
           /* When the user clicks on the button,
           toggle between hiding and showing the dropdown content */
-          function groupDropdown() {
-              document.getElementById("myDropdown").classList.toggle("show");
-          }
-
-          // Close the dropdown if the user clicks outside of it
-          window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-
-              var dropdowns = document.getElementsByClassName("dropdown-content");
-              var i;
-              for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                  openDropdown.classList.remove('show');
-                }
-              }
-            }
-          }
+          // function groupDropdown() {
+          //     document.getElementById("myDropdown").classList.toggle("show");
+          // }
+          //
+          // // Close the dropdown if the user clicks outside of it
+          // window.onclick = function(event) {
+          //   if (!event.target.matches('.dropbtn')) {
+          //
+          //     var dropdowns = document.getElementsByClassName("dropdown-content");
+          //     var i;
+          //     for (i = 0; i < dropdowns.length; i++) {
+          //       var openDropdown = dropdowns[i];
+          //       if (openDropdown.classList.contains('show')) {
+          //         openDropdown.classList.remove('show');
+          //       }
+          //     }
+          //   }
+          // }
 
 
           </script>
 
 
         </div>
-=
           </div>
 
         </div>

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/users/:id' => 'users#show', :as => :user
   get '/admin/:id' => 'users#admin', :as => :admin
   post '/getUsers/:groupNum' => 'update#userNames'
+  post '/addGroup' => 'users#createGroup'
   #get '/makenewedit/:id' => 'edits#new'
   #get '/plays/show'
 
