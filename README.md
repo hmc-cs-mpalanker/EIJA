@@ -1,91 +1,46 @@
-# Shakespeare Script Editor
+Shakespeare Script Editor
 
-This project was initially created by Mahlet Melaku, Holly Mitchell, Lee Norgaard, Crystal Xiang for Prof. Benjamin Wiedermann, and it was continued by Evan Amason, Israel Jones, Jake Palanker, and Ashley Schmit for Prof. Ambereen Dadabhoy.
-
-The HMC Shakespeare Script editor makes the editing process easier by providing all of Shakespeare’s plays in a single location. It also provides the means for cutting the plays with click and drag strikethrough. The format for editing in the HMC Shakespeare Script Editor also maintains the original formatting of the plays, and it provides a navigation bar for ease of access. Users can create an account which is used to store of their edits in a convenient central location.
-
-## Architecture
-
-### Database
-
-We store all of our data in an SQL database, using SQLite3. The data is organized in a hierarchical setup with the highest level being Plays, and the lowest being individual Words. This allows us to quickly gather all the sub-components from any size division. 
-	
-e.g. all Scenes in Act 2
-
-e.g. all lines from Act 2 Scene 3
-
-e.g. all words from Act 2 Scene 3 Line 55
-
-This data structure is used to construct the display of the individual plays, collect analytics, and generate scripts. 
-Words struck from the script are attached to Edits, via the “Cuts” relationship. This means in our database there is a “Cuts” table whose elements consist of an edit id and a word id, one for each word cut in each edit. Words themselves store their contained text (besides metadata like id, time created, etc), and edits store the user id associated with them (as well as metadata).
-
-Here are some examplse of rails SQL querries we make in our app, and a description of what they do. (these might not all be the most efficient way of doing this task, and doing further research into SQL would be encuraged
+This project builds on previous year's work to create a collaborative Shakespeare script editor. Often in theater productions it is useful to be able to cut down a play as they span multiple acts and scenes. At the 5C's, various literature classes reenact Shakespeare plays. In its current state, students suggest edits to these plays via Google Docs. With students (organized into groups) editing multiple plays, it becomes difficult to keep track of the various Google docs. Furthermore, the course instructor, has little control over what is edited and feels removed from the students' work. Our script editing software seeks to address these issues. At a high level, our software provides an environment to edit plays and ensure instructor control over edits made. This makes it easier for the instructor to keep track of changes made by groups. 
 
 
-	Cut.where(:edit_id => @edit.id).pluck(:word_id).to_a.to_set 
-This command asks that we 'pluck' the word_id atribute from all cuts which are associated with the current edit we're on. we then convert this to a set (by way of converting it to an array) for faster lookup time
+Architecture
 
-	Line.joins(:scene).left_outer_joins(:words).where(:scene_id => @scene.id).select("words.id as wordid, lines.number as lineNum, *").order(:number)
-This command is a real mess, but what it does is join together lines, scenes, and words. We then ask it to select atrributes of the words and lines. we also only want to include lines which are included in the current scene.
+DataBase
 
-### Parsing
-
-We populate our database by parsing through a set of XML files from Folgers using the Nokogiri ruby gem. Our parsing system lives in the seeds.rb file which can be called to fill our database. Given a hardcoded list of file paths to parse through, it moves through the play looping in the following pattern (Acts -> Scenes -> Lines -> Words). Must of the code for this parsing program came from the group before us, so we don’t know much about it’s functionality, just its output. Since parsing is only done on every play once, then that data is saved in the database, we haven’t worked at improving runtime performance at all.
-
-### Cutting
-
-Cuts are made using Javascript, and minimally JQuery, because the code from previous teams primarily used pure Javascript. The two objects on the page which can be cut are words and stage directions. The scripting for this is really the most “run-time” related component, because it’s the part of the app that the users will actively interact with the most. The primary tasks that this component must complete are:
-Adding line-through to the HTML elements in the play script
-Informing the database that these words have been cut/uncut
-Informing the database of cuts to the script is done with JQuery’s AJAX, an asynchronous call function. A table of cuts/removal of cuts is saved in a local cache, until the user presses a save button, at which point the table is sent to the “new edit page” via an AJAX call, and a “Cut” is created between each word and the edit currently open. The advantage of caching changes instead of sending them as they happen is that we don’t have to slow the user down until they’re done, and also avoids some issues with double saving of cuts that can happen when requests are sent at any time in any order.
+All of the data is stored in an SQL database, using SQLite3. The data is organized such that plays and words form the highest and lowest form of data representation. There also exists connections between play data, user data and edits made to the play. All these features come together with our collaboration features that dynamically tracks edits made by a user, either as an individual or as part of a group, making edits to a play.
 
 
-### Prerequisites
-While the general Prereqs are the same, how to get them differs depending on the operating system
+Parsing
 
-The major components that need to be installed are:
-ruby
-ruby bundler 
-rails
-sqlite3
-node.js
+The following content is taken from the README.md of Team EIJA. We populate our database by parsing through a set of XML files from Folgers using the Nokogiri ruby gem. Our parsing system lives in the seeds.rb file which can be called to fill our database. Given a hardcoded list of file paths to parse through, it moves through the play looping in the following pattern (Acts -> Scenes -> Lines -> Words). Since parsing is only done on every play once, then that data is saved in the database, we haven’t worked at improving runtime performance at all.
 
-For help on installing these components we've included a few guides below
+Cutting 
 
-#### Debian systems (such as Ubuntu)
-1. install the following packages ruby ruby-dev ruby-bundler build-essential libsqlite3-dev zlib1g-dev nodejs
-2. this can be done with a package manager (in this example we use aptitude) with a command such as this one:
-`sudo apt-get update && sudo apt-get install ruby ruby-dev ruby-bundler build-essential libsqlite3-dev zlib1g-dev nodejs`
+Edits made to the play (as cuts and uncuts to words in the play are executed by tracking the wordID associated for individual words, sending the payload to the server and making the corresponding cuts. In order to improve the runtime of the application, once the page is loaded, edits are made via JQuery’s AJAX, an asynchronous call function. Furthermore, play data is loaded specific to a scene of the play. This improves the overall runtime of the application, as opposed to loading the entire play.
 
 
-#### Mac OSX
-Using homebrew (https://brew.sh/) install ruby and rbenv.
-If you already have a working rails installation you can skip most of these steps just make sure to have installed sqlite3 through brew.
-Info for this section loving stolen with credit from this awesome guide: https://gorails.com/setup/osx/10.13-high-sierra
 
-1. `brew install rbenv ruby-build`
-2. `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile source ~/.bash_profile`
-3. `rbenv install 2.4.2`
-4. `rbenv global 2.4.2`
-5. `gem install rails -v 5.1.4`
-6. `rbenv rehash`
-7. `brew install sqlite3`
+Prerequisites
 
-#### Windows
-Due to the…. more fun aspects of getting development packages installed on windows in this section we just link to other guides which should install the same prereqs we need.
-1. If you’re on windows 10 and are willing to install the developmental linux subsystem this guide seems to do a good job: https://gorails.com/setup/windows/10 
-2. Alternatively here is a good guide with a more windows-y approach: http://blog.teamtreehouse.com/installing-rails-5-windows 
-	
-	In addition to this tutorial, although it is not necessary for launching the project, it may be worthwhile to download sqlite 
-	command line tools. They can be downloaded from this page (under Precompiled Binaries for Windows): https://www.sqlite.org/download.html . Unzip this folder somewhere you can find it, then open it, and then open the folder in that folder, then right click on any file here, click "Properties", and copy the location listed on the general tab.
-	Then, open file explorer, right click your pc and selected "Properties", then "Advanced system settings", "Environment variables". Under system variables find Path, click edit, then new, and paste the location you saved earlier. Then hit OK on every window open.
-3. Setting up a rails environment on windows is a wonky and very personal process. No single guide will get everything working and avoid all potential bugs. 
-4. If given a choice, I would recommend either installing the linux subsystem or installing an ubuntu partition on your machine. 
+Credits to team EIJA for installation guidelines.
+
+The major components that need to be installed are: ruby, ruby bundler, rails and sqlite3
 
 
-### Gems
+MAC OSX
 
-jQuery-Rails: Used to provide the functionality of the jQuery library in the Javascript chunks on each view.
+Using homebrew (https://brew.sh/) install ruby and rbenv. If you already have a working rails installation you can skip most of these steps just make sure to have installed sqlite3 through brew. Info for this section loving stolen with credit from this awesome guide: https://gorails.com/setup/osx/10.13-high-sierra
+
+1. brew install rbenv ruby-build
+2. echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile source ~/.bash_profile
+3. rbenv install 2.4.2
+4. rbenv global 2.4.2
+5. gem install rails -v 5.1.4
+6. rbenv rehash
+7. brew install sqlite3
+
+
+Gems
 
 Nokogiri: An XML parser that is used to parse the Folger's Shakespeare texts and put the words, scenes, and Ac
 
@@ -95,57 +50,77 @@ Boostrap-Sass: Bootstrap is a gem that helps set up basic UI elements, primarily
 
 sqlite3: Gem that simplifies connection between Ruby on Rails and sqlite3.
 
-## Installation
-Make sure to install any and all prerequisites before attempting these steps (See above)
-1. Clone this repo with `git clone https://github.com/hmc-cs-mpalanker/EIJA.git`
-2. Enter the relevant directory with `cd script_editor`
-3. Install the above mentioned gems with the command `bundle install`
-4. Run the following command to initialize the database `rails db:migrate`
-5. Seed the database to your liking (see the Seeding section below)
-6. Run the app! enter the command `rails s` to begin the web server, and point your favorite web browser to `localhost:3000` or the url of your server 
-
-## Seeding
-Our project requires parsing the folger’s shakespeare XML which can take quite some time depending on your hardware. We have a testing “demo” mode enabled by default. Follow the steps below to seed the databse (with optional step 0 for switching to full deployment mode). If you have more specific needs, head on over to the seeds.rb file in the db/ directory. There you'll find comments about how to seed any subset of the plays manually. 
-
-0. Go into the script_editor/db/ directory and edit the seeds.rb file: Switch `fullPlays = false` to `fullPlays = true` If you want to seed all of the plays into the database.
-1. In the script_editor directory enter these commands `rails db:migrate`
-2. `rails db:seed`
-3. Wait as the database populates (this should only take a max of 10 minutes if you are seeding the testing play, but upwards for 2 hours for seeding all of the plays.
+Datatables:  Gem for adding tables to the Admin page
 
 
-## Functionality
+Installation :: **********************************************
+ 
 
-All of our functionality is designed around Professor Dadabhoy’s needs for her Shakespeare class. Students needs to be able to easily create and modify edits, see exactly how much of the play they have cut, and be able to easily return to previously made edits.  Professor Dadabhoy needs to be able to easily access students edits to evaluate their work. What follows is a list of features that work towards these goals:
 
-Play Selection: The front page will display a complete list of Shakespeare’s works, sorted by category. The user can select any play and make an edit of it.
 
-Account Registration/Login/Logout: The user can easily register for an account, which is necessary to create edits. Account registration requires some basic information the user, including name, email, major, class year, and whether or not they are currently enrolled in Professor Dadabhoy’s Shakespeare class. Once an account is made, users can easily log out of it and log back in using their email and password.
+Seeding
 
-Display: Every play can be viewed in a basic display mode where no cuts can be made. The user should be able to easily navigate throughout this view through a navigation bar on the left side of the display. If the user would like to make an edit of this particular play, they will easily be able to make an edit through a button the right side of the display.
+Credits to Team EIJA for seeding instructions.
 
-Edits: Users will be able to make edits easily through the edit button on the display. Once an edit is made, it can easily be changed by striking or un-striking in the edit and saving those changes. Saved edits can be easily accessed later through the user’s profile page.
+Our project requires parsing the folger’s shakespeare XML which can take quite some time depending on your hardware. We have a testing “demo” mode enabled by default. Follow the steps below to seed the database (with optional step 0 for switching to full deployment mode). If you have more specific needs, head on over to the seeds.rb file in the db/ directory. There you'll find comments about how to seed any subset of the plays manually.
 
-Cuts: Users can make cuts when on an edit by clicking on the word they would like to cut. If they would like to cut more than one word at a time, then they can click on the first word they would like to cut out and then drag their mouse to the last word they would like to cut out. This will cut out all words in between as well. If a user would like to undo a cut, they can shift-click on the words they would like to uncut, or shift-click and drag, as with cutting. All of this is explained within the edit view to make sure that the user knows how to make and lift cuts.
+Go into the script_editor/db/ directory and edit the seeds.rb file: Switch fullPlays = false to fullPlays = true If you want to seed all of the plays into the database.
 
-Analytics: Within the navigation bar is an analytics button that users can click to see some analytics about the current cut of the play. It compares the total number of words in each scene and act to the current number of words in the same scene or act in the current edit.
+In the script_editor directory enter these commands rails db:migrate
 
-## Known Problems
+rails db:seed
 
-- Occasionally, when the play is loaded, there will be a word/series of words that, when you attempt to cut them, will gray our the entirety of the script, and strikethrough everything in the script BUT the cuttable words (headings, spaces, everything). We are unsure how to recreate this error, the pattern is inconsistent.
+Wait as the database populates (this should only take a max of 10 minutes if you are seeding the testing play, but upwards for 2 hours for seeding all of the plays.
 
-- Stage directions in the play are all off by at least a line. We thought we'd fixed this problem earlier in the project, and by the time we realized we had not we didn't have the time to fix it. This is simply true everywhere, nothing needs to be done to recreate it. The error is somewhere in the logic for parsing the play in seeds.rb (probably in the `stages.each do |stage|` loop) the logic currently parses all the stage directions independently of the lines. This may be part of the issue. 
 
-- Currently there is an error with the script in seeds.rb when seeding the complete plays list. Some of the plays are in the wrong categories and some of the histories do not seed. Because of the amount of time needed to test a full seed, testing this bug was slow and therefore not doable before the end of the semester. 
 
-- While we have not tested parallel users intentionally, in one instance we encountered an error while two developers were testing the site at the same time unknowingly. While two editors on the same document is not something we are able to handle, we would like for two users to be able to edit different documents at the same time. We encountered an error where a user trying to save broke another user trying to load a page. Further investigation needed
 
-- If you try to compress the script currently when your edit has no cuts in it at all, you're shown a blank script, with only section headings. This is likely a problem with the SQL request in compress.html.erb's script-second div.
 
-## Contributing
+Functionality
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+The functionality for our play can be broken down into three components: user experience, collaborative editing and editing-analytics
+
+User Experience
+
+1. User Interface
+
+We have simplified the website design and minimized clicks required to use functionality. The visual quality of a website is fundamental to a positive experience, and minimizing clicks reduces cognitive workload for the user. In this regard, we have modified the two key pages the user interacts with: the homepage and the edits page.
+
+As the user opens the website, one is redirected to the homepage. Once the user is registered, one can then choose plays from Tragedy, Comedy and History and edit the play.
+
+
+Collaborative Editing
+
+1. Collaboration among students
+
+
+Edits to a play can be made in one of two ways: either as a stand-alone user or as a member of a group, assigned by the instructor for the course. 
+
+Once the instructor assigns a student to a group, the student can choose from a drop-down menu, the context in which to edit the play. From a technology perspective, steps are taken to ensure that multiple students can edit the play efficiently such that edits made by any-one member of the group are visible to all other members of the group. 
+
+
+2. Admin mode
+
+The instructor for the course, by default, is assigned as the admin. The admin has their own web-page that provides meta-functionality such as: creating groups to edit plays and review all changes made by group members. These features allow the admin to oversee key aspects of script editing. In particular, the admin can review changes made by a group to ensure that lines integral to a play are not accidentally edited. Admin login information is supplied inside the seeds.rb file and should be changed upon login.
+
+
+Editing Analytics
+
+1. Cue-script
+
+As students are assigned characters in a Shakespeare play, the ability to remember ones lines is of paramount importance. To this end, we have developed a cue-script feature. As opposed to the cumbersome task of sifting through lines of the play and finding the lines relevant to the user's character, this feature seamlessly provides all the lines for the particular character. 
+
+In addition, a cue, in the form of words spoken by previous speakers, allows the user to understand when to speak their lines. This feature can be found by clicking the "Analytics" button, and then pressing the "Cue Script" tab in the pop-up. 
+
+2. Lines per character
+
+Often as students edit a play, it is important to know the modified number of lines for a given character. The lines analytics features provides such dynamic insights; lines spoken by all characters are updated as a result of edits made to the play. 
+
+
+
+Known Bugs
+
+
+Occasionally, when the user mode is switched, a javascript error occurs of the form "invalid id". However, when cuts are made to the play, there are no issues with the core-functionality
+
 
