@@ -75,6 +75,10 @@ class User < ApplicationRecord
       members.each do |m|
         lst = []
         lst.append(m.user_id)
+        # do not check database if 0 -- bug fix but needs reason
+        if m.user_id == 0
+          next
+        end
         name = User.find(m.user_id).user_name
         lst.append(name)
         lst.append(g.groupNum)

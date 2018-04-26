@@ -86,7 +86,7 @@ It can be found at app/views/users/show.html.erb -->
 <span id="<%=current_user.id %>" class="adminId"></span>
    <div class="buttons" style="text-align: center;">
         <button id="groupBtn" type="button" class="btn btn-info">Add New Group</button>
-        <button id="adminBtn" type="button" class="btn btn-info">Add Admin</button>
+        <!--<button id="adminBtn" type="button" class="btn btn-info">Add Admin</button>-->
    </div>
 
 
@@ -116,14 +116,29 @@ It can be found at app/views/users/show.html.erb -->
 
           <h2 style="font-weight: normal; padding-left: 35px" > Groups & Members </h2>
           <div style="padding-left: 35px;">
-            <% @group_users.each do |key, val| %>
-              <%= key %>
-              <br>
-              <% val.each do |lst| %>
-              <%= lst[1] %>
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th scope="col">Group Name</th>
+                <th scope="col">User Name</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @group_users.each do |key, val| %>
+                <tr>
+                  <th scope="row"><%= key %></th>
+                  <td></td>
+                </tr>
+                <% val.each do |lst| %>
+                  <tr>
+                    <td></td>
+                    <td><%= lst[1] %></td>
+                  </tr>
+                <% end %>
               <% end %>
-              <br>
-            <% end %>
+              </tbody>
+            </table>
+
           </div>
 
 </body>
@@ -145,7 +160,7 @@ It can be found at app/views/users/show.html.erb -->
                 var out = [];
                 var groupName = $("#groupName")[0].value;
                 for (var i =0; i < $(".table-active").length; i++){
-                    out.push($(".table-active")[i].firstElementChild.id)
+                    out.push($(".table-active")[i].firstElementChild.id.slice(6))
                 }
 
                 $.ajax({
@@ -179,6 +194,7 @@ It can be found at app/views/users/show.html.erb -->
         $(".groupToggle").click(function(){
             console.log("theheh");
             var groupNum = this.id.slice(5);
+
             $.get('/getUsers/1') //get HTML to insert
                 .done(function(data)
                 {

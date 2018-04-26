@@ -46,6 +46,10 @@ class Group < ApplicationRecord
 
   # Ensure the GroupName is unique
   def createGroup(lst, groupName)
+    puts " THE LIST IS: #{lst}"
+
+    lst = lst.map {|x| x.to_i}
+    puts " THE LIST (after cast) IS: #{lst}"
 
     gNum = -1
 

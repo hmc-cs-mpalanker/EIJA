@@ -44,7 +44,7 @@
  * Globals
  * payloadG = list to contain words to be modified
  */
-var heartBeat = 10000000; //update UI every milliseconds
+var heartBeat = 5000; //update UI every milliseconds
 var payLoadG = [];
 var out = {
         "meta" : {
