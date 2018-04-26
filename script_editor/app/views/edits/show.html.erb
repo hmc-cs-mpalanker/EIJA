@@ -10,6 +10,30 @@
 <body>
 
 
+<script type="text/javascript" charset="utf-8">
+    $(function() {
+        $(document).ready(function() {
+            console.log("set up");
+            $('.accordion').find('.accordion-toggle').click(function() {
+                $(this).next().slideToggle('600');
+                $(".accordion-content").not($(this).next()).slideUp('600');
+            });
+            $('.accordion-toggle').on('click', function() {
+                $(this).toggleClass('active').siblings().removeClass('active');
+            });
+            //renderHelper(1);//this will need to be fixed later
+            detectSelections();
+            $('.dropdown-toggle').dropdown()
+
+        });
+        analytics();
+        renderScene();
+        iuUpdate(true, true);
+        bindGroupToggle();
+
+    });
+</script>
+
     <!--
         The analytics will show up here as a popup.
     -->
@@ -51,7 +75,7 @@
                 <div class="accordion-content">
                   <% sceneList.each do |sceneDict| %>
                     <% sceneDict.each do |sceneNumber, sceneID| %>
-                  <p class="sceneMenu underline-on-hover" id="<%=sceneID %>">
+                  <p class="sceneMenu underline-on-hover" id="<%="sceneID" + sceneID.to_s %>">
                       Scene <%= sceneNumber %>
                     <%end%>
                   <%end%>
@@ -135,7 +159,7 @@
             <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <%= current_user.user_name %>
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div id="myDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <% groups = current_user.getUserGroups(current_user.id) %> <!--list of user groups -->
               <% groups.uniq.each do |group| %>
                 <% if group[1] == -1 %>
@@ -145,33 +169,6 @@
                   <% end %>
                 <% end %>
             </div>
-
-
-          <script>
-          /* When the user clicks on the button,
-          toggle between hiding and showing the dropdown content */
-          // function groupDropdown() {
-          //     document.getElementById("myDropdown").classList.toggle("show");
-          // }
-          //
-          // // Close the dropdown if the user clicks outside of it
-          // window.onclick = function(event) {
-          //   if (!event.target.matches('.dropbtn')) {
-          //
-          //     var dropdowns = document.getElementsByClassName("dropdown-content");
-          //     var i;
-          //     for (i = 0; i < dropdowns.length; i++) {
-          //       var openDropdown = dropdowns[i];
-          //       if (openDropdown.classList.contains('show')) {
-          //         openDropdown.classList.remove('show');
-          //       }
-          //     }
-          //   }
-          // }
-
-
-          </script>
-
 
         </div>
           </div>

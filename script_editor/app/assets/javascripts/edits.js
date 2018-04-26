@@ -5,27 +5,27 @@
 // Jquery docs are some of the best around but I still hate reading so you know
 // life advice be aggressively lazy
 
-$(function() {
-    $(document).ready(function() {
-        console.log("set up");
-        $('.accordion').find('.accordion-toggle').click(function() {
-            $(this).next().slideToggle('600');
-            $(".accordion-content").not($(this).next()).slideUp('600');
-        });
-        $('.accordion-toggle').on('click', function() {
-            $(this).toggleClass('active').siblings().removeClass('active');
-        });
-        //renderHelper(1);//this will need to be fixed later
-        detectSelections();
-
-
-    });
-    analytics();
-    renderScene();
-    iuUpdate(true, true);
-    bindGroupToggle();
-
-});
+// $(function() {
+//     $(document).ready(function() {
+//         console.log("set up");
+//         $('.accordion').find('.accordion-toggle').click(function() {
+//             $(this).next().slideToggle('600');
+//             $(".accordion-content").not($(this).next()).slideUp('600');
+//         });
+//         $('.accordion-toggle').on('click', function() {
+//             $(this).toggleClass('active').siblings().removeClass('active');
+//         });
+//         //renderHelper(1);//this will need to be fixed later
+//         detectSelections();
+//         $('.dropdown-toggle').dropdown()
+//
+//     });
+//     analytics();
+//     renderScene();
+//     iuUpdate(true, true);
+//     bindGroupToggle();
+//
+// });
 
 /*
     Above is pro hax
@@ -97,7 +97,7 @@ function renderScene()
 {
     $(".sceneMenu").click(function () {
         console.log(this.id);
-        var scenceId = this.id; //slices off scene of scene2 to give 2 or other number
+        var scenceId = this.id.slice(7); //slices off scene of scene2 to give 2 or other number
         ScenerenderHelper(scenceId);
     })
 
